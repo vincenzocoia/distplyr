@@ -1,5 +1,8 @@
 language: R
 cache: packages
 
+script:
+  - Rscript -e 'devtools::check()'
+
 after_success:
   - Rscript -e 'covr::codecov()'
