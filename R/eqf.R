@@ -8,7 +8,7 @@
 #' @export
 eqf <- function(x) as_qdist(
     function(p) {
-    	quants <- unname(quantile(x, probs = p, type = 1, na.rm = TRUE))
+    	quants <- unname(stats::quantile(x, probs = p, type = 1, na.rm = TRUE))
     	ifelse(p == 0, -Inf, quants)
     }
 )
