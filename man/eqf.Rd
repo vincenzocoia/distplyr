@@ -8,7 +8,7 @@ eqf(x)
 }
 \arguments{
 \item{x}{Numeric vector of the observations for which to make the quantile
-function.}
+function}
 }
 \description{
 A friend of \code{ecdf}, this function returns a (vectorized) empirical quantile

@@ -18,7 +18,7 @@ Named list of two components: pdist and qdist, which are vectorized
 functions that preserve NA's.
 }
 \description{
-Constructs a pdist that is the original pdist up to some cutpoint (on the 
+Constructs a pdist that is the original pdist up to some cutpoint (on the
 x-axis), then continues with pdist2.
 }
 \details{

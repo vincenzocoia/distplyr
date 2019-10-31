@@ -4,7 +4,8 @@
 #' function that's the inverse of ecdf.
 #'
 #' @param x Numeric vector of the observations for which to make the quantile
-#' function.
+#' function
+#' @export
 eqf <- function(x) as_qdist(
     function(p) {
     	quants <- unname(quantile(x, probs = p, type = 1, na.rm = TRUE))
