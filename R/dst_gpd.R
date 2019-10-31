@@ -19,6 +19,8 @@ dst_gpd <- function(loc, scale, shape) {
 		qdst = function(x) evd::qgpd(x, loc = loc, scale = scale, shape = shape),
 		ddst = function(x) evd::dgpd(x, loc = loc, scale = scale, shape = shape),
 		rdst = function(x) evd::rgpd(x, loc = loc, scale = scale, shape = shape),
+		name = "GPD",
+		param = c(loc = loc, scale = scale, shape = shape),
 		prop = list(mean = mu,
 					var  = ss,
 					sd   = sig,

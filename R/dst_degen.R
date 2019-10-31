@@ -10,6 +10,8 @@ dst_degen <- function(loc) {
 		qdst = eqf(loc),
 		ddst = function(x) as.numeric(x == loc),
 		rdst = function(n) rep(loc, n),
+		name = "Degenerate",
+		param = c(loc = loc),
 		prop = list(mean = loc,
 					var  = 0,
 					sd   = 0,

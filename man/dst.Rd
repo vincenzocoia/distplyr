@@ -4,11 +4,15 @@
 \alias{dst}
 \title{Make a distribution}
 \usage{
-dst(pdst, qdst, ddst, rdst, prop = NULL)
+dst(pdst, qdst, ddst, rdst, name = NULL, param = NULL, prop = NULL)
 }
 \arguments{
 \item{pdst, qdst, ddst, rdst}{cdf, quantile function, density/mass
 function, and random number generator for a distribution.}
+
+\item{name}{A name for the distribution (such as a parametric family name)}
+
+\item{param}{Parameters for the distribution, if parameteric.}
 
 \item{prop}{Properties of the distribution, such as mean, variance,
 EVI, etc. (of your choosing).}

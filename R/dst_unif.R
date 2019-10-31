@@ -14,6 +14,8 @@ dst_unif <- function(min = 0, max = 1) {
 		qdst = function(x) stats::qunif(x, min = min, max = max),
 		ddst = function(x) stats::dunif(x, min = min, max = max),
 		rdst = function(x) stats::runif(x, min = min, max = max),
+		name = "Uniform",
+		param = c(min = min, max = max),
 		prop = list(mean = (min + max) / 2,
 					var  = ss,
 					sd   = sig,

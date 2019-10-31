@@ -16,6 +16,7 @@ dst_emp <- function(x) {
 		qdst = eqf(x),
 		pdst = epmf(x),
 		rdst = function(n) sample(vals, size = n, replace = TRUE),
+		name = "Empirical",
 		prop = list(mean = mu,
 					var  = ss,
 					sd   = sig,
