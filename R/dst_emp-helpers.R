@@ -7,6 +7,7 @@
 #' function
 #' @return Vectorized functions; quantile function for \code{eqf()}, and
 #' probability mass function for \code{epmf()}.
+#' @seealso \code{\link{dst_emp}}
 #' @rdname efun
 #' @export
 eqf <- function(x) {

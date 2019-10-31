@@ -4,6 +4,7 @@
 #' data.
 #' @param x Vector of values to construct empirical distribution from.
 #' @return Object of class "dst".
+#' @seealso \code{\link{eqf}}, \code{\link{epmf}}
 #' @export
 dst_emp <- function(x) {
 	if (length(x) == 1) return(dst_degen(x))

@@ -21,3 +21,6 @@ probability mass function for \code{epmf()}.
 Makes empirical mass and quantile functions from a univariate
 sample, just as \code{stats::ecdf()} makes empirical cdf's.
 }
+\seealso{
+\code{\link{dst_emp}}
+}

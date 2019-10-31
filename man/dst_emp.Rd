@@ -16,3 +16,6 @@ Object of class "dst".
 Makes an empirical distribution from a sample of univariate
 data.
 }
+\seealso{
+\code{\link{eqf}}, \code{\link{epmf}}
+}
