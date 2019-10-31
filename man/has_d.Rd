@@ -3,11 +3,11 @@
 \name{has_pmf}
 \alias{has_pmf}
 \alias{has_pdf}
-\title{Check if a distribution has a pmf/pdf}
+\title{Check if a distribution has a pmf or pdf}
 \usage{
-has_pmf(...)
+has_pmf(object)
 
-has_pdf(...)
+has_pdf(object)
 }
 \arguments{
 \item{object}{Object of class "dst"}
@@ -16,5 +16,5 @@ has_pdf(...)
 Logical value
 }
 \description{
-Check if a distribution has a pmf/pdf
+Check if a distribution has a pmf or pdf
 }

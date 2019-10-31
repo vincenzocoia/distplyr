@@ -7,6 +7,7 @@
 #' object, this is calculated using the \code{stats::integrate()}
 #' function.
 #' @return A single numeric
+#' @export
 mean.dst <- function(object, ..., verbose = FALSE) {
 	mu <- object$prop$mean
 	if (!is.null(mu)) return(mu)
@@ -15,5 +16,3 @@ mean.dst <- function(object, ..., verbose = FALSE) {
 	if (verbose) print(int)
 	int$value
 }
-
-mean <- function(...) UseMethod("mean")

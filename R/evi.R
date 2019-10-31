@@ -1,11 +1,12 @@
 #' Get the EVI of a distribution
 #'
-#' Extreme value index
+#' EVI = Extreme value index
 #'
-#' @param object Object of class "dst" to obtain mean from.
-#' @details Doesn't calculate if not present.
+#' @param object Object of class "dst" to obtain EVI from.
+#' @details Doesn't calculate EVI if not present in the object.
 #' @return A single numeric
-evi.dst <- function(object) object$prop$evi
+#' @export
+evi <- function(object) UseMethod("evi")
 
 #' @export
-evi <- function(...) UseMethod("evi")
+evi.dst <- function(object) object$prop$evi

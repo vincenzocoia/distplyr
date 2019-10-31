@@ -6,6 +6,9 @@
 #' returns a function for the cdf.
 #' @seealso \code{\link{qdst}}, \code{\link{ddst}}, \code{\link{rdst}}
 #' @export
+pdst <- function(object, q) UseMethod("pdst")
+
+#' @export
 pdst.dst <- function(object, q) {
 	cdf <- object$pdst
 	if (missing(q)) return(cdf)
@@ -20,6 +23,9 @@ pdst.dst <- function(object, q) {
 #' returns a function for the quantile function.
 #' @seealso \code{\link{pdst}}, \code{\link{ddst}}, \code{\link{rdst}}
 #' @export
+qdst <- function(object, p) UseMethod("qdst")
+
+#' @export
 qdst.dst <- function(object, p) {
 	qf <- object$qdst
 	if (missing(p)) return(qf)
@@ -33,6 +39,9 @@ qdst.dst <- function(object, p) {
 #' @return Vector of density/mass values if \code{x} is present; otherwise,
 #' returns a function for the pdf/pmf.
 #' @seealso \code{\link{qdst}}, \code{\link{pdst}}, \code{\link{rdst}}
+#' @export
+ddst <- function(object, x) UseMethod("ddst")
+
 #' @export
 ddst.dst <- function(object, x) {
 	f <- object$ddst
@@ -49,20 +58,11 @@ ddst.dst <- function(object, x) {
 #' returns a function for a random number generator.
 #' @seealso \code{\link{qdst}}, \code{\link{ddst}}, \code{\link{pdst}}
 #' @export
+rdst <- function(object, n) UseMethod("rdst")
+
+#' @export
 rdst.dst <- function(object, n) {
 	r <- object$rdst
 	if (missing(n)) return(r)
 	r(n)
 }
-
-#' @export
-pdst <- function(...) UseMethod("pdst")
-
-#' @export
-qdst <- function(...) UseMethod("qdst")
-
-#' @export
-ddst <- function(...) UseMethod("ddst")
-
-#' @export
-rdst <- function(...) UseMethod("rdst")
