@@ -22,5 +22,9 @@ knitr::opts_chunk$set(
 
 The goal of distplyr is to provide a unified interface for manipulating distributions. The name is inspired by the `dplyr` package.
 
+The need for this package arose as I was trying to implement distributional forecasting models. I found that I was home-baking functions like a cdf or quantile function, and spent far too much energy managing and distinguishing between distribution quantities throughout the analysis. This package bundles these all together in a single "distribution" object.
+
+The [`distributions3`](https://cran.r-project.org/web/packages/distributions3/index.html) package is close to what I've been looking for, but I wanted to be able to work with any distribution, including non-parametric or semi-parametric ones, and I don't think `distributions3` allows for that. 
+
 ## Installation
 
