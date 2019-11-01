@@ -8,7 +8,7 @@
 #' @export
 dst_emp <- function(x) {
 	if (length(x) == 1) return(dst_degen(x))
-	vals <- na.omit(x)
+	vals <- stats::na.omit(x)
 	mu <- mean(x, na.rm = TRUE)
 	ss <- mean((x - mu) ^ 2, na.rm = TRUE)
 	sig <- sqrt(ss)
