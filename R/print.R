@@ -1,5 +1,5 @@
 #' @export
-print.dst <- function(x) {
+print.dst <- function(x, ...) {
 	name <- x$name
 	param <- x$param
 	if (is.null(name)) {
