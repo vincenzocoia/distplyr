@@ -18,6 +18,7 @@ var.dst <- function(object, ..., verbose = FALSE) {
 	}
 }
 
+#' @rdname var
 #' @export
 var <- function(object, ..., verbose = FALSE) UseMethod("var")
 
@@ -28,16 +29,20 @@ sd.dst <- function(object, ..., verbose = FALSE) {
 	sqrt(ss)
 }
 
+#' @rdname var
 #' @export
 sd <- function(object, ..., verbose = FALSE) UseMethod("sd")
 
 # Prevent stats::sd() and stats::var() from breaking
 
+#' @rdname var
 #' @export
 sd.numeric <- function(...) stats::sd(...)
 
+#' @rdname var
 #' @export
 var.numeric <- function(...) stats::var(...)
 
+#' @rdname var
 #' @export
 var.data.frame <- function(...) stats::var(...)

@@ -4,10 +4,10 @@
 \alias{mean.dst}
 \title{Get the mean of a distribution}
 \usage{
-\method{mean}{dst}(object, ..., verbose = FALSE)
+\method{mean}{dst}(x, ..., verbose = FALSE)
 }
 \arguments{
-\item{object}{Object of class "dst" to obtain mean from.}
+\item{x}{Object of class "dst" to obtain mean from.}
 
 \item{...}{Arguments to pass to the \code{integrate()} function.}
 

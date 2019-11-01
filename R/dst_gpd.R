@@ -8,12 +8,12 @@
 dst_gpd <- function(loc, scale, shape) {
 	if (scale == 0) return(dst_degen(loc))
 	if (scale < 0) stop("'scale' parameter must be non-negative.")
-	mu <- if_else(shape < 1,
-					loc + scale / (1 - shape),
-					Inf)
-	ss <- if_else(shape < 1/2,
-				   scale ^ 2 / (1 - shape) ^ 2 / (1 - 2 * shape),
-				   Inf)
+	mu <- ifelse(shape < 1,
+				 loc + scale / (1 - shape),
+				 Inf)
+	ss <- ifelse(shape < 1/2,
+				 scale ^ 2 / (1 - shape) ^ 2 / (1 - 2 * shape),
+				 Inf)
 	sig <- sqrt(ss)
 	dst(pdst = function(x) evd::pgpd(x, loc = loc, scale = scale, shape = shape),
 		qdst = function(x) evd::qgpd(x, loc = loc, scale = scale, shape = shape),

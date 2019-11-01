@@ -11,10 +11,10 @@
 #' @rdname efun
 #' @export
 eqf <- function(x) {
-	as_qdist(function(p) {
+	function(p) {
 		quants <- unname(stats::quantile(x, probs = p, type = 1, na.rm = TRUE))
 		ifelse(p == 0, -Inf, quants)
-	})
+	}
 }
 
 #' @rdname efun

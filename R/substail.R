@@ -62,7 +62,7 @@ right_connect <- function(left_dst, right_dst, sep_x) {
 		}
 		.has_pmf <- TRUE
 	}
-	.rdst <- function(n) .qdst(runif(n))
+	.rdst <- function(n) .qdst(stats::runif(n))
 	dst(pdst = .pdst,
 		qdst = .qdst,
 		ddst = .ddst,

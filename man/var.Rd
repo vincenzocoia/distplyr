@@ -2,12 +2,27 @@
 % Please edit documentation in R/var.R
 \name{var.dst}
 \alias{var.dst}
+\alias{var}
 \alias{sd.dst}
+\alias{sd}
+\alias{sd.numeric}
+\alias{var.numeric}
+\alias{var.data.frame}
 \title{Get the variance/standard deviation of a distribution}
 \usage{
 \method{var}{dst}(object, ..., verbose = FALSE)
 
+var(object, ..., verbose = FALSE)
+
 \method{sd}{dst}(object, ..., verbose = FALSE)
+
+sd(object, ..., verbose = FALSE)
+
+\method{sd}{numeric}(...)
+
+\method{var}{numeric}(...)
+
+\method{var}{data.frame}(...)
 }
 \arguments{
 \item{object}{Object of class "dst" to obtain statistic from.}

@@ -1,7 +1,7 @@
 #' @export
-print.dst <- function(object) {
-	name <- object$name
-	param <- object$param
+print.dst <- function(x) {
+	name <- x$name
+	param <- x$param
 	if (is.null(name)) {
 		cat("Unnamed distribution.")
 	} else {
