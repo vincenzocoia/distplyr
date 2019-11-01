@@ -14,7 +14,7 @@ dst_emp <- function(x) {
 	sig <- sqrt(ss)
 	dst(pdst = stats::ecdf(x),
 		qdst = eqf(x),
-		pdst = epmf(x),
+		ddst = epmf(x),
 		rdst = function(n) sample(vals, size = n, replace = TRUE),
 		name = "Empirical",
 		prop = list(mean = mu,
