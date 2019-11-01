@@ -27,7 +27,7 @@ The
 [`distributions3`](https://cran.r-project.org/web/packages/distributions3/index.html)
 package is close to what I’ve been looking for, but I wanted to be able
 to work with any distribution, including non-parametric or
-semi-parametric ones, and I don’t think `distributions3` allows for
-that.
+semi-parametric ones, and I think in order to do that with
+`distributions3`, you’d have to contribute to the package.
 
 ## Installation
