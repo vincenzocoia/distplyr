@@ -15,4 +15,5 @@ Suggests:
     covr
 RoxygenNote: 6.1.1
 Imports: 
-    stats
+    stats,
+    evd
