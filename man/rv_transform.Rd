@@ -7,7 +7,7 @@
 rv_transform(.dst, g, ginv, gprime, ginvprime)
 }
 \arguments{
-\item{g}{A (strictly increasing or decreasing) function, vectorized.}
+\item{g}{A (strictly increasing) function, vectorized.}
 
 \item{ginv}{Inverse function of \code{g}, vectorized.}
 
@@ -24,4 +24,7 @@ Object of class "dst" of the transformed random variable.
 \description{
 If \code{X} has distribution \code{.dst}, then this function
 returns the distribution of \code{g(X)}
+}
+\details{
+Functions should apply to all real numbers.
 }

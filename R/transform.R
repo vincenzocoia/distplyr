@@ -4,13 +4,14 @@
 #' returns the distribution of \code{g(X)}
 #'
 #' @param dist Original distribution to transform
-#' @param g A (strictly increasing or decreasing) function, vectorized.
+#' @param g A (strictly increasing) function, vectorized.
 #' @param ginv Inverse function of \code{g}, vectorized.
 #' @param gprime,ginvprime Derivative functions of \code{g} and \code{ginv},
 #' vectorized.
 #' Not required if there is no density, and if there is a density, only
 #' one is required.
 #' @return Object of class "dst" of the transformed random variable.
+#' @details Functions should apply to all real numbers.
 #' @export
 rv_transform <- function(.dst, g, ginv, gprime, ginvprime) {
 	if (missing(ginvprime) && !missing(gprime)) {
@@ -48,4 +49,22 @@ rv_transform <- function(.dst, g, ginv, gprime, ginvprime) {
 					evi  = NA,
 					has_pdf = .has_pdf,
 					has_pmf = .has_pmf))
+}
+
+#' Linearly Transform a Distribution
+#'
+#' If \code{X} has distribution \code{.dst}, then this function
+#' returns the distribution of \code{scale*X + loc}. A wrapper
+#' around \link{\code{rv_transform}}.
+#' @param loc Single numeric.
+#' @param scale Single non-negative numeric.
+#' @return Object of class "dst" of the transformed random variable.
+#' @seealso \link{\code{rv_transform}}
+#' @export
+rv_locscale <- function(.dst, loc, scale) {
+	if (scale == 0) return(dst_degen(loc))
+	rv_transform(.dst,
+				 g         = function(x) scale * x + loc,
+				 ginv      = function(x) (x - loc) / scale,
+				 ginvprime = function(x) 1 / scale)
 }
