@@ -16,4 +16,5 @@ RoxygenNote: 6.1.1
 Imports: 
     stats,
     evd,
-    distionary (>= 0.1.0)
+    distionary
+Remotes: vincenzocoia/distionary
