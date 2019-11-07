@@ -30,4 +30,6 @@ to work with any distribution, including non-parametric or
 semi-parametric ones, and I think in order to do that with
 `distributions3`, you’d have to contribute to the package.
 
-## Installation
+Please note that the ‘distplyr’ project is released with a [Contributor
+Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,
+you agree to abide by its terms.

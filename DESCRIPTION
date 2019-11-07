@@ -2,7 +2,6 @@ Package: distplyr
 Type: Package
 Title: Manipulation of Univariate Distributions
 Version: 0.1.0
-Author: Who wrote it
 Authors@R: person("Vincenzo", "Coia", email = "vincenzo.coia@stat.ubc.ca",
                   role = c("aut", "cre"))
 Description: Provides an interface for invoking and maipulating
@@ -16,4 +15,5 @@ Suggests:
 RoxygenNote: 6.1.1
 Imports: 
     stats,
-    evd
+    evd,
+    distionary (>= 0.1.0)

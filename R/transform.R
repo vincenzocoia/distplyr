@@ -17,12 +17,12 @@ rv_transform <- function(.dst, g, ginv, gprime, ginvprime) {
 	if (missing(ginvprime) && !missing(gprime)) {
 		ginvprime <- function(x) 1 / gprime(ginv(x))
 	}
-	.pdst <- pdst(.dst)
-	.qdst <- qdst(.dst)
-	.rdst <- rdst(.dst)
-	.ddst <- ddst(.dst)
-	.has_pdf <- has_pdf(.dst)
-	.has_pmf <- has_pmf(.dst)
+	.pdst <- distionary::pdst(.dst)
+	.qdst <- distionary::qdst(.dst)
+	.rdst <- distionary::rdst(.dst)
+	.ddst <- distionary::ddst(.dst)
+	.has_pdf <- distionary::has_pdf(.dst)
+	.has_pmf <- distionary::has_pmf(.dst)
 	if (.has_pdf) {
 		if (missing(ginvprime)) {
 			warning("Didn't provide a derivative of the transformation, ",
@@ -37,7 +37,8 @@ rv_transform <- function(.dst, g, ginv, gprime, ginvprime) {
 	} else {
 		new_ddst <- NA
 	}
-	dst(name = paste("Transformed", .dst$name),
+	distionary::dst(
+		name = paste("Transformed", .dst$name),
 		param = NULL,
 		pdst = function(x) .pdst(ginv(x)),
 		qdst = function(x) g(.qdst(x)),
@@ -48,7 +49,8 @@ rv_transform <- function(.dst, g, ginv, gprime, ginvprime) {
 					var  = NA,
 					evi  = NA,
 					has_pdf = .has_pdf,
-					has_pmf = .has_pmf))
+					has_pmf = .has_pmf)
+	)
 }
 
 #' Linearly Transform a Distribution
@@ -62,7 +64,7 @@ rv_transform <- function(.dst, g, ginv, gprime, ginvprime) {
 #' @seealso \link{\code{rv_transform}}
 #' @export
 rv_locscale <- function(.dst, loc, scale) {
-	if (scale == 0) return(dst_degen(loc))
+	if (scale == 0) return(distionary::dst_degen(loc))
 	rv_transform(.dst,
 				 g         = function(x) scale * x + loc,
 				 ginv      = function(x) (x - loc) / scale,

@@ -11,16 +11,17 @@
 #' @return Object of class "dst"
 #' @export
 right_connect <- function(left_dst, right_dst, sep_x) {
-	tau1 <- pdst(left_dst, sep_x)
-	tau2 <- pdst(right_dst, sep_x)
+	tau1 <- distionary::pdst(left_dst, sep_x)
+	tau2 <- distionary::pdst(right_dst, sep_x)
 	.pdst <- function(x) {
 		lower <- sapply(x <= sep_x, isTRUE)
 		upper <- sapply(x > sep_x, isTRUE)
 		x_lower <- x[lower]
 		x_upper <- x[upper]
 		res <- rep(NA_real_, length(x))
-		res[lower] <- pdst(left_dst,  x_lower)
-		res[upper] <- (pdst(right_dst, x_upper) - tau2) / (1 - tau2) * (1 - tau1) + tau1
+		res[lower] <- distionary::pdst(left_dst,  x_lower)
+		res[upper] <- (distionary::pdst(right_dst, x_upper) - tau2) /
+			(1 - tau2) * (1 - tau1) + tau1
 		res
 	}
 	.qdst <- function(p) {
@@ -29,45 +30,50 @@ right_connect <- function(left_dst, right_dst, sep_x) {
 		p_lower <- p[lower]
 		p_upper <- p[upper]
 		res <- rep(NA_real_, length(p))
-		res[lower] <- qdst(left_dst,  p_lower)
-		res[upper] <- qdst(right_dst, (p_upper - tau1) / (1 - tau1) * (1 - tau2) + tau2)
+		res[lower] <- distionary::qdst(left_dst,  p_lower)
+		res[upper] <- distionary::qdst(right_dst, (p_upper - tau1) /
+									   	(1 - tau1) * (1 - tau2) + tau2)
 		res
 	}
 	.ddst <- NULL
 	.has_pdf <- FALSE
 	.has_pmf <- FALSE
-	if (has_pdf(left_dst) & has_pdf(right_dst)) {
+	if (distionary::has_pdf(left_dst) & distionary::has_pdf(right_dst)) {
 		.ddst <- function(x) {
 			lower <- sapply(x <= sep_x, isTRUE)
 			upper <- sapply(x > sep_x, isTRUE)
 			x_lower <- x[lower]
 			x_upper <- x[upper]
 			res <- rep(NA_real_, length(x))
-			res[lower] <- ddst(left_dst,  x_lower)
-			res[upper] <- ddst(right_dst, x_upper) / (1 - tau2) * (1 - tau1)
+			res[lower] <- distionary::ddst(left_dst,  x_lower)
+			res[upper] <- distionary::ddst(right_dst, x_upper) /
+				(1 - tau2) * (1 - tau1)
 			res
 		}
 		.has_pdf <- TRUE
 	}
-	if (has_pmf(left_dst) & has_pmf(left_dst)) {
+	if (distionary::has_pmf(left_dst) & distionary::has_pmf(left_dst)) {
 		.ddst <- function(x) {
 			lower <- sapply(x <= sep_x, isTRUE)
 			upper <- sapply(x > sep_x, isTRUE)
 			x_lower <- x[lower]
 			x_upper <- x[upper]
 			res <- rep(NA_real_, length(x))
-			res[lower] <- ddst(left_dst,  x_lower)
-			res[upper] <- ddst(right_dst, x_upper) / (1 - tau2) * (1 - tau1)
+			res[lower] <- distionary::ddst(left_dst,  x_lower)
+			res[upper] <- distionary::ddst(right_dst, x_upper) /
+				(1 - tau2) * (1 - tau1)
 			res
 		}
 		.has_pmf <- TRUE
 	}
 	.rdst <- function(n) .qdst(stats::runif(n))
-	dst(pdst = .pdst,
+	distionary::dst(
+		pdst = .pdst,
 		qdst = .qdst,
 		ddst = .ddst,
 		rdst = .rdst,
-		prop = list(evi = evi(right_dst)))
+		prop = list(evi = distionary::evi(right_dst))
+	)
 }
 
 
