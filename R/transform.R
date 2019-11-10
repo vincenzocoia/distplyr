@@ -17,12 +17,12 @@ rv_transform <- function(.dst, g, ginv, gprime, ginvprime) {
 	if (missing(ginvprime) && !missing(gprime)) {
 		ginvprime <- function(x) 1 / gprime(ginv(x))
 	}
-	.pdst <- distionary::pdst(.dst)
-	.qdst <- distionary::qdst(.dst)
-	.rdst <- distionary::rdst(.dst)
-	.ddst <- distionary::ddst(.dst)
-	.has_pdf <- distionary::has_pdf(.dst)
-	.has_pmf <- distionary::has_pmf(.dst)
+	cdf  <- fun_cumu(.dst)
+	qf   <- fun_quant(.dst)
+	rand <- fun_rand(.dst)
+	pf   <- fun_prob(.dst)
+	.has_pdf <- has_pdf(.dst)
+	.has_pmf <- has_pmf(.dst)
 	if (.has_pdf) {
 		if (missing(ginvprime)) {
 			warning("Didn't provide a derivative of the transformation, ",
@@ -30,20 +30,20 @@ rv_transform <- function(.dst, g, ginv, gprime, ginvprime) {
 					"missing this density.")
 			new_ddst <- NA
 		} else {
-			new_ddst <- function(x) .ddst(ginv(x)) * ginvprime(x)
+			new_ddst <- function(x) pf(ginv(x)) * ginvprime(x)
 		}
 	} else if (.has_pmf) {
-		new_ddst <- function(x) .ddst(ginv(x))
+		new_ddst <- function(x) pf(ginv(x))
 	} else {
 		new_ddst <- NA
 	}
-	distionary::dst(
+	dst(
 		name = paste("Transformed", .dst$name),
 		param = NULL,
-		pdst = function(x) .pdst(ginv(x)),
-		qdst = function(x) g(.qdst(x)),
-		rdst = function(n) g(.rdst(n)),
-		ddst = new_ddst,
+		fun_cumu  = function(x) cdf(ginv(x)),
+		fun_quant = function(x) g(qf(x)),
+		fun_rand  = function(n) g(rand(n)),
+		fun_prob  = new_ddst,
 		prop = list(mean = NA,
 					sd   = NA,
 					var  = NA,
@@ -64,7 +64,7 @@ rv_transform <- function(.dst, g, ginv, gprime, ginvprime) {
 #' @seealso \link{\code{rv_transform}}
 #' @export
 rv_locscale <- function(.dst, loc, scale) {
-	if (scale == 0) return(distionary::dst_degen(loc))
+	if (scale == 0) return(dst_degen(loc))
 	rv_transform(.dst,
 				 g         = function(x) scale * x + loc,
 				 ginv      = function(x) (x - loc) / scale,

@@ -10,11 +10,12 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Suggests: 
-    testthat,
+    testthat (>= 2.1.0),
     covr
 RoxygenNote: 6.1.1
 Imports: 
     stats,
-    evd,
-    distionary
+    evd
 Remotes: vincenzocoia/distionary
+Depends: 
+    distionary
