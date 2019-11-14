@@ -7,6 +7,8 @@
 rv_transform(.dst, g, ginv, gprime, ginvprime)
 }
 \arguments{
+\item{.dst}{Original distribution to transform}
+
 \item{g}{A (strictly increasing) function, vectorized.}
 
 \item{ginv}{Inverse function of \code{g}, vectorized.}
@@ -15,8 +17,6 @@ rv_transform(.dst, g, ginv, gprime, ginvprime)
 vectorized.
 Not required if there is no density, and if there is a density, only
 one is required.}
-
-\item{dist}{Original distribution to transform}
 }
 \value{
 Object of class "dst" of the transformed random variable.

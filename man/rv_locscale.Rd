@@ -7,6 +7,8 @@
 rv_locscale(.dst, loc, scale)
 }
 \arguments{
+\item{.dst}{Original distribution to transform}
+
 \item{loc}{Single numeric.}
 
 \item{scale}{Single non-negative numeric.}
@@ -17,8 +19,8 @@ Object of class "dst" of the transformed random variable.
 \description{
 If \code{X} has distribution \code{.dst}, then this function
 returns the distribution of \code{scale*X + loc}. A wrapper
-around \link{\code{rv_transform}}.
+around \code{\link{rv_transform}}.
 }
 \seealso{
-\link{\code{rv_transform}}
+\code{\link{rv_transform}}
 }

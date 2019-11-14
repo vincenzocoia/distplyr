@@ -3,7 +3,7 @@
 #' If \code{X} has distribution \code{.dst}, then this function
 #' returns the distribution of \code{g(X)}
 #'
-#' @param dist Original distribution to transform
+#' @param .dst Original distribution to transform
 #' @param g A (strictly increasing) function, vectorized.
 #' @param ginv Inverse function of \code{g}, vectorized.
 #' @param gprime,ginvprime Derivative functions of \code{g} and \code{ginv},
@@ -57,11 +57,12 @@ rv_transform <- function(.dst, g, ginv, gprime, ginvprime) {
 #'
 #' If \code{X} has distribution \code{.dst}, then this function
 #' returns the distribution of \code{scale*X + loc}. A wrapper
-#' around \link{\code{rv_transform}}.
+#' around \code{\link{rv_transform}}.
+#' @param .dst Original distribution to transform
 #' @param loc Single numeric.
 #' @param scale Single non-negative numeric.
 #' @return Object of class "dst" of the transformed random variable.
-#' @seealso \link{\code{rv_transform}}
+#' @seealso \code{\link{rv_transform}}
 #' @export
 rv_locscale <- function(.dst, loc, scale) {
 	if (scale == 0) return(dst_degen(loc))
