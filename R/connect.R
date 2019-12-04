@@ -11,16 +11,16 @@
 #' @return Object of class "dst"
 #' @export
 right_connect <- function(left_dst, right_dst, sep_x) {
-	tau1 <- fun_cumu(left_dst, sep_x)
-	tau2 <- fun_cumu(right_dst, sep_x)
+	tau1 <- eval_cdf(left_dst, sep_x)
+	tau2 <- eval_cdf(right_dst, sep_x)
 	cdf <- function(x) {
 		lower <- sapply(x <= sep_x, isTRUE) # Make NA's FALSE
 		upper <- sapply(x > sep_x, isTRUE)
 		x_lower <- x[lower]
 		x_upper <- x[upper]
 		res <- rep(NA_real_, length(x))
-		res[lower] <- fun_cumu(left_dst,  x_lower)
-		res[upper] <- (fun_cumu(right_dst, x_upper) - tau2) /
+		res[lower] <- eval_cdf(left_dst,  x_lower)
+		res[upper] <- (eval_cdf(right_dst, x_upper) - tau2) /
 			(1 - tau2) * (1 - tau1) + tau1
 		res
 	}
