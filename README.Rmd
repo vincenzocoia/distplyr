@@ -135,7 +135,7 @@ Graft a GPD onto an empirical cdf:
 x <- iris$Sepal.Length
 emp_dst <- dst_emp(x)
 graft_dst <- emp_dst %>%
-	right_connect(my_dst, sep_x = 7)
+	substitute_right(my_dst, sep_x = 7)
 ```
 
 ```{r}

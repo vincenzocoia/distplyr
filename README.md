@@ -132,8 +132,8 @@ Generate some data:
 
 ``` r
 eval_randfn(my_dst, 10)
-#>  [1]  7.078966 11.795690  7.148186 15.024661  7.035050  7.126053 12.922790
-#>  [8]  7.266343 13.566259  8.612857
+#>  [1] 10.250959  7.090902  7.088980  7.867108  8.318786  9.824250  7.189497
+#>  [8]  9.277142  7.343314  8.075227
 ```
 
 Or, just get the functions themselves:
@@ -162,7 +162,7 @@ Graft a GPD onto an empirical cdf:
 x <- iris$Sepal.Length
 emp_dst <- dst_emp(x)
 graft_dst <- emp_dst %>%
-    right_connect(my_dst, sep_x = 7)
+    substitute_right(my_dst, sep_x = 7)
 ```
 
 ``` r

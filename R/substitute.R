@@ -10,7 +10,7 @@
 #' @param sep_x Value on the domain of the cdf to connect at.
 #' @return Object of class "dst"
 #' @export
-right_connect <- function(left_dst, right_dst, sep_x) {
+substitute_right <- function(left_dst, right_dst, sep_x) {
 	tau1 <- eval_cdf(left_dst, sep_x)
 	tau2 <- eval_cdf(right_dst, sep_x)
 	cdf <- function(x) {
