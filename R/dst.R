@@ -1,8 +1,12 @@
 #' Make a distribution
 #'
 #' Make a distribution object.
-#' @param fun_cumu,fun_quant,fun_prob,fun_rand cdf, quantile function, density/mass
-#' function, and random number generator for a distribution.
+#' @param fun_cumu,fun_quant, cdf and quantile function for a distribution,
+#' respectively. Must be supplied.
+#' @param fun_prob,fun_rand probability mass/density function and
+#' random number generator for a distribution (a function of n), respectively.
+#' Optional. \code{fun_rand} will be calculated from \code{fun_quant}
+#' if missing.
 #' @param prop Properties of the distribution, such as mean, variance,
 #' EVI, etc. (of your choosing).
 #' @param name A name for the distribution (such as a parametric family name)
@@ -17,6 +21,9 @@ dst <- function(fun_cumu, fun_quant, fun_prob, fun_rand,
 		fun_haz <- NULL
 	} else {
 		fun_haz <- function(x) fun_prob(x) / (1 - fun_cumu(x))
+	}
+	if (missing(fun_rand)) {
+		fun_rand <- function(n) fun_quant(runif(n))
 	}
 	x <- list(fun_cumu = fun_cumu,
 			  fun_quant = fun_quant,

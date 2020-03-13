@@ -8,8 +8,13 @@ dst(fun_cumu, fun_quant, fun_prob, fun_rand, name = NULL, param = NULL,
   prop = NULL)
 }
 \arguments{
-\item{fun_cumu, fun_quant, fun_prob, fun_rand}{cdf, quantile function, density/mass
-function, and random number generator for a distribution.}
+\item{fun_cumu, fun_quant, }{cdf and quantile function for a distribution,
+respectively. Must be supplied.}
+
+\item{fun_prob, fun_rand}{probability mass/density function and
+random number generator for a distribution (a function of n), respectively.
+Optional. \code{fun_rand} will be calculated from \code{fun_quant}
+if missing.}
 
 \item{name}{A name for the distribution (such as a parametric family name)}
 

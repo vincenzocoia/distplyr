@@ -30,8 +30,8 @@ substitute_right <- function(left_dst, right_dst, sep_x) {
 		p_lower <- p[lower]
 		p_upper <- p[upper]
 		res <- rep(NA_real_, length(p))
-		res[lower] <- fun_quant(left_dst,  p_lower)
-		res[upper] <- fun_quant(right_dst, (p_upper - tau1) /
+		res[lower] <- eval_quantfn(left_dst,  p_lower)
+		res[upper] <- eval_quantfn(right_dst, (p_upper - tau1) /
 									   	(1 - tau1) * (1 - tau2) + tau2)
 		res
 	}
@@ -45,8 +45,8 @@ substitute_right <- function(left_dst, right_dst, sep_x) {
 			x_lower <- x[lower]
 			x_upper <- x[upper]
 			res <- rep(NA_real_, length(x))
-			res[lower] <- fun_prob(left_dst,  x_lower)
-			res[upper] <- fun_prob(right_dst, x_upper) /
+			res[lower] <- eval_probfn(left_dst,  x_lower)
+			res[upper] <- eval_probfn(right_dst, x_upper) /
 				(1 - tau2) * (1 - tau1)
 			res
 		}
@@ -59,8 +59,8 @@ substitute_right <- function(left_dst, right_dst, sep_x) {
 			x_lower <- x[lower]
 			x_upper <- x[upper]
 			res <- rep(NA_real_, length(x))
-			res[lower] <- fun_prob(left_dst,  x_lower)
-			res[upper] <- fun_prob(right_dst, x_upper) /
+			res[lower] <- eval_probfn(left_dst,  x_lower)
+			res[upper] <- eval_probfn(right_dst, x_upper) /
 				(1 - tau2) * (1 - tau1)
 			res
 		}
