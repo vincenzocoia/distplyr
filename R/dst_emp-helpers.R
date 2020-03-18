@@ -16,10 +16,6 @@ eqf <- function(x) {
 	y <- stats::knots(cdf)
 	y <- c(y[1], y, y[length(y)]) # Perhaps one day y can be sandwiched by NaN's.
 	stats::stepfun(taus, y, right = TRUE)
-	# function(p) {
-	# 	quants <- unname(stats::quantile(x, probs = p, type = 1, na.rm = TRUE))
-	# 	ifelse(p == 0, -Inf, quants)
-	# }
 }
 
 #' @rdname efun
@@ -31,6 +27,3 @@ epmf <- function(x) {
 	p <- counts / n
 	Vectorize(function(y) mean(y == x, na.rm = TRUE))
 }
-
-
-

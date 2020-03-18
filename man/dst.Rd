@@ -2,7 +2,7 @@
 % Please edit documentation in R/dst.R
 \name{dst}
 \alias{dst}
-\title{Make a distribution}
+\title{Make a Distribution}
 \usage{
 dst(fun_cumu, fun_quant, fun_prob, fun_rand, name = NULL, param = NULL,
   prop = NULL)

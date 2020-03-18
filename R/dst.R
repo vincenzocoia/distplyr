@@ -1,4 +1,4 @@
-#' Make a distribution
+#' Make a Distribution
 #'
 #' Make a distribution object.
 #' @param fun_cumu,fun_quant, cdf and quantile function for a distribution,
@@ -37,3 +37,10 @@ dst <- function(fun_cumu, fun_quant, fun_prob, fun_rand,
 	class(x) <- "dst"
 	x
 }
+
+#' Distribution Objects
+#'
+#' Test whether an object is a "dst" object.
+#' @param x Object to be tested
+#' @export
+is_dst <- function(x) inherits(x, "dst")
