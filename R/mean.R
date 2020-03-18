@@ -11,7 +11,13 @@
 mean.dst <- function(x, ..., verbose = FALSE) {
 	mu <- x$prop$mean
 	if (!is.null(mu)) return(mu)
-	qf <- fun_quant(x)
+	cdf <- get_cdf(x)
+	if (is.stepfun(cdf)) {
+		y <- stats::knots(cdf)
+		taus <- plateaus(cdf)
+		probs <- diff(taus)
+		return(sum(probs * y))
+	}
 	int <- stats::integrate(qf, 0, 1)
 	if (verbose) print(int)
 	int$value

@@ -1,3 +1,4 @@
+set.seed(1)
 x <- rnorm(10)
 y <- rnorm(5)
 p <- runif(5)
@@ -22,6 +23,22 @@ test_that("eqf provides inverse of ecdf at original values", {
 	expect_identical(x, qf(cdf(x)))
 })
 
+test_that("eqf = stats::quantile() with type = 1", {
+	expect_equivalent(
+		qf(0:10/10),
+		stats::quantile(x, probs = 0:10/10, type = 1)
+	)
+	eps <- 0.000001
+	expect_equivalent(
+		qf(1:10/10 - eps),
+		stats::quantile(x, probs = 1:10/10 - eps, type = 1)
+	)
+	expect_equivalent(
+		qf(0:9/10 + eps),
+		stats::quantile(x, probs = 0:9/10 + eps, type = 1)
+	)
+})
+
 test_that("NAs are ignored", {
 	qf_na <- eqf(c(x, NA))
 	pmf_na <- epmf(c(x, NA))
@@ -31,7 +48,8 @@ test_that("NAs are ignored", {
 
 
 test_that("eqf boundaries work as expected", {
-	expect_identical(c(0, 1), cdf(qf(0:1)))
+	expect_identical(1, cdf(qf(1)))
+	expect_identical(range(x), qf(0:1))
 })
 
 test_that("epmf provides proportions", {

@@ -11,11 +11,17 @@
 #' @export
 var.dst <- function(object, ..., verbose = FALSE) {
 	ss <- object$prop$var
-	if (!is.null(ss)) {
-		return(ss)
-	} else {
-		stop("Code for calculating variance not available yet.")
+	if (!is.null(ss)) return(ss)
+	cdf <- get_cdf(object)
+	if (is.stepfun(cdf)) {
+		y <- stats::knots(cdf)
+		taus <- plateaus(cdf)
+		probs <- diff(taus)
+		E <- sum(probs * y)
+		E_squared <- sum(probs * y^2)
+		return(E_squared - E^2)
 	}
+	stop("Calculation not developed yet.")
 }
 
 #' @rdname var

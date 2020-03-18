@@ -11,10 +11,15 @@
 #' @rdname efun
 #' @export
 eqf <- function(x) {
-	function(p) {
-		quants <- unname(stats::quantile(x, probs = p, type = 1, na.rm = TRUE))
-		ifelse(p == 0, -Inf, quants)
-	}
+	cdf <- stats::ecdf(x)
+	taus <- plateaus(cdf)
+	y <- stats::knots(cdf)
+	y <- c(y[1], y, y[length(y)]) # Perhaps one day y can be sandwiched by NaN's.
+	stats::stepfun(taus, y, right = TRUE)
+	# function(p) {
+	# 	quants <- unname(stats::quantile(x, probs = p, type = 1, na.rm = TRUE))
+	# 	ifelse(p == 0, -Inf, quants)
+	# }
 }
 
 #' @rdname efun
