@@ -52,13 +52,13 @@ stepdst <- function(formula, data, ...) {
 	id_duplicates <- which(diff(taus) == 0) + 1
 	id_zero_tau <- which(taus == 0)
 	id_rm <- c(id_duplicates, id_zero_tau)
-	mf <- mf[-id_rm, ]
+	if (length(id_rm) > 0) mf <- mf[-id_rm, ]
 	n <- nrow(mf)
 	taus <- mf[[1]]
 	y    <- mf[[2]]
-	cdf <- stats::stepfun(y, c(0, tau), right = FALSE)
-	qf  <- stats::stepfun(tau[-n], y, right = TRUE)
-	sf  <- stats::stepfun(y, rev(c(0, tau)), right = FALSE)
+	cdf <- stats::stepfun(y, c(0, taus), right = FALSE)
+	qf  <- stats::stepfun(taus[-n], y, right = TRUE)
+	sf  <- stats::stepfun(y, rev(c(0, taus)), right = FALSE)
 	res <- dst(fun_cumu = cdf, fun_quant = qf, ...)
 	class(res) <- c("stepdst", class(res))
 	res
