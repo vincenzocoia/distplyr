@@ -5,9 +5,9 @@
 #'
 #' @param object Object of class "stepfun" to check.
 #' @return Single logical indicating the result.
-#' @rdname is_continuous
+#' @rdname check_continuous
 #' @export
-is_left_continuous <- function(object) {
+check_left_continuous <- function(object) {
 	if (!is.stepfun(object)) {
 		stop("Object being tested is not a step function.")
 	}
@@ -15,9 +15,9 @@ is_left_continuous <- function(object) {
 	if (f == 1) TRUE else FALSE
 }
 
-#' @rdname is_continuous
+#' @rdname check_continuous
 #' @export
-is_right_continuous <- function(object) {
+check_right_continuous <- function(object) {
 	if (!is.stepfun(object)) {
 		stop("Object being tested is not a step function.")
 	}

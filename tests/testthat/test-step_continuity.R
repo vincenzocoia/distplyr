@@ -11,8 +11,8 @@ test_that("sanity check that f_left and f_right are labelled correctly", {
 })
 
 test_that("checks for left and right continuity work", {
-	expect_true(is_right_continuous(f_right))
-	expect_true(is_left_continuous(f_left))
-	expect_false(is_right_continuous(f_left))
-	expect_false(is_left_continuous(f_right))
+	expect_true(check_right_continuous(f_right))
+	expect_true(check_left_continuous(f_left))
+	expect_false(check_right_continuous(f_left))
+	expect_false(check_left_continuous(f_right))
 })
