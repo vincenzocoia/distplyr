@@ -33,34 +33,38 @@ stepdst <- function(y, data, weights = 1, ...) {
 		w <- eval.parent(sw)
 	} else {
 		y <- eval(sy, envir = data)
-		w <- eval(se, envir = data)
+		w <- eval(sw, envir = data)
 	}
-	if (any(w < 0)) {
+	yw <- data.frame(y = y, w = w)
+	yw <- na.omit(yw)
+	if (any(yw[["w"]] < 0)) {
 		stop("Weights must not be negative.")
 	}
 	if (!is.numeric(y)) {
 		stop("Outcomes must be numeric.")
 	}
-	w <- w / sum(w)
-	yw <- data.frame(y = y, w = w)
-	yw <- na.omit(yw)
 	yw <- yw[yw[["w"]] != 0, ]
-	yw <- yx[order(yw[["y"]]), ]
+	yw <- yw[order(yw[["y"]]), ]
 	y <- yw[["y"]]
 	w <- yw[["w"]]
+	w <- w / sum(w)
 	taus <- cumsum(w)
-	rm_id <- which(duplicated()) - 1
+	rm_id <- which(duplicated(y)) - 1
 	taus <- taus[-rm_id]
 	taus_w_0 <- c(0, taus)
 	probs <- diff(taus_w_0)
 	y <- unique(y)
 	stopifnot(length(y) == length(taus))
 	n <- length(y)
-	cdf <- stats::stepfun(y, c(0, taus), right = FALSE)
+	cdf <- stats::stepfun(y, taus_w_0, right = FALSE)
 	qf  <- stats::stepfun(taus[-n], y, right = TRUE)
-	sf  <- stats::stepfun(y, rev(c(0, taus)), right = FALSE)
+	sf  <- stats::stepfun(y, 1 - taus_w_0, right = FALSE)
 	rf <- function(n) sample(y, size = n, replace = TRUE, prob = probs)
-	res <- dst(fun_cumu = cdf, fun_quant = qf, fun_rand = rf, ...)
+	res <- dst(fun_cumu  = cdf,
+			   fun_quant = qf,
+			   fun_rand  = rf,
+			   fun_surv  = sf,
+			   ...)
 	class(res) <- c("stepdst", class(res))
 	res
 }

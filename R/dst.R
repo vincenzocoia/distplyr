@@ -14,10 +14,17 @@
 #' @return An object of class "dst", which (for now) is a list holding
 #' the above arguments, including survival and hazard functions.
 #' @export
-dst <- function(fun_cumu, fun_quant, fun_prob, fun_rand,
+dst <- function(fun_cumu, fun_quant, fun_prob, fun_rand, fun_surv,
 				name = NULL, param = NULL, prop = NULL) {
-	fun_surv <- function(x) 1 - fun_cumu(x)
+	if (missing(fun_surv)) {
+		if (!missing(fun_cumu)) {
+			fun_surv <- function(x) 1 - fun_cumu(x)
+		} else {
+			fun_surv <- NULL
+		}
+	}
 	if (missing(fun_prob)) {
+		fun_prob <- NULL
 		fun_haz <- NULL
 	} else {
 		fun_haz <- function(x) fun_prob(x) / (1 - fun_cumu(x))

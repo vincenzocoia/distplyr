@@ -4,8 +4,8 @@
 \alias{dst}
 \title{Make a Distribution}
 \usage{
-dst(fun_cumu, fun_quant, fun_prob, fun_rand, name = NULL, param = NULL,
-  prop = NULL)
+dst(fun_cumu, fun_quant, fun_prob, fun_rand, fun_surv, name = NULL,
+  param = NULL, prop = NULL)
 }
 \arguments{
 \item{fun_cumu, fun_quant}{cdf and quantile function for a distribution,
