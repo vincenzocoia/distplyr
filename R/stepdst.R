@@ -2,64 +2,65 @@
 #'
 #' A step distribution is one where the cdf
 #' and quantile function are step functions.
+#' This includes empirical distributions.
 #' \code{stepdst()} facilitates the creation of
 #' such a distribution by specifying the
-#' pairs associated with the closed points
-#' at each breakpoint.
+#' observations/breakpoints, along with their weights.
 #'
-#' @param formula An object of class "formula",
-#' of the form tau (probabilities) ~ y (quantiles).
+#' @param y Outcomes to comprise the distribution. Should either
+#' evaluate to a vector, or be a name in the specified data.
 #' @param data Data frame, list, or environment
-#' containing the variables in the formula. If missing,
-#' expecting the data to be contained in the formula.
+#' containing the outcome name in \code{y}. If missing,
+#' \code{y} will be evaluated in the parent frame.
+#' @param weights Weights corresponding to the outcomes in \code{y}.
+#' Must not be negative, but need not sum to 1. If \code{data}
+#' is provided, the data will be searched for the name provided in
+#' this argument.
 #' @param ... Additional arguments to be passed to \code{\link{dst}}.
 #' @return A "stepdst" object, which is also a "dst" object,
-#' containing cdf and quantile functions. If you'd like to add other
+#' containing a cdf, quantile function, and random number generator.
+#' The cdf is a right-continuous step function, and the quantile function is
+#' a left-continuous step function.
+#' If you'd like to add other
 #' functions through the \code{\link{dst}} function, you can do so
 #' via \code{...}.
-#' @note When creating your pairs,
-#' keep in mind that a cdf is right-continuous,
-#' and a quantile function is left-continuous.
-#' If specifying points from a cdf, then, take tau
-#' to be the upper level of a breakpoint; if specifying
-#' from a quantile function, take y to be the lower level
-#' of a breakpoint.
-#'
-#' This also means that your probabilities should contain
-#' 1, but need not contain 0.
 #' @export
-stepdst <- function(formula, data, ...) {
-	this_call <- match.call()
-	id <- match(c("formula", "data"), names(this_call), nomatch = 0)
-	mf_call <- this_call[c(1L, id)]
-	mf_call[[1L]] <- quote(stats::model.frame)
-	mf <- eval.parent(mf_call)
-	mf <- mf[order(mf[[1]]), ]
-	taus <- mf[[1]]
-	y    <- mf[[2]]
-	if (!is.numeric(taus) || any(taus < 0) || any(taus > 1)) {
-		stop("Probabilities (tau) must be between 0 and 1.")
+stepdst <- function(y, data, weights = 1, ...) {
+	sy <- substitute(y)
+	sw <- substitute(weights)
+	if (missing(data)) {
+		y <- eval.parent(sy)
+		w <- eval.parent(sw)
+	} else {
+		y <- eval(sy, envir = data)
+		w <- eval(se, envir = data)
 	}
-	if (all(taus != 1)) {
-		stop("Must include 1 in probabilities (tau).")
+	if (any(w < 0)) {
+		stop("Weights must not be negative.")
 	}
 	if (!is.numeric(y)) {
-		stop("Quantiles must be numeric.")
+		stop("Outcomes must be numeric.")
 	}
-	if (any(diff(taus) < 0)) {
-		stop("Pairs must be increasing to create a valid distribution.")
-	}
-	id_duplicates <- which(diff(taus) == 0) + 1
-	id_zero_tau <- which(taus == 0)
-	id_rm <- c(id_duplicates, id_zero_tau)
-	if (length(id_rm) > 0) mf <- mf[-id_rm, ]
-	n <- nrow(mf)
-	taus <- mf[[1]]
-	y    <- mf[[2]]
+	w <- w / sum(w)
+	yw <- data.frame(y = y, w = w)
+	yw <- na.omit(yw)
+	yw <- yw[yw[["w"]] != 0, ]
+	yw <- yx[order(yw[["y"]]), ]
+	y <- yw[["y"]]
+	w <- yw[["w"]]
+	taus <- cumsum(w)
+	rm_id <- which(duplicated()) - 1
+	taus <- taus[-rm_id]
+	taus_w_0 <- c(0, taus)
+	probs <- diff(taus_w_0)
+	y <- unique(y)
+	stopifnot(length(y) == length(taus))
+	n <- length(y)
 	cdf <- stats::stepfun(y, c(0, taus), right = FALSE)
 	qf  <- stats::stepfun(taus[-n], y, right = TRUE)
 	sf  <- stats::stepfun(y, rev(c(0, taus)), right = FALSE)
-	res <- dst(fun_cumu = cdf, fun_quant = qf, ...)
+	rf <- function(n) sample(y, size = n, replace = TRUE, prob = probs)
+	res <- dst(fun_cumu = cdf, fun_quant = qf, fun_rand = rf, ...)
 	class(res) <- c("stepdst", class(res))
 	res
 }

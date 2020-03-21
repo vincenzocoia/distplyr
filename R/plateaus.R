@@ -22,3 +22,5 @@ plateaus.stepfun <- function(object) {
 		return(c(yleft, y))
 	}
 }
+
+# stepdist_knots

@@ -1,7 +1,7 @@
 #' Get cdf
 #'
 #' @param object Object of class "dst"
-#' @return a vectorized function of the cdf.
+#' @return a vectorized function of the cdf
 #' @seealso
 #' \code{\link{get_quantfn}},
 #' \code{\link{get_probfn}},

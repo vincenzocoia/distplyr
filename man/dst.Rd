@@ -8,7 +8,7 @@ dst(fun_cumu, fun_quant, fun_prob, fun_rand, name = NULL, param = NULL,
   prop = NULL)
 }
 \arguments{
-\item{fun_cumu, fun_quant, }{cdf and quantile function for a distribution,
+\item{fun_cumu, fun_quant}{cdf and quantile function for a distribution,
 respectively. Must be supplied.}
 
 \item{fun_prob, fun_rand}{probability mass/density function and

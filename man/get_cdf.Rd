@@ -10,7 +10,7 @@ get_cdf(object)
 \item{object}{Object of class "dst"}
 }
 \value{
-a vectorized function of the cdf.
+a vectorized function of the cdf
 }
 \description{
 Get cdf
