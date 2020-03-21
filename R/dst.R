@@ -1,7 +1,7 @@
 #' Make a Distribution
 #'
 #' Make a distribution object.
-#' @param fun_cumu,fun_quant, cdf and quantile function for a distribution,
+#' @param fun_cumu,fun_quant cdf and quantile function for a distribution,
 #' respectively. Must be supplied.
 #' @param fun_prob,fun_rand probability mass/density function and
 #' random number generator for a distribution (a function of n), respectively.
@@ -34,9 +34,26 @@ dst <- function(fun_cumu, fun_quant, fun_prob, fun_rand,
 			  name = name,
 			  param = param,
 			  prop = prop)
-	class(x) <- "dst"
-	x
+	new_dst(x)
 }
+
+# dst <- function(fun_cumu = c("from_qf", "from_sf", "from_pdf", "from_hf", "from_chf"),
+# 				fun_quant  = c("from_cdf", "from_sf", "from_pdf", "from_hf", "from_chf"),
+# 				fun_prob = c("from_cdf", "from_sf", "from_qf", "from_chf"),
+# 				sf  = c("from_cdf", "from_qf", "from_pdf", "from_hf", "from_chf"),
+# 				hf  = c("from_pdf"),
+# 				chf = c("from_sf"),
+# 				rf  = c("from_qf"))
+
+#' Constructor Function for "dst" Objects
+new_dst <- function(l, ..., class = character()) {
+	structure(
+		l,
+		...,
+		class = c(class, "dst")
+	)
+}
+
 
 #' Distribution Objects
 #'
