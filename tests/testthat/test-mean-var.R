@@ -1,18 +1,20 @@
 x <- c(-1, 4, 5, -1, -2, 7)
-.dst <- dst_emp(x)
+.dst <- stepdst(x)
 
-test_that("mean and variance works with step function cdf's", {
-	expect_identical(mean(x), mean(.dst))
-	expect_identical(mean(x^2) - mean(x)^2, var(.dst))
+test_that("mean and variance works with stepdst", {
+	expect_identical(mean(x), get_mean(.dst))
+	v <- mean(x^2) - mean(x)^2
+	expect_identical(v, get_var(.dst))
+	expect_identical(sqrt(v), get_sd(.dst))
 })
 
 
-x <- c(-1, 4, 5, -1, NA, -2, 7)
-.dst <- dst_emp(x)
+x <- c(-1, 4, 5, NA, -2, 7)
+.dst <- stepdst(x)
 
-test_that("mean and variance works with step function cdf's -- with NA", {
+test_that("mean and variance works with stepdst -- with NA and no duplicates", {
 	expect_identical(
 		mean(x^2, na.rm = TRUE) - mean(x, na.rm = TRUE)^2,
-		var(.dst)
+		get_var(.dst)
 	)
 })

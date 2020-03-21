@@ -1,54 +1,43 @@
-#' Get the variance/standard deviation of a distribution
+#' Variance/Standard Deviation of a Distribution
 #'
-#' @param object Object of class "dst" to obtain statistic from.
-#' @param ... Arguments to pass to the \code{integrate()} function.
+#' Get the mean and standard deviation of a distribution.
+#'
+#' @param object A distribution object.
+#' @param ... Arguments to pass to the \code{integrate()} function (if needed).
 #' @param verbose Print output of \code{integrate()} function?
 #' @details If the statistic is not already available in the distribution
-#' object, this is calculated using the \code{stats::integrate()}
-#' function.
+#' object, and if the distribution is not a step distribution,
+#' the variance/standard deviation is calculated using the
+#' \code{stats::integrate()} function.
 #' @return A single numeric
-#' @rdname var
+#' @rdname get_var
 #' @export
-var.dst <- function(object, ..., verbose = FALSE) {
+get_var <- function(object, ..., verbose = FALSE) UseMethod("get_var")
+
+#' @export
+get_var.dst <- function(object, ..., verbose = FALSE) {
 	ss <- object$prop$var
 	if (!is.null(ss)) return(ss)
-	cdf <- get_cdf(object)
-	if (is.stepfun(cdf)) {
-		y <- stats::knots(cdf)
-		taus <- plateaus(cdf)
-		probs <- diff(taus)
-		E <- sum(probs * y)
-		E_squared <- sum(probs * y^2)
-		return(E_squared - E^2)
-	}
 	stop("Calculation not developed yet.")
 }
 
-#' @rdname var
 #' @export
-var <- function(object, ..., verbose = FALSE) UseMethod("var")
-
-#' @rdname var
-#' @export
-sd.dst <- function(object, ..., verbose = FALSE) {
-	ss <- var(object, ..., verbose = verbose)
-	sqrt(ss)
+get_var.stepdst <- function(object, ...) {
+	s <- steps(object)
+	y <- s[["y"]]
+	taus <- s[["tau"]]
+	probs <- diff(c(0, taus))
+	mu <- sum(probs * y)
+	mu2 <- sum(probs * y^2)
+	mu2 - mu^2
 }
 
-#' @rdname var
+#' @rdname get_var
 #' @export
-sd <- function(object, ..., verbose = FALSE) UseMethod("sd")
+get_sd <- function(object, ..., verbose = FALSE) UseMethod("get_sd")
 
-# Prevent stats::sd() and stats::var() from breaking
-
-#' @rdname var
 #' @export
-sd.numeric <- function(...) stats::sd(...)
-
-#' @rdname var
-#' @export
-var.numeric <- function(...) stats::var(...)
-
-#' @rdname var
-#' @export
-var.data.frame <- function(...) stats::var(...)
+get_sd.dst <- function(object, ..., verbose = FALSE) {
+	ss <- get_var(object, ..., verbose = verbose)
+	sqrt(ss)
+}
