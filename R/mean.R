@@ -18,6 +18,7 @@ mean.dst <- function(x, ..., verbose = FALSE) {
 		probs <- diff(taus)
 		return(sum(probs * y))
 	}
+	qf <- get_quantfn(x)
 	int <- stats::integrate(qf, 0, 1)
 	if (verbose) print(int)
 	int$value
