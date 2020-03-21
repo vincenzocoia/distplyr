@@ -24,6 +24,7 @@
 #' If you'd like to add other
 #' functions through the \code{\link{dst}} function, you can do so
 #' via \code{...}.
+#' @rdname stepdst
 #' @export
 stepdst <- function(y, data, weights = 1, ...) {
 	sy <- substitute(y)
@@ -50,11 +51,12 @@ stepdst <- function(y, data, weights = 1, ...) {
 	w <- w / sum(w)
 	taus <- cumsum(w)
 	rm_id <- which(duplicated(y)) - 1
-	taus <- taus[-rm_id]
+	if (length(rm_id) > 0) taus <- taus[-rm_id]
 	taus_w_0 <- c(0, taus)
 	probs <- diff(taus_w_0)
 	y <- unique(y)
 	stopifnot(length(y) == length(taus))
+	steps <- data.frame(y = y, tau = taus)
 	n <- length(y)
 	cdf <- stats::stepfun(y, taus_w_0, right = FALSE)
 	qf  <- stats::stepfun(taus[-n], y, right = TRUE)
@@ -65,6 +67,40 @@ stepdst <- function(y, data, weights = 1, ...) {
 			   fun_rand  = rf,
 			   fun_surv  = sf,
 			   ...)
-	class(res) <- c("stepdst", class(res))
-	res
+	structure(res,
+			  steps = steps,
+			  class = c("stepdst", class(res))
+	)
 }
+
+#' @rdname stepdst
+#' @export
+is_stepdst <- function(x) inherits(x, "stepdst")
+
+#' @rdname stepdst
+#' @export
+is.stepdst <- function(x) inherits(x, "stepdst")
+
+#' Get Step Points from a Step Distribution
+#'
+#' Step points are the coordinates marking the
+#' positions of the step discontinuities in a step
+#' distribution. They are the left-most points of
+#' each non-zero plateau of the cdf.
+#'
+#' @param object A step distribution object.
+#' @return Data frame with two columns: column
+#' \code{y} contains the outcomes corresponding to
+#' the step discontinuities of the cdf, and column
+#' \code{tau} contains the non-zero plateaus of the
+#' cdf (so that the cdf at \code{y} evaluates to
+#' \code{tau})
+#' @rdname steps
+#' @export
+steps <- function(object) UseMethod("steps")
+
+#' @export
+steps.stepdst <- function(object) {
+	attributes(object)[["steps"]]
+}
+

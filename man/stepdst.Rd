@@ -2,9 +2,15 @@
 % Please edit documentation in R/stepdst.R
 \name{stepdst}
 \alias{stepdst}
+\alias{is_stepdst}
+\alias{is.stepdst}
 \title{Create a Step Distribution}
 \usage{
 stepdst(y, data, weights = 1, ...)
+
+is_stepdst(x)
+
+is.stepdst(x)
 }
 \arguments{
 \item{y}{Outcomes to comprise the distribution. Should either

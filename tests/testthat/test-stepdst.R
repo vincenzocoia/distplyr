@@ -9,7 +9,15 @@ sf <- get_surv(edist)
 # plot(cdf)
 # plot(qf)
 
+set.seed(5)
+edist2 <- stepdst(rnorm(10))
+
 test_that("unweighted empirical distribution works", {
+	expect_true(is_stepdst(edist))
+	expect_true(is_stepdst(edist2))
+	expect_true(is_dst(edist))
+	expect_true(is_dst(edist2))
+	expect_equal(plateaus(get_cdf(edist2)), 0:10/10)
 	expect_identical(stats::knots(cdf), plateaus(qf))
 	expect_identical(plateaus(cdf), 1 - plateaus(sf))
 	expect_identical(cdf(qf(1/8)), 1/8)
@@ -44,4 +52,10 @@ test_that("weighted step function works", {
 	expect_identical(stats::knots(cdf), plateaus(qf))
 	expect_identical(plateaus(cdf), 1 - plateaus(sf))
 	expect_identical(cdf(c(2, 5, 9)), c(5, 7, 8)/8)
+})
+
+
+test_that("step points are correct", {
+	expect_identical(plateaus(get_cdf(wdist)), c(0, steps(wdist)[["tau"]]))
+	expect_identical(stats::knots(get_cdf(wdist)), steps(wdist)[["y"]])
 })
