@@ -17,5 +17,7 @@ Suggests:
 RoxygenNote: 6.1.1
 Imports: 
     stats,
-    evd
+    evd,
+    rlang,
+    tidyselect
 VignetteBuilder: knitr

@@ -6,6 +6,13 @@
 \usage{
 new_dst(l, ..., class = character())
 }
+\arguments{
+\item{l}{List containing the components of a distribution object.}
+
+\item{...}{Attributes to add to the list.}
+
+\item{class}{If making a subclass, specify its name here.}
+}
 \description{
 Constructor Function for "dst" Objects
 }

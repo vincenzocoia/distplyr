@@ -4,7 +4,6 @@
 #'
 #' @param object A distribution object.
 #' @param ... Arguments to pass to the \code{integrate()} function (if needed).
-#' @param verbose Print output of \code{integrate()} function?
 #' @details If the statistic is not already available in the distribution
 #' object, and if the distribution is not a step distribution,
 #' the variance/standard deviation is calculated using the
@@ -12,10 +11,10 @@
 #' @return A single numeric
 #' @rdname get_var
 #' @export
-get_var <- function(object, ..., verbose = FALSE) UseMethod("get_var")
+get_var <- function(object, ...) UseMethod("get_var")
 
 #' @export
-get_var.dst <- function(object, ..., verbose = FALSE) {
+get_var.dst <- function(object, ...) {
 	ss <- object$prop$var
 	if (!is.null(ss)) return(ss)
 	stop("Calculation not developed yet.")
@@ -34,10 +33,10 @@ get_var.stepdst <- function(object, ...) {
 
 #' @rdname get_var
 #' @export
-get_sd <- function(object, ..., verbose = FALSE) UseMethod("get_sd")
+get_sd <- function(object, ...) UseMethod("get_sd")
 
 #' @export
-get_sd.dst <- function(object, ..., verbose = FALSE) {
-	ss <- get_var(object, ..., verbose = verbose)
+get_sd.dst <- function(object, ...) {
+	ss <- get_var(object, ...)
 	sqrt(ss)
 }

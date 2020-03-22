@@ -9,11 +9,12 @@ dst_norm <- function(mu, var) {
 	if (var == 0) return(dst_degen(mu))
 	if (var < 0) stop("'var' parameter must be non-negative.")
 	sd <- sqrt(var)
-	dst(fun_cumu  = function(x) pnorm(x, mean = mu, sd = sd),
-		fun_quant = function(p) qnorm(p, mean = mu, sd = sd),
-		fun_prob  = function(x) dnorm(p, mean = mu, sd = sd),
-		fun_rand  = function(n) rnorm(n, mean = mu, sd = sd),
-		fun_surv  = function(x) pnorm(x, mean = mu, sd = sd, lower.tail = FALSE),
+	dst(fun_cumu  = function(x) stats::pnorm(x, mean = mu, sd = sd),
+		fun_quant = function(p) stats::qnorm(p, mean = mu, sd = sd),
+		fun_prob  = function(x) stats::dnorm(x, mean = mu, sd = sd),
+		fun_rand  = function(n) stats::rnorm(n, mean = mu, sd = sd),
+		fun_surv  = function(x) stats::pnorm(x, mean = mu, sd = sd,
+											 lower.tail = FALSE),
 		name = "Normal/Gaussian",
 		param = c(mu = mu, var = var),
 		prop = list(mean = mu,

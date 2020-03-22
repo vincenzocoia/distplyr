@@ -5,16 +5,14 @@
 \alias{get_sd}
 \title{Variance/Standard Deviation of a Distribution}
 \usage{
-get_var(object, ..., verbose = FALSE)
+get_var(object, ...)
 
-get_sd(object, ..., verbose = FALSE)
+get_sd(object, ...)
 }
 \arguments{
 \item{object}{A distribution object.}
 
 \item{...}{Arguments to pass to the \code{integrate()} function (if needed).}
-
-\item{verbose}{Print output of \code{integrate()} function?}
 }
 \value{
 A single numeric

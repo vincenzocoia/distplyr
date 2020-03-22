@@ -17,13 +17,13 @@ rv_transform <- function(.dst, g, ginv, gprime, ginvprime) {
 	if (missing(ginvprime) && !missing(gprime)) {
 		ginvprime <- function(x) 1 / gprime(ginv(x))
 	}
-	cdf  <- fun_cumu(.dst)
-	qf   <- fun_quant(.dst)
-	rand <- fun_rand(.dst)
-	pf   <- fun_prob(.dst)
+	cdf  <- get_cdf(.dst)
+	qf   <- get_quantfn(.dst)
+	rand <- get_randfn(.dst)
+	pf   <- get_probfn(.dst)
 	.has_pdf <- has_pdf(.dst)
 	.has_pmf <- has_pmf(.dst)
-	if (.has_pdf) {
+	if (isTRUE(.has_pdf)) {
 		if (missing(ginvprime)) {
 			warning("Didn't provide a derivative of the transformation, ",
 					"yet .dst has a density. New distribution will be ",
@@ -32,7 +32,7 @@ rv_transform <- function(.dst, g, ginv, gprime, ginvprime) {
 		} else {
 			new_ddst <- function(x) pf(ginv(x)) * ginvprime(x)
 		}
-	} else if (.has_pmf) {
+	} else if (isTRUE(.has_pmf)) {
 		new_ddst <- function(x) pf(ginv(x))
 	} else {
 		new_ddst <- NA

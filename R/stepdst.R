@@ -37,7 +37,7 @@ stepdst <- function(y, data, weights = 1, ...) {
 		w <- eval(sw, envir = data)
 	}
 	yw <- data.frame(y = y, w = w)
-	yw <- na.omit(yw)
+	yw <- stats::na.omit(yw)
 	if (any(yw[["w"]] < 0)) {
 		stop("Weights must not be negative.")
 	}
@@ -75,11 +75,11 @@ stepdst <- function(y, data, weights = 1, ...) {
 
 #' @rdname stepdst
 #' @export
-is_stepdst <- function(x) inherits(x, "stepdst")
+is_stepdst <- function(y) inherits(y, "stepdst")
 
 #' @rdname stepdst
 #' @export
-is.stepdst <- function(x) inherits(x, "stepdst")
+is.stepdst <- function(y) inherits(y, "stepdst")
 
 #' Get Step Points from a Step Distribution
 #'

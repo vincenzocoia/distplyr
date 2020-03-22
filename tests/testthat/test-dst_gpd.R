@@ -24,7 +24,7 @@ test_that("GPD quantities work out, shape = 0", {
 	expect_equal(eval_quantfn(.dst, c(0, 0.5, 1)), c(loc, med, Inf))
 	expect_equal(eval_probfn(.dst, c(loc - 1, Inf)), c(0, 0))
 	pdf <- get_probfn(.dst)
-	expect_true(all(diff(pdf(.dst, loc + 1:10)) < 0))
+	expect_true(all(diff(pdf(loc + 1:10)) < 0))
 	expect_equal(integrate(pdf, loc, Inf)$value, 1, tolerance = 0.0001)
 	expect_true(all(eval_randfn(.dst, 10) >= loc))
 })

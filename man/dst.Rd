@@ -11,10 +11,13 @@ dst(fun_cumu, fun_quant, fun_prob, fun_rand, fun_surv, name = NULL,
 \item{fun_cumu, fun_quant}{cdf and quantile function for a distribution,
 respectively. Must be supplied.}
 
-\item{fun_prob, fun_rand}{probability mass/density function and
+\item{fun_prob, fun_rand}{Probability mass/density function and
 random number generator for a distribution (a function of n), respectively.
 Optional. \code{fun_rand} will be calculated from \code{fun_quant}
 if missing.}
+
+\item{fun_surv}{Survival function. Optional; is missing, will be
+derived from the cdf.}
 
 \item{name}{A name for the distribution (such as a parametric family name)}
 

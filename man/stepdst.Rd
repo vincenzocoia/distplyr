@@ -8,9 +8,9 @@
 \usage{
 stepdst(y, data, weights = 1, ...)
 
-is_stepdst(x)
+is_stepdst(y)
 
-is.stepdst(x)
+is.stepdst(y)
 }
 \arguments{
 \item{y}{Outcomes to comprise the distribution. Should either

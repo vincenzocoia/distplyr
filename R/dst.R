@@ -3,10 +3,12 @@
 #' Make a distribution object.
 #' @param fun_cumu,fun_quant cdf and quantile function for a distribution,
 #' respectively. Must be supplied.
-#' @param fun_prob,fun_rand probability mass/density function and
+#' @param fun_prob,fun_rand Probability mass/density function and
 #' random number generator for a distribution (a function of n), respectively.
 #' Optional. \code{fun_rand} will be calculated from \code{fun_quant}
 #' if missing.
+#' @param fun_surv Survival function. Optional; is missing, will be
+#' derived from the cdf.
 #' @param prop Properties of the distribution, such as mean, variance,
 #' EVI, etc. (of your choosing).
 #' @param name A name for the distribution (such as a parametric family name)
@@ -30,7 +32,7 @@ dst <- function(fun_cumu, fun_quant, fun_prob, fun_rand, fun_surv,
 		fun_haz <- function(x) fun_prob(x) / (1 - fun_cumu(x))
 	}
 	if (missing(fun_rand)) {
-		fun_rand <- function(n) fun_quant(runif(n))
+		fun_rand <- function(n) fun_quant(stats::runif(n))
 	}
 	x <- list(fun_cumu = fun_cumu,
 			  fun_quant = fun_quant,
@@ -53,6 +55,10 @@ dst <- function(fun_cumu, fun_quant, fun_prob, fun_rand, fun_surv,
 # 				rf  = c("from_qf"))
 
 #' Constructor Function for "dst" Objects
+#'
+#' @param l List containing the components of a distribution object.
+#' @param ... Attributes to add to the list.
+#' @param class If making a subclass, specify its name here.
 new_dst <- function(l, ..., class = character()) {
 	structure(
 		l,

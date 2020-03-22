@@ -10,8 +10,6 @@ get_mean(x, ...)
 \item{x}{A distribution object from which to obtain the mean.}
 
 \item{...}{Arguments to pass to the \code{integrate()} function (if needed).}
-
-\item{verbose}{Print output of \code{integrate()} function?}
 }
 \value{
 A single numeric.

@@ -8,7 +8,7 @@
 #' @rdname check_continuous
 #' @export
 check_left_continuous <- function(object) {
-	if (!is.stepfun(object)) {
+	if (!stats::is.stepfun(object)) {
 		stop("Object being tested is not a step function.")
 	}
 	f <- with(environment(object), f)
@@ -18,7 +18,7 @@ check_left_continuous <- function(object) {
 #' @rdname check_continuous
 #' @export
 check_right_continuous <- function(object) {
-	if (!is.stepfun(object)) {
+	if (!stats::is.stepfun(object)) {
 		stop("Object being tested is not a step function.")
 	}
 	f <- with(environment(object), f)
