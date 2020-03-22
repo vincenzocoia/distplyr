@@ -35,13 +35,9 @@ Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,
 you agree to abide by its terms.
 
 ``` r
-library(magrittr)
 library(distplyr)
-#> 
-#> Attaching package: 'distplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     sd, var
+library(magrittr)
+library(testthat)
 ```
 
 ## Usage
@@ -52,7 +48,7 @@ Access a distribution from a parametric family using `dst_*()`
 functions. Make a Uniform(2, 3) distribution:
 
 ``` r
-dst_unif(2, 3)
+(my_unif <- dst_unif(2, 3))
 #> A Uniform distribution.
 #> 
 #> Parameters:
@@ -61,17 +57,18 @@ dst_unif(2, 3)
 Or, a GPD:
 
 ``` r
-dst_gpd(loc = 0, scale = 1, shape = 1)
+(my_gpd <- dst_gpd(loc = 7, scale = 1, shape = 0.5))
 #> A GPD distribution.
 #> 
 #> Parameters:
 ```
 
-You can make an empirical distribution from data as well:
+You can make an empirical distribution from data as well, by making a
+step distribution:
 
 ``` r
-dst_emp(iris$Sepal.Length)
-#> A Empirical distribution.
+(my_step <- stepdst(Sepal.Length, data = iris))
+#> Unnamed distribution.
 #> 
 #> Parameters:
 ```
@@ -80,39 +77,35 @@ A degenerate distribution is still valid, and can be specified directly,
 or as a result of parameter boundaries:
 
 ``` r
-# identical(
-#   dst_norm(mean = 5, variance = 0), 
-#   dst_degen(5)
-# )
+expect_equal(
+    dst_norm(mu = 5, var = 0),
+    dst_degen(5)
+)
 ```
 
 ### Evaluating a Distribution
 
-Let’s use a GPD as an example:
-
-``` r
-my_dst <- dst_gpd(loc = 7, scale = 1, shape = 0.5)
-```
+Let’s use `my_gpd` from earlier.
 
 Easy to plot:
 
 ``` r
-# plot(my_dst, "cdf")
-# plot(my_dst, "probfn")
+# plot(my_gpd, "cdf")
+# plot(my_gpd, "probfn")
 ```
 
 Means are easy to find – no more looking up formulas:
 
 ``` r
-mean(my_dst)
+get_mean(my_gpd)
 #> [1] 9
 ```
 
 So are variances, skewnesses, etc:
 
 ``` r
-# variance(my_dst)
-# skewness(my_dst)
+get_var(my_gpd)
+#> [1] Inf
 # median(my_dst)
 ```
 
@@ -120,30 +113,30 @@ Evaluating distribution-related functions, such as cdf, density, etc. is
 easy:
 
 ``` r
-eval_cdf(my_dst, at = 6:10)
+eval_cdf(my_gpd, at = 6:10)
 #> [1] 0.0000000 0.0000000 0.5555556 0.7500000 0.8400000
-eval_probfn(my_dst, at = 6:10)
+eval_probfn(my_gpd, at = 6:10)
 #> [1] 0.0000000 1.0000000 0.2962963 0.1250000 0.0640000
-eval_hazfn(my_dst, at = 6:10)
+eval_hazfn(my_gpd, at = 6:10)
 #> [1] 0.0000000 1.0000000 0.6666667 0.5000000 0.4000000
 ```
 
 Generate some data:
 
 ``` r
-eval_randfn(my_dst, 10)
-#>  [1] 10.250959  7.090902  7.088980  7.867108  8.318786  9.824250  7.189497
-#>  [8]  9.277142  7.343314  8.075227
+eval_randfn(my_gpd, 10)
+#>  [1]  7.191411  7.248137  7.384061  9.034786  7.649470 15.602773  8.037122
+#>  [8]  7.895555  7.266341  7.153382
 ```
 
 Or, just get the functions themselves:
 
 ``` r
-cdf <- get_cdf(my_dst)
+cdf <- get_cdf(my_gpd)
 curve(cdf, 6, 10)
 ```
 
-<img src="man/figures/README-unnamed-chunk-13-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-12-1.png" width="100%" style="display: block; margin: auto;" />
 
 ### Manipulate distributions
 
@@ -156,21 +149,19 @@ You can `shift_left()` or `shift_right()` (or just `shift()`), or
 #   scale_divide(by = 0.5)
 ```
 
-Graft a GPD onto an empirical cdf:
+Graft `my_gpd` onto `my_step`, the empirical distribution from earlier:
 
 ``` r
-x <- iris$Sepal.Length
-emp_dst <- dst_emp(x)
-graft_dst <- emp_dst %>%
-    substitute_right(my_dst, sep_x = 7)
+my_graft <- my_step %>%
+    graft_right(my_gpd, sep_y = 7)
 ```
 
 ``` r
-cdf <- get_cdf(graft_dst)
+cdf <- get_cdf(my_graft)
 curve(cdf, 4, 9, n = 1001)
 ```
 
-<img src="man/figures/README-unnamed-chunk-16-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-15-1.png" width="100%" />
 
 Obtain a mixture distribution:
 

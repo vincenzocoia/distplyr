@@ -31,9 +31,10 @@ Please note that the 'distplyr' project is released with a
 By contributing to this project, you agree to abide by its terms.
 
 
-```{r}
-library(magrittr)
+```{r, warning = FALSE, message = FALSE}
 library(distplyr)
+library(magrittr)
+library(testthat)
 ```
 
 
@@ -44,77 +45,72 @@ library(distplyr)
 Access a distribution from a parametric family using `dst_*()` functions. Make a Uniform(2, 3) distribution:
 
 ```{r}
-dst_unif(2, 3)
+(my_unif <- dst_unif(2, 3))
 ```
 
 Or, a GPD:
 
 ```{r}
-dst_gpd(loc = 0, scale = 1, shape = 1)
+(my_gpd <- dst_gpd(loc = 7, scale = 1, shape = 0.5))
 ```
 
-You can make an empirical distribution from data as well:
+You can make an empirical distribution from data as well, by making a step distribution:
 
 ```{r}
-dst_emp(iris$Sepal.Length)
+(my_step <- stepdst(Sepal.Length, data = iris))
 ```
 
 A degenerate distribution is still valid, and can be specified directly, or as a result of parameter boundaries:
 
 ```{r}
-# identical(
-# 	dst_norm(mean = 5, variance = 0), 
-# 	dst_degen(5)
-# )
+expect_equal(
+	dst_norm(mu = 5, var = 0),
+	dst_degen(5)
+)
 ```
 
 ### Evaluating a Distribution
 
-Let's use a GPD as an example:
-
-```{r}
-my_dst <- dst_gpd(loc = 7, scale = 1, shape = 0.5)
-```
+Let's use `my_gpd` from earlier.
 
 Easy to plot:
 
 ```{r}
-# plot(my_dst, "cdf")
-# plot(my_dst, "probfn")
+# plot(my_gpd, "cdf")
+# plot(my_gpd, "probfn")
 ```
 
 Means are easy to find -- no more looking up formulas:
 
 ```{r}
-mean(my_dst)
+get_mean(my_gpd)
 ```
 
 So are variances, skewnesses, etc:
 
 ```{r}
-# variance(my_dst)
-# skewness(my_dst)
+get_var(my_gpd)
 # median(my_dst)
 ```
 
 Evaluating distribution-related functions, such as cdf, density, etc. is easy:
 
 ```{r}
-eval_cdf(my_dst, at = 6:10)
-eval_probfn(my_dst, at = 6:10)
-eval_hazfn(my_dst, at = 6:10)
+eval_cdf(my_gpd, at = 6:10)
+eval_probfn(my_gpd, at = 6:10)
+eval_hazfn(my_gpd, at = 6:10)
 ```
 
 Generate some data:
 
 ```{r}
-eval_randfn(my_dst, 10)
+eval_randfn(my_gpd, 10)
 ```
 
 Or, just get the functions themselves:
 
 ```{r, fig.width=8, fig.height=3, fig.align="center"}
-cdf <- get_cdf(my_dst)
+cdf <- get_cdf(my_gpd)
 curve(cdf, 6, 10)
 ```
 
@@ -129,17 +125,15 @@ You can `shift_left()` or `shift_right()` (or just `shift()`), or `scale_divide(
 # 	scale_divide(by = 0.5)
 ```
 
-Graft a GPD onto an empirical cdf:
+Graft `my_gpd` onto `my_step`, the empirical distribution from earlier:
 
 ```{r}
-x <- iris$Sepal.Length
-emp_dst <- dst_emp(x)
-graft_dst <- emp_dst %>%
-	substitute_right(my_dst, sep_x = 7)
+my_graft <- my_step %>%
+	graft_right(my_gpd, sep_y = 7)
 ```
 
 ```{r}
-cdf <- get_cdf(graft_dst)
+cdf <- get_cdf(my_graft)
 curve(cdf, 4, 9, n = 1001)
 ```
 
