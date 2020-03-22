@@ -2,7 +2,7 @@
 % Please edit documentation in R/dst_gpd.R
 \name{dst_gpd}
 \alias{dst_gpd}
-\title{Make a generalized Pareto distribution}
+\title{Generalized Pareto Distribution}
 \usage{
 dst_gpd(loc, scale, shape)
 }

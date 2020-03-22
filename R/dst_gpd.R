@@ -1,4 +1,4 @@
-#' Make a generalized Pareto distribution
+#' Generalized Pareto Distribution
 #'
 #' Makes a distribution belonging to the family of
 #' generalized Pareto distributions (GPD).
