@@ -2,7 +2,7 @@
 % Please edit documentation in R/graft.R
 \name{graft_right}
 \alias{graft_right}
-\title{Replace the tail of a distribution}
+\title{Replace the Tail of a Distribution}
 \usage{
 graft_right(left_dst, right_dst, sep_y)
 }

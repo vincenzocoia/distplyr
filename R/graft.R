@@ -1,4 +1,4 @@
-#' Replace the tail of a distribution
+#' Replace the Tail of a Distribution
 #'
 #' \code{graft_right()} keeps the left cdf unchanged to the left of
 #' sep_y, and makes a continuous connection with the right cdf
