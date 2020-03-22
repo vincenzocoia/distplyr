@@ -36,6 +36,7 @@ epmf <- function(x) {
 #'
 #' @param object Object of class "stepfun" to check.
 #' @return Single logical indicating the result.
+#' @export
 #' @rdname check_continuous
 check_left_continuous <- function(object) {
 	if (!stats::is.stepfun(object)) {
@@ -45,6 +46,7 @@ check_left_continuous <- function(object) {
 	if (f == 1) TRUE else FALSE
 }
 
+#' @export
 #' @rdname check_continuous
 check_right_continuous <- function(object) {
 	if (!stats::is.stepfun(object)) {
@@ -76,5 +78,28 @@ plateaus.stepfun <- function(object) {
 	} else {
 		yleft <- with(e, yleft)
 		return(c(yleft, y))
+	}
+}
+
+#' Swap Direction of Continuity of a Step Function
+#'
+#' @param stepfun Object of class "stepfun".
+#' @return Another stepfun with the continuity swapped
+#' between left and right continuous. That is, the only
+#' way the new function evaluates differently is at the
+#' breakpoints.
+#' @export
+swap_step_continuity_direction <- function(stepfun) {
+	x <- stats::knots(stepfun)
+	y <- plateaus(stepfun)
+	l <- check_left_continuous(stepfun)
+	r <- check_right_continuous(stepfun)
+	if (!l && !r) {
+		stop("Step function provided is neither left nor right continuous.")
+	}
+	if (l) {
+		stats::stepfun(x, y, right = FALSE)
+	} else {
+		stats::stepfun(x, y, right = TRUE)
 	}
 }
