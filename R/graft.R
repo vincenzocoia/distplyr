@@ -72,7 +72,7 @@ graft_right <- function(left_dst, right_dst, sep_y) {
 		fun_quant = qf,
 		fun_prob  = pf,
 		fun_rand  = rand,
-		prop = list(evi = evi(right_dst))
+		prop = list(evi = get_evi(right_dst))
 	)
 }
 

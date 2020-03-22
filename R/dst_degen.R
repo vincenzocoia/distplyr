@@ -15,7 +15,7 @@ dst_degen <- function(loc) {
 		prop = list(mean = loc,
 					var  = 0,
 					sd   = 0,
-					evi  = NA,
+					evi  = NaN,
 					has_pdf = FALSE,
 					has_pmf = TRUE))
 }

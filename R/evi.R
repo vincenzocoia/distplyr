@@ -2,11 +2,14 @@
 #'
 #' EVI = Extreme value index
 #'
-#' @param object Object of class "dst" to obtain EVI from.
+#' @param object Distribution object to obtain EVI from.
 #' @details Doesn't calculate EVI if not present in the object.
 #' @return A single numeric
 #' @export
-evi <- function(object) UseMethod("evi")
+get_evi <- function(object) UseMethod("evi")
 
 #' @export
-evi.dst <- function(object) object$prop$evi
+get_evi.dst <- function(object) object$prop$evi
+
+#' @export
+get_evi.stepdst <- function(object) NaN
