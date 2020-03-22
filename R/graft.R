@@ -38,7 +38,7 @@ graft_right <- function(left_dst, right_dst, sep_y) {
 	pf <- NULL
 	.has_pdf <- FALSE
 	.has_pmf <- FALSE
-	if (has_pdf(left_dst) & has_pdf(right_dst)) {
+	if (isTRUE(has_pdf(left_dst) & has_pdf(right_dst))) {
 		pf <- function(y) {
 			lower <- sapply(y <= sep_y, isTRUE)
 			upper <- sapply(y > sep_y, isTRUE)
@@ -52,7 +52,7 @@ graft_right <- function(left_dst, right_dst, sep_y) {
 		}
 		.has_pdf <- TRUE
 	}
-	if (has_pmf(left_dst) & has_pmf(left_dst)) {
+	if (isTRUE(has_pmf(left_dst) & has_pmf(left_dst))) {
 		pf <- function(y) {
 			lower <- sapply(y <= sep_y, isTRUE)
 			upper <- sapply(y > sep_y, isTRUE)
