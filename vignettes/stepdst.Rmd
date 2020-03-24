@@ -1,0 +1,10 @@
+---
+title: "Step Distributions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Step Distributions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+A common way of representing data is through a parametric distribution, such as a Normal distribution, Exponential, Poisson, and others. A useful alternative is to use an empirical distribution, or in general what `distplyr` calls a _step distribution_.
