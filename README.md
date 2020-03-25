@@ -13,26 +13,15 @@ status](https://travis-ci.org/vincenzocoia/distplyr.svg?branch=master)](https://
 coverage](https://codecov.io/gh/vincenzocoia/distplyr/branch/master/graph/badge.svg)](https://codecov.io/gh/vincenzocoia/distplyr?branch=master)
 <!-- badges: end -->
 
-The goal of distplyr is to provide a unified interface for manipulating
-distributions. The name is inspired by the `dplyr` package.
+The goal of `distplyr` is to provide a unified interface for
+distributions by bundling various distributional quantities together,
+such as a density function, mean, quantiles, and others. It allows you
+to make non-standard yet useful distributions that go beyond the typical
+empirical and parametric distributions, by allowing you to combine
+and/or transform distributions. The name is inspired by the `dplyr`
+package.
 
-The need for this package arose as I was trying to implement
-distributional forecasting models. I found that I was home-baking
-functions like a cdf or quantile function, and spent far too much energy
-managing and distinguishing between distribution quantities throughout
-the analysis. This package bundles these all together in a single
-“distribution” object.
-
-The
-[`distributions3`](https://cran.r-project.org/web/packages/distributions3/index.html)
-package is close to what I’ve been looking for, but I wanted to be able
-to work with any distribution, including non-parametric or
-semi-parametric ones, and I think in order to do that with
-`distributions3`, you’d have to contribute to the package.
-
-Please note that the ‘distplyr’ project is released with a [Contributor
-Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,
-you agree to abide by its terms.
+## Usage
 
 ``` r
 library(distplyr)
@@ -40,147 +29,70 @@ library(magrittr)
 library(testthat)
 ```
 
-## Usage
-
-### Making a Distribution
-
-Access a distribution from a parametric family using `dst_*()`
-functions. Make a Uniform(2, 3) distribution:
+Make a Normal distribution with mean 2 and variance 5:
 
 ``` r
-(my_unif <- dst_unif(2, 3))
-#> A Uniform distribution.
+(d1 <- dst_norm(2, 5))
+#> A Normal/Gaussian distribution.
 #> 
 #> Parameters:
 ```
 
-Or, a GPD:
+Evaluate the survival function to obtain the probability of exceeding 6.
+What about the hazard function at 6?
 
 ``` r
-(my_gpd <- dst_gpd(loc = 7, scale = 1, shape = 0.5))
-#> A GPD distribution.
-#> 
-#> Parameters:
+eval_surv(d1, at = 6)
+#> [1] 0.03681914
+eval_hazfn(d1, at = 6)
+#> [1] 0.9783186
 ```
 
-You can make an empirical distribution from data as well, by making a
-step distribution:
+Give the distribution a right-skew:
 
 ``` r
-(my_step <- stepdst(Sepal.Length, data = iris))
-#> Unnamed distribution.
-#> 
-#> Parameters:
+# d2 <- skew(d1, alpha = 0.5)
+# plot(d2, "density")
 ```
 
-A degenerate distribution is still valid, and can be specified directly,
-or as a result of parameter boundaries:
+What’s the mean of the distribution now? What about the standard
+deviation or entropy?
 
 ``` r
-expect_equal(
-    dst_norm(mu = 5, var = 0),
-    dst_degen(5)
-)
+# get_mean(d2)
+# get_sd(d2)
+# get_entropy(d2)
 ```
 
-### Evaluating a Distribution
-
-Let’s use `my_gpd` from earlier.
-
-Easy to plot:
+Make a mixture distribution from both of the above distributions:
 
 ``` r
-# plot(my_gpd, "cdf")
-# plot(my_gpd, "probfn")
+# d3 <- mix(d1, d2, probs = c(0.4, 0.6))
+# plot(d3, "density")
 ```
 
-Means are easy to find – no more looking up formulas:
+Generate some data from this new mixture distribution:
 
 ``` r
-get_mean(my_gpd)
-#> [1] 9
+# eval_randfn(d3, at = 10)
 ```
 
-So are variances, skewnesses, etc:
+## `distplyr` in Context
 
-``` r
-get_var(my_gpd)
-#> [1] Inf
-# median(my_dst)
-```
+Note that `distplyr` is *not* a modelling package, meaning it won’t
+optimize a distribution’s fit to data.
 
-Evaluating distribution-related functions, such as cdf, density, etc. is
-easy:
+The
+[`distributions3`](https://cran.r-project.org/web/packages/distributions3/index.html)
+package is a similar package in that it bundles parametric distributions
+together using S3 objects.
 
-``` r
-eval_cdf(my_gpd, at = 6:10)
-#> [1] 0.0000000 0.0000000 0.5555556 0.7500000 0.8400000
-eval_probfn(my_gpd, at = 6:10)
-#> [1] 0.0000000 1.0000000 0.2962963 0.1250000 0.0640000
-eval_hazfn(my_gpd, at = 6:10)
-#> [1] 0.0000000 1.0000000 0.6666667 0.5000000 0.4000000
-```
+The [`distr`](https://cran.r-project.org/web/packages/distr/index.html)
+package allows you to make distributions including empirical ones, and
+transform them, using S4 classes.
 
-Generate some data:
+-----
 
-``` r
-eval_randfn(my_gpd, 10)
-#>  [1]  7.191411  7.248137  7.384061  9.034786  7.649470 15.602773  8.037122
-#>  [8]  7.895555  7.266341  7.153382
-```
-
-Or, just get the functions themselves:
-
-``` r
-cdf <- get_cdf(my_gpd)
-curve(cdf, 6, 10)
-```
-
-<img src="man/figures/README-unnamed-chunk-12-1.png" width="100%" style="display: block; margin: auto;" />
-
-### Manipulate distributions
-
-You can `shift_left()` or `shift_right()` (or just `shift()`), or
-`scale_divide()` or `scale_multiply()`.
-
-``` r
-# my_dst %>% 
-#   shift_left(by = 1) %>% 
-#   scale_divide(by = 0.5)
-```
-
-Graft `my_gpd` onto `my_step`, the empirical distribution from earlier:
-
-``` r
-my_graft <- my_step %>%
-    graft_right(my_gpd, sep_y = 7)
-```
-
-``` r
-cdf <- get_cdf(my_graft)
-curve(cdf, 4, 9, n = 1001)
-```
-
-<img src="man/figures/README-unnamed-chunk-15-1.png" width="100%" />
-
-Obtain a mixture distribution:
-
-``` r
-# mix(..., probs = ...)
-```
-
-## MLE?
-
-(maybe for another package)
-
-``` r
-# fam <- function(a, b) 
-#   dst_unif(a, b) %>% 
-#   get_nllh(data = iris$Sepal.Length)
-#   
-# 
-# dist3 %>% 
-#   get_nllh(data = ...)
-# 
-# nllh(~ Sepal.Length, data = iris, families = c("unif", "norm"))
-```
+Please note that the ‘distplyr’ project is released with a [Contributor
+Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,
+you agree to abide by its terms.

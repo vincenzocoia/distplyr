@@ -1,0 +1,9 @@
+---
+title: "Parametric Distributions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Parametric Distributions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
