@@ -26,7 +26,7 @@
 #' via \code{...}.
 #' @rdname stepdst
 #' @export
-stepdst <- function(y, data, weights = 1, discrete = FALSE, ...) {
+stepdst <- function(y, data, weights = 1, ...) {
 	sy <- substitute(y)
 	sw <- substitute(weights)
 	if (missing(data)) {
@@ -62,21 +62,11 @@ stepdst <- function(y, data, weights = 1, discrete = FALSE, ...) {
 	qf  <- stats::stepfun(taus[-n], y, right = TRUE)
 	sf  <- stats::stepfun(y, 1 - taus_w_0, right = FALSE)
 	rf <- function(n) sample(y, size = n, replace = TRUE, prob = probs)
-	if (discrete) {
-		warning("Still working on putting pmf in.")
-		res <- dst(fun_cumu  = cdf,
-				   fun_quant = qf,
-				   fun_rand  = rf,
-				   fun_surv  = sf,
-				   ...)
-	} else {
-		res <- dst(fun_cumu  = cdf,
-				   fun_quant = qf,
-				   fun_rand  = rf,
-				   fun_surv  = sf,
-				   ...)
-	}
-
+	res <- dst(fun_cumu  = cdf,
+			   fun_quant = qf,
+			   fun_rand  = rf,
+			   fun_surv  = sf,
+			   ...)
 	structure(res,
 			  steps = steps,
 			  class = c("stepdst", class(res))
