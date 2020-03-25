@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Variance/Standard Deviation of a Distribution — get_var • distplyr</title>
+<title>Mixture Distributions — mix • distplyr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,9 +32,9 @@
 
 
 
-<meta property="og:title" content="Variance/Standard Deviation of a Distribution — get_var" />
+<meta property="og:title" content="Mixture Distributions — mix" />
 
-<meta property="og:description" content="Get the mean and standard deviation of a distribution." />
+<meta property="og:description" content="Create a mixture distribution." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -119,44 +119,35 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Variance/Standard Deviation of a Distribution</h1>
+    <h1>Mixture Distributions</h1>
     
-    <div class="hidden name"><code>get_var.Rd</code></div>
+    <div class="hidden name"><code>mix.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Get the mean and standard deviation of a distribution.</p>
+    <p>Create a mixture distribution.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>get_var</span>(<span class='no'>object</span>, <span class='no'>...</span>)
-
-<span class='fu'>get_sd</span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>mix</span>(<span class='no'>...</span>, <span class='no'>probs</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>object</th>
-      <td><p>A distribution object.</p></td>
+      <th>...</th>
+      <td><p>Distribution objects to mix.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Arguments to pass to the <code><a href='https://rdrr.io/r/stats/integrate.html'>integrate()</a></code> function (if needed).</p></td>
+      <th>probs</th>
+      <td><p>Vector of probabilities corresponding to the distributions.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A single numeric</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>If the statistic is not already available in the distribution
-object, and if the distribution is not a step distribution,
-the variance/standard deviation is calculated using the
-<code><a href='https://rdrr.io/r/stats/integrate.html'>stats::integrate()</a></code> function.</p>
+    <p>A mixture distribution.</p>
     
 
   </div>
@@ -166,8 +157,6 @@ the variance/standard deviation is calculated using the
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
           </ul>
 
   </div>
