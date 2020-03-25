@@ -73,7 +73,7 @@ stepdst <- function(y, data, weights = 1, discrete = FALSE, ...) {
 		res <- dst(fun_cumu  = cdf,
 				   fun_quant = qf,
 				   fun_rand  = rf,
-				   fun_surv  = sf
+				   fun_surv  = sf,
 				   ...)
 	}
 

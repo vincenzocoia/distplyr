@@ -1,0 +1,70 @@
+---
+title: "Probing a Distribution"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Probing a Distribution}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r}
+library(distplyr)
+```
+
+
+You can use `distplyr` to extract various properties of a distribution. `distplyr` distinguishes between two types of properties: functional representations of a distribution, and numerical properties. 
+
+## Functional Representations of Distributions
+
+Distributions can be represented through different functions. In `distplyr`, you can either evaluate the function directly by calling `eval_*`, or get the function itself using `get_*`. Here are the representations and the corresponding `distplyr` functions:  
+
+| Quantity                            | `distplyr` Function               |
+|-------------------------------------|-----------------------------------|
+| Cumulative Distribution Function    | `eval_cumu()`,    `get_cumu()`    |
+| Survival Function                   | `eval_surv()`,    `get_surv()`    |
+| Quantile Function                   | `eval_quantfn()`, `get_quantfn()` |
+| Hazard Function                     | `eval_hazfn()`,   `get_hazfn()`   |
+| Cumulative Hazard Function          | `eval_chf()`,     `get_chf()`     |
+| Probability (mass/density) function | `eval_probfn()`,  `get_probfn()`  |
+| Random sample generator             | `eval_randfn()`,  `get_randfn()`  |
+
+Both the `eval_*` and `get_*` functions take a distribution object as their first argument, but `eval_*` has a second argument named `at` indicating where to evaluate the function. The `at` argument is vectorized, except for `eval_randfn()`, which returns a vector of a random sample of the length that you specify. 
+
+Here is an example of evaluating the hazard function and the random sample generator of a Uniform(0,1) distribution:
+
+```{r}
+d <- dst_unif(0, 3)
+eval_hazfn(d, at = 0:10)
+set.seed(10)
+eval_randfn(d, at = 5)
+```
+
+## Properties of Distributions
+
+Distributions have various numeric properties. Common examples are the mean and variance, but there are many others as well. 
+
+Below is a table of the properties incorporated in `distplyr`:
+
+| Property | `distplyr` Function |
+|----------|---------------------|
+| Mean                       | `get_mean()` |
+| Median                     | `get_median()` |
+| Mode                       | `get_mode()` |
+| Variance                   | `get_variance()` |
+| Standard Deviation         | `get_sd()` |
+| Inter-Quartile Range       | `get_iqr()` |
+| Entropy                    | `get_entropy()` |
+| Skewness                   | `get_skewness()` |
+| Excess Kurtosis            | `get_kurtosis()` |
+| Extreme Value (Tail) Index | `get_evi()` |
+
+Here are some properties of a certain mixture of Gaussians:
+
+```{r}
+# m <- mix(dst_norm(0, 1), dst_norm(5, 1), probs = c(0.2, 0.8))
+# get_mean(m)
+# get_mode(m)
+# get_evi(m)
+```
+
+
