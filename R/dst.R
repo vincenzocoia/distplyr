@@ -59,6 +59,7 @@ dst <- function(fun_cumu, fun_quant, fun_prob, fun_rand, fun_surv,
 #' @param l List containing the components of a distribution object.
 #' @param ... Attributes to add to the list.
 #' @param class If making a subclass, specify its name here.
+#' @export
 new_dst <- function(l, ..., class = character()) {
 	structure(
 		l,

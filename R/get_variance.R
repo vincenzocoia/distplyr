@@ -9,19 +9,19 @@
 #' the variance/standard deviation is calculated using the
 #' \code{stats::integrate()} function.
 #' @return A single numeric
-#' @rdname get_var
+#' @rdname get_variance
 #' @export
-get_var <- function(object, ...) UseMethod("get_var")
+get_variance <- function(object, ...) UseMethod("get_variance")
 
 #' @export
-get_var.dst <- function(object, ...) {
-	ss <- object$prop$var
+get_variance.dst <- function(object, ...) {
+	ss <- object$prop$variance
 	if (!is.null(ss)) return(ss)
 	stop("Calculation not developed yet.")
 }
 
 #' @export
-get_var.stepdst <- function(object, ...) {
+get_variance.stepdst <- function(object, ...) {
 	s <- steps(object)
 	y <- s[["y"]]
 	taus <- s[["tau"]]
@@ -31,12 +31,12 @@ get_var.stepdst <- function(object, ...) {
 	mu2 - mu^2
 }
 
-#' @rdname get_var
+#' @rdname get_variance
 #' @export
 get_sd <- function(object, ...) UseMethod("get_sd")
 
 #' @export
 get_sd.dst <- function(object, ...) {
-	ss <- get_var(object, ...)
+	ss <- get_variance(object, ...)
 	sqrt(ss)
 }

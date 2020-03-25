@@ -9,7 +9,7 @@
 #' the mean is calculated using the \code{stats::integrate()}
 #' function.
 #' @return A single numeric.
-#' @rdname meandst
+#' @rdname get_mean
 #' @export
 get_mean <- function(x, ...) UseMethod("get_mean")
 
