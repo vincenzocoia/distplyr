@@ -6,7 +6,7 @@
 \alias{is.stepdst}
 \title{Create a Step Distribution}
 \usage{
-stepdst(y, data, weights = 1, ...)
+stepdst(y, data, weights = 1, discrete = FALSE, ...)
 
 is_stepdst(y)
 

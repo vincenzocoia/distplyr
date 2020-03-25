@@ -14,7 +14,7 @@ Suggests:
     covr,
     knitr,
     rmarkdown
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 Imports: 
     stats,
     evd,
