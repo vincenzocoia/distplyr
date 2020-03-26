@@ -5,7 +5,7 @@ test_that("GPD quantities work out, shape > 0", {
 	.dst <- dst_gpd(loc = loc, scale = scale, shape = shape)
 	med <- loc + scale * (2 ^ shape - 1) / shape
 	expect_equal(eval_cdf(.dst, c(loc - 1, loc, med)), c(0, 0, 0.5))
-	expect_equal(eval_quantfn(.dst, c(0, 0.5, 1)), c(loc, med, Inf))
+	expect_equal(eval_quantile(.dst, c(0, 0.5, 1)), c(loc, med, Inf))
 	expect_equal(eval_probfn(.dst, c(loc - 1, Inf)), c(0, 0))
 	expect_true(all(diff(eval_probfn(.dst, loc + 1:10)) < 0))
 	pdf <- get_probfn(.dst)
@@ -21,7 +21,7 @@ test_that("GPD quantities work out, shape = 0", {
 	.dst <- dst_gpd(loc = loc, scale = scale, shape = shape)
 	med <- log(2)
 	expect_equal(eval_cdf(.dst, c(loc - 1, loc, med, Inf)), c(0, 0, 0.5, 1))
-	expect_equal(eval_quantfn(.dst, c(0, 0.5, 1)), c(loc, med, Inf))
+	expect_equal(eval_quantile(.dst, c(0, 0.5, 1)), c(loc, med, Inf))
 	expect_equal(eval_probfn(.dst, c(loc - 1, Inf)), c(0, 0))
 	pdf <- get_probfn(.dst)
 	expect_true(all(diff(pdf(loc + 1:10)) < 0))
@@ -41,7 +41,7 @@ test_that("GPD quantities work out, shape < 0", {
 		c(0, 0, 0.5, 1, 1, 1)
 	)
 	expect_equal(
-		eval_quantfn(.dst, c(-1, 0, 0.5, 1, 2)),
+		eval_quantile(.dst, c(-1, 0, 0.5, 1, 2)),
 		c(NaN, loc, med, rightend, NaN)
 	)
 	expect_equal(

@@ -18,7 +18,7 @@ rv_transform <- function(.dst, g, ginv, gprime, ginvprime) {
 		ginvprime <- function(x) 1 / gprime(ginv(x))
 	}
 	cdf  <- get_cdf(.dst)
-	qf   <- get_quantfn(.dst)
+	qf   <- get_quantile(.dst)
 	rand <- get_randfn(.dst)
 	pf   <- get_probfn(.dst)
 	.has_pdf <- has_pdf(.dst)

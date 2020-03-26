@@ -30,8 +30,8 @@ graft_right <- function(left_dst, right_dst, sep_y) {
 		p_lower <- p[lower]
 		p_upper <- p[upper]
 		res <- rep(NA_real_, length(p))
-		res[lower] <- eval_quantfn(left_dst,  p_lower)
-		res[upper] <- eval_quantfn(right_dst, (p_upper - tau1) /
+		res[lower] <- eval_quantile(left_dst,  p_lower)
+		res[upper] <- eval_quantile(right_dst, (p_upper - tau1) /
 									   	(1 - tau1) * (1 - tau2) + tau2)
 		res
 	}

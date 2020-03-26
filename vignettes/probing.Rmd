@@ -20,10 +20,10 @@ Distributions can be represented through different functions. In `distplyr`, you
 
 | Quantity                            | `distplyr` Function               |
 |-------------------------------------|-----------------------------------|
-| Cumulative Distribution Function    | `eval_cumu()`,    `get_cumu()`    |
-| Survival Function                   | `eval_surv()`,    `get_surv()`    |
-| Quantile Function                   | `eval_quantfn()`, `get_quantfn()` |
-| Hazard Function                     | `eval_hazfn()`,   `get_hazfn()`   |
+| Cumulative Distribution Function    | `eval_cdf()`,    `get_cdf()`    |
+| Survival Function                   | `eval_survival()`,    `get_survival()`    |
+| Quantile Function                   | `eval_quantile()`, `get_quantile()` |
+| Hazard Function                     | `eval_hazard()`,   `get_hazard()`   |
 | Cumulative Hazard Function          | `eval_chf()`,     `get_chf()`     |
 | Probability (mass/density) function | `eval_probfn()`,  `get_probfn()`  |
 | Random sample generator             | `eval_randfn()`,  `get_randfn()`  |
@@ -34,7 +34,7 @@ Here is an example of evaluating the hazard function and the random sample gener
 
 ```{r}
 d <- dst_unif(0, 3)
-eval_hazfn(d, at = 0:10)
+eval_hazard(d, at = 0:10)
 set.seed(10)
 eval_randfn(d, at = 5)
 ```

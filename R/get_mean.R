@@ -18,7 +18,7 @@ get_mean <- function(x, ...) UseMethod("get_mean")
 get_mean.dst <- function(x, ...) {
 	mu <- x$prop$mean
 	if (!is.null(mu)) return(mu)
-	qf <- get_quantfn(x)
+	qf <- get_quantile(x)
 	int <- stats::integrate(qf, 0, 1)
 	int$value
 }
