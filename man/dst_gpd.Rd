@@ -4,10 +4,10 @@
 \alias{dst_gpd}
 \title{Generalized Pareto Distribution}
 \usage{
-dst_gpd(loc, scale, shape)
+dst_gpd(location, scale, shape)
 }
 \arguments{
-\item{loc, scale, shape}{Parameters of the GPD.}
+\item{location, scale, shape}{Parameters of the GPD.}
 }
 \value{
 Object of class "dst" of a GPD.

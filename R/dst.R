@@ -77,14 +77,12 @@ new_dst <- function(l, variable, ...,
 }
 
 
-#' Distribution Objects
-#'
-#' Test whether an object is a "dst" object.
-#' @param x Object to be tested
+
+#' @param object Object to be tested
 #' @rdname dst
 #' @export
-is_dst <- function(x) inherits(x, "dst")
+is_dst <- function(object) inherits(object, "dst")
 
 #' @rdname dst
 #' @export
-is.dst <- function(x) inherits(x, "dst")
+is.dst <- function(object) inherits(object, "dst")

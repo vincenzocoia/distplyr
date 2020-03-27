@@ -1,79 +1,125 @@
-#' Replace the Tail of a Distribution
+#' Graft Distributions
 #'
+#' Replace the tail of a distribution.
 #' \code{graft_right()} keeps the left cdf unchanged to the left of
 #' sep_y, and makes a continuous connection with the right cdf
 #' (rescaled as appropriate).
 #' \code{graft_left()} keeps the right cdf unchanged to the right of
 #' sep_y, and makes a continuous connection with the left cdf
 #' (rescaled as appropriate),
-#' @param left_dst,right_dst Distributions to connect
+#' @param dst_left,dst_right Distributions to connect
 #' @param sep_y Value on the domain of the cdf to connect at.
-#' @return Object of class "dst"
+#' @return A grafted distribution object.
+#' @rdname graft
 #' @export
-graft_right <- function(left_dst, right_dst, sep_y) {
-	tau1 <- eval_cdf(left_dst, sep_y)
-	tau2 <- eval_cdf(right_dst, sep_y)
-	cdf <- function(y) {
-		lower <- sapply(y <= sep_y, isTRUE) # Make NA's FALSE
-		upper <- sapply(y > sep_y, isTRUE)
-		y_lower <- y[lower]
-		y_upper <- y[upper]
-		res <- rep(NA_real_, length(y))
-		res[lower] <- eval_cdf(left_dst,  y_lower)
-		res[upper] <- (eval_cdf(right_dst, y_upper) - tau2) /
-			(1 - tau2) * (1 - tau1) + tau1
-		res
-	}
-	qf <- function(p) {
-		lower <- sapply(p <= tau1, isTRUE)
-		upper <- sapply(p > tau1, isTRUE)
-		p_lower <- p[lower]
-		p_upper <- p[upper]
-		res <- rep(NA_real_, length(p))
-		res[lower] <- eval_quantile(left_dst,  p_lower)
-		res[upper] <- eval_quantile(right_dst, (p_upper - tau1) /
-									   	(1 - tau1) * (1 - tau2) + tau2)
-		res
-	}
-	pf <- NULL
-	.has_pdf <- FALSE
-	.has_pmf <- FALSE
-	if (isTRUE(has_pdf(left_dst) & has_pdf(right_dst))) {
-		pf <- function(y) {
-			lower <- sapply(y <= sep_y, isTRUE)
-			upper <- sapply(y > sep_y, isTRUE)
-			y_lower <- y[lower]
-			y_upper <- y[upper]
-			res <- rep(NA_real_, length(y))
-			res[lower] <- eval_probfn(left_dst,  y_lower)
-			res[upper] <- eval_probfn(right_dst, y_upper) /
-				(1 - tau2) * (1 - tau1)
-			res
+graft_right <- function(dst_left, dst_right, sep_y) {
+	tau_left <- eval_cdf(dst_left, sep_y)
+	tau_right <- eval_cdf(dst_right, sep_y)
+	res <- list(components = list(dst_left  = dst_left,
+								  dst_right = dst_right,
+								  left_tau  = tau_left,
+								  tau_right = tau_right,
+								  sep_y     = sep_y,
+								  base      = "left"))
+	v1 <- variable(dst_left)
+	v2 <- variable(dst_right)
+	v <- if (v1 == v2) v1 else "mixed"
+	new_dst(res, variable = v, class = "graft")
+}
+
+
+#' @param object Object to be tested
+#' @rdname graft
+#' @export
+is_graft <- function(object) inherits(object, "graft")
+
+#' @rdname graft
+#' @export
+is.graft <- function(object) inherits(object, "graft")
+
+#' @export
+get_cdf.graft <- function(object) {
+	with(
+		graft[["components"]],
+		if (identical(base, "left")) {
+			function(y) {
+				lower <- vapply(y <= sep_y, isTRUE, FUN.VALUE = logical(1))
+				upper <- vapply(y > sep_y,  isTRUE, FUN.VALUE = logical(1))
+				y_lower <- y[lower]
+				y_upper <- y[upper]
+				res <- rep(NA_real_, length(y))
+				res[lower] <- eval_cdf(dst_left,  y_lower)
+				res[upper] <- (eval_cdf(dst_right, y_upper) - tau_right) /
+					(1 - tau_right) * (1 - tau_left) + tau_left
+				res
+			}
+		} else {
+			stop("Not yet programmed.")
 		}
-		.has_pdf <- TRUE
-	}
-	if (isTRUE(has_pmf(left_dst) & has_pmf(left_dst))) {
-		pf <- function(y) {
-			lower <- sapply(y <= sep_y, isTRUE)
-			upper <- sapply(y > sep_y, isTRUE)
-			y_lower <- y[lower]
-			y_upper <- y[upper]
-			res <- rep(NA_real_, length(y))
-			res[lower] <- eval_probfn(left_dst,  y_lower)
-			res[upper] <- eval_probfn(right_dst, y_upper) /
-				(1 - tau2) * (1 - tau1)
-			res
-		}
-		.has_pmf <- TRUE
-	}
-	rand <- function(n) qf(stats::runif(n))
-	dst(
-		fun_cumu  = cdf,
-		fun_quant = qf,
-		fun_prob  = pf,
-		fun_rand  = rand,
-		prop = list(evi = get_evi(right_dst))
 	)
 }
 
+#' @export
+get_quantile.graft <- function(object) {
+	with(
+		graft[["components"]],
+		if (identical(base, "left")) {
+			function(p) {
+				lower <- vapply(p <= tau_left, isTRUE, FUN.VALUE = logical(1))
+				upper <- vapply(p > tau_left,  isTRUE, FUN.VALUE = logical(1))
+				p_lower <- p[lower]
+				p_upper <- p[upper]
+				res <- rep(NA_real_, length(p))
+				res[lower] <- eval_quantile(dst_left,  p_lower)
+				res[upper] <- eval_quantile(dst_right, (p_upper - tau_left) /
+												(1 - tau_left) * (1 - tau_right) + tau_right)
+				res
+			}
+		} else {
+			stop("Not yet programmed.")
+		}
+	)
+}
+
+#' @export
+get_probfn.graft <- function(object) {
+	if (!identical(variable(object), "continuous")) {
+		return(NULL)
+	}
+	with(
+		graft[["components"]],
+		if (identical(base, "left")) {
+			function(y) {
+				lower <- vapply(y <= sep_y, isTRUE, FUN.VALUE = logical(1))
+				upper <- vapply(y > sep_y,  isTRUE, FUN.VALUE = logical(1))
+				y_lower <- y[lower]
+				y_upper <- y[upper]
+				res <- rep(NA_real_, length(y))
+				res[lower] <- eval_probfn(dst_left,  y_lower)
+				res[upper] <- eval_probfn(dst_right, y_upper) /
+					(1 - tau_right) * (1 - tau_left)
+				res
+			}
+		} else {
+			stop("Not yet programmed.")
+		}
+	)
+}
+
+#' @export
+get_evi.graft <- function(object) {
+	with(
+		graft[["components"]],
+		get_evi(dst_right)
+	)
+}
+
+# Moment-based quantities may require integration - TBD
+
+# Using .dst method for:
+# - get_hazard
+# - get_chf
+# - get_randfn
+# - get_survival
+# - get_median
 

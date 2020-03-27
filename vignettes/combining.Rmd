@@ -11,7 +11,7 @@ vignette: >
 ```{r}
 library(distplyr)
 y0 <- 7
-my_gpd <- dst_gpd(loc = y0, scale = 1, shape = 0.5)
+my_gpd <- dst_gpd(location = y0, scale = 1, shape = 0.5)
 my_step <- stepdst(Sepal.Length, data = iris)
 ```
 

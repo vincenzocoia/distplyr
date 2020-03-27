@@ -34,6 +34,9 @@ if missing.}
 \item{fun_surv}{Survival function. Optional; is missing, will be
 derived from the cdf.}
 
+\item{variable}{Type of random variable: "continuous", "discrete",
+or "mixed".}
+
 \item{name}{A name for the distribution (such as a parametric family name)}
 
 \item{param}{Parameters for the distribution, if parameteric.}
