@@ -13,19 +13,18 @@ dst_norm <- function(mean, variance) {
 	new_dst(
 		res,
 		variable = "continuous",
-		class    = "norm"
+		class    = c("norm", "parametric")
 	)
 }
 
 
 #' @export
-parameters.norm <- function(object) {
-	object[["params"]]
+get_mean.norm <- function(object) {
+	with(parameters(object), mean)
 }
 
-
 #' @export
-get_mean.norm <- function(object) {
+get_median.norm <- function(object) {
 	with(parameters(object), mean)
 }
 
