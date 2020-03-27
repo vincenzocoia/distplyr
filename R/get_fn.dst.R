@@ -20,7 +20,7 @@ get_survival.dst <- function(object) object$fun_survival
 
 #' @export
 get_chf.dst <- function(object) {
-	if (check_continuous(object)) {
+	if (variable(object) == "continuous") {
 		sf <- get_survival(object)
 		function(x) -log(sf(x))
 	}
@@ -30,7 +30,7 @@ get_chf.dst <- function(object) {
 
 #' @export
 get_hazard.dst <- function(object) {
-	if (check_continuous(object)) {
+	if (variable(object) == "continuous") {
 		sf <- get_survival(object)
 		pdf <- get_probfn(object)
 		function(x) pdf(x) / sf(x)

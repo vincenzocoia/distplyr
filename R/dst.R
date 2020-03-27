@@ -17,6 +17,7 @@
 #' the above arguments, including survival and hazard functions.
 #' @export
 dst <- function(fun_cumu, fun_quant, fun_prob, fun_rand, fun_surv,
+				variable = c("continuous", "discrete", "mixed"),
 				name = NULL, param = NULL, prop = NULL) {
 	if (missing(fun_surv)) {
 		if (!missing(fun_cumu)) {
@@ -43,7 +44,8 @@ dst <- function(fun_cumu, fun_quant, fun_prob, fun_rand, fun_surv,
 			  name = name,
 			  param = param,
 			  prop = prop)
-	new_dst(x)
+	v <- match.arg(variable)
+	new_dst(x, variable = v)
 }
 
 # dst <- function(fun_cumu = c("from_qf", "from_sf", "from_pdf", "from_hf", "from_chf"),
@@ -60,10 +62,12 @@ dst <- function(fun_cumu, fun_quant, fun_prob, fun_rand, fun_surv,
 #' @param ... Attributes to add to the list.
 #' @param class If making a subclass, specify its name here.
 #' @export
-new_dst <- function(l, ..., class = character()) {
+new_dst <- function(l, variable = c("continuous", "discrete", "mixed"),
+					class = character()) {
+	v <- match.arg(variable)
 	structure(
 		l,
-		...,
+		variable = v,
 		class = c(class, "dst")
 	)
 }

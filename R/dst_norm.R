@@ -12,7 +12,7 @@ dst_norm <- function(mean, variance) {
 	res <- list(params = list(mean = mean, variance = variance, sd = sd))
 	new_dst(
 		res,
-		variable = list(continuous = TRUE, discrete = FALSE, numeric = TRUE),
+		variable = "continuous",
 		class    = "norm"
 	)
 }
