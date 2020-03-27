@@ -63,7 +63,7 @@ get_cdf.norm <- function(object) {
 }
 
 #' @export
-get_surv.norm <- function(object) {
+get_survival.norm <- function(object) {
 	with(
 		parameters(object),
 		function(x) stats::pnorm(x, mean = mean, sd = sd, lower.tail = FALSE)
@@ -76,19 +76,6 @@ get_probfn.norm <- function(object) {
 		parameters(object),
 		function(x) stats::dnorm(x, mean = mean, sd = sd)
 	)
-}
-
-#' @export
-get_hazfn.norm <- function(object) {
-	pdf <- get_probfn(object)
-	sf <- get_surv(object)
-	function(x) pdf(x) / sf(x)
-}
-
-#' @export
-get_chf.norm <- function(object) {
-	sf <- get_surv(object)
-	function(x) -log(sf(x))
 }
 
 #' @export
@@ -106,6 +93,14 @@ get_quantile.norm <- function(object) {
 		function(x) stats::qnorm(x, mean = mean, sd = sd)
 	)
 }
+
+
+# Using .dst method for:
+# - get_hazard
+# - get_chf
+
+
+
 
 
 
