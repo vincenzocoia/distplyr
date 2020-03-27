@@ -20,16 +20,6 @@ get_variance.dst <- function(object, ...) {
 	stop("Calculation not developed yet.")
 }
 
-#' @export
-get_variance.stepdst <- function(object, ...) {
-	s <- steps(object)
-	y <- s[["y"]]
-	taus <- s[["tau"]]
-	probs <- diff(c(0, taus))
-	mu <- sum(probs * y)
-	mu2 <- sum(probs * y^2)
-	mu2 - mu^2
-}
 
 #' @rdname get_variance
 #' @export

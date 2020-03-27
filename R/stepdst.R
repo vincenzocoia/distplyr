@@ -59,14 +59,10 @@ stepdst <- function(y, data, weights = 1,
 	if (length(rm_id) > 0) taus <- taus[-rm_id]
 	taus_w_0 <- c(0, taus)
 	probs <- diff(taus_w_0)
+	stopifnot(sum(probs) == 1)
 	y <- unique(y)
 	stopifnot(length(y) == length(taus))
-	res <- list(steps = data.frame(y = y, tau = taus))
-	n <- length(y)
-	cdf <- stats::stepfun(y, taus_w_0, right = FALSE)
-	qf  <- stats::stepfun(taus, c(y, y[n]), right = TRUE)
-	sf  <- stats::stepfun(y, 1 - taus_w_0, right = FALSE)
-	rf <- function(n) sample(y, size = n, replace = TRUE, prob = probs)
+	res <- list(steps = data.frame(y = y, tau = taus, prob = probs))
 	new_stepdst(res, variable = v)
 }
 
@@ -116,5 +112,55 @@ steps <- function(object) UseMethod("steps")
 #' @export
 steps.stepdst <- function(object) {
 	object[["steps"]]
+}
+
+
+#' @export
+get_mean.stepdst <- function(object, ...) {
+	with(steps(object), {
+		sum(prob * y)
+	})
+}
+
+#' @export
+get_variance.stepdst <- function(object, ...) {
+	with(steps(object), {
+		mu <- get_mean(object)
+		mu2 <- sum(probs * y^2)
+		mu2 - mu^2
+	})
+}
+
+
+#' @export
+get_cdf.stepdst <- function(object) {
+	with(
+		steps(object),
+		stats::stepfun(y, c(0, tau), right = FALSE)
+	)
+}
+
+#' @export
+get_survival.stepdst <- function(object) {
+	with(
+		steps(object),
+		stats::stepfun(y, 1 - c(0, tau), right = FALSE)
+	)
+}
+
+#' @export
+get_quantile.stepdst <- function(object) {
+	with(
+		steps(object),
+		stats::stepfun(tau, c(y, y[length(y)]), right = TRUE)
+	)
+}
+
+#' @export
+get_randfn.stepdst <- function(object) {
+	with(
+		steps(object),
+		function(n) sample(y, size = n, replace = TRUE, prob = prob)
+	)
 }
 
