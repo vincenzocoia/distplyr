@@ -2,6 +2,8 @@
 % Please edit documentation in R/dst.R
 \name{dst}
 \alias{dst}
+\alias{is_dst}
+\alias{is.dst}
 \title{Make a Distribution}
 \usage{
 dst(
@@ -15,6 +17,10 @@ dst(
   param = NULL,
   prop = NULL
 )
+
+is_dst(x)
+
+is.dst(x)
 }
 \arguments{
 \item{fun_cumu, fun_quant}{cdf and quantile function for a distribution,
@@ -34,6 +40,8 @@ derived from the cdf.}
 
 \item{prop}{Properties of the distribution, such as mean, variance,
 EVI, etc. (of your choosing).}
+
+\item{x}{Object to be tested}
 }
 \value{
 An object of class "dst", which (for now) is a list holding
@@ -41,4 +49,6 @@ the above arguments, including survival and hazard functions.
 }
 \description{
 Make a distribution object.
+
+Test whether an object is a "dst" object.
 }

@@ -11,10 +11,13 @@
 #' derived from the cdf.
 #' @param prop Properties of the distribution, such as mean, variance,
 #' EVI, etc. (of your choosing).
+#' @param variable Type of random variable: "continuous", "discrete",
+#' or "mixed".
 #' @param name A name for the distribution (such as a parametric family name)
 #' @param param Parameters for the distribution, if parameteric.
 #' @return An object of class "dst", which (for now) is a list holding
 #' the above arguments, including survival and hazard functions.
+#' @rdname dst
 #' @export
 dst <- function(fun_cumu, fun_quant, fun_prob, fun_rand, fun_surv,
 				variable = c("continuous", "discrete", "mixed"),
@@ -59,16 +62,17 @@ dst <- function(fun_cumu, fun_quant, fun_prob, fun_rand, fun_surv,
 #' Constructor Function for "dst" Objects
 #'
 #' @param l List containing the components of a distribution object.
+#' @param variable Type of random variable: "continuous", "discrete",
+#' or "mixed".
 #' @param ... Attributes to add to the list.
 #' @param class If making a subclass, specify its name here.
 #' @export
-new_dst <- function(l, variable = c("continuous", "discrete", "mixed"),
+new_dst <- function(l, variable, ...,
 					class = character()) {
-	v <- match.arg(variable)
 	structure(
 		l,
-		variable = v,
-		class = c(class, "dst")
+		variable = variable,
+		class    = c(class, "dst")
 	)
 }
 
@@ -77,5 +81,10 @@ new_dst <- function(l, variable = c("continuous", "discrete", "mixed"),
 #'
 #' Test whether an object is a "dst" object.
 #' @param x Object to be tested
+#' @rdname dst
 #' @export
 is_dst <- function(x) inherits(x, "dst")
+
+#' @rdname dst
+#' @export
+is.dst <- function(x) inherits(x, "dst")

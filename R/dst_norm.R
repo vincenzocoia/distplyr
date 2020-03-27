@@ -6,14 +6,14 @@
 #' @return Object of class "dst".
 #' @export
 dst_norm <- function(mean, variance) {
-	if (variance == 0) return(dst_degen(mean))
+	if (variance == 0) return(dst_degenerate(mean))
 	if (variance < 0) stop("'variance' parameter must be non-negative.")
 	sd <- sqrt(variance)
 	res <- list(params = list(mean = mean, variance = variance, sd = sd))
-	new_dst(
+	new_parametric_dst(
 		res,
 		variable = "continuous",
-		class    = c("norm", "parametric")
+		class    = "norm"
 	)
 }
 

@@ -16,6 +16,8 @@
 #' Must not be negative, but need not sum to 1. If \code{data}
 #' is provided, the data will be searched for the name provided in
 #' this argument.
+#' @param variable Type of random variable: "continuous", "discrete",
+#' or "mixed".
 #' @param ... Additional arguments to be passed to \code{\link{dst}}.
 #' @return A "stepdst" object, which is also a "dst" object,
 #' containing a cdf, quantile function, and random number generator.
@@ -26,7 +28,10 @@
 #' via \code{...}.
 #' @rdname stepdst
 #' @export
-stepdst <- function(y, data, weights = 1, ...) {
+stepdst <- function(y, data, weights = 1,
+					variable = c("continuous", "discrete", "mixed"),
+					...) {
+	v <- match.arg(variable)
 	sy <- substitute(y)
 	sw <- substitute(weights)
 	if (missing(data)) {
@@ -56,20 +61,29 @@ stepdst <- function(y, data, weights = 1, ...) {
 	probs <- diff(taus_w_0)
 	y <- unique(y)
 	stopifnot(length(y) == length(taus))
-	steps <- data.frame(y = y, tau = taus)
+	res <- list(steps = data.frame(y = y, tau = taus))
 	n <- length(y)
 	cdf <- stats::stepfun(y, taus_w_0, right = FALSE)
-	qf  <- stats::stepfun(taus[-n], y, right = TRUE)
+	qf  <- stats::stepfun(taus, c(y, y[n]), right = TRUE)
 	sf  <- stats::stepfun(y, 1 - taus_w_0, right = FALSE)
 	rf <- function(n) sample(y, size = n, replace = TRUE, prob = probs)
-	res <- dst(fun_cumu  = cdf,
-			   fun_quant = qf,
-			   fun_rand  = rf,
-			   fun_surv  = sf,
-			   ...)
-	structure(res,
-			  steps = steps,
-			  class = c("stepdst", class(res))
+	new_stepdst(res, variable = v)
+}
+
+#' Constructor Function for Step Distributions
+#'
+#' @param l List containing the components of a step distribution object.
+#' @param variable Type of random variable: "continuous", "discrete",
+#' or "mixed".
+#' @param ... Attributes to add to the list.
+#' @param class If making a subclass, specify its name here.
+#' @export
+new_stepdst <- function(l, variable, ..., class = character()) {
+	structure(
+		l,
+		variable = variable,
+		...,
+		class    = c(class, "stepdst")
 	)
 }
 
@@ -101,6 +115,6 @@ steps <- function(object) UseMethod("steps")
 
 #' @export
 steps.stepdst <- function(object) {
-	attributes(object)[["steps"]]
+	object[["steps"]]
 }
 
