@@ -10,6 +10,7 @@ dst(
   fun_prob,
   fun_rand,
   fun_surv,
+  variable = c("continuous", "discrete", "mixed"),
   name = NULL,
   param = NULL,
   prop = NULL

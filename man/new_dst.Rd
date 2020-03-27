@@ -4,14 +4,18 @@
 \alias{new_dst}
 \title{Constructor Function for "dst" Objects}
 \usage{
-new_dst(l, ..., class = character())
+new_dst(
+  l,
+  variable = c("continuous", "discrete", "mixed"),
+  class = character()
+)
 }
 \arguments{
 \item{l}{List containing the components of a distribution object.}
 
-\item{...}{Attributes to add to the list.}
-
 \item{class}{If making a subclass, specify its name here.}
+
+\item{...}{Attributes to add to the list.}
 }
 \description{
 Constructor Function for "dst" Objects

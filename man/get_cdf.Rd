@@ -19,6 +19,6 @@ Get cdf
 \code{\link{get_quantile}},
 \code{\link{get_probfn}},
 \code{\link{get_randfn}},
-\code{\link{get_hazfn}},
-\code{\link{get_surv}}
+\code{\link{get_hazard}},
+\code{\link{get_survival}}
 }

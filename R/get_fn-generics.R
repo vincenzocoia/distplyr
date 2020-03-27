@@ -6,8 +6,8 @@
 #' \code{\link{get_quantile}},
 #' \code{\link{get_probfn}},
 #' \code{\link{get_randfn}},
-#' \code{\link{get_hazfn}},
-#' \code{\link{get_surv}}
+#' \code{\link{get_hazard}},
+#' \code{\link{get_survival}}
 #' @export
 get_cdf <- function(object) UseMethod("get_cdf")
 
@@ -21,8 +21,8 @@ get_cdf <- function(object) UseMethod("get_cdf")
 #' \code{\link{get_probfn}},
 #' \code{\link{get_cdf}},
 #' \code{\link{get_randfn}},
-#' \code{\link{get_hazfn}},
-#' \code{\link{get_surv}}
+#' \code{\link{get_hazard}},
+#' \code{\link{get_survival}}
 #' @export
 get_quantile <- function(object) UseMethod("get_quantile")
 
@@ -35,8 +35,8 @@ get_quantile <- function(object) UseMethod("get_quantile")
 #' \code{\link{get_quantile}},
 #' \code{\link{get_cdf}},
 #' \code{\link{get_randfn}},
-#' \code{\link{get_hazfn}},
-#' \code{\link{get_surv}}
+#' \code{\link{get_hazard}},
+#' \code{\link{get_survival}}
 #' @export
 get_probfn <- function(object) UseMethod("get_probfn")
 
@@ -49,8 +49,8 @@ get_probfn <- function(object) UseMethod("get_probfn")
 #' \code{\link{get_quantile}},
 #' \code{\link{get_probfn}},
 #' \code{\link{get_cdf}},
-#' \code{\link{get_hazfn}},
-#' \code{\link{get_surv}}
+#' \code{\link{get_hazard}},
+#' \code{\link{get_survival}}
 #' @export
 get_randfn <- function(object) UseMethod("get_randfn")
 
@@ -65,10 +65,10 @@ get_randfn <- function(object) UseMethod("get_randfn")
 #' \code{\link{get_quantile}},
 #' \code{\link{get_probfn}},
 #' \code{\link{get_cdf}},
-#' \code{\link{get_hazfn}},
+#' \code{\link{get_hazard}},
 #' \code{\link{get_randfn}}
 #' @export
-get_surv <- function(object) UseMethod("get_surv")
+get_survival <- function(object) UseMethod("get_survival")
 
 
 
