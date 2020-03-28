@@ -59,3 +59,4 @@ test_that("step points are correct", {
 	expect_identical(plateaus(get_cdf(wdist)), c(0, steps(wdist)[["tau"]]))
 	expect_identical(stats::knots(get_cdf(wdist)), steps(wdist)[["y"]])
 })
+

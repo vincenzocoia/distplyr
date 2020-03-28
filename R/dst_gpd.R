@@ -16,7 +16,7 @@ dst_gpd <- function(location, scale, shape) {
 
 
 #' @export
-get_mean.gpd <- function(object) {
+get_mean.gpd <- function(object, ...) {
 	with(
 		parameters(object),
 		ifelse(shape < 1,
@@ -27,7 +27,7 @@ get_mean.gpd <- function(object) {
 
 
 #' @export
-get_variance.gpd <- function(object) {
+get_variance.gpd <- function(object, ...) {
 	with(
 		parameters(object),
 		ifelse(shape < 1 / 2,

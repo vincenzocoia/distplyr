@@ -40,7 +40,7 @@ is.graft <- function(object) inherits(object, "graft")
 #' @export
 get_cdf.graft <- function(object) {
 	with(
-		graft[["components"]],
+		object[["components"]],
 		if (identical(base, "left")) {
 			function(y) {
 				lower <- vapply(y <= sep_y, isTRUE, FUN.VALUE = logical(1))
@@ -62,7 +62,7 @@ get_cdf.graft <- function(object) {
 #' @export
 get_quantile.graft <- function(object) {
 	with(
-		graft[["components"]],
+		object[["components"]],
 		if (identical(base, "left")) {
 			function(p) {
 				lower <- vapply(p <= tau_left, isTRUE, FUN.VALUE = logical(1))
@@ -87,7 +87,7 @@ get_probfn.graft <- function(object) {
 		return(NULL)
 	}
 	with(
-		graft[["components"]],
+		object[["components"]],
 		if (identical(base, "left")) {
 			function(y) {
 				lower <- vapply(y <= sep_y, isTRUE, FUN.VALUE = logical(1))
@@ -109,7 +109,7 @@ get_probfn.graft <- function(object) {
 #' @export
 get_evi.graft <- function(object) {
 	with(
-		graft[["components"]],
+		object[["components"]],
 		get_evi(dst_right)
 	)
 }

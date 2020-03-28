@@ -19,7 +19,7 @@ dst_norm <- function(mean, variance) {
 
 
 #' @export
-get_mean.norm <- function(object) {
+get_mean.norm <- function(object, ...) {
 	with(parameters(object), mean)
 }
 
@@ -29,12 +29,12 @@ get_median.norm <- function(object) {
 }
 
 #' @export
-get_variance.norm <- function(object) {
+get_variance.norm <- function(object, ...) {
 	with(parameters(object), variance)
 }
 
 #' @export
-get_sd.norm <- function(object) {
+get_sd.norm <- function(object, ...) {
 	with(parameters(object), sd)
 }
 

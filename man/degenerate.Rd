@@ -14,6 +14,11 @@ is.degenerate(object)
 }
 \arguments{
 \item{location}{Parameter of the distribution family.}
+
+\item{object}{Object to test}
+
+\item{variable}{Type of random variable: "continuous", "discrete",
+or "mixed".}
 }
 \value{
 Object of class "dst".

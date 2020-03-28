@@ -60,6 +60,9 @@ eval_randfn <- function(object, at) UseMethod("eval_randfn")
 
 #' Evaluate Hazard Function
 #'
+#' Evaluate hazard function or cumulative
+#' hazard function (chf).
+#'
 #' @param object Object of class "dst"
 #' @param at Vector of values to evaluate the hazard function at.
 #' @return Vector of the evaluated hazard function
@@ -69,9 +72,13 @@ eval_randfn <- function(object, at) UseMethod("eval_randfn")
 #' \code{\link{eval_cdf}},
 #' \code{\link{eval_randfn}},
 #' \code{\link{eval_survival}}
+#' @rdname hazard
 #' @export
 eval_hazard <- function(object, at) UseMethod("eval_hazard")
 
+#' @rdname hazard
+#' @export
+eval_chf <- function(object, at) UseMethod("eval_chf")
 
 #' Evaluate Survival Function
 #'

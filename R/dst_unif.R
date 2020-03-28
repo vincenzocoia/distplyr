@@ -19,7 +19,7 @@ dst_unif <- function(min = 0, max = 1) {
 
 
 #' @export
-get_mean.unif <- function(object) {
+get_mean.unif <- function(object, ...) {
 	with(parameters(object), (min + max) / 2)
 }
 
@@ -29,7 +29,7 @@ get_median.unif <- function(object) {
 }
 
 #' @export
-get_variance.unif <- function(object) {
+get_variance.unif <- function(object, ...) {
 	with(parameters(object), (min - max)^2 / 12)
 }
 

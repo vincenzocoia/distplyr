@@ -13,6 +13,9 @@ new_parametric_dst(
 \arguments{
 \item{l}{List containing the components of a distribution object.}
 
+\item{variable}{Type of random variable: "continuous", "discrete",
+or "mixed".}
+
 \item{class}{If making a subclass, specify its name here.}
 
 \item{...}{Attributes to add to the list.}

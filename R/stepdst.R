@@ -75,7 +75,7 @@ stepdst <- function(y, data, weights = 1,
 #' @param class If making a subclass, specify its name here.
 #' @export
 new_stepdst <- function(l, variable, ..., class = character()) {
-	structure(
+	new_dst(
 		l,
 		variable = variable,
 		...,
@@ -152,7 +152,14 @@ get_survival.stepdst <- function(object) {
 get_quantile.stepdst <- function(object) {
 	with(
 		steps(object),
-		stats::stepfun(tau, c(y, y[length(y)]), right = TRUE)
+		if (identical(length(y), 1L)) {
+			function(x) {
+				x[!is.na(x) & !is.nan(x)] <- y
+				x
+			}
+		} else {
+			stats::stepfun(tau[-length(tau)], y, right = TRUE)
+		}
 	)
 }
 
@@ -162,5 +169,14 @@ get_randfn.stepdst <- function(object) {
 		steps(object),
 		function(n) sample(y, size = n, replace = TRUE, prob = prob)
 	)
+}
+
+#' @export
+get_probfn.stepdst <- function(object) {
+	if (identical(variable(object), "discrete")) {
+		with(steps(object), {
+			Vectorize(function(x) sum(prob[x == y]))
+		})
+	}
 }
 

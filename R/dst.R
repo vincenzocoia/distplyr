@@ -38,12 +38,12 @@ dst <- function(fun_cumu, fun_quant, fun_prob, fun_rand, fun_surv,
 	if (missing(fun_rand)) {
 		fun_rand <- function(n) fun_quant(stats::runif(n))
 	}
-	x <- list(fun_cumu = fun_cumu,
-			  fun_quant = fun_quant,
-			  fun_prob = fun_prob,
-			  fun_rand = fun_rand,
-			  fun_surv = fun_surv,
-			  fun_haz = fun_haz,
+	x <- list(representations = list(fun_cumu = fun_cumu,
+									 fun_quant = fun_quant,
+									 fun_prob = fun_prob,
+									 fun_rand = fun_rand,
+									 fun_surv = fun_surv,
+									 fun_haz = fun_haz),
 			  name = name,
 			  param = param,
 			  prop = prop)

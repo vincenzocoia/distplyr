@@ -3,13 +3,18 @@
 #' Makes a distribution belonging to the degenerate family of
 #' distributions. That is, distributions of fixed values.
 #' @param location Parameter of the distribution family.
+#' @param variable Type of random variable: "continuous", "discrete",
+#' or "mixed".
 #' @return Object of class "dst".
 #' @rdname degenerate
 #' @export
 dst_degenerate <- function(location) {
-	stepdst(location, variable = "discrete")
+	r <- new_stepdst(location, variable = "discrete", class = "degenerate")
+	class(r) <- c("degenerate", class(r))
+	r
 }
 
+#' @param object Object to test
 #' @rdname degenerate
 #' @export
 is_degenerate <- function(object) {
@@ -23,7 +28,7 @@ is.degenerate <- function(object) {
 }
 
 #' @export
-get_mean.degenerate <- function(object) {
+get_mean.degenerate <- function(object, ...) {
 	object[["steps"]][["y"]]
 }
 
@@ -33,12 +38,12 @@ get_median.degenerate <- function(object) {
 }
 
 #' @export
-get_variance.degenerate <- function(object) {
+get_variance.degenerate <- function(object, ...) {
 	0
 }
 
 #' @export
-get_sd.degenerate <- function(object) {
+get_sd.degenerate <- function(object, ...) {
 	0
 }
 

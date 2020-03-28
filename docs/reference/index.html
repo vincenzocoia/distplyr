@@ -143,15 +143,15 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="dst.html">dst()</a></code> </p>
+          <p><code><a href="degenerate.html">dst_degenerate()</a></code> <code><a href="degenerate.html">is_degenerate()</a></code> <code><a href="degenerate.html">is.degenerate()</a></code> </p>
         </td>
-        <td><p>Make a Distribution</p></td>
+        <td><p>Make a Degenerate Distribution</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="dst_degen.html">dst_degen()</a></code> </p>
+          <p><code><a href="dst.html">dst()</a></code> <code><a href="dst.html">is_dst()</a></code> <code><a href="dst.html">is.dst()</a></code> </p>
         </td>
-        <td><p>Make a Degenerate Distribution</p></td>
+        <td><p>Make a Distribution</p></td>
       </tr><tr>
         
         <td>
@@ -185,7 +185,7 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="eval_hazfn.html">eval_hazfn()</a></code> </p>
+          <p><code><a href="eval_hazard.html">eval_hazard()</a></code> </p>
         </td>
         <td><p>Evaluate Hazard Function</p></td>
       </tr><tr>
@@ -197,7 +197,7 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="eval_quantfn.html">eval_quantfn()</a></code> </p>
+          <p><code><a href="eval_quantile.html">eval_quantile()</a></code> </p>
         </td>
         <td><p>Evaluate quantile function</p></td>
       </tr><tr>
@@ -209,7 +209,7 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="eval_surv.html">eval_surv()</a></code> </p>
+          <p><code><a href="eval_survival.html">eval_survival()</a></code> </p>
         </td>
         <td><p>Evaluate Survival Function</p></td>
       </tr><tr>
@@ -227,12 +227,6 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="get_hazfn.html">get_hazfn()</a></code> </p>
-        </td>
-        <td><p>Get Hazard Function</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="get_mean.html">get_mean()</a></code> </p>
         </td>
         <td><p>Mean of a Distribution</p></td>
@@ -245,7 +239,7 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="get_quantfn.html">get_quantfn()</a></code> </p>
+          <p><code><a href="get_quantile.html">get_quantile()</a></code> </p>
         </td>
         <td><p>Get quantile function</p></td>
       </tr><tr>
@@ -253,13 +247,13 @@
         <td>
           <p><code><a href="get_randfn.html">get_randfn()</a></code> </p>
         </td>
-        <td><p>Get random sampler function from a distribution</p></td>
+        <td><p>Random sampler function from a distribution</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="get_surv.html">get_surv()</a></code> </p>
+          <p><code><a href="get_survival.html">get_survival()</a></code> </p>
         </td>
-        <td><p>Calculate Survival Function</p></td>
+        <td><p>Survival Function</p></td>
       </tr><tr>
         
         <td>
@@ -269,9 +263,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="graft_right.html">graft_right()</a></code> </p>
+          <p><code><a href="graft.html">graft_right()</a></code> <code><a href="graft.html">is_graft()</a></code> <code><a href="graft.html">is.graft()</a></code> </p>
         </td>
-        <td><p>Replace the Tail of a Distribution</p></td>
+        <td><p>Graft Distributions</p></td>
       </tr><tr>
         
         <td>
@@ -281,9 +275,15 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="is_dst.html">is_dst()</a></code> </p>
+          <p><code><a href="hazard.html">get_chf()</a></code> <code><a href="hazard.html">get_hazard()</a></code> </p>
         </td>
-        <td><p>Distribution Objects</p></td>
+        <td><p>Hazard Function</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="kurtosis.html">get_kurtosis_raw()</a></code> <code><a href="kurtosis.html">get_kurtosis_exc()</a></code> </p>
+        </td>
+        <td><p>Kurtosis</p></td>
       </tr><tr>
         
         <td>
@@ -296,6 +296,18 @@
           <p><code><a href="new_dst.html">new_dst()</a></code> </p>
         </td>
         <td><p>Constructor Function for "dst" Objects</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="new_parametric_dst.html">new_parametric_dst()</a></code> </p>
+        </td>
+        <td><p>Constructor Function for "dst" Objects</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="new_stepdst.html">new_stepdst()</a></code> </p>
+        </td>
+        <td><p>Constructor Function for Step Distributions</p></td>
       </tr><tr>
         
         <td>
@@ -332,6 +344,12 @@
           <p><code><a href="swap_step_continuity_direction.html">swap_step_continuity_direction()</a></code> </p>
         </td>
         <td><p>Swap Direction of Continuity of a Step Function</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="variable.html">variable()</a></code> </p>
+        </td>
+        <td><p>Random Variable of a Distribution</p></td>
       </tr>
     </tbody>
     </table>

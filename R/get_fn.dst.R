@@ -11,7 +11,15 @@ get_probfn.dst <- function(object) object$fun_prob
 
 
 #' @export
-get_randfn.dst <- function(object) object$fun_rand
+get_randfn.dst <- function(object) {
+	r <- object[["representations"]][["fun_rand"]]
+	if (is.null(r)) {
+		qf <- get_quantile(object)
+		function(n) qf(stats::runif(n))
+	} else {
+		r
+	}
+}
 
 
 #' @export

@@ -18,9 +18,9 @@ dst(
   prop = NULL
 )
 
-is_dst(x)
+is_dst(object)
 
-is.dst(x)
+is.dst(object)
 }
 \arguments{
 \item{fun_cumu, fun_quant}{cdf and quantile function for a distribution,
@@ -44,7 +44,7 @@ or "mixed".}
 \item{prop}{Properties of the distribution, such as mean, variance,
 EVI, etc. (of your choosing).}
 
-\item{x}{Object to be tested}
+\item{object}{Object to be tested}
 }
 \value{
 An object of class "dst", which (for now) is a list holding
@@ -52,6 +52,4 @@ the above arguments, including survival and hazard functions.
 }
 \description{
 Make a distribution object.
-
-Test whether an object is a "dst" object.
 }

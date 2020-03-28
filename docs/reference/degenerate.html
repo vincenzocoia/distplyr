@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Make a Distribution — dst • distplyr</title>
+<title>Make a Degenerate Distribution — dst_degenerate • distplyr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,9 +32,10 @@
 
 
 
-<meta property="og:title" content="Make a Distribution — dst" />
+<meta property="og:title" content="Make a Degenerate Distribution — dst_degenerate" />
 
-<meta property="og:description" content="Make a distribution object." />
+<meta property="og:description" content="Makes a distribution belonging to the degenerate family of
+distributions. That is, distributions of fixed values." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -119,81 +120,36 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Make a Distribution</h1>
+    <h1>Make a Degenerate Distribution</h1>
     
-    <div class="hidden name"><code>dst.Rd</code></div>
+    <div class="hidden name"><code>degenerate.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Make a distribution object.</p>
+    <p>Makes a distribution belonging to the degenerate family of
+distributions. That is, distributions of fixed values.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>dst</span>(
-  <span class='no'>fun_cumu</span>,
-  <span class='no'>fun_quant</span>,
-  <span class='no'>fun_prob</span>,
-  <span class='no'>fun_rand</span>,
-  <span class='no'>fun_surv</span>,
-  <span class='kw'>variable</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"continuous"</span>, <span class='st'>"discrete"</span>, <span class='st'>"mixed"</span>),
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>param</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>prop</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)
+    <pre class="usage"><span class='fu'>dst_degenerate</span>(<span class='no'>location</span>)
 
-<span class='fu'>is_dst</span>(<span class='no'>object</span>)
+<span class='fu'>is_degenerate</span>(<span class='no'>object</span>)
 
-<span class='fu'>is.dst</span>(<span class='no'>object</span>)</pre>
+<span class='fu'>is.degenerate</span>(<span class='no'>object</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>fun_cumu, fun_quant</th>
-      <td><p>cdf and quantile function for a distribution,
-respectively. Must be supplied.</p></td>
-    </tr>
-    <tr>
-      <th>fun_prob, fun_rand</th>
-      <td><p>Probability mass/density function and
-random number generator for a distribution (a function of n), respectively.
-Optional. <code>fun_rand</code> will be calculated from <code>fun_quant</code>
-if missing.</p></td>
-    </tr>
-    <tr>
-      <th>fun_surv</th>
-      <td><p>Survival function. Optional; is missing, will be
-derived from the cdf.</p></td>
-    </tr>
-    <tr>
-      <th>variable</th>
-      <td><p>Type of random variable: "continuous", "discrete",
-or "mixed".</p></td>
-    </tr>
-    <tr>
-      <th>name</th>
-      <td><p>A name for the distribution (such as a parametric family name)</p></td>
-    </tr>
-    <tr>
-      <th>param</th>
-      <td><p>Parameters for the distribution, if parameteric.</p></td>
-    </tr>
-    <tr>
-      <th>prop</th>
-      <td><p>Properties of the distribution, such as mean, variance,
-EVI, etc. (of your choosing).</p></td>
-    </tr>
-    <tr>
-      <th>object</th>
-      <td><p>Object to be tested</p></td>
+      <th>location</th>
+      <td><p>Parameter of the distribution family.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of class "dst", which (for now) is a list holding
-the above arguments, including survival and hazard functions.</p>
+    <p>Object of class "dst".</p>
     
 
   </div>
