@@ -4,10 +4,10 @@
 \alias{dst_norm}
 \title{Normal (Gaussian) Distribution}
 \usage{
-dst_norm(mu, var)
+dst_norm(mean, variance)
 }
 \arguments{
-\item{mu, var}{Mean and variance of the distribution.}
+\item{mean, variance}{Mean and variance of the distribution.}
 }
 \value{
 Object of class "dst".

@@ -4,10 +4,13 @@
 \alias{new_dst}
 \title{Constructor Function for "dst" Objects}
 \usage{
-new_dst(l, ..., class = character())
+new_dst(l, variable, ..., class = character())
 }
 \arguments{
 \item{l}{List containing the components of a distribution object.}
+
+\item{variable}{Type of random variable: "continuous", "discrete",
+or "mixed".}
 
 \item{...}{Attributes to add to the list.}
 

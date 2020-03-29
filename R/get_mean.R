@@ -2,7 +2,7 @@
 #'
 #' Get the mean of a distribution.
 #'
-#' @param x A distribution object from which to obtain the mean.
+#' @param object A distribution object from which to obtain the mean.
 #' @param ... Arguments to pass to the \code{integrate()} function (if needed).
 #' @details If the mean is not already available in the distribution
 #' object, and if the distribution is not a step distribution,
@@ -11,24 +11,16 @@
 #' @return A single numeric.
 #' @rdname get_mean
 #' @export
-get_mean <- function(x, ...) UseMethod("get_mean")
+get_mean <- function(object, ...) UseMethod("get_mean")
 
 
 #' @export
-get_mean.dst <- function(x, ...) {
-	mu <- x$prop$mean
+get_mean.dst <- function(object, ...) {
+	mu <- object$prop$mean
 	if (!is.null(mu)) return(mu)
-	qf <- get_quantfn(x)
+	qf <- get_quantile(object)
 	int <- stats::integrate(qf, 0, 1)
 	int$value
 }
 
-#' @export
-get_mean.stepdst <- function(x, ...) {
-	s <- steps(x)
-	y <- s[["y"]]
-	taus <- s[["tau"]]
-	p <- diff(c(0, taus))
-	stopifnot(sum(p) == 1)
-	sum(p * y)
-}
+

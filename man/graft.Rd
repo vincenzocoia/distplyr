@@ -2,19 +2,28 @@
 % Please edit documentation in R/graft.R
 \name{graft_right}
 \alias{graft_right}
-\title{Replace the Tail of a Distribution}
+\alias{is_graft}
+\alias{is.graft}
+\title{Graft Distributions}
 \usage{
-graft_right(left_dst, right_dst, sep_y)
+graft_right(dst_left, dst_right, sep_y)
+
+is_graft(object)
+
+is.graft(object)
 }
 \arguments{
-\item{left_dst, right_dst}{Distributions to connect}
+\item{dst_left, dst_right}{Distributions to connect}
 
 \item{sep_y}{Value on the domain of the cdf to connect at.}
+
+\item{object}{Object to be tested}
 }
 \value{
-Object of class "dst"
+A grafted distribution object.
 }
 \description{
+Replace the tail of a distribution.
 \code{graft_right()} keeps the left cdf unchanged to the left of
 sep_y, and makes a continuous connection with the right cdf
 (rescaled as appropriate).

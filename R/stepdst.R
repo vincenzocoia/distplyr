@@ -16,6 +16,8 @@
 #' Must not be negative, but need not sum to 1. If \code{data}
 #' is provided, the data will be searched for the name provided in
 #' this argument.
+#' @param variable Type of random variable: "continuous", "discrete",
+#' or "mixed".
 #' @param ... Additional arguments to be passed to \code{\link{dst}}.
 #' @return A "stepdst" object, which is also a "dst" object,
 #' containing a cdf, quantile function, and random number generator.
@@ -26,7 +28,10 @@
 #' via \code{...}.
 #' @rdname stepdst
 #' @export
-stepdst <- function(y, data, weights = 1, ...) {
+stepdst <- function(y, data, weights = 1,
+					variable = c("continuous", "discrete", "mixed"),
+					...) {
+	v <- match.arg(variable)
 	sy <- substitute(y)
 	sw <- substitute(weights)
 	if (missing(data)) {
@@ -53,23 +58,28 @@ stepdst <- function(y, data, weights = 1, ...) {
 	rm_id <- which(duplicated(y)) - 1
 	if (length(rm_id) > 0) taus <- taus[-rm_id]
 	taus_w_0 <- c(0, taus)
-	probs <- diff(taus_w_0)
+	prob <- diff(taus_w_0)
+	stopifnot(sum(prob) == 1)
 	y <- unique(y)
 	stopifnot(length(y) == length(taus))
-	steps <- data.frame(y = y, tau = taus)
-	n <- length(y)
-	cdf <- stats::stepfun(y, taus_w_0, right = FALSE)
-	qf  <- stats::stepfun(taus[-n], y, right = TRUE)
-	sf  <- stats::stepfun(y, 1 - taus_w_0, right = FALSE)
-	rf <- function(n) sample(y, size = n, replace = TRUE, prob = probs)
-	res <- dst(fun_cumu  = cdf,
-			   fun_quant = qf,
-			   fun_rand  = rf,
-			   fun_surv  = sf,
-			   ...)
-	structure(res,
-			  steps = steps,
-			  class = c("stepdst", class(res))
+	res <- list(steps = data.frame(y = y, tau = taus, prob = prob))
+	new_stepdst(res, variable = v)
+}
+
+#' Constructor Function for Step Distributions
+#'
+#' @param l List containing the components of a step distribution object.
+#' @param variable Type of random variable: "continuous", "discrete",
+#' or "mixed".
+#' @param ... Attributes to add to the list.
+#' @param class If making a subclass, specify its name here.
+#' @export
+new_stepdst <- function(l, variable, ..., class = character()) {
+	new_dst(
+		l,
+		variable = variable,
+		...,
+		class    = c(class, "stepdst")
 	)
 }
 
@@ -101,6 +111,72 @@ steps <- function(object) UseMethod("steps")
 
 #' @export
 steps.stepdst <- function(object) {
-	attributes(object)[["steps"]]
+	object[["steps"]]
+}
+
+
+#' @export
+get_mean.stepdst <- function(object, ...) {
+	with(steps(object), {
+		sum(prob * y)
+	})
+}
+
+#' @export
+get_variance.stepdst <- function(object, ...) {
+	with(steps(object), {
+		mu <- get_mean(object)
+		mu2 <- sum(prob * y^2)
+		mu2 - mu^2
+	})
+}
+
+
+#' @export
+get_cdf.stepdst <- function(object) {
+	with(
+		steps(object),
+		stats::stepfun(y, c(0, tau), right = FALSE)
+	)
+}
+
+#' @export
+get_survival.stepdst <- function(object) {
+	with(
+		steps(object),
+		stats::stepfun(y, 1 - c(0, tau), right = FALSE)
+	)
+}
+
+#' @export
+get_quantile.stepdst <- function(object) {
+	with(
+		steps(object),
+		if (identical(length(y), 1L)) {
+			function(x) {
+				x[!is.na(x) & !is.nan(x)] <- y
+				x
+			}
+		} else {
+			stats::stepfun(tau[-length(tau)], y, right = TRUE)
+		}
+	)
+}
+
+#' @export
+get_randfn.stepdst <- function(object) {
+	with(
+		steps(object),
+		function(n) sample(y, size = n, replace = TRUE, prob = prob)
+	)
+}
+
+#' @export
+get_probfn.stepdst <- function(object) {
+	if (identical(variable(object), "discrete")) {
+		with(steps(object), {
+			Vectorize(function(x) sum(prob[x == y]))
+		})
+	}
 }
 

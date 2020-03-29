@@ -4,8 +4,8 @@ dat <- data.frame(y = y, w = w)
 
 edist <- stepdst(y, data = dat)
 cdf <- get_cdf(edist)
-qf <- get_quantfn(edist)
-sf <- get_surv(edist)
+qf <- get_quantile(edist)
+sf <- get_survival(edist)
 # plot(cdf)
 # plot(qf)
 
@@ -35,15 +35,15 @@ test_that("unweighted empirical distribution works", {
 	expect_identical(s1, s2)
 	set.seed(1)
 	at <- c(y, rnorm(10))
-	expect_identical(eval_surv(edist, at), 1 - cdf(at))
+	expect_identical(eval_survival(edist, at), 1 - cdf(at))
 })
 
 # wdist <- stepdst(y, data = dat, weights = w) # Error
 dat <- dat[-8, ]
 wdist <- stepdst(y, data = dat, weights = w)
 cdf <- get_cdf(wdist)
-qf <- get_quantfn(wdist)
-sf <- get_surv(wdist)
+qf <- get_quantile(wdist)
+sf <- get_survival(wdist)
 # plot(cdf)
 # plot(qf)
 
@@ -59,3 +59,4 @@ test_that("step points are correct", {
 	expect_identical(plateaus(get_cdf(wdist)), c(0, steps(wdist)[["tau"]]))
 	expect_identical(stats::knots(get_cdf(wdist)), steps(wdist)[["y"]])
 })
+

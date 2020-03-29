@@ -42,19 +42,19 @@ mix <- function(..., probs) {
 }
 
 #' @export
-get_mean.mix <- function(x, ...) {
-	dsts <- x[["distributions"]]
-	p <- x[["probs"]]
+get_mean.mix <- function(object, ...) {
+	dsts <- object[["distributions"]]
+	p <- object[["probs"]]
 	means <- vapply(dsts, get_mean, numeric(1))
 	sum(p * means)
 }
 
 #' @export
-get_variance.mix <- function(x, ...) {
-	dsts <- x[["distributions"]]
-	p <- x[["probs"]]
+get_variance.mix <- function(object, ...) {
+	dsts <- object[["distributions"]]
+	p <- object[["probs"]]
 	means <- vapply(dsts, get_mean, numeric(1))
 	vars <- vapply(dsts, get_variance, numeric(1))
-	mean <- get_mean(x)
+	mean <- get_mean(object)
 	sum(p * (vars + means ^ 2 - mean ^ 2))
 }

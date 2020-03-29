@@ -4,10 +4,10 @@
 \alias{get_mean}
 \title{Mean of a Distribution}
 \usage{
-get_mean(x, ...)
+get_mean(object, ...)
 }
 \arguments{
-\item{x}{A distribution object from which to obtain the mean.}
+\item{object}{A distribution object from which to obtain the mean.}
 
 \item{...}{Arguments to pass to the \code{integrate()} function (if needed).}
 }

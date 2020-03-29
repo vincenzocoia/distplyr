@@ -2,6 +2,8 @@
 % Please edit documentation in R/dst.R
 \name{dst}
 \alias{dst}
+\alias{is_dst}
+\alias{is.dst}
 \title{Make a Distribution}
 \usage{
 dst(
@@ -10,10 +12,15 @@ dst(
   fun_prob,
   fun_rand,
   fun_surv,
+  variable = c("continuous", "discrete", "mixed"),
   name = NULL,
   param = NULL,
   prop = NULL
 )
+
+is_dst(object)
+
+is.dst(object)
 }
 \arguments{
 \item{fun_cumu, fun_quant}{cdf and quantile function for a distribution,
@@ -27,12 +34,17 @@ if missing.}
 \item{fun_surv}{Survival function. Optional; is missing, will be
 derived from the cdf.}
 
+\item{variable}{Type of random variable: "continuous", "discrete",
+or "mixed".}
+
 \item{name}{A name for the distribution (such as a parametric family name)}
 
 \item{param}{Parameters for the distribution, if parameteric.}
 
 \item{prop}{Properties of the distribution, such as mean, variance,
 EVI, etc. (of your choosing).}
+
+\item{object}{Object to be tested}
 }
 \value{
 An object of class "dst", which (for now) is a list holding

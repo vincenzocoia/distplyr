@@ -11,12 +11,16 @@
 #' derived from the cdf.
 #' @param prop Properties of the distribution, such as mean, variance,
 #' EVI, etc. (of your choosing).
+#' @param variable Type of random variable: "continuous", "discrete",
+#' or "mixed".
 #' @param name A name for the distribution (such as a parametric family name)
 #' @param param Parameters for the distribution, if parameteric.
 #' @return An object of class "dst", which (for now) is a list holding
 #' the above arguments, including survival and hazard functions.
+#' @rdname dst
 #' @export
 dst <- function(fun_cumu, fun_quant, fun_prob, fun_rand, fun_surv,
+				variable = c("continuous", "discrete", "mixed"),
 				name = NULL, param = NULL, prop = NULL) {
 	if (missing(fun_surv)) {
 		if (!missing(fun_cumu)) {
@@ -34,16 +38,17 @@ dst <- function(fun_cumu, fun_quant, fun_prob, fun_rand, fun_surv,
 	if (missing(fun_rand)) {
 		fun_rand <- function(n) fun_quant(stats::runif(n))
 	}
-	x <- list(fun_cumu = fun_cumu,
-			  fun_quant = fun_quant,
-			  fun_prob = fun_prob,
-			  fun_rand = fun_rand,
-			  fun_surv = fun_surv,
-			  fun_haz = fun_haz,
+	x <- list(representations = list(fun_cumu = fun_cumu,
+									 fun_quant = fun_quant,
+									 fun_prob = fun_prob,
+									 fun_rand = fun_rand,
+									 fun_surv = fun_surv,
+									 fun_haz = fun_haz),
 			  name = name,
 			  param = param,
 			  prop = prop)
-	new_dst(x)
+	v <- match.arg(variable)
+	new_dst(x, variable = v)
 }
 
 # dst <- function(fun_cumu = c("from_qf", "from_sf", "from_pdf", "from_hf", "from_chf"),
@@ -57,21 +62,27 @@ dst <- function(fun_cumu, fun_quant, fun_prob, fun_rand, fun_surv,
 #' Constructor Function for "dst" Objects
 #'
 #' @param l List containing the components of a distribution object.
+#' @param variable Type of random variable: "continuous", "discrete",
+#' or "mixed".
 #' @param ... Attributes to add to the list.
 #' @param class If making a subclass, specify its name here.
 #' @export
-new_dst <- function(l, ..., class = character()) {
+new_dst <- function(l, variable, ...,
+					class = character()) {
 	structure(
 		l,
-		...,
-		class = c(class, "dst")
+		variable = variable,
+		class    = c(class, "dst")
 	)
 }
 
 
-#' Distribution Objects
-#'
-#' Test whether an object is a "dst" object.
-#' @param x Object to be tested
+
+#' @param object Object to be tested
+#' @rdname dst
 #' @export
-is_dst <- function(x) inherits(x, "dst")
+is_dst <- function(object) inherits(object, "dst")
+
+#' @rdname dst
+#' @export
+is.dst <- function(object) inherits(object, "dst")

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Variance/Standard Deviation of a Distribution — get_var • distplyr</title>
+<title>Evaluate Survival Function — eval_survival • distplyr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,9 +32,9 @@
 
 
 
-<meta property="og:title" content="Variance/Standard Deviation of a Distribution — get_var" />
+<meta property="og:title" content="Evaluate Survival Function — eval_survival" />
 
-<meta property="og:description" content="Get the mean and standard deviation of a distribution." />
+<meta property="og:description" content="Evaluate Survival Function" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -119,44 +119,43 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Variance/Standard Deviation of a Distribution</h1>
+    <h1>Evaluate Survival Function</h1>
     
-    <div class="hidden name"><code>get_var.Rd</code></div>
+    <div class="hidden name"><code>eval_survival.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Get the mean and standard deviation of a distribution.</p>
+    <p>Evaluate Survival Function</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>get_var</span>(<span class='no'>object</span>, <span class='no'>...</span>)
-
-<span class='fu'>get_sd</span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>eval_survival</span>(<span class='no'>object</span>, <span class='no'>at</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>object</th>
-      <td><p>A distribution object.</p></td>
+      <td><p>Object of class "dst"</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Arguments to pass to the <code><a href='https://rdrr.io/r/stats/integrate.html'>integrate()</a></code> function (if needed).</p></td>
+      <th>at</th>
+      <td><p>Vector of values to evaluate the survival function at.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A single numeric</p>
+    <p>Vector of the evaluated survival function</p>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>If the statistic is not already available in the distribution
-object, and if the distribution is not a step distribution,
-the variance/standard deviation is calculated using the
-<code><a href='https://rdrr.io/r/stats/integrate.html'>stats::integrate()</a></code> function.</p>
+    <div class='dont-index'><p><code><a href='eval_quantile.html'>eval_quantile</a></code>,
+<code><a href='eval_probfn.html'>eval_probfn</a></code>,
+<code><a href='eval_cdf.html'>eval_cdf</a></code>,
+<code><a href='hazard.html'>eval_hazard</a></code>,
+<code><a href='eval_randfn.html'>eval_randfn</a></code></p></div>
     
 
   </div>
@@ -167,7 +166,7 @@ the variance/standard deviation is calculated using the
       
       <li><a href="#value">Value</a></li>
 
-      <li><a href="#details">Details</a></li>
+      <li><a href="#see-also">See also</a></li>
           </ul>
 
   </div>

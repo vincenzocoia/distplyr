@@ -18,7 +18,7 @@ rv_transform <- function(.dst, g, ginv, gprime, ginvprime) {
 		ginvprime <- function(x) 1 / gprime(ginv(x))
 	}
 	cdf  <- get_cdf(.dst)
-	qf   <- get_quantfn(.dst)
+	qf   <- get_quantile(.dst)
 	rand <- get_randfn(.dst)
 	pf   <- get_probfn(.dst)
 	.has_pdf <- has_pdf(.dst)
@@ -65,7 +65,7 @@ rv_transform <- function(.dst, g, ginv, gprime, ginvprime) {
 #' @seealso \code{\link{rv_transform}}
 #' @export
 rv_locscale <- function(.dst, loc, scale) {
-	if (scale == 0) return(dst_degen(loc))
+	if (scale == 0) return(dst_degenerate(loc))
 	rv_transform(.dst,
 				 g         = function(x) scale * x + loc,
 				 ginv      = function(x) (x - loc) / scale,

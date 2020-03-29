@@ -107,31 +107,31 @@
 <tr class="odd">
 <td>Cumulative Distribution Function</td>
 <td>
-<code>eval_cumu()</code>, <code>get_cumu()</code>
+<code><a href="../reference/eval_cdf.html">eval_cdf()</a></code>, <code><a href="../reference/get_cdf.html">get_cdf()</a></code>
 </td>
 </tr>
 <tr class="even">
 <td>Survival Function</td>
 <td>
-<code><a href="../reference/eval_surv.html">eval_surv()</a></code>, <code><a href="../reference/get_surv.html">get_surv()</a></code>
+<code><a href="../reference/eval_survival.html">eval_survival()</a></code>, <code><a href="../reference/get_survival.html">get_survival()</a></code>
 </td>
 </tr>
 <tr class="odd">
 <td>Quantile Function</td>
 <td>
-<code><a href="../reference/eval_quantfn.html">eval_quantfn()</a></code>, <code><a href="../reference/get_quantfn.html">get_quantfn()</a></code>
+<code><a href="../reference/eval_quantile.html">eval_quantile()</a></code>, <code><a href="../reference/get_quantile.html">get_quantile()</a></code>
 </td>
 </tr>
 <tr class="even">
 <td>Hazard Function</td>
 <td>
-<code><a href="../reference/eval_hazfn.html">eval_hazfn()</a></code>, <code><a href="../reference/get_hazfn.html">get_hazfn()</a></code>
+<code><a href="../reference/hazard.html">eval_hazard()</a></code>, <code><a href="../reference/hazard.html">get_hazard()</a></code>
 </td>
 </tr>
 <tr class="odd">
 <td>Cumulative Hazard Function</td>
 <td>
-<code>eval_chf()</code>, <code>get_chf()</code>
+<code><a href="../reference/hazard.html">eval_chf()</a></code>, <code><a href="../reference/hazard.html">get_chf()</a></code>
 </td>
 </tr>
 <tr class="even">
@@ -151,7 +151,7 @@
 <p>Both the <code>eval_*</code> and <code>get_*</code> functions take a distribution object as their first argument, but <code>eval_*</code> has a second argument named <code>at</code> indicating where to evaluate the function. The <code>at</code> argument is vectorized, except for <code><a href="../reference/eval_randfn.html">eval_randfn()</a></code>, which returns a vector of a random sample of the length that you specify.</p>
 <p>Here is an example of evaluating the hazard function and the random sample generator of a Uniform(0,1) distribution:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>d &lt;-<span class="st"> </span><span class="kw"><a href="../reference/dst_unif.html">dst_unif</a></span>(<span class="dv">0</span>, <span class="dv">3</span>)</span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="kw"><a href="../reference/eval_hazfn.html">eval_hazfn</a></span>(d, <span class="dt">at =</span> <span class="dv">0</span><span class="op">:</span><span class="dv">10</span>)</span></code></pre></div>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw"><a href="../reference/hazard.html">eval_hazard</a></span>(d, <span class="dt">at =</span> <span class="dv">0</span><span class="op">:</span><span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##  [1] 0.3333333 0.5000000 1.0000000       Inf       NaN       NaN       NaN
 ##  [8]       NaN       NaN       NaN       NaN</code></pre>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">10</span>)</span>
@@ -172,11 +172,11 @@
 <tbody>
 <tr class="odd">
 <td>Mean</td>
-<td><code><a href="../reference/meandst.html">get_mean()</a></code></td>
+<td><code><a href="../reference/get_mean.html">get_mean()</a></code></td>
 </tr>
 <tr class="even">
 <td>Median</td>
-<td><code>get_median()</code></td>
+<td><code><a href="../reference/get_median.html">get_median()</a></code></td>
 </tr>
 <tr class="odd">
 <td>Mode</td>
@@ -184,11 +184,11 @@
 </tr>
 <tr class="even">
 <td>Variance</td>
-<td><code>get_variance()</code></td>
+<td><code><a href="../reference/get_variance.html">get_variance()</a></code></td>
 </tr>
 <tr class="odd">
 <td>Standard Deviation</td>
-<td><code><a href="../reference/get_var.html">get_sd()</a></code></td>
+<td><code><a href="../reference/get_variance.html">get_sd()</a></code></td>
 </tr>
 <tr class="even">
 <td>Inter-Quartile Range</td>
@@ -200,7 +200,7 @@
 </tr>
 <tr class="even">
 <td>Skewness</td>
-<td><code>get_skewness()</code></td>
+<td><code><a href="../reference/get_skewness.html">get_skewness()</a></code></td>
 </tr>
 <tr class="odd">
 <td>Excess Kurtosis</td>

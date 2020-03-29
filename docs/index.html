@@ -99,9 +99,9 @@
 <span id="cb2-3"><a href="#cb2-3"></a><span class="co">#&gt; </span></span>
 <span id="cb2-4"><a href="#cb2-4"></a><span class="co">#&gt; Parameters:</span></span></code></pre></div>
 <p>Evaluate the survival function to obtain the probability of exceeding 6. What about the hazard function at 6?</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="reference/eval_surv.html">eval_surv</a></span>(d1, <span class="dt">at =</span> <span class="dv">6</span>)</span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">eval_surv</span>(d1, <span class="dt">at =</span> <span class="dv">6</span>)</span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt; [1] 0.03681914</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="kw"><a href="reference/eval_hazfn.html">eval_hazfn</a></span>(d1, <span class="dt">at =</span> <span class="dv">6</span>)</span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="kw">eval_hazfn</span>(d1, <span class="dt">at =</span> <span class="dv">6</span>)</span>
 <span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt; [1] 0.9783186</span></span></code></pre></div>
 <p>Give the distribution a right-skew:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># d2 &lt;- skew(d1, alpha = 0.5)</span></span>
