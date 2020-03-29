@@ -3,15 +3,13 @@
 #' Makes a distribution belonging to the degenerate family of
 #' distributions. That is, distributions of fixed values.
 #' @param location Parameter of the distribution family.
-#' @param variable Type of random variable: "continuous", "discrete",
-#' or "mixed".
 #' @return Object of class "dst".
 #' @rdname degenerate
 #' @export
 dst_degenerate <- function(location) {
-	r <- new_stepdst(location, variable = "discrete", class = "degenerate")
-	class(r) <- c("degenerate", class(r))
-	r
+	res <- stepdst(location, variable = "discrete")
+	class(res) <- c("degenerate", class(res))
+	res
 }
 
 #' @param object Object to test

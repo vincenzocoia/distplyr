@@ -17,7 +17,7 @@ graft_right <- function(dst_left, dst_right, sep_y) {
 	tau_right <- eval_cdf(dst_right, sep_y)
 	res <- list(components = list(dst_left  = dst_left,
 								  dst_right = dst_right,
-								  left_tau  = tau_left,
+								  tau_left  = tau_left,
 								  tau_right = tau_right,
 								  sep_y     = sep_y,
 								  base      = "left"))

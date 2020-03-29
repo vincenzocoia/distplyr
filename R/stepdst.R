@@ -58,11 +58,11 @@ stepdst <- function(y, data, weights = 1,
 	rm_id <- which(duplicated(y)) - 1
 	if (length(rm_id) > 0) taus <- taus[-rm_id]
 	taus_w_0 <- c(0, taus)
-	probs <- diff(taus_w_0)
-	stopifnot(sum(probs) == 1)
+	prob <- diff(taus_w_0)
+	stopifnot(sum(prob) == 1)
 	y <- unique(y)
 	stopifnot(length(y) == length(taus))
-	res <- list(steps = data.frame(y = y, tau = taus, prob = probs))
+	res <- list(steps = data.frame(y = y, tau = taus, prob = prob))
 	new_stepdst(res, variable = v)
 }
 
@@ -126,7 +126,7 @@ get_mean.stepdst <- function(object, ...) {
 get_variance.stepdst <- function(object, ...) {
 	with(steps(object), {
 		mu <- get_mean(object)
-		mu2 <- sum(probs * y^2)
+		mu2 <- sum(prob * y^2)
 		mu2 - mu^2
 	})
 }
