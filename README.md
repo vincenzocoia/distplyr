@@ -83,7 +83,7 @@ optimize a distribution’s fit to data.
 The
 [`distributions3`](https://cran.r-project.org/web/packages/distributions3/index.html)
 package is a similar package in that it bundles parametric distributions
-together using S3 objects.
+together using S3 objects, but does not handle step distributions.
 
 The [`distr`](https://cran.r-project.org/web/packages/distr/index.html)
 package allows you to make distributions including empirical ones, and
