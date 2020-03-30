@@ -23,7 +23,15 @@ get_randfn.dst <- function(object) {
 
 
 #' @export
-get_survival.dst <- function(object) object$fun_survival
+get_survival.dst <- function(object) {
+	sf <- object[["representations"]][["fun_survival"]]
+	if (is.null(sf)) {
+		cdf <- get_cdf(object)
+		function(x) 1 - cdf(x)
+	} else {
+		sf
+	}
+}
 
 
 #' @export

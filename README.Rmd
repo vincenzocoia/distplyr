@@ -60,6 +60,7 @@ get_sd(d3)
 Generate some data from this new mixture distribution:
 
 ```{r}
+set.seed(1)
 eval_randfn(d3, at = 10)
 ```
 
