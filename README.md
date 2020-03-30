@@ -25,15 +25,13 @@ package.
 
 ``` r
 library(distplyr)
-library(magrittr)
-library(testthat)
 ```
 
 Make a Normal distribution with mean 2 and variance 5:
 
 ``` r
 (d1 <- dst_norm(2, 5))
-#> A Normal/Gaussian distribution.
+#> Unnamed distribution.
 #> 
 #> Parameters:
 ```
@@ -42,39 +40,38 @@ Evaluate the survival function to obtain the probability of exceeding 6.
 What about the hazard function at 6?
 
 ``` r
-eval_surv(d1, at = 6)
+eval_survival(d1, at = 6)
 #> [1] 0.03681914
-eval_hazfn(d1, at = 6)
+eval_hazard(d1, at = 6)
 #> [1] 0.9783186
 ```
 
-Give the distribution a right-skew:
+Combine this distribution with another, say to form a mixture
+distribution:
 
 ``` r
-# d2 <- skew(d1, alpha = 0.5)
-# plot(d2, "density")
+d2 <- dst_norm(-5, 1)
+d3 <- mix(d1, d2, probs = c(0.4, 0.6))
+plot(get_probfn(d3), -10, 10)
 ```
 
-What’s the mean of the distribution now? What about the standard
-deviation or entropy?
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+
+What’s the mean of the mixture distribution? Standard deviation?
 
 ``` r
-# get_mean(d2)
-# get_sd(d2)
-# get_entropy(d2)
-```
-
-Make a mixture distribution from both of the above distributions:
-
-``` r
-# d3 <- mix(d1, d2, probs = c(0.4, 0.6))
-# plot(d3, "density")
+get_mean(d3)
+#> [1] -2.2
+get_sd(d3)
+#> [1] 3.789459
 ```
 
 Generate some data from this new mixture distribution:
 
 ``` r
-# eval_randfn(d3, at = 10)
+eval_randfn(d3, at = 10)
+#>  [1] -0.3895055 -6.0750677 -4.7305258  1.9581611 -3.9329631 -5.0789328
+#>  [7] -3.8158563 -4.4343324 -5.1209193 -5.3836267
 ```
 
 ## `distplyr` in Context
