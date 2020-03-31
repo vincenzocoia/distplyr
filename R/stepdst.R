@@ -41,28 +41,22 @@ stepdst <- function(y, data, weights = 1,
 		y <- eval(sy, envir = data)
 		w <- eval(sw, envir = data)
 	}
-	yw <- data.frame(y = y, w = w)
-	yw <- stats::na.omit(yw)
-	if (any(yw[["w"]] < 0)) {
+	if (any(w < 0, na.rm = TRUE)) {
 		stop("Weights must not be negative.")
 	}
 	if (!is.numeric(y)) {
 		stop("Outcomes must be numeric.")
 	}
-	yw <- yw[yw[["w"]] != 0, ]
-	yw <- yw[order(yw[["y"]]), ]
-	y <- yw[["y"]]
-	w <- yw[["w"]]
-	w <- w / sum(w)
-	taus <- cumsum(w)
-	rm_id <- which(duplicated(y)) - 1
-	if (length(rm_id) > 0) taus <- taus[-rm_id]
-	taus_w_0 <- c(0, taus)
-	prob <- diff(taus_w_0)
-	stopifnot(sum(prob) == 1)
-	y <- unique(y)
-	stopifnot(length(y) == length(taus))
-	res <- list(steps = data.frame(y = y, tau = taus, prob = prob))
+	if (length(y) == 0) {
+		warning("Can't make a step distribution from empty data. ",
+				"Returning NULL.")
+		return(NULL)
+	}
+	if (length(w) == 1) {
+		w <- rep(w, length(y))
+	}
+	steps <- consolidate_weights(y, w)
+	res <- list(steps = steps)
 	new_stepdst(res, variable = v)
 }
 

@@ -11,14 +11,13 @@ mix <- function(..., probs) {
 	lapply(dsts, function(.dst) if (!is_dst(.dst)) {
 		stop("Elipses must contain distributions only.")
 	})
-	n <- length(dsts)
-	if (n != length(probs)) {
+	if (!identical(length(dsts), length(probs))) {
 		stop("There must be one probability per distribution specified.")
 	}
-	if (any(probs < 0)) {
+	if (any(probs < 0, na.rm = TRUE)) {
 		stop("Probabilities must not be negative.")
 	}
-	if (sum(probs) != 1) {
+	if (sum(probs, na.rm = TRUE) != 1) {
 		stop("Probabilities must sum to 1.")
 	}
 	na_probs <- is.na(probs)
@@ -32,14 +31,31 @@ mix <- function(..., probs) {
 		probs <- probs[!zero_probs]
 		dsts <- dsts[!zero_probs]
 	}
-	n <- length(probs)
-	if (n == 1) {
-		return(dsts[[1]])
+	if (identical(length(probs), 1L)) {
+		return(dsts[[1L]])
+	}
+	variables <- vapply(dsts, variable, FUN.VALUE = character(1L))
+	if (all(variables == variables[1L])) {
+		v <- variables[1L]
+	} else {
+		v <- "mixed"
+	}
+	lgl_stepdst <- vapply(dsts, is_stepdst, FUN.VALUE = logical(1L))
+	if (all(lgl_stepdst)) {
+		step_dfs <- lapply(dsts, steps)
+		prob_vecs <- mapply(
+			function(df, p) {
+				df[["prob"]] * p
+			},
+			step_dfs, probs, SIMPLIFY = FALSE
+		)
+		y_vecs <-lapply(step_dfs, `[[`, "y")
+		y <- c(y_vecs, recursive = TRUE)
+		w <- c(prob_vecs, recursive = TRUE)
+		return(stepdst(y, weights = w, variable = v))
 	}
 	res <- list(components = list(distributions = dsts,
 								  probs = probs))
-	vvec <- vapply(dsts, variable, FUN.VALUE = character(1))
-	v <- if (all(vvec == vvec[1])) vvec[1] else "mixed"
 	new_dst(res, variable = v, class = "mix")
 }
 
