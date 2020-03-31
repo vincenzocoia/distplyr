@@ -5,13 +5,13 @@
 \title{Plot a Distribution}
 \usage{
 \method{plot}{dst}(
-  object,
+  x,
   what = c("probfn", "cdf", "survival", "quantile", "hazard", "chf"),
   ...
 )
 }
 \arguments{
-\item{object}{Distribution object}
+\item{x}{Distribution object}
 
 \item{what}{Name of the representation to plot.}
 
