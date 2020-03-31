@@ -19,5 +19,6 @@ Imports:
     stats,
     evd,
     rlang,
-    tidyselect
+    tidyselect,
+    graphics
 VignetteBuilder: knitr
