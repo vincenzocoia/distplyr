@@ -46,7 +46,7 @@ Combine this distribution with another, say to form a mixture distribution:
 ```{r}
 d2 <- dst_norm(-5, 1)
 d3 <- mix(d1, d2, probs = c(0.4, 0.6))
-plot(get_probfn(d3), -10, 10)
+# plot(d3)
 ```
 
 
@@ -61,7 +61,15 @@ Generate some data from this new mixture distribution:
 
 ```{r}
 set.seed(1)
-eval_randfn(d3, at = 10)
+y <- eval_randfn(d3, at = 100)
+```
+
+Make an empirical distribution from the generated data, and compare the cdf with the original:
+
+```{r, fig.width = 4, fig.height = 2}
+d4 <- stepdst(y)
+plot(d4, "cdf")
+plot(d3, "cdf", from = min(y), to = max(y))
 ```
 
 

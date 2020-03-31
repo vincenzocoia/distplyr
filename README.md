@@ -52,10 +52,8 @@ distribution:
 ``` r
 d2 <- dst_norm(-5, 1)
 d3 <- mix(d1, d2, probs = c(0.4, 0.6))
-plot(get_probfn(d3), -10, 10)
+# plot(d3)
 ```
-
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
 What’s the mean of the mixture distribution? Standard deviation?
 
@@ -70,10 +68,24 @@ Generate some data from this new mixture distribution:
 
 ``` r
 set.seed(1)
-eval_randfn(d3, at = 10)
-#>  [1] -5.8204684 -4.5125709 -4.2616753  3.2874862 -5.3053884  5.3804455
-#>  [7]  2.8717160  0.6108638 -2.9522195 -3.8750691
+y <- eval_randfn(d3, at = 100)
 ```
+
+Make an empirical distribution from the generated data, and compare the
+cdf with the original:
+
+``` r
+d4 <- stepdst(y)
+plot(d4, "cdf")
+```
+
+<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
+
+``` r
+plot(d3, "cdf", from = min(y), to = max(y))
+```
+
+<img src="man/figures/README-unnamed-chunk-8-2.png" width="100%" />
 
 ## `distplyr` in Context
 

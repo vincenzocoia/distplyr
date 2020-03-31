@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get quantile function — get_quantile • distplyr</title>
+<title>Consolidate Weights — consolidate_weights • distplyr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,9 +32,11 @@
 
 
 
-<meta property="og:title" content="Get quantile function — get_quantile" />
+<meta property="og:title" content="Consolidate Weights — consolidate_weights" />
 
-<meta property="og:description" content="Get quantile function" />
+<meta property="og:description" content="For a vector of outcomes y with a matching vector of weights,
+this function provides a single non-zero, non-NA
+weight per unique value of y. Weights sum to 1." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -116,39 +118,44 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get quantile function</h1>
+    <h1>Consolidate Weights</h1>
     
-    <div class="hidden name"><code>get_quantile.Rd</code></div>
+    <div class="hidden name"><code>consolidate_weights.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Get quantile function</p>
+    <p>For a vector of outcomes <code>y</code> with a matching vector of weights,
+this function provides a single non-zero, non-NA
+weight per unique value of <code>y</code>. Weights sum to 1.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>get_quantile</span>(<span class='no'>object</span>)</pre>
+    <pre class="usage"><span class='fu'>consolidate_weights</span>(<span class='no'>y</span>, <span class='no'>weights</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>object</th>
-      <td><p>Object of class "dst"</p></td>
+      <th>y</th>
+      <td><p>Vector of outcomes.</p></td>
+    </tr>
+    <tr>
+      <th>weights</th>
+      <td><p>Vector of weights, one for each of <code>y</code>.
+These need not sum to one, but must not be negative.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a vectorized function of the quantile function.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p>Data frame with the following columns:</p><ol>
+<li><p><code>y</code>: Increasing vector of unique values of <code>y</code>
+  having positive weight.</p></li>
+<li><p><code>prob</code>: Weights corresponding to each outcome.</p></li>
+<li><p><code>tau</code>: Cumulative weights; that is, <code><a href='https://rdrr.io/r/base/cumsum.html'>cumsum(prob)</a></code>.</p></li>
+</ol>
 
-    <div class='dont-index'><p><code><a href='get_probfn.html'>get_probfn</a></code>,
-<code><a href='get_cdf.html'>get_cdf</a></code>,
-<code><a href='get_randfn.html'>get_randfn</a></code>,
-<code><a href='hazard.html'>get_hazard</a></code>,
-<code><a href='get_survival.html'>get_survival</a></code></p></div>
     
 
   </div>
@@ -158,8 +165,6 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
           </ul>
 
   </div>

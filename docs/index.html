@@ -58,9 +58,6 @@
       <a href="articles/combining.html">Combining Distributions</a>
     </li>
     <li>
-      <a href="articles/parametric.html">Parametric Distributions</a>
-    </li>
-    <li>
       <a href="articles/probing.html">Probing a Distribution</a>
     </li>
     <li>
@@ -90,37 +87,41 @@
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(distplyr)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(magrittr)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(testthat)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(distplyr)</span></code></pre></div>
 <p>Make a Normal distribution with mean 2 and variance 5:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>(d1 &lt;-<span class="st"> </span><span class="kw"><a href="reference/dst_norm.html">dst_norm</a></span>(<span class="dv">2</span>, <span class="dv">5</span>))</span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="co">#&gt; A Normal/Gaussian distribution.</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="co">#&gt; Unnamed distribution.</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="co">#&gt; </span></span>
 <span id="cb2-4"><a href="#cb2-4"></a><span class="co">#&gt; Parameters:</span></span></code></pre></div>
 <p>Evaluate the survival function to obtain the probability of exceeding 6. What about the hazard function at 6?</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">eval_surv</span>(d1, <span class="dt">at =</span> <span class="dv">6</span>)</span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="reference/eval_survival.html">eval_survival</a></span>(d1, <span class="dt">at =</span> <span class="dv">6</span>)</span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt; [1] 0.03681914</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="kw">eval_hazfn</span>(d1, <span class="dt">at =</span> <span class="dv">6</span>)</span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="kw"><a href="reference/hazard.html">eval_hazard</a></span>(d1, <span class="dt">at =</span> <span class="dv">6</span>)</span>
 <span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt; [1] 0.9783186</span></span></code></pre></div>
-<p>Give the distribution a right-skew:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># d2 &lt;- skew(d1, alpha = 0.5)</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="co"># plot(d2, "density")</span></span></code></pre></div>
-<p>What’s the mean of the distribution now? What about the standard deviation or entropy?</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># get_mean(d2)</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="co"># get_sd(d2)</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="co"># get_entropy(d2)</span></span></code></pre></div>
-<p>Make a mixture distribution from both of the above distributions:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># d3 &lt;- mix(d1, d2, probs = c(0.4, 0.6))</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="co"># plot(d3, "density")</span></span></code></pre></div>
+<p>Combine this distribution with another, say to form a mixture distribution:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>d2 &lt;-<span class="st"> </span><span class="kw"><a href="reference/dst_norm.html">dst_norm</a></span>(<span class="op">-</span><span class="dv">5</span>, <span class="dv">1</span>)</span>
+<span id="cb4-2"><a href="#cb4-2"></a>d3 &lt;-<span class="st"> </span><span class="kw"><a href="reference/mix.html">mix</a></span>(d1, d2, <span class="dt">probs =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.4</span>, <span class="fl">0.6</span>))</span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="co"># plot(d3)</span></span></code></pre></div>
+<p>What’s the mean of the mixture distribution? Standard deviation?</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="reference/get_mean.html">get_mean</a></span>(d3)</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="co">#&gt; [1] -2.2</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="kw"><a href="reference/get_variance.html">get_sd</a></span>(d3)</span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="co">#&gt; [1] 3.789459</span></span></code></pre></div>
 <p>Generate some data from this new mixture distribution:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># eval_randfn(d3, at = 10)</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">1</span>)</span>
+<span id="cb6-2"><a href="#cb6-2"></a>y &lt;-<span class="st"> </span><span class="kw"><a href="reference/eval_randfn.html">eval_randfn</a></span>(d3, <span class="dt">at =</span> <span class="dv">100</span>)</span></code></pre></div>
+<p>Make an empirical distribution from the generated data, and compare the cdf with the original:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>d4 &lt;-<span class="st"> </span><span class="kw"><a href="reference/stepdst.html">stepdst</a></span>(y)</span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(d4, <span class="st">"cdf"</span>)</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-8-1.png" width="100%"></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(d3, <span class="st">"cdf"</span>, <span class="dt">from =</span> <span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>(y), <span class="dt">to =</span> <span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>(y))</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-8-2.png" width="100%"></p>
 </div>
 <div id="distplyr-in-context" class="section level2">
 <h2 class="hasAnchor">
 <a href="#distplyr-in-context" class="anchor"></a><code>distplyr</code> in Context</h2>
 <p>Note that <code>distplyr</code> is <em>not</em> a modelling package, meaning it won’t optimize a distribution’s fit to data.</p>
-<p>The <a href="https://cran.r-project.org/web/packages/distributions3/index.html"><code>distributions3</code></a> package is a similar package in that it bundles parametric distributions together using S3 objects.</p>
+<p>The <a href="https://cran.r-project.org/web/packages/distributions3/index.html"><code>distributions3</code></a> package is a similar package in that it bundles parametric distributions together using S3 objects, but does not handle step distributions.</p>
 <p>The <a href="https://cran.r-project.org/web/packages/distr/index.html"><code>distr</code></a> package allows you to make distributions including empirical ones, and transform them, using S4 classes.</p>
 <hr>
 <p>Please note that the ‘distplyr’ project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
