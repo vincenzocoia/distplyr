@@ -15,15 +15,22 @@
 graft_right <- function(dst_left, dst_right, sep_y) {
 	tau_left <- eval_cdf(dst_left, sep_y)
 	tau_right <- eval_cdf(dst_right, sep_y)
-	res <- list(components = list(dst_left  = dst_left,
+	steps_left <- steps(dst_left)
+	steps_left <- steps_left[steps_left[["y"]] <= sep_y, ]
+	steps_right <- steps(dst_right)
+	steps_right <- steps_right[steps_right[["y"]] > sep_y, ]
+	steps_right[["prob"]] <- steps_right[["prob"]] * (1 - tau_left) / (1 - tau_right)
+	steps_right[["tau"]] <- (steps_right[["tau"]] - tau_right) * (1 - tau_left) /
+		(1 - tau_right) + tau_left
+	steps_combined <- rbind(steps_left, steps_right)
+	v <- steps_to_variable(steps_combined)
+	res <- list(steps = steps_combined,
+				components = list(dst_left  = dst_left,
 								  dst_right = dst_right,
 								  tau_left  = tau_left,
 								  tau_right = tau_right,
 								  sep_y     = sep_y,
 								  base      = "left"))
-	v1 <- variable(dst_left)
-	v2 <- variable(dst_right)
-	v <- if (v1 == v2) v1 else "mixed"
 	new_dst(res, variable = v, class = "graft")
 }
 
@@ -39,8 +46,7 @@ is.graft <- function(object) inherits(object, "graft")
 
 #' @export
 get_cdf.graft <- function(object) {
-	with(
-		object[["components"]],
+	with(object[["components"]], {
 		if (identical(base, "left")) {
 			function(y) {
 				lower <- vapply(y <= sep_y, isTRUE, FUN.VALUE = logical(1))
@@ -56,7 +62,7 @@ get_cdf.graft <- function(object) {
 		} else {
 			stop("Not yet programmed.")
 		}
-	)
+	})
 }
 
 #' @export
