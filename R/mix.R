@@ -46,7 +46,7 @@ mix <- function(..., probs) {
 	reduced_jumps <- mapply(`*`, probs, jump_vecs, SIMPLIFY = FALSE)
 	jumps <- c(jump_vecs, recursive = TRUE)
 	y <- c(y_vecs, recursive = TRUE)
-	new_steps <- consolidate_weights(y, jumps)
+	new_steps <- make_steps(y, jumps)
 	lgl_stepdst <- vapply(dsts, is_stepdst, FUN.VALUE = logical(1L))
 	if (all(lgl_stepdst)) {
 		return(stepdst(y, data = new_steps, weights = prob, variable = v))

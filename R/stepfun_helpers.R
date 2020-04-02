@@ -103,39 +103,4 @@ swap_step_continuity_direction <- function(stepfun) {
 	}
 }
 
-#' Consolidate Weights
-#'
-#' For a vector of outcomes \code{y} with a matching vector of weights,
-#' this function provides a single non-zero, non-NA
-#' weight per unique value of \code{y}. Weights sum to 1.
-#' @param y Vector of outcomes.
-#' @param weights Vector of weights, one for each of \code{y}.
-#' These need not sum to one, but must not be negative.
-#' @return Data frame with the following columns:
-#' \enumerate{
-#'   \item \code{y}: Increasing vector of unique values of \code{y}
-#'   having positive weight.
-#'   \item \code{prob}: Weights corresponding to each outcome.
-#'   \item \code{tau}: Cumulative weights; that is, \code{cumsum(prob)}.
-#' }
-#' @export
-consolidate_weights <- function(y, weights) {
-	stopifnot(identical(length(y), length(weights)))
-	yw <- data.frame(y = y, w = weights)
-	yw <- stats::na.omit(yw)
-	yw <- yw[yw[["w"]] != 0, ]
-	yw <- yw[order(yw[["y"]]), ]
-	y <- yw[["y"]]
-	w <- yw[["w"]]
-	w <- w / sum(w)
-	tau <- cumsum(w)
-	rm_id <- which(duplicated(y)) - 1
-	if (length(rm_id) > 0) {
-		tau <- tau[-rm_id]
-	}
-	prob <- diff(c(0, tau))
-	stopifnot(sum(prob) == 1)
-	y <- unique(y)
-	stopifnot(length(y) == length(tau))
-	data.frame(y = y, prob = prob, tau = tau)
-}
+

@@ -55,7 +55,7 @@ stepdst <- function(y, data, weights = 1,
 	if (length(w) == 1) {
 		w <- rep(w, length(y))
 	}
-	steps <- consolidate_weights(y, w)
+	steps <- make_steps(y, w)
 	res <- list(steps = steps)
 	new_stepdst(res, variable = v)
 }
