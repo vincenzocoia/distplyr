@@ -1,6 +1,6 @@
 #' Discontinuities in a Distribution
 #'
-#' Step points are the coordinates marking the
+#' Discontinuity points are the coordinates marking the
 #' positions of step discontinuities in a
 #' distribution. They are the upper points at
 #' each discontinuity in the cdf, together
@@ -14,13 +14,13 @@
 #'   \item \code{prob}: Weights corresponding to each outcome.
 #'   \item \code{tau}: Cumulative weights; that is, \code{cumsum(prob)}.
 #' }
-#' @rdname steps
+#' @rdname discontinuities
 #' @export
-steps <- function(object) UseMethod("steps")
+discontinuities <- function(object) UseMethod("discontinuities")
 
 #' @export
-steps.dst <- function(object) {
-	object[["steps"]]
+discontinuities.dst <- function(object) {
+	object[["discontinuities"]]
 }
 
 
@@ -30,35 +30,27 @@ steps.dst <- function(object) {
 #' @details
 #' For a vector of outcomes \code{y} with a
 #' matching vector of \code{weights},
-#' \code{make_steps()} provides a single non-zero, non-NA
+#' \code{aggregate_weights()} provides a single non-zero, non-NA
 #' weight per unique value of \code{y}. Weights sum to 1.
-#' @rdname steps
+#' @rdname discontinuities
 #' @export
-make_steps <- function(y, weights) {
+aggregate_weights <- function(y, weights) {
 	stopifnot(identical(length(y), length(weights)))
 	if (identical(length(y), 0L)) {
-		return(make_empty_steps_df())
+		return(make_empty_discontinuities_df())
 	}
 	yw <- data.frame(y = y, w = weights)
 	yw <- stats::na.omit(yw)
 	yw <- yw[yw[["w"]] != 0, ]
-	yw <- yw[order(yw[["y"]]), ]
 	y <- yw[["y"]]
 	w <- yw[["w"]]
-	w <- w / sum(w)
-	tau <- cumsum(w)
-	rm_id <- which(duplicated(y)) - 1
-	if (length(rm_id) > 0) {
-		tau <- tau[-rm_id]
-	}
-	prob <- diff(c(0, tau))
-	stopifnot(sum(prob) == 1)
-	y <- unique(y)
-	stopifnot(length(y) == length(tau))
-	data.frame(y = y, prob = prob, tau = tau)
+	df <- aggregate(data.frame(size = w), by = list(location = y), FUN = sum)
+	df <- df[order(df[["location"]]), ]
+	stopifnot(is_discontinuities_df(df))
+	df
 }
 
-#' Make a Data Frame of Steps
+#' Make a Data Frame of Discontinuities
 #'
 #' Places the components of step discontinuities
 #' into a data frame. Internal function whose sole
@@ -67,8 +59,28 @@ make_steps <- function(y, weights) {
 #' @param y,prob,tau Vectors of equal length from which
 #' to construct a data frame.
 #' @export
-make_steps_df <- function(y, prob, tau) {
-	data.frame(y = y, prob = prob, tau = tau)
+make_discontinuities_df <- function(location, size) {
+	df <- data.frame(location = location, size = size)
+	stopifnot(is_discontinuities_df(df))
+	df
+}
+
+#' Check if a Data Frame is a Discontinuity Data Frame
+#'
+#' @param df Data frame to check
+#' @return Logical.
+#' @export
+is_discontinuities_df <- function(df) {
+	if (!is.data.frame(df)) return(FALSE)
+	if (!identical(names(df), c("location", "size"))) return(FALSE)
+	if (identical(nrow(df), 0L)) return(TRUE)
+	with(df, {
+		if (sum(size) > 1) return(FALSE)
+		if (any(size <= 0)) return(FALSE)
+		if (!identical(length(location),
+					   length(unique(location)))) return(FALSE)
+	})
+	TRUE
 }
 
 #' Rowless Step Discontinuity Data Frame
@@ -78,24 +90,24 @@ make_steps_df <- function(y, prob, tau) {
 #' rows, useful for distributions that
 #' do not have any step discontinuities
 #' (i.e., continuous distributions)
-make_empty_steps_df <- function() {
-	make_steps_df(numeric(0L), numeric(0L), numeric(0L))
+make_empty_discontinuities_df <- function() {
+	make_discontinuities_df(numeric(0L), numeric(0L))
 }
 
-#' Determine Variable Type from Steps Data Frame
+#' Determine Variable Type from Discontinuities Data Frame
 #'
 #' Internal function that uses a data frame of
-#' steps to determine whether the
+#' discontinuities to determine whether the
 #' underlying random variable is continuous,
 #' discrete, or mixed.
-#' @param step_df A data frame of steps, as in
-#' the output of \code{\link{steps}}.
+#' @param df A data frame of discontinuities, as in
+#' the output of \code{\link{discontinuities}}.
 #' @return One of \code{"continuous"},
 #' \code{"discrete"}, or \code{"mixed"}.
-steps_to_variable <- function(step_df) {
-	n <- nrow(step_df)
+discontinuities_to_variable <- function(df) {
+	n <- nrow(df)
 	if (identical(n, 0L)) return("continuous")
-	probs <- step_df[["prob"]]
+	probs <- df[["size"]]
 	if (sum(probs) == 1) {
 		"discrete"
 	} else {

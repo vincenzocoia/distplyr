@@ -15,16 +15,16 @@
 graft_right <- function(dst_left, dst_right, sep_y) {
 	tau_left <- eval_cdf(dst_left, sep_y)
 	tau_right <- eval_cdf(dst_right, sep_y)
-	steps_left <- steps(dst_left)
-	steps_left <- steps_left[steps_left[["y"]] <= sep_y, ]
-	steps_right <- steps(dst_right)
-	steps_right <- steps_right[steps_right[["y"]] > sep_y, ]
-	steps_right[["prob"]] <- steps_right[["prob"]] * (1 - tau_left) / (1 - tau_right)
-	steps_right[["tau"]] <- (steps_right[["tau"]] - tau_right) * (1 - tau_left) /
-		(1 - tau_right) + tau_left
+	steps_left <- discontinuities(dst_left)
+	steps_left <- steps_left[steps_left[["location"]] <= sep_y, ]
+	steps_right <- discontinuities(dst_right)
+	steps_right <- steps_right[steps_right[["location"]] > sep_y, ]
+	steps_right[["size"]] <- steps_right[["size"]] * (1 - tau_left) /
+		(1 - tau_right)
 	steps_combined <- rbind(steps_left, steps_right)
+	stopifnot(is_discontinuities_df(steps_combined))
 	v <- steps_to_variable(steps_combined)
-	res <- list(steps = steps_combined,
+	res <- list(discontinuities = steps_combined,
 				components = list(dst_left  = dst_left,
 								  dst_right = dst_right,
 								  tau_left  = tau_left,

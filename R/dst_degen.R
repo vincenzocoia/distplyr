@@ -27,7 +27,7 @@ is.degenerate <- function(object) {
 
 #' @export
 get_mean.degenerate <- function(object, ...) {
-	object[["steps"]][["y"]]
+	discontinuities(object)[["location"]]
 }
 
 #' @export
