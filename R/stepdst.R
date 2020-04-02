@@ -85,29 +85,6 @@ is_stepdst <- function(y) inherits(y, "stepdst")
 #' @export
 is.stepdst <- function(y) inherits(y, "stepdst")
 
-#' Get Step Points from a Step Distribution
-#'
-#' Step points are the coordinates marking the
-#' positions of the step discontinuities in a step
-#' distribution. They are the left-most points of
-#' each non-zero plateau of the cdf.
-#'
-#' @param object A step distribution object.
-#' @return Data frame with two columns: column
-#' \code{y} contains the outcomes corresponding to
-#' the step discontinuities of the cdf, and column
-#' \code{tau} contains the non-zero plateaus of the
-#' cdf (so that the cdf at \code{y} evaluates to
-#' \code{tau})
-#' @rdname steps
-#' @export
-steps <- function(object) UseMethod("steps")
-
-#' @export
-steps.stepdst <- function(object) {
-	object[["steps"]]
-}
-
 
 #' @export
 get_mean.stepdst <- function(object, ...) {

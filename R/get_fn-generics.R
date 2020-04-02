@@ -16,6 +16,7 @@ get_cdf <- function(object) UseMethod("get_cdf")
 #' Get quantile function
 #'
 #' @param object Object of class "dst"
+#' @param ... Other arguments to pass to specific methods
 #' @return a vectorized function of the quantile function.
 #' @seealso
 #' \code{\link{get_probfn}},
@@ -23,8 +24,9 @@ get_cdf <- function(object) UseMethod("get_cdf")
 #' \code{\link{get_randfn}},
 #' \code{\link{get_hazard}},
 #' \code{\link{get_survival}}
+#' @rdname get_quantile
 #' @export
-get_quantile <- function(object) UseMethod("get_quantile")
+get_quantile <- function(object, ...) UseMethod("get_quantile")
 
 
 #' Get probability density/mass function
