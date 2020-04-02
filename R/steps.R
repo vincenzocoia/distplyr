@@ -81,3 +81,24 @@ make_steps_df <- function(y, prob, tau) {
 make_empty_steps_df <- function() {
 	make_steps_df(numeric(0L), numeric(0L), numeric(0L))
 }
+
+#' Determine Variable Type from Steps Data Frame
+#'
+#' Internal function that uses a data frame of
+#' steps to determine whether the
+#' underlying random variable is continuous,
+#' discrete, or mixed.
+#' @param step_df A data frame of steps, as in
+#' the output of \code{\link{steps}}.
+#' @return One of \code{"continuous"},
+#' \code{"discrete"}, or \code{"mixed"}.
+steps_to_variable <- function(step_df) {
+	n <- nrow(step_df)
+	if (identical(n, 0L)) return("continuous")
+	probs <- step_df[["prob"]]
+	if (sum(probs) == 1) {
+		"discrete"
+	} else {
+		"mixed"
+	}
+}
