@@ -1,9 +1,45 @@
 #' @export
 get_cdf.dst <- function(object) object$fun_cumu
 
-
+#' @param low,high Lower and upper values to find all quantiles between.
+#' Will improve later.
+#' @param tol tolerance
+#' @param maxiter Maximum number of iterations
+#' @rdname get_quantile
 #' @export
-get_quantile.dst <- function(object) object$fun_quant
+get_quantile.dst <- function(object, low, high, tol = 1e-6, maxiter = 1000) {
+	f <- object[["representations"]][["fun_quant"]]
+	if (!is.null(f)) return(f)
+	cdf <- get_cdf(object)
+	if (cdf(low) >= x) {
+		stop("cdf at low value must evaluate to <p.")
+	}
+	if (cdf(high) < x) {
+		stop("cdf at high value must evaluate to >=p.")
+	}
+	maxiter <- 1000
+	Vectorize(function(x) {
+		w <- high - low
+		i <- 0
+		while(w > tol && i <= maxiter) {
+			i <- i + 1
+			mid <- (high + low) / 2
+			val <- cdf(mid)
+			if (val >= x) {
+				high <- mid
+			} else {
+				low <- mid
+			}
+			if (high == low) return(low)
+			cat(low, high, "\n")
+		}
+		if (i == maxiter) {
+			warning("Maximum number of iterations reached before tolerance was achieved.")
+		}
+		mid
+	})
+
+}
 
 
 #' @export
