@@ -22,7 +22,7 @@ mix <- function(..., probs) {
 	}
 	na_probs <- is.na(probs)
 	if (any(na_probs)) {
-		warning("Found NA probabilities. Removing the corresponding distribution.")
+		warning("Found NA probabilities. Removing the corresponding distributions.")
 		probs <- probs[!na_probs]
 		dsts <- dsts[!na_probs]
 	}
@@ -40,21 +40,22 @@ mix <- function(..., probs) {
 	} else {
 		v <- "mixed"
 	}
+	step_dfs <- lapply(dsts, steps)
+	y_vecs <- lapply(step_dfs, `[[`, "y")
+	jump_vecs <- lapply(step_dfs, `[[`, "prob")
+	reduced_jumps <- mapply(`*`, probs, jump_vecs, SIMPLIFY = FALSE)
+	jumps <- c(jump_vecs, recursive = TRUE)
+	y <- c(y_vecs, recursive = TRUE)
+	new_steps <- consolidate_weights(y, jumps)
 	lgl_stepdst <- vapply(dsts, is_stepdst, FUN.VALUE = logical(1L))
 	if (all(lgl_stepdst)) {
-		step_dfs <- lapply(dsts, steps)
-		prob_vecs <- mapply(
-			function(df, p) {
-				df[["prob"]] * p
-			},
-			step_dfs, probs, SIMPLIFY = FALSE
-		)
-		y_vecs <-lapply(step_dfs, `[[`, "y")
-		y <- c(y_vecs, recursive = TRUE)
-		w <- c(prob_vecs, recursive = TRUE)
-		return(stepdst(y, weights = w, variable = v))
+		return(stepdst(y, data = new_steps, weights = prob, variable = v))
 	}
-	res <- list(components = list(distributions = dsts,
+	cdf_at_y <- lapply(dsts, eval_cdf, at = y)
+	level_components <- mapply(`*`, cdf_at_y, probs, SIMPLIFY = FALSE)
+	new_steps[["tau"]] <- Reduce(`+`, level_components)
+	res <- list(steps = new_steps,
+				components = list(distributions = dsts,
 								  probs = probs))
 	new_dst(res, variable = v, class = "mix")
 }
@@ -102,11 +103,6 @@ get_cdf.mix <- function(object) {
 			Reduce(`+`, p_times_cdfs)
 		}
 	})
-}
-
-#' @export
-get_quantile.mix <- function(object) {
-	stop("Not programmed yet.")
 }
 
 #' @export
