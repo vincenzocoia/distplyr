@@ -23,7 +23,7 @@ graft_right <- function(dst_left, dst_right, sep_y) {
 		(1 - tau_right)
 	steps_combined <- rbind(steps_left, steps_right)
 	stopifnot(is_discontinuities_df(steps_combined))
-	v <- steps_to_variable(steps_combined)
+	v <- discontinuities_to_variable(steps_combined)
 	res <- list(discontinuities = steps_combined,
 				components = list(dst_left  = dst_left,
 								  dst_right = dst_right,
@@ -66,7 +66,7 @@ get_cdf.graft <- function(object) {
 }
 
 #' @export
-get_quantile.graft <- function(object) {
+get_quantile.graft <- function(object, ...) {
 	with(
 		object[["components"]],
 		if (identical(base, "left")) {

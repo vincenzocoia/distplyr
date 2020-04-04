@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get quantile function — get_quantile • distplyr</title>
+<title>Make a Data Frame of Discontinuities — make_discontinuities_df • distplyr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,9 +32,11 @@
 
 
 
-<meta property="og:title" content="Get quantile function — get_quantile" />
+<meta property="og:title" content="Make a Data Frame of Discontinuities — make_discontinuities_df" />
 
-<meta property="og:description" content="Get quantile function" />
+<meta property="og:description" content="Places the components of step discontinuities
+into a data frame, and checks that the result is named
+appropriately." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -116,59 +118,30 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get quantile function</h1>
+    <h1>Make a Data Frame of Discontinuities</h1>
     
-    <div class="hidden name"><code>get_quantile.Rd</code></div>
+    <div class="hidden name"><code>make_discontinuities_df.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Get quantile function</p>
+    <p>Places the components of step discontinuities
+into a data frame, and checks that the result is named
+appropriately.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>get_quantile</span>(<span class='no'>object</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for dst</span>
-<span class='fu'>get_quantile</span>(<span class='no'>object</span>, <span class='no'>low</span>, <span class='no'>high</span>, <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>, <span class='kw'>maxiter</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>make_discontinuities_df</span>(<span class='no'>location</span>, <span class='no'>size</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>object</th>
-      <td><p>Object of class "dst"</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Other arguments to pass to specific methods</p></td>
-    </tr>
-    <tr>
-      <th>low, high</th>
-      <td><p>Lower and upper values to find all quantiles between.
-Will improve later.</p></td>
-    </tr>
-    <tr>
-      <th>tol</th>
-      <td><p>tolerance</p></td>
-    </tr>
-    <tr>
-      <th>maxiter</th>
-      <td><p>Maximum number of iterations</p></td>
+      <th>location, size</th>
+      <td><p>Vectors of equal length from which
+to construct a data frame.</p></td>
     </tr>
     </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>a vectorized function of the quantile function.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='get_probfn.html'>get_probfn</a></code>,
-<code><a href='get_cdf.html'>get_cdf</a></code>,
-<code><a href='get_randfn.html'>get_randfn</a></code>,
-<code><a href='hazard.html'>get_hazard</a></code>,
-<code><a href='get_survival.html'>get_survival</a></code></p></div>
     
 
   </div>
@@ -176,11 +149,7 @@ Will improve later.</p></td>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-          </ul>
+                </ul>
 
   </div>
 </div>

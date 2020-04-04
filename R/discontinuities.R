@@ -44,7 +44,8 @@ aggregate_weights <- function(y, weights) {
 	yw <- yw[yw[["w"]] != 0, ]
 	y <- yw[["y"]]
 	w <- yw[["w"]]
-	df <- aggregate(data.frame(size = w), by = list(location = y), FUN = sum)
+	w <- w / sum(w)
+	df <- stats::aggregate(data.frame(size = w), by = list(location = y), FUN = sum)
 	df <- df[order(df[["location"]]), ]
 	stopifnot(is_discontinuities_df(df))
 	df
@@ -53,10 +54,9 @@ aggregate_weights <- function(y, weights) {
 #' Make a Data Frame of Discontinuities
 #'
 #' Places the components of step discontinuities
-#' into a data frame. Internal function whose sole
-#' purpose is to ensure the consistent naming of
-#' step data frame columns.
-#' @param y,prob,tau Vectors of equal length from which
+#' into a data frame, and checks that the result is named
+#' appropriately.
+#' @param location,size Vectors of equal length from which
 #' to construct a data frame.
 #' @export
 make_discontinuities_df <- function(location, size) {
@@ -67,6 +67,8 @@ make_discontinuities_df <- function(location, size) {
 
 #' Check if a Data Frame is a Discontinuity Data Frame
 #'
+#' The official names in a discontinuity data frame are
+#' determined (and checked) here.
 #' @param df Data frame to check
 #' @return Logical.
 #' @export

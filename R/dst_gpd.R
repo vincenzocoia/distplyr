@@ -101,7 +101,7 @@ get_cdf.gpd <- function(object) {
 }
 
 #' @export
-get_quantile.gpd <- function(object) {
+get_quantile.gpd <- function(object, ...) {
 	with(
 		parameters(object),
 		if (shape == 0) {

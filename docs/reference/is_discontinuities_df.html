@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get quantile function — get_quantile • distplyr</title>
+<title>Check if a Data Frame is a Discontinuity Data Frame — is_discontinuities_df • distplyr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,9 +32,10 @@
 
 
 
-<meta property="og:title" content="Get quantile function — get_quantile" />
+<meta property="og:title" content="Check if a Data Frame is a Discontinuity Data Frame — is_discontinuities_df" />
 
-<meta property="og:description" content="Get quantile function" />
+<meta property="og:description" content="The official names in a discontinuity data frame are
+determined (and checked) here." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -116,59 +117,32 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get quantile function</h1>
+    <h1>Check if a Data Frame is a Discontinuity Data Frame</h1>
     
-    <div class="hidden name"><code>get_quantile.Rd</code></div>
+    <div class="hidden name"><code>is_discontinuities_df.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Get quantile function</p>
+    <p>The official names in a discontinuity data frame are
+determined (and checked) here.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>get_quantile</span>(<span class='no'>object</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for dst</span>
-<span class='fu'>get_quantile</span>(<span class='no'>object</span>, <span class='no'>low</span>, <span class='no'>high</span>, <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>, <span class='kw'>maxiter</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>is_discontinuities_df</span>(<span class='no'>df</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>object</th>
-      <td><p>Object of class "dst"</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Other arguments to pass to specific methods</p></td>
-    </tr>
-    <tr>
-      <th>low, high</th>
-      <td><p>Lower and upper values to find all quantiles between.
-Will improve later.</p></td>
-    </tr>
-    <tr>
-      <th>tol</th>
-      <td><p>tolerance</p></td>
-    </tr>
-    <tr>
-      <th>maxiter</th>
-      <td><p>Maximum number of iterations</p></td>
+      <th>df</th>
+      <td><p>Data frame to check</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a vectorized function of the quantile function.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='get_probfn.html'>get_probfn</a></code>,
-<code><a href='get_cdf.html'>get_cdf</a></code>,
-<code><a href='get_randfn.html'>get_randfn</a></code>,
-<code><a href='hazard.html'>get_hazard</a></code>,
-<code><a href='get_survival.html'>get_survival</a></code></p></div>
+    <p>Logical.</p>
     
 
   </div>
@@ -178,8 +152,6 @@ Will improve later.</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
           </ul>
 
   </div>

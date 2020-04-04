@@ -83,7 +83,7 @@ get_randfn.unif <- function(object) {
 }
 
 #' @export
-get_quantile.unif <- function(object) {
+get_quantile.unif <- function(object, ...) {
 	with(
 		parameters(object),
 		function(x) stats::qunif(x, min = min, max = max)

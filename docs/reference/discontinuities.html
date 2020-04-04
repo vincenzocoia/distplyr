@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get quantile function — get_quantile • distplyr</title>
+<title>Discontinuities in a Distribution — discontinuities • distplyr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,9 +32,13 @@
 
 
 
-<meta property="og:title" content="Get quantile function — get_quantile" />
+<meta property="og:title" content="Discontinuities in a Distribution — discontinuities" />
 
-<meta property="og:description" content="Get quantile function" />
+<meta property="og:description" content="Discontinuity points are the coordinates marking the
+positions of step discontinuities in a
+distribution. They are the upper points at
+each discontinuity in the cdf, together
+with the size of the discontinuity gap." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -116,59 +120,59 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get quantile function</h1>
+    <h1>Discontinuities in a Distribution</h1>
     
-    <div class="hidden name"><code>get_quantile.Rd</code></div>
+    <div class="hidden name"><code>discontinuities.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Get quantile function</p>
+    <p>Discontinuity points are the coordinates marking the
+positions of step discontinuities in a
+distribution. They are the upper points at
+each discontinuity in the cdf, together
+with the size of the discontinuity gap.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>get_quantile</span>(<span class='no'>object</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>discontinuities</span>(<span class='no'>object</span>)
 
-<span class='co'># S3 method for dst</span>
-<span class='fu'>get_quantile</span>(<span class='no'>object</span>, <span class='no'>low</span>, <span class='no'>high</span>, <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>, <span class='kw'>maxiter</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>aggregate_weights</span>(<span class='no'>y</span>, <span class='no'>weights</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>object</th>
-      <td><p>Object of class "dst"</p></td>
+      <td><p>A distribution object.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Other arguments to pass to specific methods</p></td>
+      <th>y</th>
+      <td><p>Vector of outcomes.</p></td>
     </tr>
     <tr>
-      <th>low, high</th>
-      <td><p>Lower and upper values to find all quantiles between.
-Will improve later.</p></td>
-    </tr>
-    <tr>
-      <th>tol</th>
-      <td><p>tolerance</p></td>
-    </tr>
-    <tr>
-      <th>maxiter</th>
-      <td><p>Maximum number of iterations</p></td>
+      <th>weights</th>
+      <td><p>Vector of weights, one for each of <code>y</code>.
+These need not sum to one, but must not be negative.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a vectorized function of the quantile function.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p>Data frame with the following columns:</p><ol>
+<li><p><code>y</code>: Increasing vector of unique values of <code>y</code>
+  having positive weight.</p></li>
+<li><p><code>prob</code>: Weights corresponding to each outcome.</p></li>
+<li><p><code>tau</code>: Cumulative weights; that is, <code><a href='https://rdrr.io/r/base/cumsum.html'>cumsum(prob)</a></code>.</p></li>
+</ol>
 
-    <div class='dont-index'><p><code><a href='get_probfn.html'>get_probfn</a></code>,
-<code><a href='get_cdf.html'>get_cdf</a></code>,
-<code><a href='get_randfn.html'>get_randfn</a></code>,
-<code><a href='hazard.html'>get_hazard</a></code>,
-<code><a href='get_survival.html'>get_survival</a></code></p></div>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>For a vector of outcomes <code>y</code> with a
+matching vector of <code>weights</code>,
+<code>aggregate_weights()</code> provides a single non-zero, non-NA
+weight per unique value of <code>y</code>. Weights sum to 1.</p>
     
 
   </div>
@@ -179,7 +183,7 @@ Will improve later.</p></td>
       
       <li><a href="#value">Value</a></li>
 
-      <li><a href="#see-also">See also</a></li>
+      <li><a href="#details">Details</a></li>
           </ul>
 
   </div>

@@ -87,7 +87,7 @@ get_randfn.norm <- function(object) {
 }
 
 #' @export
-get_quantile.norm <- function(object) {
+get_quantile.norm <- function(object, ...) {
 	with(
 		parameters(object),
 		function(x) stats::qnorm(x, mean = mean, sd = sd)

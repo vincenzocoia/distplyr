@@ -55,7 +55,7 @@ stepdst <- function(y, data, weights = 1,
 	if (length(w) == 1) {
 		w <- rep(w, length(y))
 	}
-	steps <- make_discontinuities_df(y, w)
+	steps <- aggregate_weights(y, w)
 	res <- list(discontinuities = steps)
 	new_stepdst(res, variable = v)
 }
@@ -88,14 +88,14 @@ is.stepdst <- function(y) inherits(y, "stepdst")
 
 #' @export
 get_mean.stepdst <- function(object, ...) {
-	with(steps(object), {
+	with(discontinuities(object), {
 		sum(size * location)
 	})
 }
 
 #' @export
 get_variance.stepdst <- function(object, ...) {
-	with(steps(object), {
+	with(discontinuities(object), {
 		mu <- get_mean(object)
 		mu2 <- sum(size * location^2)
 		mu2 - mu^2
@@ -105,7 +105,7 @@ get_variance.stepdst <- function(object, ...) {
 
 #' @export
 get_cdf.stepdst <- function(object) {
-	with(steps(object), {
+	with(discontinuities(object), {
 		heights <- c(0, cumsum(size))
 		stats::stepfun(location, heights, right = FALSE)
 	})
@@ -113,15 +113,15 @@ get_cdf.stepdst <- function(object) {
 
 #' @export
 get_survival.stepdst <- function(object) {
-	with(steps(object), {
+	with(discontinuities(object), {
 		heights <- 1 - c(0, cumsum(size))
 		stats::stepfun(location, heights, right = FALSE)
 	})
 }
 
 #' @export
-get_quantile.stepdst <- function(object) {
-	with(steps(object), {
+get_quantile.stepdst <- function(object, ...) {
+	with(discontinuities(object), {
 		if (identical(length(location), 1L)) {
 			function(x) {
 				x[!is.na(x) & !is.nan(x)] <- location
@@ -139,16 +139,15 @@ get_quantile.stepdst <- function(object) {
 
 #' @export
 get_randfn.stepdst <- function(object) {
-	with(
-		steps(object),
+	with(discontinuities(object), {
 		function(n) sample(location, size = n, replace = TRUE, prob = size)
-	)
+	})
 }
 
 #' @export
 get_probfn.stepdst <- function(object) {
 	if (identical(variable(object), "discrete")) {
-		with(steps(object), {
+		with(discontinuities(object), {
 			Vectorize(function(x) sum(size[x == location]))
 		})
 	}

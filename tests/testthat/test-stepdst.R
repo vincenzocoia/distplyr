@@ -56,7 +56,13 @@ test_that("weighted step function works", {
 
 
 test_that("step points are correct", {
-	expect_identical(plateaus(get_cdf(wdist)), c(0, steps(wdist)[["tau"]]))
-	expect_identical(stats::knots(get_cdf(wdist)), steps(wdist)[["y"]])
+	expect_identical(
+		plateaus(get_cdf(wdist)),
+		c(0, cumsum(discontinuities(wdist)[["size"]]))
+	)
+	expect_identical(
+		stats::knots(get_cdf(wdist)),
+		discontinuities(wdist)[["location"]]
+	)
 })
 

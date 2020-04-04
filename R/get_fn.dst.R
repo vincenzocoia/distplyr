@@ -7,18 +7,18 @@ get_cdf.dst <- function(object) object$fun_cumu
 #' @param maxiter Maximum number of iterations
 #' @rdname get_quantile
 #' @export
-get_quantile.dst <- function(object, low, high, tol = 1e-6, maxiter = 1000) {
+get_quantile.dst <- function(object, low, high, tol = 1e-6, maxiter = 1000, ...) {
 	f <- object[["representations"]][["fun_quant"]]
 	if (!is.null(f)) return(f)
 	cdf <- get_cdf(object)
-	if (cdf(low) >= x) {
-		stop("cdf at low value must evaluate to <p.")
-	}
-	if (cdf(high) < x) {
-		stop("cdf at high value must evaluate to >=p.")
-	}
 	maxiter <- 1000
 	Vectorize(function(x) {
+		if (cdf(low) >= x) {
+			stop("cdf at low value must evaluate to <p.")
+		}
+		if (cdf(high) < x) {
+			stop("cdf at high value must evaluate to >=p.")
+		}
 		w <- high - low
 		i <- 0
 		while(w > tol && i <= maxiter) {

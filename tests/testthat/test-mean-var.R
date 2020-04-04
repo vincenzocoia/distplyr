@@ -2,10 +2,10 @@ x <- c(-1, 4, 5, -1, -2, 7)
 .dst <- stepdst(x)
 
 test_that("mean and variance works with stepdst", {
-	expect_identical(mean(x), get_mean(.dst))
+	expect_equal(mean(x), get_mean(.dst))
 	v <- mean(x^2) - mean(x)^2
-	expect_identical(v, get_variance(.dst))
-	expect_identical(sqrt(v), get_sd(.dst))
+	expect_equal(v, get_variance(.dst))
+	expect_equal(sqrt(v), get_sd(.dst))
 })
 
 
