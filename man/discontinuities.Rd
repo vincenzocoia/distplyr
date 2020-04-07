@@ -7,7 +7,7 @@
 \usage{
 discontinuities(object)
 
-aggregate_weights(y, weights)
+aggregate_weights(y, weights, sum_to_one = FALSE)
 }
 \arguments{
 \item{object}{A distribution object.}
@@ -16,6 +16,9 @@ aggregate_weights(y, weights)
 
 \item{weights}{Vector of weights, one for each of \code{y}.
 These need not sum to one, but must not be negative.}
+
+\item{sum_to_one}{Logical; should the weights be normalized
+to sum to 1? Default is FALSE.}
 }
 \value{
 Data frame with the following columns:
@@ -37,5 +40,5 @@ with the size of the discontinuity gap.
 For a vector of outcomes \code{y} with a
 matching vector of \code{weights},
 \code{aggregate_weights()} provides a single non-zero, non-NA
-weight per unique value of \code{y}. Weights sum to 1.
+weight per unique value of \code{y}.
 }

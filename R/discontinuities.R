@@ -27,14 +27,16 @@ discontinuities.dst <- function(object) {
 #' @param y Vector of outcomes.
 #' @param weights Vector of weights, one for each of \code{y}.
 #' These need not sum to one, but must not be negative.
+#' @param sum_to_one Logical; should the weights be normalized
+#' to sum to 1? Default is FALSE.
 #' @details
 #' For a vector of outcomes \code{y} with a
 #' matching vector of \code{weights},
 #' \code{aggregate_weights()} provides a single non-zero, non-NA
-#' weight per unique value of \code{y}. Weights sum to 1.
+#' weight per unique value of \code{y}.
 #' @rdname discontinuities
 #' @export
-aggregate_weights <- function(y, weights) {
+aggregate_weights <- function(y, weights, sum_to_one = FALSE) {
 	stopifnot(identical(length(y), length(weights)))
 	if (identical(length(y), 0L)) {
 		return(make_empty_discontinuities_df())
@@ -44,7 +46,7 @@ aggregate_weights <- function(y, weights) {
 	yw <- yw[yw[["w"]] != 0, ]
 	y <- yw[["y"]]
 	w <- yw[["w"]]
-	w <- w / sum(w)
+	if (sum_to_one) w <- w / sum(w)
 	df <- stats::aggregate(data.frame(size = w), by = list(location = y), FUN = sum)
 	df <- df[order(df[["location"]]), ]
 	stopifnot(is_discontinuities_df(df))

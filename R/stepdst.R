@@ -55,7 +55,7 @@ stepdst <- function(y, data, weights = 1,
 	if (length(w) == 1) {
 		w <- rep(w, length(y))
 	}
-	steps <- aggregate_weights(y, w)
+	steps <- aggregate_weights(y, w, sum_to_one = TRUE)
 	res <- list(discontinuities = steps)
 	new_stepdst(res, variable = v)
 }

@@ -19,7 +19,7 @@ test_that("unweighted empirical distribution works", {
 	expect_true(is_dst(edist2))
 	expect_equal(plateaus(get_cdf(edist2)), 0:10/10)
 	expect_identical(stats::knots(cdf), plateaus(qf))
-	expect_identical(plateaus(cdf), 1 - plateaus(sf))
+	expect_equal(plateaus(cdf), 1 - plateaus(sf))
 	expect_identical(cdf(qf(1/8)), 1/8)
 	expect_identical(cdf(qf(1/8 + 0.001)), 4/8)
 	expect_identical(cdf(qf(1/8 - 0.001)), 1/8)

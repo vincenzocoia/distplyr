@@ -34,22 +34,19 @@ mix <- function(..., probs) {
 	if (identical(length(probs), 1L)) {
 		return(dsts[[1L]])
 	}
-	variables <- vapply(dsts, variable, FUN.VALUE = character(1L))
-	if (all(variables == variables[1L])) {
-		v <- variables[1L]
-	} else {
-		v <- "mixed"
-	}
 	step_dfs <- lapply(dsts, discontinuities)
 	y_vecs <- lapply(step_dfs, `[[`, "location")
 	jump_vecs <- lapply(step_dfs, `[[`, "size")
 	reduced_jumps <- mapply(`*`, probs, jump_vecs, SIMPLIFY = FALSE)
-	jumps <- c(jump_vecs, recursive = TRUE)
+	jumps <- c(reduced_jumps, recursive = TRUE)
 	y <- c(y_vecs, recursive = TRUE)
 	new_steps <- aggregate_weights(y, jumps)
+	v <- discontinuities_to_variable(new_steps)
 	lgl_stepdst <- vapply(dsts, is_stepdst, FUN.VALUE = logical(1L))
 	if (all(lgl_stepdst)) {
-		return(stepdst(location, data = new_steps, weights = size, variable = v))
+		return(stepdst(new_steps[["location"]],
+					   weights = new_steps[["size"]],
+					   variable = v))
 	}
 	res <- list(discontinuities = new_steps,
 				components = list(distributions = dsts,
