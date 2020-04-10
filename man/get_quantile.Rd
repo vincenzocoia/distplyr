@@ -7,15 +7,12 @@
 \usage{
 get_quantile(object, ...)
 
-\method{get_quantile}{dst}(object, low, high, tol = 1e-06, maxiter = 1000, ...)
+\method{get_quantile}{dst}(object, tol = 1e-06, maxiter = 1000, ...)
 }
 \arguments{
 \item{object}{Object of class "dst"}
 
 \item{...}{Other arguments to pass to specific methods}
-
-\item{low, high}{Lower and upper values to find all quantiles between.
-Will improve later.}
 
 \item{tol}{tolerance}
 

@@ -15,43 +15,83 @@ get_quantile.dst <- function(object, tol = 1e-6, maxiter = 1000, ...) {
 	cdf_high <- cdf(breaks)
 	cdf_low <- cdf_high - discon[["size"]]
 	function(x) {
+		n_x <- length(x)
+		if (identical(n_x, 0L)) return(numeric(0L))
 		ox <- order(x)
 		x <- x[ox]
 		dup_x <- duplicated(x)
-		n_x <- length(x)
-		if (identical(n_x, 0L)) return(numeric(0L))
 		res <- x
-		i <- 0L
-		batch_id <- 0L
-		while (i < n) {
-			remaining_xs <- x[-seq_len(i)]
+		x_lte_0 <- x <= 0
+		x_gt_1 <- x > 1
+		x_lte_1 <- x <= 1
+		res[x_lte_0] <- -Inf
+		res[x_gt_1] <- NaN
+		i <- sum(x_lte_0, na.rm = TRUE)
+		n_x <- sum(x_lte_1, na.rm = TRUE)
+		break_id <- 0L
+		while (i < n_x) {
+			remaining_xs <- x[i + seq_len(n_x - i)]
 			next_x <- remaining_xs[1L]
-			remaining_cdf_highs <- cdf_high[-seq_len(batch_id)]
-			higher_batch_ids <- which(next_x <= remaining_cdf_highs)
-			if (identical(length(higher_batch_ids), 0L)) {
-				batch_id <- n_breaks + 1L
-				if (identical(i, 0L)) {
+			# --- Start new control flow ---
+			break_id <- which(next_x <= cdf_high)[1L]
+			above_all_breaks <- as.logical(1L - length(break_id))
+			this_break <- breaks[break_id]
+			this_cdf_high <- cdf_high[break_id]
+			this_cdf_low <- cdf_low[break_id]
+			if (above_all_breaks) {
+				if (identical(n_breaks, 0L)) {
 					low <- get_lower(object, level = x[1L])
 				} else {
 					low <- breaks[n_breaks]
 				}
 				high <- get_higher(object, level = x[n_x])
-				n_x_in_batch <- n - i
-				n_x_below_discont <- n_x_in_batch
-			} else {
-				delta_batch_id <- higher_batch_ids[1L]
-				batch_id <- batch_id + delta_batch_id
-				this_cdf_high <- cdf_high[batch_id]
-				this_cdf_low <- cdf_low[batch_id]
-				this_break <- breaks[batch_id]
-				low <- breaks[batch_id - 1L]
+				this_break <- Inf
+				this_cdf_high <- 1
+				this_cdf_low <- 1
+			} else if (identical(break_id, 1L)) {
+				low <- get_lower(object, level = x[1L])
 				high <- this_break
-				n_x_in_batch <- sum(remaining_xs <= this_cdf_high)
-				n_x_below_discont <- sum(remaining_xs <= this_cdf_low)
-				n_x_in_discont <- n_x_in_batch - n_x_below_discont
-				x_ids_in_discont <- i + n_x_below_discont + seq_len(n_x_in_discont)
-				res[x_ids_in_discont] <- this_break
+			} else {
+				low <- breaks[break_id - 1L]
+				high <- this_break
 			}
+			n_x_in_batch <- sum(remaining_xs <= this_cdf_high)
+			n_x_below_discont <- sum(remaining_xs <= this_cdf_low)
+			n_x_in_discont <- n_x_in_batch - n_x_below_discont
+			x_ids_in_discont <- i + n_x_below_discont + seq_len(n_x_in_discont)
+			res[x_ids_in_discont] <- this_break
+			# --- End new control flow
+
+
+
+			# remaining_cdf_highs <- cdf_high[break_id + seq(n_breaks - break_id)]
+			# higher_break_ids <- which(next_x <= remaining_cdf_highs)
+			# n_higher_breaks <- length(higher_break_ids)
+			# n_lower_breaks <- n_breaks - n_higher_breaks
+			# if (identical(n_higher_breaks, 0L)) {
+			# 	break_id <- n_breaks + 1L
+			# 	if (identical(i, 0L)) {
+			# 		low <- get_lower(object, level = x[1L])
+			# 	} else {
+			# 		low <- breaks[n_breaks]
+			# 	}
+			# 	high <- get_higher(object, level = x[n_x])
+			# 	n_x_in_batch <- n_x - i
+			# 	n_x_below_discont <- n_x_in_batch
+			# } else {
+			# 	delta_break_id <- higher_break_ids[1L]
+			# 	break_id <- break_id + delta_break_id
+			# 	this_cdf_high <- cdf_high[break_id]
+			# 	this_cdf_low <- cdf_low[break_id]
+			# 	this_break <- breaks[break_id]
+			# 	low <- breaks[break_id - 1L]
+			# 	high <- this_break
+			# 	n_x_in_batch <- sum(remaining_xs <= this_cdf_high)
+			# 	n_x_below_discont <- sum(remaining_xs <= this_cdf_low)
+			# 	n_x_in_discont <- n_x_in_batch - n_x_below_discont
+			# 	x_ids_in_discont <- i + n_x_below_discont + seq_len(n_x_in_discont)
+			# 	res[x_ids_in_discont] <- this_break
+			# }
 			for (x_id in i + seq_len(n_x_below_discont)) {
 				if (dup_x[x_id]) {
 					res[x_id] <- res[x_id - 1L]
@@ -59,6 +99,7 @@ get_quantile.dst <- function(object, tol = 1e-6, maxiter = 1000, ...) {
 					answer <- left_inverse(cdf, at = x[x_id],
 										   low = low, high = high,
 										   tol = tol, maxiter = maxiter)
+
 					low <- answer
 					res[x_id] <- answer
 				}
@@ -70,6 +111,7 @@ get_quantile.dst <- function(object, tol = 1e-6, maxiter = 1000, ...) {
 		unordered_res
 	}
 }
+
 
 #' Algorithm to Compute Left Inverse
 #'
@@ -95,12 +137,12 @@ left_inverse <- function(f, at, low, high, tol, maxiter) {
 	stopifnot(low < high)
 	if (is.na(at)) return(at)
 	w <- high - low
-	i <- 0
+	i <- 0L
 	while(w > tol && i <= maxiter) {
-		i <- i + 1
+		i <- i + 1L
 		mid <- (high + low) / 2
 		val <- f(mid)
-		if (val >= x) {
+		if (val >= at) {
 			high <- mid
 		} else {
 			low <- mid
