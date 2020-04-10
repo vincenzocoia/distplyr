@@ -33,7 +33,7 @@ test_that("Re-grafting gets original distribution", {
 	expect_equal(eval_cdf(g4, at = x), eval_cdf(d1, at = x))
 })
 
-test_that("Sudden flattening of cdf does not 'trick' quantile function" {
+test_that("Sudden flattening of cdf does not 'trick' quantile function", {
 	# plot(g5, "cdf", n = 1001) # Notice the sudden flattening at 3.5
 	expect_identical(eval_quantile(g5, at = 0.7), 3.5)
 })
