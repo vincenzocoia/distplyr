@@ -25,7 +25,7 @@ get_quantile.dst <- function(object, tol = 1e-6, maxiter = 1000, ...) {
 		x_gt_1 <- x > 1
 		x_lte_1 <- x <= 1
 		res[x_lte_0] <- -Inf
-		res[x_gt_1] <- NaN
+		res[x_gt_1] <- Inf
 		i <- sum(x_lte_0, na.rm = TRUE)
 		n_x <- sum(x_lte_1, na.rm = TRUE)
 		break_id <- 0L
@@ -33,8 +33,9 @@ get_quantile.dst <- function(object, tol = 1e-6, maxiter = 1000, ...) {
 			remaining_xs <- x[i + seq_len(n_x - i)]
 			next_x <- remaining_xs[1L]
 			# --- Start new control flow ---
-			break_id <- which(next_x <= cdf_high)[1L]
-			above_all_breaks <- as.logical(1L - length(break_id))
+			higher_breaks <- next_x <= cdf_high
+			break_id <- which(higher_breaks)[1L]
+			above_all_breaks <- identical(sum(higher_breaks), 0L)
 			this_break <- breaks[break_id]
 			this_cdf_high <- cdf_high[break_id]
 			this_cdf_low <- cdf_low[break_id]
@@ -149,7 +150,8 @@ left_inverse <- function(f, at, low, high, tol, maxiter) {
 		}
 	}
 	if (i == maxiter && w > tol) {
-		warning("Maximum number of iterations reached before tolerance was achieved.")
+		warning("Maximum number of iterations reached before",
+				" tolerance was achieved.")
 	}
 	mid
 }

@@ -1,0 +1,24 @@
+---
+title: "parametric"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{parametric}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+There are many parametric distributions built-in to `distplyr`:
+
+```{r}
+dst_unif(0, 1)
+dst_norm(0, 1)
+```
+
+Of course, there is no such thing as an exhaustive list of parametric distributions. There are two ways you can make a new parametric distribution.
+
+One is to convert a distribution for which `rdist`, `pdist`, etc. functions exist. For example, if you load a package that comes with such functions for a distribution named `foo` (so that the functions are `rfoo`, `pfoo`, etc.). 
+
+```{r}
+my_dst <- as_parametric_dst("foo", param1 = 3, param2 = 6)
+```
+
