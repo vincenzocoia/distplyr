@@ -1,13 +1,98 @@
 ---
-title: "Parametric Distributions"
+title: "parametric"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Parametric Distributions}
+  %\VignetteIndexEntry{parametric}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-**THIS IS NOT ACTUALIZED DOCUMENTATION, BUT RATHER A VISION SCRIPT TO GUIDE DEVELOPMENT AND IDEAS FOR THE TIME BEING.**
+There are many parametric distributions built-in to `distplyr`:
+
+```{r}
+dst_unif(0, 1)
+dst_norm(0, 1)
+```
+
+Of course, there is no such thing as an exhaustive list of parametric distributions. There are two ways you can make a new parametric distribution.
+
+One is to convert a distribution for which `rdist`, `pdist`, etc. functions exist. For example, if you load a package that comes with such functions for a distribution named `foo` (so that the functions are `rfoo`, `pfoo`, etc.), you can make a distribution by calling `as_parametric_dst`, along with the parameters of interest.
+
+```{r}
+my_dist <- as_parametric_dst("foo", param1 = 3, param2 = 6)
+```
+
+While the above is enough, you might want to consider adding more information. Since `as_parametric_dst` only knows to look for the distributional representations `r/q/p/ddist`, it has no knowledge of other quantities, such as the distribution's mean, variance, EVI, etc. This means that, when you ask for such quantities, they will be calculated by their definitions, which usually involve integrations or limits. A more tedious method compared to a pre-discovered, closed-form solution. 
+
+In general, you might not have the convenience of having a distribution's representations already defined. In this case, you can specify these things yourself in terms of the parameters.
+
+```{r}
+library(magrittr)
+my_dst <- my_dst %>%
+  set_mean(param1 / (param1 + param2)) %>% 
+  set_variance({
+    denominator <- param1 + param
+    param1 / denominator
+  })
+```
+
+This does not guarantee that the formulas you specify are actually correct. It's up to you to double check. You can do this by comparing the quantities to the definition-based values (TBD).
+
+You can use this method to set any aspect of a distribution. When specifying a distributional representation, such as a cdf or quantile function, use the tilde notation with `x` as the variable. Here's an example that starts from scratch:
+
+```{r}
+my_dst2 <- dst() %>% 
+  set_cdf(~ 1 - exp(-beta * x)) %>% 
+  set_quantile(~ {
+    m <- 1 / (1 - x)
+    log(m) / beta
+  }) %>% 
+  set_probfn(~ beta * exp(-beta * x)) %>% 
+  restrict_parameters(beta > 0) %>% 
+  restrict_support(0, Inf) %>% 
+  set_mean(1 / beta)
+my_dst2
+```
+
+Notice that this is actually a _family_ of distributions, since `beta` has not been specified yet. If you'd like to, you can go ahead and do so:
+
+```{r}
+my_dst2 %>% 
+  restrict_parameters(beta = 1.5)
+```
+
+If you want to make a family out of an existing parametric family in `distplyr`, just exclude the parameter specification. Note that `distplyr` never assumes a default parameter value, unlike some distributions in the `stats` package, like `unif` or `norm`.
+
+```{r}
+dst_norm()
+```
+
+This allows you to mold a set of distributions to your liking. Whittle a distribution down:
+
+```{r}
+dst_norm() %>% 
+  set_parameters(variance = 1)
+dst_norm() %>% 
+  set_parameters(.quantile(0.75) = 2,
+                 .quantile(0.25) = 1)
+```
+
+Build a distribution up:
+
+```{r}
+my_fam <- dst_norm() %>% 
+  skew() %>% 
+  mix(dst_degenerate(0), probs = c(0.8, 0.2)) %>% 
+  bind(dst_lnorm())
+```
+
+Resolve the family to the distribution with the highest likelihood:
+
+```{r}
+mle(mpg, data = mtcars, family = my_fam)
+```
+
+### Previous thoughts on this...
 
 When specifying a parametric distribution in `distplyr`, it helps to distinguish between a parametric _family_ of distributions, and a parametric distribution itself. What is commonly referred to as "the Normal distribution", for example, is actually a family of distributions spanning two parameters: its mean and variance.
 
@@ -115,8 +200,5 @@ swap_parameters(my_dst, alpha = variance, beta = median)
 #> alpha     beta 
 #> ...       ...
 ```
-
-
-
 
 
