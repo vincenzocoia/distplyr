@@ -160,7 +160,7 @@ get_higher <- function(cdf, level) {
 
 #' @rdname practical_limits
 #' @export
-get_lower <- function(object, level) {
+get_lower <- function(cdf, level) {
 	warning("This function doesn't work properly yet!")
 	-1000
 }

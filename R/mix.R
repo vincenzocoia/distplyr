@@ -100,7 +100,7 @@ get_cdf.mix <- function(object) {
 }
 
 #' @export
-get_quantile.mix <- function(object, tol = 1e-6, maxiter = 1000) {
+get_quantile.mix <- function(object, tol = 1e-6, maxiter = 1000, ...) {
 	distributions <- object[["components"]][["distributions"]]
 	cdf <- get_cdf(object)
 	discon <- discontinuities(object)

@@ -7,7 +7,7 @@
 \usage{
 get_higher(cdf, level)
 
-get_lower(object, level)
+get_lower(cdf, level)
 }
 \arguments{
 \item{cdf}{Function representing the cdf}
