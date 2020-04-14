@@ -16,13 +16,13 @@
 #' Must not be negative, but need not sum to 1. If \code{data}
 #' is provided, the data will be searched for the name provided in
 #' this argument.
-#' @param ... Additional arguments to be passed to \code{\link{dst}}.
+#' @param ... Additional arguments, currently not used.
 #' @return A "stepdst" object, which is also a "dst" object,
 #' containing a cdf, quantile function, and random number generator.
 #' The cdf is a right-continuous step function, and the quantile function is
 #' a left-continuous step function.
 #' If you'd like to add other
-#' functions through the \code{\link{dst}} function, you can do so
+#' functions through the \code{dst} function, you can do so
 #' via \code{...}.
 #' @rdname stepdst
 #' @export
