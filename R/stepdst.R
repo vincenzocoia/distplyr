@@ -16,8 +16,6 @@
 #' Must not be negative, but need not sum to 1. If \code{data}
 #' is provided, the data will be searched for the name provided in
 #' this argument.
-#' @param variable Type of random variable: "continuous", "discrete",
-#' or "mixed".
 #' @param ... Additional arguments to be passed to \code{\link{dst}}.
 #' @return A "stepdst" object, which is also a "dst" object,
 #' containing a cdf, quantile function, and random number generator.
@@ -28,10 +26,7 @@
 #' via \code{...}.
 #' @rdname stepdst
 #' @export
-stepdst <- function(y, data, weights = 1,
-					variable = c("continuous", "discrete", "mixed"),
-					...) {
-	v <- match.arg(variable)
+stepdst <- function(y, data, weights = 1, ...) {
 	sy <- substitute(y)
 	sw <- substitute(weights)
 	if (missing(data)) {
@@ -56,8 +51,8 @@ stepdst <- function(y, data, weights = 1,
 		w <- rep(w, length(y))
 	}
 	steps <- aggregate_weights(y, w, sum_to_one = TRUE)
-	res <- list(discontinuities = steps)
-	new_stepdst(res, variable = v)
+	res <- list(name = "Step", discontinuities = steps)
+	new_stepdst(res, variable = "discrete")
 }
 
 #' Constructor Function for Step Distributions

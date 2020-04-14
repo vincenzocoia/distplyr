@@ -8,7 +8,8 @@
 dst_unif <- function(min = 0, max = 1) {
 	if (max < min) stop("Parameter 'min' must be less than 'max'.")
 	if (max == min) return(dst_degenerate(min))
-	res <- list(discontinuities = make_empty_discontinuities_df(),
+	res <- list(name = "Uniform",
+				discontinuities = make_empty_discontinuities_df(),
 				parameters = list(min = min, max = max))
 	new_dst(
 		res,

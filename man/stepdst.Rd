@@ -6,13 +6,7 @@
 \alias{is.stepdst}
 \title{Create a Step Distribution}
 \usage{
-stepdst(
-  y,
-  data,
-  weights = 1,
-  variable = c("continuous", "discrete", "mixed"),
-  ...
-)
+stepdst(y, data, weights = 1, ...)
 
 is_stepdst(y)
 
@@ -30,9 +24,6 @@ containing the outcome name in \code{y}. If missing,
 Must not be negative, but need not sum to 1. If \code{data}
 is provided, the data will be searched for the name provided in
 this argument.}
-
-\item{variable}{Type of random variable: "continuous", "discrete",
-or "mixed".}
 
 \item{...}{Additional arguments to be passed to \code{\link{dst}}.}
 }

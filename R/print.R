@@ -1,19 +1,13 @@
 #' @export
 print.dst <- function(x, ...) {
-	name <- x$name
-	param <- x$param
-	if (is.null(name)) {
-		cat("Unnamed distribution.")
-	} else {
-		cat(paste("A", name, "distribution."))
+	cat(name(x), "Distribution\n")
+	px <- parameters(x)
+	if (!is.null(px)) {
+		cat("\nParameters:\n")
+		df <- data.frame(parameter = names(px),
+						 value = c(px, recursive = TRUE))
+		row.names(df) <- NULL
+		print(df)
 	}
-	cat("\n\nParameters: ")
-	# if (is.null(param)) {
-	# 	cat("not available")
-	# } else {
-	# 	cat("\n")
-	# 	df <- data.frame(parameter = names(param),
-	# 					 value = unname(param))
-	# 	print(df, row.names = FALSE)
-	# }
+	cat("\nNumber of Discontinuities: ", nrow(discontinuities(x)))
 }

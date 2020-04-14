@@ -48,10 +48,23 @@ mix <- function(..., probs) {
 					   weights = new_steps[["size"]],
 					   variable = v))
 	}
-	res <- list(discontinuities = new_steps,
+	res <- list(name = "Mixture",
+				discontinuities = new_steps,
 				components = list(distributions = dsts,
 								  probs = probs))
 	new_dst(res, variable = v, class = "mix")
+}
+
+#' @export
+print.mix <- function(x, ...) {
+	cat("Mixture Distribution\n")
+	cat("\nComponents:\n")
+	nm <- vapply(x[["components"]][["distributions"]], name,
+				 FUN.VALUE = character(1L))
+	df <- data.frame(distribution = nm, weight = x[["components"]][["probs"]])
+	row.names(df) <- NULL
+	print(df)
+	cat("\nNumber of Discontinuities: ", nrow(discontinuities(x)))
 }
 
 #' @export

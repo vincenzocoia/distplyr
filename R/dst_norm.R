@@ -9,7 +9,8 @@ dst_norm <- function(mean, variance) {
 	if (variance == 0) return(dst_degenerate(mean))
 	if (variance < 0) stop("'variance' parameter must be non-negative.")
 	sd <- sqrt(variance)
-	res <- list(discontinuities = make_empty_discontinuities_df(),
+	res <- list(name = "Gaussian",
+				discontinuities = make_empty_discontinuities_df(),
 				parameters = list(mean = mean, variance = variance, sd = sd))
 	new_parametric_dst(
 		res,

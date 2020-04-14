@@ -7,9 +7,14 @@
 #' @rdname degenerate
 #' @export
 dst_degenerate <- function(location) {
-	res <- stepdst(location, variable = "discrete")
-	class(res) <- c("degenerate", class(res))
-	res
+	if (!is.numeric(location)) {
+		stop("'location' parameter must be numeric.")
+	}
+	df <- make_discontinuities_df(location, size = 1)
+	res <- list(name = "Degenerate",
+				discontinuities = df,
+				parameters = list(location = location))
+	new_stepdst(res, variable = "discrete", class = "degenerate")
 }
 
 #' @param object Object to test

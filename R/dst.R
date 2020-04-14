@@ -45,7 +45,7 @@ dst <- function(fun_cumu, fun_quant, fun_prob, fun_rand, fun_surv,
 									 fun_surv = fun_surv,
 									 fun_haz = fun_haz),
 			  name = name,
-			  param = param,
+			  parameters = param,
 			  prop = prop)
 	v <- match.arg(variable)
 	new_dst(x, variable = v)
@@ -142,4 +142,16 @@ plot.dst <- function(x,
 	f <- get_fun(x)
 	ellipses[["expr"]] <- as.name("f")
 	do.call("curve", args = ellipses)
+}
+
+
+#' Name of a Distribution
+#'
+#' @param object A distribution object
+#' @export
+name <- function(object) UseMethod("name")
+
+#' @export
+name.dst <- function(object) {
+	object[["name"]]
 }

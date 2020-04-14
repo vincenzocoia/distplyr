@@ -24,7 +24,8 @@ graft_right <- function(dst_left, dst_right, sep_y) {
 	steps_combined <- rbind(steps_left, steps_right)
 	stopifnot(is_discontinuities_df(steps_combined))
 	v <- discontinuities_to_variable(steps_combined)
-	res <- list(discontinuities = steps_combined,
+	res <- list(name = "Graft",
+				discontinuities = steps_combined,
 				components = list(dst_left  = dst_left,
 								  dst_right = dst_right,
 								  tau_left  = tau_left,
@@ -32,6 +33,19 @@ graft_right <- function(dst_left, dst_right, sep_y) {
 								  sep_y     = sep_y,
 								  base      = "left"))
 	new_dst(res, variable = v, class = "graft")
+}
+
+#' @export
+print.graft <- function(x, ...) {
+	cat("Graft Distribution\n")
+	cat("\nBase: ")
+	cat(name(x[["components"]][["dst_left"]]), "Distribution")
+	cat("\n(Right) Tail: ")
+	cat(name(x[["components"]][["dst_right"]]), "Distribution")
+	cat("\nSeparated at outcome: ")
+	cat(x[["components"]][["sep_y"]])
+	cat("\n")
+	cat("\nNumber of Discontinuities: ", nrow(discontinuities(x)))
 }
 
 

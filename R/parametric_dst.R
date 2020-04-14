@@ -24,6 +24,6 @@ new_parametric_dst <- function(l,
 parameters <- function(object) UseMethod("parameters")
 
 #' @export
-parameters.parametric <- function(object) {
+parameters.dst <- function(object) {
 	object[["parameters"]]
 }
