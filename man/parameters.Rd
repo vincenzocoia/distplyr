@@ -2,7 +2,7 @@
 % Please edit documentation in R/parametric_dst.R
 \name{parameters}
 \alias{parameters}
-\title{Parameters of a Parametric Distribution}
+\title{Parameters of a Distribution}
 \usage{
 parameters(object)
 }
@@ -10,5 +10,5 @@ parameters(object)
 \item{object}{Distribution object}
 }
 \description{
-Parameters of a Parametric Distribution
+Parameters of a Distribution
 }

@@ -14,7 +14,7 @@ dst_unif <- function(min = 0, max = 1) {
 	new_dst(
 		res,
 		variable = "continuous",
-		class    = c("unif", "parametric")
+		class    = "unif"
 	)
 }
 

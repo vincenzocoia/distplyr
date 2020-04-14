@@ -12,7 +12,7 @@ dst_norm <- function(mean, variance) {
 	res <- list(name = "Gaussian",
 				discontinuities = make_empty_discontinuities_df(),
 				parameters = list(mean = mean, variance = variance, sd = sd))
-	new_parametric_dst(
+	new_dst(
 		res,
 		variable = "continuous",
 		class    = "norm"
