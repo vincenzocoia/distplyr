@@ -136,3 +136,16 @@ get_randfn.mix <- function(object) {
 		}
 	})
 }
+
+#' @export
+get_evi.mix <- function(object) {
+	if (is_stepdst(object)) return(NaN)
+	with(object[["components"]], {
+		right_ends <- vapply(distributions, eval_quantile, at = 1, FUN.VALUE = numeric(1L))
+		max_end <- max(right_ends)
+		has_max_ends <- right_ends == max_end
+		evis <- vapply(distributions, get_evi, FUN.VALUE = numeric(1L))
+		final_sign <- if (max_end < Inf) -1 else 1
+		final_sign * max(abs(evis[has_max_ends]))
+	})
+}
