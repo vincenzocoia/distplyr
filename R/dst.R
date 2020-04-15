@@ -63,7 +63,7 @@
 #'
 #' @param l List containing the components of a distribution object.
 #' @param variable Type of random variable: "continuous", "discrete",
-#' or "mixed".
+#'   or "mixed".
 #' @param ... Attributes to add to the list.
 #' @param class If making a subclass, specify its name here.
 #' @export

@@ -9,12 +9,14 @@
 #' @param object A distribution object.
 #' @return Data frame with the following columns:
 #' \enumerate{
-#'   \item \code{y}: Increasing vector of unique values of \code{y}
+#'   \item \code{location}: Increasing vector of unique values of \code{y}
 #'   having positive weight.
-#'   \item \code{prob}: Weights corresponding to each outcome.
-#'   \item \code{tau}: Cumulative weights; that is, \code{cumsum(prob)}.
+#'   \item \code{size}: Weights corresponding to each outcome.
 #' }
 #' @rdname discontinuities
+#' @examples
+#' discontinuities(stepdst(1:5))
+#' discontinuities(dst_norm(0, 1))
 #' @export
 discontinuities <- function(object) UseMethod("discontinuities")
 

@@ -23,10 +23,9 @@ to sum to 1? Default is FALSE.}
 \value{
 Data frame with the following columns:
 \enumerate{
-  \item \code{y}: Increasing vector of unique values of \code{y}
+  \item \code{location}: Increasing vector of unique values of \code{y}
   having positive weight.
-  \item \code{prob}: Weights corresponding to each outcome.
-  \item \code{tau}: Cumulative weights; that is, \code{cumsum(prob)}.
+  \item \code{size}: Weights corresponding to each outcome.
 }
 }
 \description{
@@ -41,4 +40,8 @@ For a vector of outcomes \code{y} with a
 matching vector of \code{weights},
 \code{aggregate_weights()} provides a single non-zero, non-NA
 weight per unique value of \code{y}.
+}
+\examples{
+discontinuities(stepdst(1:5))
+discontinuities(dst_norm(0, 1))
 }

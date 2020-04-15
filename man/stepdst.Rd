@@ -8,9 +8,9 @@
 \usage{
 stepdst(y, data, weights = 1, ...)
 
-is_stepdst(y)
+is_stepdst(object)
 
-is.stepdst(y)
+is.stepdst(object)
 }
 \arguments{
 \item{y}{Outcomes to comprise the distribution. Should either
@@ -26,15 +26,13 @@ is provided, the data will be searched for the name provided in
 this argument.}
 
 \item{...}{Additional arguments, currently not used.}
+
+\item{object}{Object to check}
 }
 \value{
-A "stepdst" object, which is also a "dst" object,
-containing a cdf, quantile function, and random number generator.
-The cdf is a right-continuous step function, and the quantile function is
-a left-continuous step function.
-If you'd like to add other
-functions through the \code{dst} function, you can do so
-via \code{...}.
+A "stepdst" object, which is also a "dst" object.
+  The cdf is a right-continuous step function,
+  and the quantile function is a left-continuous step function.
 }
 \description{
 A step distribution is one where the cdf
@@ -43,4 +41,14 @@ This includes empirical distributions.
 \code{stepdst()} facilitates the creation of
 such a distribution by specifying the
 observations/breakpoints, along with their weights.
+}
+\examples{
+require(graphics)
+require(datasets)
+marg <- stepdst(hp, data = mtcars)
+plot(marg, "cdf", n = 1001)
+
+K <- function(x) dnorm(x, sd = 25)
+cond <- stepdst(hp, data = mtcars, weights = K(disp - 150))
+plot(cond, "cdf", n = 1001, lty = 2, add = TRUE)
 }

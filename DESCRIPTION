@@ -13,7 +13,8 @@ Suggests:
     testthat (>= 2.1.0),
     covr,
     knitr,
-    rmarkdown
+    rmarkdown,
+    datasets
 RoxygenNote: 7.1.0
 Imports: 
     stats,

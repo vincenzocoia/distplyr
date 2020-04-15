@@ -8,23 +8,28 @@
 #' observations/breakpoints, along with their weights.
 #'
 #' @param y Outcomes to comprise the distribution. Should either
-#' evaluate to a vector, or be a name in the specified data.
+#'   evaluate to a vector, or be a name in the specified data.
 #' @param data Data frame, list, or environment
-#' containing the outcome name in \code{y}. If missing,
-#' \code{y} will be evaluated in the parent frame.
+#'   containing the outcome name in \code{y}. If missing,
+#'   \code{y} will be evaluated in the parent frame.
 #' @param weights Weights corresponding to the outcomes in \code{y}.
-#' Must not be negative, but need not sum to 1. If \code{data}
-#' is provided, the data will be searched for the name provided in
-#' this argument.
+#'   Must not be negative, but need not sum to 1. If \code{data}
+#'   is provided, the data will be searched for the name provided in
+#'   this argument.
 #' @param ... Additional arguments, currently not used.
-#' @return A "stepdst" object, which is also a "dst" object,
-#' containing a cdf, quantile function, and random number generator.
-#' The cdf is a right-continuous step function, and the quantile function is
-#' a left-continuous step function.
-#' If you'd like to add other
-#' functions through the \code{dst} function, you can do so
-#' via \code{...}.
+#' @return A "stepdst" object, which is also a "dst" object.
+#'   The cdf is a right-continuous step function,
+#'   and the quantile function is a left-continuous step function.
 #' @rdname stepdst
+#' @examples
+#' require(graphics)
+#' require(datasets)
+#' marg <- stepdst(hp, data = mtcars)
+#' plot(marg, "cdf", n = 1001)
+#'
+#' K <- function(x) dnorm(x, sd = 25)
+#' cond <- stepdst(hp, data = mtcars, weights = K(disp - 150))
+#' plot(cond, "cdf", n = 1001, lty = 2, add = TRUE)
 #' @export
 stepdst <- function(y, data, weights = 1, ...) {
 	sy <- substitute(y)
@@ -72,13 +77,14 @@ new_stepdst <- function(l, variable, ..., class = character()) {
 	)
 }
 
+#' @param object Object to check
 #' @rdname stepdst
 #' @export
-is_stepdst <- function(y) inherits(y, "stepdst")
+is_stepdst <- function(object) inherits(object, "stepdst")
 
 #' @rdname stepdst
 #' @export
-is.stepdst <- function(y) inherits(y, "stepdst")
+is.stepdst <- function(object) inherits(object, "stepdst")
 
 
 #' @export
