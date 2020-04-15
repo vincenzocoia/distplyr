@@ -4,6 +4,7 @@
 #' Normal (Gaussian) distributions.
 #' @param mean,variance Mean and variance of the distribution.
 #' @return Object of class "dst".
+#' dst_norm(0, 1)
 #' @export
 dst_norm <- function(mean, variance) {
 	if (variance == 0) return(dst_degenerate(mean))

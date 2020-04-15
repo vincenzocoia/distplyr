@@ -18,3 +18,10 @@ EVI = Extreme value index
 \details{
 Doesn't calculate EVI if not present in the object.
 }
+\examples{
+get_evi(dst_gpd(0, 1, 2))
+get_evi(dst_gpd(0, 1, -1))
+get_evi(dst_unif(0, 10))
+get_evi(dst_norm(5, 5))
+get_evi(stepdst(1:10))
+}

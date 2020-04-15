@@ -11,6 +11,7 @@ dst_norm(mean, variance)
 }
 \value{
 Object of class "dst".
+dst_norm(0, 1)
 }
 \description{
 Makes a distribution belonging to the family of

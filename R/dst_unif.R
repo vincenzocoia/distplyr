@@ -4,6 +4,7 @@
 #' distributions.
 #' @param min,max Parameters of the distribution family.
 #' @return Object of class "dst".
+#' dst_unif(0, 1)
 #' @export
 dst_unif <- function(min = 0, max = 1) {
 	if (max < min) stop("Parameter 'min' must be less than 'max'.")

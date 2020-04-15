@@ -11,6 +11,7 @@ dst_unif(min = 0, max = 1)
 }
 \value{
 Object of class "dst".
+dst_unif(0, 1)
 }
 \description{
 Makes a distribution belonging to the continuous uniform family of

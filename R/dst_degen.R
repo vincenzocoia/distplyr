@@ -4,6 +4,10 @@
 #' distributions. That is, distributions of fixed values.
 #' @param location Parameter of the distribution family.
 #' @return Object of class "dst".
+#' @examples
+#' require(graphics)
+#' d <- dst_degenerate(5)
+#' plot(d, "quantile")
 #' @rdname degenerate
 #' @export
 dst_degenerate <- function(location) {

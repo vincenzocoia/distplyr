@@ -24,3 +24,8 @@ Object of class "dst".
 Makes a distribution belonging to the degenerate family of
 distributions. That is, distributions of fixed values.
 }
+\examples{
+require(graphics)
+d <- dst_degenerate(5)
+plot(d, "quantile")
+}
