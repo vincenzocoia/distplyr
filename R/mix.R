@@ -70,18 +70,60 @@ print.mix <- function(x, ...) {
 #' @export
 get_mean.mix <- function(object, ...) {
 	with(object[["components"]], {
-		means <- vapply(distributions, get_mean, FUN.VALUE = numeric(1))
+		means <- vapply(distributions, get_mean, FUN.VALUE = numeric(1L))
 		sum(probs * means)
 	})
 }
 
 #' @export
 get_variance.mix <- function(object, ...) {
+	overall_mean <- get_mean(object)
 	with(object[["components"]], {
-		means <- vapply(distributions, get_mean, FUN.VALUE = numeric(1))
-		overall_mean <- sum(probs * means)
-		variances <- vapply(distributions, get_variance, FUN.VALUE = numeric(1))
+		means <- vapply(distributions, get_mean, FUN.VALUE = numeric(1L))
+		variances <- vapply(distributions, get_variance, FUN.VALUE = numeric(1L))
 		sum(probs * (variances + means ^ 2 - overall_mean ^ 2))
+	})
+}
+
+#' @export
+get_skewness.mix <- function(object, ...) {
+	overall_mean <- get_mean(object)
+	overall_sd <- get_sd(object)
+	with(object[["components"]], {
+		means <- vapply(distributions, get_mean, FUN.VALUE = numeric(1L))
+		vars <- vapply(distributions, get_variance, FUN.VALUE = numeric(1L))
+		sds <- sqrt(vars)
+		skews <- vapply(distributions, get_skewness, FUN.VALUE = numeric(1L))
+		cmoms <- list(zero = 1,
+					  first = 0,
+					  second = vars,
+					  third = skews * sds ^ 3)
+		terms <- lapply(0:3, function(k) {
+			choose(3, k) * (means - overall_mean) ^ (3 - k) * cmoms[[k + 1L]]
+		})
+		sum(probs * Reduce(`+`, terms)) / overall_sd ^ 3
+	})
+}
+
+#' @export
+get_kurtosis_exc.mix <- function(object, ...) {
+	overall_mean <- get_mean(object)
+	overall_var <- get_variance(object)
+	with(object[["components"]], {
+		means <- vapply(distributions, get_mean, FUN.VALUE = numeric(1L))
+		vars <- vapply(distributions, get_variance, FUN.VALUE = numeric(1L))
+		sds <- sqrt(vars)
+		skews <- vapply(distributions, get_skewness, FUN.VALUE = numeric(1L))
+		kurts <- vapply(distributions, get_kurtosis_raw, FUN.VALUE = numeric(1L))
+		cmoms <- list(zero = 1,
+					  first = 0,
+					  second = vars,
+					  third = skews * sds ^ 3,
+					  fourth = vars ^ 2 * kurts)
+		terms <- lapply(0:4, function(k) {
+			choose(4, k) * (means - overall_mean) ^ (4 - k) * cmoms[[k + 1L]]
+		})
+		sum(probs * Reduce(`+`, terms)) / overall_var ^ 2 - 3
 	})
 }
 
