@@ -15,9 +15,11 @@ get_variance <- function(object, ...) UseMethod("get_variance")
 
 #' @export
 get_variance.dst <- function(object, ...) {
-	ss <- object$prop$variance
-	if (!is.null(ss)) return(ss)
-	stop("Calculation not developed yet.")
+	mu <- get_mean(object)
+	sf <- get_survival(object)
+	sf2 <- function(x) 1 + sf(mu + sqrt(x)) - sf(mu - sqrt(x))
+	int <- integrate(sf2, 0, Inf)
+	int$value
 }
 
 

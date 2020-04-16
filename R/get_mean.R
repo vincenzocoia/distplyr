@@ -16,8 +16,6 @@ get_mean <- function(object, ...) UseMethod("get_mean")
 
 #' @export
 get_mean.dst <- function(object, ...) {
-	mu <- object$prop$mean
-	if (!is.null(mu)) return(mu)
 	qf <- get_quantile(object)
 	int <- stats::integrate(qf, 0, 1)
 	int$value
