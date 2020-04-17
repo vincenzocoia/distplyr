@@ -12,3 +12,7 @@ name(object)
 \description{
 Name of a Distribution
 }
+\examples{
+name(dst_unif(0, 1))
+name(stepdst(3:5))
+}

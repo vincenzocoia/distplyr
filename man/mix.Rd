@@ -17,3 +17,15 @@ A mixture distribution.
 \description{
 Create a mixture distribution.
 }
+\examples{
+a <- dst_norm(0, 1)
+b <- dst_norm(5, 2)
+m1 <- mix(a, b, probs = c(0.2, 0.8))
+plot(m1)
+variable(m1)
+
+c <- stepdst(0:6)
+m2 <- mix(a, b, c, probs = c(0.2, 0.5, 0.3))
+plot(m2, n = 1001)
+variable(m2)
+}

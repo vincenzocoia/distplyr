@@ -6,12 +6,18 @@
 #' @param x Distribution object
 #' @param what Name of the representation to plot.
 #' @param ... Other arguments to pass to the \code{graphics::curve} function.
+#' plot(dst_norm(5, 5))
+#' plot(stepdst(-5:2), "cdf", n = 1001)
 #' @export
 plot.dst <- function(x,
 					 what = c("probfn", "cdf", "survival", "quantile", "hazard", "chf"),
 					 ...) {
 	ellipses <- list(...)
 	fname <- match.arg(what)
+	if (identical(fname, "probfn") && identical(variable(x), "mixed")) {
+		warning("No density or mass function available. Plotting cdf instead.")
+		fname <- "cdf"
+	}
 	if (is.null(ellipses[["ylab"]])) {
 		ellipses[["ylab"]] <- fname
 	}

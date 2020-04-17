@@ -15,7 +15,9 @@
 
 \item{what}{Name of the representation to plot.}
 
-\item{...}{Other arguments to pass to the \code{graphics::curve} function.}
+\item{...}{Other arguments to pass to the \code{graphics::curve} function.
+plot(dst_norm(5, 5))
+plot(stepdst(-5:2), "cdf", n = 1001)}
 }
 \description{
 Plot a functional representation of a distribution.

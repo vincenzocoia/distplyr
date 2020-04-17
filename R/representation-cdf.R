@@ -1,4 +1,7 @@
-#' Evaluate cdf
+#' Distribution Function
+#'
+#' Get or evaluate a distribution's cdf
+#' (Cumulative Distribution Function).
 #'
 #' @param object Object of class "dst"
 #' @param at Vector of values to evaluate the cdf at
@@ -9,20 +12,17 @@
 #' \code{\link{eval_randfn}},
 #' \code{\link{eval_hazard}},
 #' \code{\link{eval_survival}}
+#' @examples
+#' d <- dst_unif(0, 4)
+#' eval_cdf(d, at = 0:4)
+#' cdf <- get_cdf(d)
+#' cdf(0:4)
+#' @rdname cdf
 #' @export
 eval_cdf <- function(object, at) UseMethod("eval_cdf")
 
 
-#' Get cdf
-#'
-#' @param object Object of class "dst"
-#' @return a vectorized function of the cdf
-#' @seealso
-#' \code{\link{get_quantile}},
-#' \code{\link{get_probfn}},
-#' \code{\link{get_randfn}},
-#' \code{\link{get_hazard}},
-#' \code{\link{get_survival}}
+#' @rdname cdf
 #' @export
 get_cdf <- function(object) UseMethod("get_cdf")
 

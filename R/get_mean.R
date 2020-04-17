@@ -1,15 +1,24 @@
-#' Mean of a Distribution
+#' Moments of a Distribution
 #'
-#' Get the mean of a distribution.
+#' Get common moment-related quantities of a
+#' distribution: mean, variance, standard deviation (sd),
+#' skewness, and kurtosis.
 #'
-#' @param object A distribution object from which to obtain the mean.
+#' @param object A distribution object.
 #' @param ... Arguments to pass to the \code{integrate()} function (if needed).
-#' @details If the mean is not already available in the distribution
-#' object, and if the distribution is not a step distribution,
-#' the mean is calculated using the \code{stats::integrate()}
-#' function.
+#' @details If there is no method associated with a subclass of
+#' \code{object}, then moments are calculated using \code{stats::integrate()}
+#' from the survival function.
 #' @return A single numeric.
-#' @rdname get_mean
+#' a <- dst_gpd(0, 1, 0.5)
+#' b <- dst_unif(0, 1)
+#' c <- dst_norm(3, 4)
+#' get_mean(a)
+#' get_variance(b)
+#' get_kurtosis_raw(c)
+#' get_kurtosis_exc(c)
+#' get_mean(mix(a, b, probs = c(0.5, 0.5)))
+#' @rdname moments
 #' @export
 get_mean <- function(object, ...) UseMethod("get_mean")
 

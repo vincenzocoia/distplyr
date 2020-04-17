@@ -2,9 +2,12 @@
 % Please edit documentation in R/representation-cdf.R
 \name{eval_cdf}
 \alias{eval_cdf}
-\title{Evaluate cdf}
+\alias{get_cdf}
+\title{Distribution Function}
 \usage{
 eval_cdf(object, at)
+
+get_cdf(object)
 }
 \arguments{
 \item{object}{Object of class "dst"}
@@ -15,7 +18,14 @@ eval_cdf(object, at)
 Vector of cdf values
 }
 \description{
-Evaluate cdf
+Get or evaluate a distribution's cdf
+(Cumulative Distribution Function).
+}
+\examples{
+d <- dst_unif(0, 4)
+eval_cdf(d, at = 0:4)
+cdf <- get_cdf(d)
+cdf(0:4)
 }
 \seealso{
 \code{\link{eval_quantile}},

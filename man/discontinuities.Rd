@@ -42,6 +42,10 @@ matching vector of \code{weights},
 weight per unique value of \code{y}.
 }
 \examples{
-discontinuities(stepdst(1:5))
-discontinuities(dst_norm(0, 1))
+a <- stepdst(1:5)
+discontinuities(a)
+b <- dst_norm(0, 1)
+discontinuities(b)
+c <- graft_right(a, b, sep_y = 3.5)
+discontinuities(c)
 }

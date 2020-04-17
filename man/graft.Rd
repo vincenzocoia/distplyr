@@ -31,3 +31,11 @@ sep_y, and makes a continuous connection with the right cdf
 sep_y, and makes a continuous connection with the left cdf
 (rescaled as appropriate),
 }
+\examples{
+require(datasets)
+base <- stepdst(mpg, data = mtcars)
+right <- dst_gpd(25, 5, 1)
+g <- graft_right(base, right, sep_y = 25)
+plot(g, "cdf", n = 1001, to = 34)
+plot(base, "cdf", n = 1001, lty = 2, add = TRUE)
+}

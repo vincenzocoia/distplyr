@@ -10,6 +10,13 @@
 #' @param dst_left,dst_right Distributions to connect
 #' @param sep_y Value on the domain of the cdf to connect at.
 #' @return A grafted distribution object.
+#' @examples
+#' require(datasets)
+#' base <- stepdst(mpg, data = mtcars)
+#' right <- dst_gpd(25, 5, 1)
+#' g <- graft_right(base, right, sep_y = 25)
+#' plot(g, "cdf", n = 1001, to = 34)
+#' plot(base, "cdf", n = 1001, lty = 2, add = TRUE)
 #' @rdname graft
 #' @export
 graft_right <- function(dst_left, dst_right, sep_y) {
