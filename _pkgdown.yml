@@ -1,1 +1,14 @@
 destination: docs
+
+home:
+  title: distplyr
+  description: Draw powerful insights using distributions.
+
+navbar:
+  right:
+   - icon: fa-github
+     href: https://github.com/vincenzocoia/distplyr
+
+authors:
+  Vincenzo Coia:
+    href: http://vincenzocoia.com
