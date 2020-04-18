@@ -109,6 +109,14 @@ plot(d3, "cdf", n = 1001, lty = 2, add = TRUE)
 
 <img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" style="display: block; margin: auto;" />
 
+## Installation
+
+`distplyr` is not on CRAN yet, so the best way to install it is:
+
+``` r
+devtools::install_github("vincenzocoia/distplyr")
+```
+
 ## `distplyr` in Context
 
 Note that `distplyr` is *not* a modelling package, meaning it won’t

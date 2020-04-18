@@ -78,6 +78,13 @@ plot(d4, "cdf", n = 1001, to = 34)
 plot(d3, "cdf", n = 1001, lty = 2, add = TRUE)
 ```
 
+## Installation
+
+`distplyr` is not on CRAN yet, so the best way to install it is:
+
+``` r
+devtools::install_github("vincenzocoia/distplyr")
+```
 
 
 ## `distplyr` in Context
