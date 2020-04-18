@@ -94,13 +94,13 @@ observations/breakpoints, along with their weights." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/combining.html">Combining Distributions</a>
-    </li>
-    <li>
       <a href="../articles/probing.html">Probing a Distribution</a>
     </li>
     <li>
       <a href="../articles/stepdst.html">Step Distributions</a>
+    </li>
+    <li>
+      <a href="../articles/vision.html">Vision</a>
     </li>
   </ul>
 </li>
@@ -137,17 +137,11 @@ observations/breakpoints, along with their weights.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>stepdst</span>(
-  <span class='no'>y</span>,
-  <span class='no'>data</span>,
-  <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>variable</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"continuous"</span>, <span class='st'>"discrete"</span>, <span class='st'>"mixed"</span>),
-  <span class='no'>...</span>
-)
+    <pre class="usage"><span class='fu'>stepdst</span>(<span class='no'>y</span>, <span class='no'>data</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)
 
-<span class='fu'>is_stepdst</span>(<span class='no'>y</span>)
+<span class='fu'>is_stepdst</span>(<span class='no'>object</span>)
 
-<span class='fu'>is.stepdst</span>(<span class='no'>y</span>)</pre>
+<span class='fu'>is.stepdst</span>(<span class='no'>object</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -171,27 +165,29 @@ is provided, the data will be searched for the name provided in
 this argument.</p></td>
     </tr>
     <tr>
-      <th>variable</th>
-      <td><p>Type of random variable: "continuous", "discrete",
-or "mixed".</p></td>
+      <th>...</th>
+      <td><p>Additional arguments, currently not used.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Additional arguments to be passed to <code><a href='dst.html'>dst</a></code>.</p></td>
+      <th>object</th>
+      <td><p>Object to check</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A "stepdst" object, which is also a "dst" object,
-containing a cdf, quantile function, and random number generator.
-The cdf is a right-continuous step function, and the quantile function is
-a left-continuous step function.
-If you'd like to add other
-functions through the <code><a href='dst.html'>dst</a></code> function, you can do so
-via <code>...</code>.</p>
+    <p>A "stepdst" object, which is also a "dst" object.
+  The cdf is a right-continuous step function,
+  and the quantile function is a left-continuous step function.</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>graphics</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>datasets</span>)
+<span class='no'>marg</span> <span class='kw'>&lt;-</span> <span class='fu'>stepdst</span>(<span class='no'>hp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>marg</span>, <span class='st'>"cdf"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1001</span>)</div><div class='img'><img src='stepdst-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>K</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>dnorm</a></span>(<span class='no'>x</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>25</span>)
+<span class='no'>cond</span> <span class='kw'>&lt;-</span> <span class='fu'>stepdst</span>(<span class='no'>hp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'>K</span>(<span class='no'>disp</span> - <span class='fl'>150</span>))</div><div class='output co'>#&gt; <span class='error'>Error in K(disp - 150): could not find function "K"</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>cond</span>, <span class='st'>"cdf"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1001</span>, <span class='kw'>lty</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>add</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in plot(cond, "cdf", n = 1001, lty = 2, add = TRUE): object 'cond' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -199,7 +195,9 @@ via <code>...</code>.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

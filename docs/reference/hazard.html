@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Evaluate Hazard Function — eval_hazard • distplyr</title>
+<title>Hazard Function — get_chf • distplyr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,11 +32,11 @@
 
 
 
-<meta property="og:title" content="Evaluate Hazard Function — eval_hazard" />
+<meta property="og:title" content="Hazard Function — get_chf" />
 
-<meta property="og:description" content="Evaluate hazard function or cumulative
-hazard function (chf).
-Hazard and cumulative hazard functions." />
+<meta property="og:description" content="Hazard and cumulative hazard functions.
+Evaluate hazard function or cumulative
+hazard function (chf)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -91,13 +91,13 @@ Hazard and cumulative hazard functions." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/combining.html">Combining Distributions</a>
-    </li>
-    <li>
       <a href="../articles/probing.html">Probing a Distribution</a>
     </li>
     <li>
       <a href="../articles/stepdst.html">Step Distributions</a>
+    </li>
+    <li>
+      <a href="../articles/vision.html">Vision</a>
     </li>
   </ul>
 </li>
@@ -118,24 +118,24 @@ Hazard and cumulative hazard functions." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Evaluate Hazard Function</h1>
+    <h1>Hazard Function</h1>
     
     <div class="hidden name"><code>hazard.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Evaluate hazard function or cumulative
+    <p>Hazard and cumulative hazard functions.</p>
+<p>Evaluate hazard function or cumulative
 hazard function (chf).</p>
-<p>Hazard and cumulative hazard functions.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>eval_hazard</span>(<span class='no'>object</span>, <span class='no'>at</span>)
+    <pre class="usage"><span class='fu'>get_chf</span>(<span class='no'>object</span>)
 
 <span class='fu'>eval_chf</span>(<span class='no'>object</span>, <span class='no'>at</span>)
 
-<span class='fu'>get_chf</span>(<span class='no'>object</span>)
+<span class='fu'>eval_hazard</span>(<span class='no'>object</span>, <span class='no'>at</span>)
 
 <span class='fu'>get_hazard</span>(<span class='no'>object</span>)</pre>
     
@@ -144,7 +144,7 @@ hazard function (chf).</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>object</th>
-      <td><p>Distribution object</p></td>
+      <td><p>Object of class "dst"</p></td>
     </tr>
     <tr>
       <th>at</th>
@@ -160,7 +160,7 @@ hazard function (chf).</p>
 
     <div class='dont-index'><p><code><a href='eval_quantile.html'>eval_quantile</a></code>,
 <code><a href='eval_probfn.html'>eval_probfn</a></code>,
-<code><a href='eval_cdf.html'>eval_cdf</a></code>,
+<code><a href='cdf.html'>eval_cdf</a></code>,
 <code><a href='eval_randfn.html'>eval_randfn</a></code>,
 <code><a href='eval_survival.html'>eval_survival</a></code></p></div>
     

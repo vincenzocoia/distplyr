@@ -86,13 +86,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/combining.html">Combining Distributions</a>
-    </li>
-    <li>
       <a href="../articles/probing.html">Probing a Distribution</a>
     </li>
     <li>
       <a href="../articles/stepdst.html">Step Distributions</a>
+    </li>
+    <li>
+      <a href="../articles/vision.html">Vision</a>
     </li>
   </ul>
 </li>
@@ -134,6 +134,12 @@
       <tr>
         
         <td>
+          <p><code><a href="cdf.html">eval_cdf()</a></code> <code><a href="cdf.html">get_cdf()</a></code> </p>
+        </td>
+        <td><p>Distribution Function</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="check_continuous.html">check_left_continuous()</a></code> <code><a href="check_continuous.html">check_right_continuous()</a></code> </p>
         </td>
         <td><p>Check Continuity of Step Function</p></td>
@@ -158,9 +164,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="dst.html">dst()</a></code> <code><a href="dst.html">is_dst()</a></code> <code><a href="dst.html">is.dst()</a></code> </p>
+          <p><code><a href="dst.html">is_dst()</a></code> <code><a href="dst.html">is.dst()</a></code> </p>
         </td>
-        <td><p>Make a Distribution</p></td>
+        <td><p>Distribution Objects</p></td>
       </tr><tr>
         
         <td>
@@ -188,12 +194,6 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="eval_cdf.html">eval_cdf()</a></code> </p>
-        </td>
-        <td><p>Evaluate cdf</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="eval_probfn.html">eval_probfn()</a></code> </p>
         </td>
         <td><p>Evaluate probability density/mass function</p></td>
@@ -203,6 +203,12 @@
           <p><code><a href="eval_quantile.html">eval_quantile()</a></code> </p>
         </td>
         <td><p>Evaluate quantile function</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="eval_quantile_from_cdf.html">eval_quantile_from_cdf()</a></code> </p>
+        </td>
+        <td><p>Evaluate Quantiles using a CDF</p></td>
       </tr><tr>
         
         <td>
@@ -218,21 +224,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="get_cdf.html">get_cdf()</a></code> </p>
-        </td>
-        <td><p>Get cdf</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="get_evi.html">get_evi()</a></code> </p>
         </td>
         <td><p>Get the EVI of a distribution</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_mean.html">get_mean()</a></code> </p>
-        </td>
-        <td><p>Mean of a Distribution</p></td>
       </tr><tr>
         
         <td>
@@ -260,21 +254,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="get_skewness.html">get_skewness()</a></code> </p>
-        </td>
-        <td><p>Skewness</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="get_survival.html">get_survival()</a></code> </p>
         </td>
         <td><p>Survival Function</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_variance.html">get_variance()</a></code> <code><a href="get_variance.html">get_sd()</a></code> </p>
-        </td>
-        <td><p>Variance/Standard Deviation of a Distribution</p></td>
       </tr><tr>
         
         <td>
@@ -284,15 +266,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="has_d.html">has_pmf()</a></code> <code><a href="has_d.html">has_pdf()</a></code> </p>
+          <p><code><a href="hazard.html">get_chf()</a></code> <code><a href="hazard.html">eval_chf()</a></code> <code><a href="hazard.html">eval_hazard()</a></code> <code><a href="hazard.html">get_hazard()</a></code> </p>
         </td>
-        <td><p>Check if a distribution has a pmf or pdf</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hazard.html">eval_hazard()</a></code> <code><a href="hazard.html">eval_chf()</a></code> <code><a href="hazard.html">get_chf()</a></code> <code><a href="hazard.html">get_hazard()</a></code> </p>
-        </td>
-        <td><p>Evaluate Hazard Function</p></td>
+        <td><p>Hazard Function</p></td>
       </tr><tr>
         
         <td>
@@ -302,9 +278,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="kurtosis.html">get_kurtosis_raw()</a></code> <code><a href="kurtosis.html">get_kurtosis_exc()</a></code> </p>
+          <p><code><a href="left_inverse.html">left_inverse()</a></code> </p>
         </td>
-        <td><p>Kurtosis</p></td>
+        <td><p>Algorithm to Compute Left Inverse</p></td>
       </tr><tr>
         
         <td>
@@ -326,13 +302,19 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="new_dst.html">new_dst()</a></code> </p>
+          <p><code><a href="moments.html">get_kurtosis_raw()</a></code> <code><a href="moments.html">get_kurtosis_exc()</a></code> <code><a href="moments.html">get_mean()</a></code> <code><a href="moments.html">get_skewness()</a></code> <code><a href="moments.html">get_variance()</a></code> <code><a href="moments.html">get_sd()</a></code> </p>
         </td>
-        <td><p>Constructor Function for "dst" Objects</p></td>
+        <td><p>Moments of a Distribution</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="new_parametric_dst.html">new_parametric_dst()</a></code> </p>
+          <p><code><a href="name.html">name()</a></code> </p>
+        </td>
+        <td><p>Name of a Distribution</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="new_dst.html">new_dst()</a></code> </p>
         </td>
         <td><p>Constructor Function for "dst" Objects</p></td>
       </tr><tr>
@@ -346,7 +328,7 @@
         <td>
           <p><code><a href="parameters.html">parameters()</a></code> </p>
         </td>
-        <td><p>Parameters of a Parametric Distribution</p></td>
+        <td><p>Parameters of a Distribution</p></td>
       </tr><tr>
         
         <td>
@@ -359,6 +341,12 @@
           <p><code><a href="plot.dst.html">plot(<i>&lt;dst&gt;</i>)</a></code> </p>
         </td>
         <td><p>Plot a Distribution</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="practical_limits.html">get_higher()</a></code> <code><a href="practical_limits.html">get_lower()</a></code> </p>
+        </td>
+        <td><p>Find an Encapsulating Range of Quantiles</p></td>
       </tr><tr>
         
         <td>

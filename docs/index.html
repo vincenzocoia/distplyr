@@ -55,13 +55,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/combining.html">Combining Distributions</a>
-    </li>
-    <li>
       <a href="articles/probing.html">Probing a Distribution</a>
     </li>
     <li>
       <a href="articles/stepdst.html">Step Distributions</a>
+    </li>
+    <li>
+      <a href="articles/vision.html">Vision</a>
     </li>
   </ul>
 </li>
@@ -83,39 +83,69 @@
 <a href="#distplyr" class="anchor"></a>distplyr</h1></div>
 <!-- badges: start -->
 
-<p>The goal of <code>distplyr</code> is to provide a unified interface for distributions by bundling various distributional quantities together, such as a density function, mean, quantiles, and others. It allows you to make non-standard yet useful distributions that go beyond the typical empirical and parametric distributions, by allowing you to combine and/or transform distributions. The name is inspired by the <code>dplyr</code> package.</p>
-<div id="usage" class="section level2">
+<p>The purpose of <code>distplyr</code> is to equip every analyst with a tool to seemlessly draw powerful insights using distributions. Distributions add colour to your analysis. They show the complete picture of uncertainty.</p>
+<p>Use <code>distplyr</code> to:</p>
+<ul>
+<li>Create and meld distributions using a wide pallet of base forms and tools.</li>
+<li>Draw properties from those distributions.</li>
+</ul>
+<p>Many distributions in practice are built in “layers”, by transforming and combining other distributions. The result is a tailored distribution that does not follow a basic parametric form such as “Normal” or “Exponential”. The motivation behind the name of <code>distplyr</code> is that distributions are built by manipulation, akin to the package <code>dplyr</code>.</p>
+<p><strong>Note</strong>: This package is still in its infancy. There are many other critical features to come.</p>
+<div id="design-choices" class="section level2">
 <h2 class="hasAnchor">
-<a href="#usage" class="anchor"></a>Usage</h2>
+<a href="#design-choices" class="anchor"></a>Design Choices</h2>
+<p><code>distplyr</code>:</p>
+<ul>
+<li>Keeps all components of a distribution together in a single object.</li>
+<li>Computes only when needed, by dispatching an appropriate S3 method on call.</li>
+<li>Manages the discrete components of all distributions, often arising from empirical estimates.</li>
+</ul>
+</div>
+<div id="basic-usage" class="section level2">
+<h2 class="hasAnchor">
+<a href="#basic-usage" class="anchor"></a>Basic Usage</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(distplyr)</span></code></pre></div>
-<p>Make a Normal distribution with mean 2 and variance 5:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>(d1 &lt;-<span class="st"> </span><span class="kw"><a href="reference/dst_norm.html">dst_norm</a></span>(<span class="dv">2</span>, <span class="dv">5</span>))</span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="co">#&gt; Unnamed distribution.</span></span>
+<p>There are many parametric families of distributions at your disposal. Here is a Uniform distribution:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>(d1 &lt;-<span class="st"> </span><span class="kw"><a href="reference/dst_unif.html">dst_unif</a></span>(<span class="dv">2</span>, <span class="dv">5</span>))</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="co">#&gt; Uniform Distribution</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="co">#&gt; </span></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="co">#&gt; Parameters:</span></span></code></pre></div>
-<p>Evaluate the survival function to obtain the probability of exceeding 6. What about the hazard function at 6?</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="reference/eval_survival.html">eval_survival</a></span>(d1, <span class="dt">at =</span> <span class="dv">6</span>)</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt; [1] 0.03681914</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="kw"><a href="reference/hazard.html">eval_hazard</a></span>(d1, <span class="dt">at =</span> <span class="dv">6</span>)</span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt; [1] 0.9783186</span></span></code></pre></div>
-<p>Combine this distribution with another, say to form a mixture distribution:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>d2 &lt;-<span class="st"> </span><span class="kw"><a href="reference/dst_norm.html">dst_norm</a></span>(<span class="op">-</span><span class="dv">5</span>, <span class="dv">1</span>)</span>
-<span id="cb4-2"><a href="#cb4-2"></a>d3 &lt;-<span class="st"> </span><span class="kw"><a href="reference/mix.html">mix</a></span>(d1, d2, <span class="dt">probs =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.4</span>, <span class="fl">0.6</span>))</span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="co"># plot(d3)</span></span></code></pre></div>
-<p>What’s the mean of the mixture distribution? Standard deviation?</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="reference/get_mean.html">get_mean</a></span>(d3)</span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="co">#&gt; [1] -2.2</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="kw"><a href="reference/get_variance.html">get_sd</a></span>(d3)</span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="co">#&gt; [1] 3.789459</span></span></code></pre></div>
-<p>Generate some data from this new mixture distribution:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">1</span>)</span>
-<span id="cb6-2"><a href="#cb6-2"></a>y &lt;-<span class="st"> </span><span class="kw"><a href="reference/eval_randfn.html">eval_randfn</a></span>(d3, <span class="dt">at =</span> <span class="dv">100</span>)</span></code></pre></div>
-<p>Make an empirical distribution from the generated data, and compare the cdf with the original:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>d4 &lt;-<span class="st"> </span><span class="kw"><a href="reference/stepdst.html">stepdst</a></span>(y)</span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(d4, <span class="st">"cdf"</span>)</span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-8-1.png" width="100%"></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(d3, <span class="st">"cdf"</span>, <span class="dt">from =</span> <span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>(y), <span class="dt">to =</span> <span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>(y))</span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-8-2.png" width="100%"></p>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="co">#&gt; Parameters:</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="co">#&gt;   parameter value</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="co">#&gt; 1       min     2</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="co">#&gt; 2       max     5</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="co">#&gt; </span></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="co">#&gt; Number of Discontinuities:  0</span></span></code></pre></div>
+<p>Evaluate functional representations, such as the cdf and hazard function:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="reference/cdf.html">eval_cdf</a></span>(d1, <span class="dt">at =</span> <span class="dv">3</span>)</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt; [1] 0.3333333</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="kw"><a href="reference/hazard.html">eval_hazard</a></span>(d1, <span class="dt">at =</span> <span class="dv">3</span>)</span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt; [1] 0.5</span></span></code></pre></div>
+<p>Make a mixture distribution by combining some distributions:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>(d2 &lt;-<span class="st"> </span><span class="kw"><a href="reference/mix.html">mix</a></span>(<span class="kw"><a href="reference/dst_norm.html">dst_norm</a></span>(<span class="op">-</span><span class="dv">5</span>, <span class="dv">1</span>), <span class="kw"><a href="reference/dst_norm.html">dst_norm</a></span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">probs =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>)))</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="co">#&gt; Mixture Distribution</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt; </span></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt; Components:</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt;   distribution weight</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt; 1     Gaussian    0.2</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt; 2     Gaussian    0.8</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt; </span></span>
+<span id="cb4-9"><a href="#cb4-9"></a><span class="co">#&gt; Number of Discontinuities:  0</span></span>
+<span id="cb4-10"><a href="#cb4-10"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(d2, <span class="dt">n =</span> <span class="dv">1001</span>)</span>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="co">#&gt; Warning in get_lower(cdf, level = at[1L]): This function doesn't work</span></span>
+<span id="cb4-12"><a href="#cb4-12"></a><span class="co">#&gt; properly yet!</span></span>
+<span id="cb4-13"><a href="#cb4-13"></a><span class="co">#&gt; Warning in get_higher(cdf, level = at[n_x]): This function doesn't work</span></span>
+<span id="cb4-14"><a href="#cb4-14"></a><span class="co">#&gt; properly yet!</span></span>
+<span id="cb4-15"><a href="#cb4-15"></a><span class="co">#&gt; Warning in get_lower(cdf, level = at[1L]): This function doesn't work</span></span>
+<span id="cb4-16"><a href="#cb4-16"></a><span class="co">#&gt; properly yet!</span></span>
+<span id="cb4-17"><a href="#cb4-17"></a><span class="co">#&gt; Warning in get_higher(cdf, level = at[n_x]): This function doesn't work</span></span>
+<span id="cb4-18"><a href="#cb4-18"></a><span class="co">#&gt; properly yet!</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="100%"></p>
+<p>Make a graft distribution by replacing a distribution’s tail:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>d3 &lt;-<span class="st"> </span><span class="kw"><a href="reference/stepdst.html">stepdst</a></span>(mpg, <span class="dt">data =</span> mtcars)</span>
+<span id="cb5-2"><a href="#cb5-2"></a>d4 &lt;-<span class="st"> </span><span class="kw"><a href="reference/graft.html">graft_right</a></span>(d3, <span class="kw"><a href="reference/dst_gpd.html">dst_gpd</a></span>(<span class="dv">25</span>, <span class="dv">5</span>, <span class="dv">1</span>), <span class="dt">sep_y =</span> <span class="dv">25</span>)</span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(d4, <span class="st">"cdf"</span>, <span class="dt">n =</span> <span class="dv">1001</span>, <span class="dt">to =</span> <span class="dv">34</span>)</span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(d3, <span class="st">"cdf"</span>, <span class="dt">n =</span> <span class="dv">1001</span>, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-6-1.png" width="100%"></p>
 </div>
 <div id="distplyr-in-context" class="section level2">
 <h2 class="hasAnchor">

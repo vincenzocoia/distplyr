@@ -7,16 +7,20 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r, echo = FALSE}
+knitr::opts_chunk$set(fig.width = 5, fig.height = 3, fig.align = "center")
+```
+
 ```{r}
 library(distplyr)
 ```
 
 
-You can use `distplyr` to extract various properties of a distribution. `distplyr` distinguishes between two types of properties: functional representations of a distribution, and numerical properties. 
+One purpose of `distplyr` is to handle the menial distribution-related calculations for you. Just specify a distribution once, and there is no need to manage its components anymore. 
 
-## Functional Representations of Distributions
+## Functional Representations of a Distribution
 
-Distributions can be represented through different functions. In `distplyr`, you can either evaluate the function directly by calling `eval_*`, or get the function itself using `get_*`. Here are the representations and the corresponding `distplyr` functions:  
+A distribution can be represented by different functions. In `distplyr`, you can either evaluate the function directly by calling `eval_*`, or get the function itself using `get_*`. Here are the representations and the corresponding `distplyr` functions:  
 
 | Quantity                            | `distplyr` Function               |
 |-------------------------------------|-----------------------------------|
@@ -39,6 +43,7 @@ set.seed(10)
 eval_randfn(d, at = 5)
 ```
 
+
 ## Properties of Distributions
 
 Distributions have various numeric properties. Common examples are the mean and variance, but there are many others as well. 
@@ -49,22 +54,23 @@ Below is a table of the properties incorporated in `distplyr`:
 |----------|---------------------|
 | Mean                       | `get_mean()` |
 | Median                     | `get_median()` |
-| Mode                       | `get_mode()` |
+| ~~Mode~~                       | ~~`get_mode()`~~ |
 | Variance                   | `get_variance()` |
 | Standard Deviation         | `get_sd()` |
-| Inter-Quartile Range       | `get_iqr()` |
-| Entropy                    | `get_entropy()` |
+| ~~Inter-Quartile Range~~       | ~~`get_iqr()`~~ |
+| ~~Entropy~~                    | ~~`get_entropy()`~~ |
 | Skewness                   | `get_skewness()` |
-| Excess Kurtosis            | `get_kurtosis()` |
+| Excess Kurtosis            | `get_kurtosis_exc()` |
+| Kurtosis                   | `get_kurtosis_raw()` |
 | Extreme Value (Tail) Index | `get_evi()` |
 
 Here are some properties of a certain mixture of Gaussians:
 
 ```{r}
-# m <- mix(dst_norm(0, 1), dst_norm(5, 1), probs = c(0.2, 0.8))
-# get_mean(m)
-# get_mode(m)
-# get_evi(m)
+m <- mix(dst_norm(0, 1), dst_norm(5, 1), probs = c(0.2, 0.8))
+get_mean(m)
+get_sd(m)
+get_evi(m)
 ```
 
 

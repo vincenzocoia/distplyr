@@ -7,4 +7,42 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r, echo = FALSE}
+knitr::opts_chunk$set(fig.width = 5, fig.height = 3, fig.align = "center")
+```
+
 A common way of representing data is through a parametric distribution, such as a Normal distribution, Exponential, Poisson, and others. A useful alternative is to use an empirical distribution, or in general what `distplyr` calls a _step distribution_.
+
+To make a step distribution, use the function `stepdst()`:
+
+```{r}
+library(distplyr)
+(d1 <- stepdst(mpg, data = mtcars))
+```
+
+The "step" in the name comes from the cdf:
+
+```{r}
+plot(d1, "cdf", n = 1001)
+```
+
+You can also weigh the outcomes differently:
+
+```{r}
+(d2 <- stepdst(1:4, weights = c(1, 2, 1, 2)))
+plot(d2, "cdf", n = 1001)
+```
+
+You can extract the step discontinuities in any distribution, using the `discontinuities()` function. It will give you the location of the discontinuities, and the size of the jump in the cdf:
+
+```{r}
+discontinuities(d2)
+```
+
+For continuous distributions, there are no discontinuities:
+
+```{r}
+discontinuities(dst_norm(0, 1))
+```
+
+

@@ -93,13 +93,13 @@ with the size of the discontinuity gap." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/combining.html">Combining Distributions</a>
-    </li>
-    <li>
       <a href="../articles/probing.html">Probing a Distribution</a>
     </li>
     <li>
       <a href="../articles/stepdst.html">Step Distributions</a>
+    </li>
+    <li>
+      <a href="../articles/vision.html">Vision</a>
     </li>
   </ul>
 </li>
@@ -137,7 +137,7 @@ with the size of the discontinuity gap.</p>
 
     <pre class="usage"><span class='fu'>discontinuities</span>(<span class='no'>object</span>)
 
-<span class='fu'>aggregate_weights</span>(<span class='no'>y</span>, <span class='no'>weights</span>)</pre>
+<span class='fu'>aggregate_weights</span>(<span class='no'>y</span>, <span class='no'>weights</span>, <span class='kw'>sum_to_one</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,15 +155,19 @@ with the size of the discontinuity gap.</p>
       <td><p>Vector of weights, one for each of <code>y</code>.
 These need not sum to one, but must not be negative.</p></td>
     </tr>
+    <tr>
+      <th>sum_to_one</th>
+      <td><p>Logical; should the weights be normalized
+to sum to 1? Default is FALSE.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Data frame with the following columns:</p><ol>
-<li><p><code>y</code>: Increasing vector of unique values of <code>y</code>
+<li><p><code>location</code>: Increasing vector of unique values of <code>y</code>
   having positive weight.</p></li>
-<li><p><code>prob</code>: Weights corresponding to each outcome.</p></li>
-<li><p><code>tau</code>: Cumulative weights; that is, <code><a href='https://rdrr.io/r/base/cumsum.html'>cumsum(prob)</a></code>.</p></li>
+<li><p><code>size</code>: Weights corresponding to each outcome.</p></li>
 </ol>
 
     
@@ -172,9 +176,23 @@ These need not sum to one, but must not be negative.</p></td>
     <p>For a vector of outcomes <code>y</code> with a
 matching vector of <code>weights</code>,
 <code>aggregate_weights()</code> provides a single non-zero, non-NA
-weight per unique value of <code>y</code>. Weights sum to 1.</p>
+weight per unique value of <code>y</code>.</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='stepdst.html'>stepdst</a></span>(<span class='fl'>1</span>:<span class='fl'>5</span>)
+<span class='fu'>discontinuities</span>(<span class='no'>a</span>)</div><div class='output co'>#&gt;   location size
+#&gt; 1        1  0.2
+#&gt; 2        2  0.2
+#&gt; 3        3  0.2
+#&gt; 4        4  0.2
+#&gt; 5        5  0.2</div><div class='input'><span class='no'>b</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='dst_norm.html'>dst_norm</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>)
+<span class='fu'>discontinuities</span>(<span class='no'>b</span>)</div><div class='output co'>#&gt; [1] location size    
+#&gt; &lt;0 rows&gt; (or 0-length row.names)</div><div class='input'><span class='no'>c</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='graft.html'>graft_right</a></span>(<span class='no'>a</span>, <span class='no'>b</span>, <span class='kw'>sep_y</span> <span class='kw'>=</span> <span class='fl'>3.5</span>)
+<span class='fu'>discontinuities</span>(<span class='no'>c</span>)</div><div class='output co'>#&gt;   location size
+#&gt; 1        1  0.2
+#&gt; 2        2  0.2
+#&gt; 3        3  0.2</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -184,7 +202,9 @@ weight per unique value of <code>y</code>. Weights sum to 1.</p>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

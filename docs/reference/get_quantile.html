@@ -89,13 +89,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/combining.html">Combining Distributions</a>
-    </li>
-    <li>
       <a href="../articles/probing.html">Probing a Distribution</a>
     </li>
     <li>
       <a href="../articles/stepdst.html">Step Distributions</a>
+    </li>
+    <li>
+      <a href="../articles/vision.html">Vision</a>
     </li>
   </ul>
 </li>
@@ -130,7 +130,7 @@
     <pre class="usage"><span class='fu'>get_quantile</span>(<span class='no'>object</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for dst</span>
-<span class='fu'>get_quantile</span>(<span class='no'>object</span>, <span class='no'>low</span>, <span class='no'>high</span>, <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>, <span class='kw'>maxiter</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>get_quantile</span>(<span class='no'>object</span>, <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>, <span class='kw'>maxiter</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -142,11 +142,6 @@
     <tr>
       <th>...</th>
       <td><p>Other arguments to pass to specific methods</p></td>
-    </tr>
-    <tr>
-      <th>low, high</th>
-      <td><p>Lower and upper values to find all quantiles between.
-Will improve later.</p></td>
     </tr>
     <tr>
       <th>tol</th>
@@ -165,7 +160,7 @@ Will improve later.</p></td>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='get_probfn.html'>get_probfn</a></code>,
-<code><a href='get_cdf.html'>get_cdf</a></code>,
+<code><a href='cdf.html'>get_cdf</a></code>,
 <code><a href='get_randfn.html'>get_randfn</a></code>,
 <code><a href='hazard.html'>get_hazard</a></code>,
 <code><a href='get_survival.html'>get_survival</a></code></p></div>
