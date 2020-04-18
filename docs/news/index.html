@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Make a Uniform distribution — dst_unif • distplyr</title>
+<title>Changelog • distplyr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,11 +32,7 @@
 
 
 
-<meta property="og:title" content="Make a Uniform distribution — dst_unif" />
-
-<meta property="og:description" content="Makes a distribution belonging to the continuous uniform family of
-distributions." />
-<meta name="twitter:card" content="summary" />
+<meta property="og:title" content="Changelog" />
 
 
 
@@ -54,7 +50,7 @@ distributions." />
   </head>
 
   <body>
-    <div class="container template-reference-topic">
+    <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -120,45 +116,33 @@ distributions." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Make a Uniform distribution</h1>
-    
-    <div class="hidden name"><code>dst_unif.Rd</code></div>
-    </div>
-
-    <div class="ref-description">
-    
-    <p>Makes a distribution belonging to the continuous uniform family of
-distributions.</p>
-    
-    </div>
-
-    <pre class="usage"><span class='fu'>dst_unif</span>(<span class='kw'>min</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>min, max</th>
-      <td><p>Parameters of the distribution family.</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>Object of class "dst".
-dst_unif(0, 1)</p>
-    
-
-  </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
+      <h1>Changelog <small></small></h1>
       
-      <li><a href="#value">Value</a></li>
-          </ul>
+    </div>
 
+    <div id="distplyr-010" class="section level1">
+<h1 class="page-header">
+<a href="#distplyr-010" class="anchor"></a>distplyr 0.1.0</h1>
+<p>The first version of <code>distplyr</code> is now available! Its functionality is rather limited at the moment, but is still useful, especially for its capability to handle a discrete component of a distribution. Here are the main features:</p>
+<ul>
+<li>Base distributions include step distributions, Gaussian, Uniform, and generalized Pareto.</li>
+<li>Operations include grafting (right) and mixing</li>
+<li>Distribution properties included are moment-related quantities, and extreme value index.</li>
+<li>Distribution representations are mostly comprehensive, perhaps only missing mean excess function and moment generating function.</li>
+</ul>
+<p>Take a look at the “Vision” vignette to get a sense of where this package is headed.</p>
+</div>
   </div>
+
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <div id="tocnav">
+      <h2>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+        <li><a href="#distplyr-010">0.1.0</a></li>
+      </ul>
+    </div>
+  </div>
+
 </div>
 
 
