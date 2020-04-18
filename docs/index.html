@@ -139,13 +139,13 @@
 <span id="cb4-16"><a href="#cb4-16"></a><span class="co">#&gt; properly yet!</span></span>
 <span id="cb4-17"><a href="#cb4-17"></a><span class="co">#&gt; Warning in get_higher(cdf, level = at[n_x]): This function doesn't work</span></span>
 <span id="cb4-18"><a href="#cb4-18"></a><span class="co">#&gt; properly yet!</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="100%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="100%" style="display: block; margin: auto;"></p>
 <p>Make a graft distribution by replacing a distribution’s tail:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>d3 &lt;-<span class="st"> </span><span class="kw"><a href="reference/stepdst.html">stepdst</a></span>(mpg, <span class="dt">data =</span> mtcars)</span>
 <span id="cb5-2"><a href="#cb5-2"></a>d4 &lt;-<span class="st"> </span><span class="kw"><a href="reference/graft.html">graft_right</a></span>(d3, <span class="kw"><a href="reference/dst_gpd.html">dst_gpd</a></span>(<span class="dv">25</span>, <span class="dv">5</span>, <span class="dv">1</span>), <span class="dt">sep_y =</span> <span class="dv">25</span>)</span>
 <span id="cb5-3"><a href="#cb5-3"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(d4, <span class="st">"cdf"</span>, <span class="dt">n =</span> <span class="dv">1001</span>, <span class="dt">to =</span> <span class="dv">34</span>)</span>
 <span id="cb5-4"><a href="#cb5-4"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(d3, <span class="st">"cdf"</span>, <span class="dt">n =</span> <span class="dv">1001</span>, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-6-1.png" width="100%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-6-1.png" width="100%" style="display: block; margin: auto;"></p>
 </div>
 <div id="distplyr-in-context" class="section level2">
 <h2 class="hasAnchor">

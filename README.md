@@ -96,7 +96,7 @@ plot(d2, n = 1001)
 #> properly yet!
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" style="display: block; margin: auto;" />
 
 Make a graft distribution by replacing a distribution’s tail:
 
@@ -107,7 +107,7 @@ plot(d4, "cdf", n = 1001, to = 34)
 plot(d3, "cdf", n = 1001, lty = 2, add = TRUE)
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" style="display: block; margin: auto;" />
 
 ## `distplyr` in Context
 
