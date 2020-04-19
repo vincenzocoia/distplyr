@@ -12,3 +12,7 @@ navbar:
 authors:
   Vincenzo Coia:
     href: http://vincenzocoia.com
+
+template:
+  params:
+    ganalytics: UA-163983022-1
