@@ -139,9 +139,9 @@ get_quantile.stepdst <- function(object, ...) {
 }
 
 #' @export
-get_randfn.stepdst <- function(object) {
+realise.stepdst <- function(object, n = 1) {
 	with(discontinuities(object), {
-		function(n) sample(location, size = n, replace = TRUE, prob = size)
+		sample(location, size = n, replace = TRUE, prob = size)
 	})
 }
 

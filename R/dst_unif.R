@@ -77,10 +77,10 @@ get_probfn.unif <- function(object) {
 }
 
 #' @export
-get_randfn.unif <- function(object) {
+realise.unif <- function(object, n = 1) {
 	with(
 		parameters(object),
-		function(n) stats::runif(n, min = min, max = max)
+		stats::runif(n, min = min, max = max)
 	)
 }
 

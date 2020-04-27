@@ -185,21 +185,19 @@ get_quantile.mix <- function(object, tol = 1e-6, maxiter = 1000, ...) {
 }
 
 #' @export
-get_randfn.mix <- function(object) {
+realise.mix <- function(object, n = 1) {
 	with(object[["components"]], {
-		function(n) {
-			if (n == 0) {
-				if (identical(variable(object), "categorical")) {
-					return(character())
-				} else {
-					return(numeric())
-				}
+		if (n == 0) {
+			if (identical(variable(object), "categorical")) {
+				return(character())
+			} else {
+				return(numeric())
 			}
-			randfns <- lapply(distributions, get_randfn)
-			k <- length(distributions)
-			id <- sample(1:k, size = n, replace = TRUE, prob = probs)
-			sapply(id, function(i) randfns[[i]](1))
 		}
+		randfns <- lapply(distributions, get_randfn)
+		k <- length(distributions)
+		id <- sample(1:k, size = n, replace = TRUE, prob = probs)
+		sapply(id, function(i) randfns[[i]](1))
 	})
 }
 

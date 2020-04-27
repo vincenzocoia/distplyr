@@ -7,12 +7,18 @@
 #' dst_norm(0, 1)
 #' @export
 dst_norm <- function(mean, variance) {
-	if (variance == 0) return(dst_degenerate(mean))
-	if (variance < 0) stop("'variance' parameter must be non-negative.")
-	sd <- sqrt(variance)
+	# qq <- rlang::enquos(mean, variance)
+	# qmean <- rlang::enquo(mean)
+	# qvariance <- rlang::enquo(variance)
+	# try_variance <- try(rlang::eval_tidy(qvariance), silent = TRUE)
+	try_variance <- variance
+	if (!inherits(try_variance, "try-error")) {
+		if (try_variance == 0) return(dst_degenerate(mean))
+		if (try_variance < 0) stop("'variance' parameter must be non-negative.")
+	}
 	res <- list(name = "Gaussian",
 				discontinuities = make_empty_discontinuities_df(),
-				parameters = list(mean = mean, variance = variance, sd = sd))
+				parameters = list(mean = mean, variance = variance))
 	new_dst(
 		res,
 		variable = "continuous",
@@ -81,10 +87,10 @@ get_probfn.norm <- function(object) {
 }
 
 #' @export
-get_randfn.norm <- function(object) {
+realise.norm <- function(object, n = 1) {
 	with(
 		parameters(object),
-		function(n) stats::rnorm(n, mean = mean, sd = sd)
+		stats::rnorm(n, mean = mean, sd = sd)
 	)
 }
 
