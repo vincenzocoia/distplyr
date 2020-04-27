@@ -11,6 +11,8 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 status](https://travis-ci.org/vincenzocoia/distplyr.svg?branch=master)](https://travis-ci.org/vincenzocoia/distplyr)
 [![Codecov test
 coverage](https://codecov.io/gh/vincenzocoia/distplyr/branch/master/graph/badge.svg)](https://codecov.io/gh/vincenzocoia/distplyr?branch=master)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/distplyr)](https://CRAN.R-project.org/package=distplyr)
 <!-- badges: end -->
 
 The purpose of `distplyr` is to equip every analyst with a tool to
@@ -76,7 +78,7 @@ eval_hazard(d1, at = 3)
 Make a mixture distribution by combining some distributions:
 
 ``` r
-(d2 <- mix(dst_norm(-5, 1), dst_norm(0, 1), probs = c(0.2, 0.8)))
+(d2 <- mix(dst_norm(-5, 1), dst_norm(0, 1), weights = c(1, 4)))
 #> Mixture Distribution
 #> 
 #> Components:
@@ -86,14 +88,14 @@ Make a mixture distribution by combining some distributions:
 #> 
 #> Number of Discontinuities:  0
 plot(d2, n = 1001)
-#> Warning in get_lower(cdf, level = at[1L]): This function doesn't work
-#> properly yet!
-#> Warning in get_higher(cdf, level = at[n_x]): This function doesn't work
-#> properly yet!
-#> Warning in get_lower(cdf, level = at[1L]): This function doesn't work
-#> properly yet!
-#> Warning in get_higher(cdf, level = at[n_x]): This function doesn't work
-#> properly yet!
+#> Warning in get_lower(cdf, level = at[1L]): This function doesn't work properly
+#> yet!
+#> Warning in get_higher(cdf, level = at[n_x]): This function doesn't work properly
+#> yet!
+#> Warning in get_lower(cdf, level = at[1L]): This function doesn't work properly
+#> yet!
+#> Warning in get_higher(cdf, level = at[n_x]): This function doesn't work properly
+#> yet!
 ```
 
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" style="display: block; margin: auto;" />

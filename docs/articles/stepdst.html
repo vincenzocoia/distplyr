@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">distplyr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
       </span>
     </div>
 
@@ -124,7 +124,7 @@
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="../reference/moments.html">get_mean</a></span>(d2)</span></code></pre></div>
 <pre><code>## [1] 109.961</code></pre>
 <p>With a distribution, you can get much more, such as a prediction interval. Here’s a 90% interval:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw"><a href="../reference/eval_quantile.html">eval_quantile</a></span>(d2, <span class="dt">at =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.05</span>, <span class="fl">0.95</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw"><a href="../reference/quantile.html">eval_quantile</a></span>(d2, <span class="dt">at =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.05</span>, <span class="fl">0.95</span>))</span></code></pre></div>
 <pre><code>## [1]  62 175</code></pre>
 <p>Here’s the proportion of variance that’s reduced compared to the marginal:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw"><a href="../reference/moments.html">get_variance</a></span>(d2) <span class="op">/</span><span class="st"> </span><span class="kw"><a href="../reference/moments.html">get_variance</a></span>(d1)</span></code></pre></div>

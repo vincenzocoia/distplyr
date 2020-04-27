@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">distplyr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
       </span>
     </div>
 
@@ -132,7 +132,7 @@
 <tr class="odd">
 <td>Quantile Function</td>
 <td>
-<code><a href="../reference/eval_quantile.html">eval_quantile()</a></code>, <code><a href="../reference/get_quantile.html">get_quantile()</a></code>
+<code><a href="../reference/quantile.html">eval_quantile()</a></code>, <code><a href="../reference/quantile.html">get_quantile()</a></code>
 </td>
 </tr>
 <tr class="even">
@@ -150,25 +150,25 @@
 <tr class="even">
 <td>Probability (mass/density) function</td>
 <td>
-<code><a href="../reference/eval_probfn.html">eval_probfn()</a></code>, <code><a href="../reference/get_probfn.html">get_probfn()</a></code>
+<code><a href="../reference/probfn.html">eval_probfn()</a></code>, <code><a href="../reference/probfn.html">get_probfn()</a></code>
 </td>
 </tr>
 <tr class="odd">
 <td>Random sample generator</td>
 <td>
-<code><a href="../reference/eval_randfn.html">eval_randfn()</a></code>, <code><a href="../reference/get_randfn.html">get_randfn()</a></code>
+<code><a href="../reference/realise.html">realise()</a></code>, <code><a href="../reference/realise.html">realize()</a></code>
 </td>
 </tr>
 </tbody>
 </table>
-<p>Both the <code>eval_*</code> and <code>get_*</code> functions take a distribution object as their first argument, but <code>eval_*</code> has a second argument named <code>at</code> indicating where to evaluate the function. The <code>at</code> argument is vectorized, except for <code><a href="../reference/eval_randfn.html">eval_randfn()</a></code>, which returns a vector of a random sample of the length that you specify.</p>
+<p>Both the <code>eval_*</code> and <code>get_*</code> functions take a distribution object as their first argument, but <code>eval_*</code> has a second argument named <code>at</code> indicating where to evaluate the function. The <code>at</code> argument is vectorized, except for <code>eval_randfn()</code>, which returns a vector of a random sample of the length that you specify.</p>
 <p>Here is an example of evaluating the hazard function and the random sample generator of a Uniform(0,1) distribution:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>d &lt;-<span class="st"> </span><span class="kw"><a href="../reference/dst_unif.html">dst_unif</a></span>(<span class="dv">0</span>, <span class="dv">3</span>)</span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="kw"><a href="../reference/hazard.html">eval_hazard</a></span>(d, <span class="dt">at =</span> <span class="dv">0</span><span class="op">:</span><span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##  [1] 0.3333333 0.5000000 1.0000000       Inf       NaN       NaN       NaN
 ##  [8]       NaN       NaN       NaN       NaN</code></pre>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">10</span>)</span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="kw"><a href="../reference/eval_randfn.html">eval_randfn</a></span>(d, <span class="dt">at =</span> <span class="dv">5</span>)</span></code></pre></div>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="kw"><a href="../reference/realise.html">realise</a></span>(d, <span class="dt">n =</span> <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>## [1] 1.5224346 0.9203055 1.2807230 2.0793062 0.2554079</code></pre>
 </div>
 <div id="properties-of-distributions" class="section level2">
@@ -230,7 +230,7 @@
 </tbody>
 </table>
 <p>Here are some properties of a certain mixture of Gaussians:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>m &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mix.html">mix</a></span>(<span class="kw"><a href="../reference/dst_norm.html">dst_norm</a></span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="kw"><a href="../reference/dst_norm.html">dst_norm</a></span>(<span class="dv">5</span>, <span class="dv">1</span>), <span class="dt">probs =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>))</span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>m &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mix.html">mix</a></span>(<span class="kw"><a href="../reference/dst_norm.html">dst_norm</a></span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="kw"><a href="../reference/dst_norm.html">dst_norm</a></span>(<span class="dv">5</span>, <span class="dv">1</span>), <span class="dt">weights =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">4</span>))</span>
 <span id="cb6-2"><a href="#cb6-2"></a><span class="kw"><a href="../reference/moments.html">get_mean</a></span>(m)</span></code></pre></div>
 <pre><code>## [1] 4</code></pre>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw"><a href="../reference/moments.html">get_sd</a></span>(m)</span></code></pre></div>
