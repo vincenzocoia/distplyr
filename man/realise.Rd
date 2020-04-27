@@ -5,14 +5,16 @@
 \alias{realize}
 \title{Generate a Sample from a Distribution}
 \usage{
-realise(object, n = 1)
+realise(object, n = 1, ...)
 
-realize(object, n = 1)
+realize(object, n = 1, ...)
 }
 \arguments{
 \item{object}{Object of class "dst"}
 
 \item{n}{Number of observations to generate}
+
+\item{...}{Other arguments to pass to \code{\link{eval_quantile}}}
 }
 \value{
 Vector of independent values drawn from the inputted distribution

@@ -66,20 +66,18 @@ is_graft <- function(object) inherits(object, "graft")
 is.graft <- function(object) inherits(object, "graft")
 
 #' @export
-get_cdf.graft <- function(object) {
+eval_cdf.graft <- function(object, at) {
 	with(object[["components"]], {
 		if (identical(base, "left")) {
-			function(y) {
-				lower <- vapply(y <= sep_y, isTRUE, FUN.VALUE = logical(1))
-				upper <- vapply(y > sep_y,  isTRUE, FUN.VALUE = logical(1))
-				y_lower <- y[lower]
-				y_upper <- y[upper]
-				res <- rep(NA_real_, length(y))
-				res[lower] <- eval_cdf(dst_left,  y_lower)
-				res[upper] <- (eval_cdf(dst_right, y_upper) - tau_right) /
-					(1 - tau_right) * (1 - tau_left) + tau_left
-				res
-			}
+			lower <- vapply(at <= sep_y, isTRUE, FUN.VALUE = logical(1))
+			upper <- vapply(at > sep_y,  isTRUE, FUN.VALUE = logical(1))
+			y_lower <- at[lower]
+			y_upper <- at[upper]
+			res <- rep(NA_real_, length(at))
+			res[lower] <- eval_cdf(dst_left,  y_lower)
+			res[upper] <- (eval_cdf(dst_right, y_upper) - tau_right) /
+				(1 - tau_right) * (1 - tau_left) + tau_left
+			res
 		} else {
 			stop("Not yet programmed.")
 		}
@@ -87,58 +85,58 @@ get_cdf.graft <- function(object) {
 }
 
 #' @export
-get_quantile.graft <- function(object, ...) {
-	with(
-		object[["components"]],
+eval_quantile.graft <- function(object, at, ...) {
+	with(object[["components"]], {
 		if (identical(base, "left")) {
-			function(p) {
-				lower <- vapply(p <= tau_left, isTRUE, FUN.VALUE = logical(1))
-				upper <- vapply(p > tau_left,  isTRUE, FUN.VALUE = logical(1))
-				p_lower <- p[lower]
-				p_upper <- p[upper]
-				res <- rep(NA_real_, length(p))
-				res[lower] <- eval_quantile(dst_left,  p_lower)
-				res[upper] <- eval_quantile(dst_right, (p_upper - tau_left) /
-												(1 - tau_left) * (1 - tau_right) + tau_right)
-				res
-			}
+			lower <- vapply(at <= tau_left, isTRUE,
+							FUN.VALUE = logical(1))
+			upper <- vapply(at > tau_left,  isTRUE,
+							FUN.VALUE = logical(1))
+			p_lower <- at[lower]
+			p_upper <- at[upper]
+			res <- rep(NA_real_, length(at))
+			res[lower] <- eval_quantile(dst_left,  p_lower)
+			res[upper] <- eval_quantile(
+				dst_right,
+				(p_upper - tau_left) /
+					(1 - tau_left) *
+					(1 - tau_right) +
+					tau_right
+			)
+			res
 		} else {
 			stop("Not yet programmed.")
 		}
-	)
+	})
 }
 
 #' @export
-get_probfn.graft <- function(object) {
-	if (!identical(variable(object), "continuous")) {
+eval_probfn.graft <- function(object, at) {
+	if (identical(variable(object), "mixed")) {
 		return(NULL)
 	}
-	with(
-		object[["components"]],
+	with(object[["components"]], {
 		if (identical(base, "left")) {
-			function(y) {
-				lower <- vapply(y <= sep_y, isTRUE, FUN.VALUE = logical(1))
-				upper <- vapply(y > sep_y,  isTRUE, FUN.VALUE = logical(1))
-				y_lower <- y[lower]
-				y_upper <- y[upper]
-				res <- rep(NA_real_, length(y))
-				res[lower] <- eval_probfn(dst_left,  y_lower)
-				res[upper] <- eval_probfn(dst_right, y_upper) /
-					(1 - tau_right) * (1 - tau_left)
-				res
-			}
+			lower <- vapply(at <= sep_y, isTRUE, FUN.VALUE = logical(1))
+			upper <- vapply(at > sep_y,  isTRUE, FUN.VALUE = logical(1))
+			y_lower <- at[lower]
+			y_upper <- at[upper]
+			res <- rep(NA_real_, length(at))
+			res[lower] <- eval_probfn(dst_left,  y_lower)
+			res[upper] <- eval_probfn(dst_right, y_upper) /
+				(1 - tau_right) * (1 - tau_left)
+			res
 		} else {
 			stop("Not yet programmed.")
 		}
-	)
+	})
 }
 
 #' @export
 get_evi.graft <- function(object) {
-	with(
-		object[["components"]],
+	with(object[["components"]], {
 		get_evi(dst_right)
-	)
+	})
 }
 
 # Moment-based quantities may require integration - TBD

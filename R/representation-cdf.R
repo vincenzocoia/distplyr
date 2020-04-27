@@ -29,9 +29,15 @@ get_cdf <- function(object) UseMethod("get_cdf")
 
 #' @export
 eval_cdf.dst <- function(object, at) {
-	get_cdf(object)(at)
+	cdf <- object[["representations"]][["fun_cumu"]]
+	if (!is.null(cdf)) return(cdf(at))
+	stop("Can't find a cdf for this distribution.")
 }
 
 #' @export
-get_cdf.dst <- function(object) object$fun_cumu
+get_cdf.dst <- function(object) {
+	cdf <- object[["representations"]][["fun_cumu"]]
+	if (!is.null(cdf)) return(cdf)
+	function(at) eval_cdf(object, at = at)
+}
 

@@ -20,9 +20,14 @@ get_probfn <- function(object) UseMethod("get_probfn")
 
 #' @export
 eval_probfn.dst <- function(object, at) {
-	get_probfn(object)(at)
+	f <- object[["representations"]][["fun_probfn"]]
+	if (!is.null(f)) return(f(at))
+	stop("Can't find a probability function for this distribution.")
 }
 
 #' @export
-get_probfn.dst <- function(object) object$fun_prob
-
+get_probfn.dst <- function(object) {
+	f <- object[["representations"]][["fun_probfn"]]
+	if (!is.null(f)) return(f)
+	function(at) eval_probfn(object, at = at)
+}

@@ -113,11 +113,21 @@ get_cdf.stepdst <- function(object) {
 }
 
 #' @export
+eval_cdf.stepdst <- function(object, at) {
+	get_cdf(object)(at)
+}
+
+#' @export
 get_survival.stepdst <- function(object) {
 	with(discontinuities(object), {
 		heights <- 1 - c(0, cumsum(size))
 		stats::stepfun(location, heights, right = FALSE)
 	})
+}
+
+#' @export
+eval_survival.stepdst <- function(object, at) {
+	get_survival(object)(at)
 }
 
 #' @export
@@ -134,23 +144,24 @@ get_quantile.stepdst <- function(object, ...) {
 			stats::stepfun(taus, location, right = TRUE)
 		}
 	})
-
-
 }
 
 #' @export
-realise.stepdst <- function(object, n = 1) {
+eval_quantile.stepdst <- function(object, at, ...) {
+	get_quantile(object)(at)
+}
+
+#' @export
+realise.stepdst <- function(object, n = 1, ...) {
 	with(discontinuities(object), {
 		sample(location, size = n, replace = TRUE, prob = size)
 	})
 }
 
 #' @export
-get_probfn.stepdst <- function(object) {
-	if (identical(variable(object), "discrete")) {
-		with(discontinuities(object), {
-			Vectorize(function(x) sum(size[x == location]))
-		})
-	}
+eval_probfn.stepdst <- function(object, at) {
+	with(discontinuities(object), {
+		vapply(at, function(x) sum(size[x == location]), FUN.VALUE = numeric(1L))
+	})
 }
 

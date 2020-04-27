@@ -65,7 +65,7 @@ get_kurtosis_exc.degenerate <- function(object) {
 }
 
 #' @export
-realise.degenerate <- function(object, n = 1) {
+realise.degenerate <- function(object, n = 1, ...) {
 	location <- get_mean(object)
 	rep(location, n)
 }

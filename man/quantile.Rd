@@ -4,13 +4,16 @@
 \alias{eval_quantile}
 \alias{get_quantile}
 \alias{get_quantile.dst}
+\alias{eval_quantile.dst}
 \title{Distribution Quantiles}
 \usage{
-eval_quantile(object, at)
+eval_quantile(object, at, ...)
 
 get_quantile(object, ...)
 
 \method{get_quantile}{dst}(object, tol = 1e-06, maxiter = 1000, ...)
+
+\method{eval_quantile}{dst}(object, at, tol = 1e-06, maxiter = 1000, ...)
 }
 \arguments{
 \item{object}{Object of class "dst"}

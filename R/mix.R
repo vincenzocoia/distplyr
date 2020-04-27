@@ -142,53 +142,47 @@ get_kurtosis_exc.mix <- function(object, ...) {
 }
 
 #' @export
-get_probfn.mix <- function(object) {
+eval_probfn.mix <- function(object, at) {
 	if (identical(variable(object), "mixed")) {
 		return(NULL)
 	}
 	with(object[["components"]], {
-		probfns <- lapply(distributions, get_probfn)
-		function(x) {
-			p_times_f <- mapply(function(p, f) p * f(x), probs, probfns,
-								SIMPLIFY = FALSE)
-			Reduce(`+`, p_times_f)
-		}
+		probfn_vals <- lapply(distributions, eval_probfn, at = at)
+		p_times_f <- mapply(function(p, f) p * f, probs, probfn_vals,
+							SIMPLIFY = FALSE)
+		Reduce(`+`, p_times_f)
 	})
 }
 
 #' @export
-get_cdf.mix <- function(object) {
+eval_cdf.mix <- function(object, at) {
 	with(object[["components"]], {
-		cdfs <- lapply(distributions, get_cdf)
-		function(x) {
-			p_times_cdfs <- mapply(function(p, f) p * f(x), probs, cdfs,
-								   SIMPLIFY = FALSE)
-			Reduce(`+`, p_times_cdfs)
-		}
+		cdf_vals <- lapply(distributions, eval_cdf, at = at)
+		p_times_cdfs <- mapply(function(p, f) p * f, probs, cdf_vals,
+							   SIMPLIFY = FALSE)
+		Reduce(`+`, p_times_cdfs)
 	})
 }
 
 #' @export
-get_quantile.mix <- function(object, tol = 1e-6, maxiter = 1000, ...) {
+eval_quantile.mix <- function(object, at, tol = 1e-6, maxiter = 1000, ...) {
 	distributions <- object[["components"]][["distributions"]]
 	cdf <- get_cdf(object)
 	discon <- discontinuities(object)
-	function(x) {
-		res <- x
-		ones <- vapply(x == 1, isTRUE, FUN.VALUE = logical(1L))
-		if (any(ones)) {
-			right_ends <- lapply(distributions, eval_quantile, at = 1)
-			res[ones] <- do.call(max, right_ends)
-		}
-		res[!ones] <- eval_quantile_from_cdf(
-			cdf, discon, at = x[!ones], tol = tol, maxiter = maxiter
-		)
-		res
+	res <- at
+	ones <- vapply(at == 1, isTRUE, FUN.VALUE = logical(1L))
+	if (any(ones)) {
+		right_ends <- lapply(distributions, eval_quantile, at = 1)
+		res[ones] <- do.call(max, right_ends)
 	}
+	res[!ones] <- eval_quantile_from_cdf(
+		cdf, discon, at = at[!ones], tol = tol, maxiter = maxiter
+	)
+	res
 }
 
 #' @export
-realise.mix <- function(object, n = 1) {
+realise.mix <- function(object, n = 1, ...) {
 	with(object[["components"]], {
 		if (n == 0) {
 			if (identical(variable(object), "categorical")) {

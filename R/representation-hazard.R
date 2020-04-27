@@ -23,14 +23,18 @@ get_hazard <- function(object) UseMethod("get_hazard")
 
 #' @export
 eval_hazard.dst <- function(object, at) {
-	get_hazard(object)(at)
+	if (identical(variable(object), "continuous")) {
+		sf <- eval_survival(object, at)
+		pdf <- eval_probfn(object, at)
+		pdf / sf
+	} else {
+		stop("Not programmed yet.")
+	}
 }
 
 #' @export
 get_hazard.dst <- function(object) {
-	if (variable(object) == "continuous") {
-		sf <- get_survival(object)
-		pdf <- get_probfn(object)
-		function(x) pdf(x) / sf(x)
-	}
+	hf <- object[["representations"]][["fun_hazard"]]
+	if (!is.null(hf)) return(hf)
+	function(at) eval_hazard(object, at = at)
 }

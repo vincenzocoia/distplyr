@@ -63,43 +63,38 @@ get_kurtosis_exc.norm <- function(object) {
 }
 
 #' @export
-get_cdf.norm <- function(object) {
-	with(
-		parameters(object),
-		function(x) stats::pnorm(x, mean = mean, sd = sd)
-	)
+eval_cdf.norm <- function(object, at) {
+	with(parameters(object), {
+		stats::pnorm(at, mean = mean, sd = sd)
+	})
 }
 
 #' @export
-get_survival.norm <- function(object) {
-	with(
-		parameters(object),
-		function(x) stats::pnorm(x, mean = mean, sd = sd, lower.tail = FALSE)
-	)
+eval_survival.norm <- function(object, at) {
+	with(parameters(object), {
+		stats::pnorm(at, mean = mean, sd = sd, lower.tail = FALSE)
+	})
 }
 
 #' @export
-get_probfn.norm <- function(object) {
-	with(
-		parameters(object),
-		function(x) stats::dnorm(x, mean = mean, sd = sd)
-	)
+eval_probfn.norm <- function(object, at) {
+	with(parameters(object), {
+		stats::dnorm(at, mean = mean, sd = sd)
+	})
 }
 
 #' @export
-realise.norm <- function(object, n = 1) {
-	with(
-		parameters(object),
+realise.norm <- function(object, n = 1, ...) {
+	with(parameters(object), {
 		stats::rnorm(n, mean = mean, sd = sd)
-	)
+	})
 }
 
 #' @export
-get_quantile.norm <- function(object, ...) {
-	with(
-		parameters(object),
-		function(x) stats::qnorm(x, mean = mean, sd = sd)
-	)
+eval_quantile.norm <- function(object, at, ...) {
+	with(parameters(object), {
+		stats::qnorm(at, mean = mean, sd = sd)
+	})
 }
 
 
