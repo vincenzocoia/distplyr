@@ -75,91 +75,74 @@ get_kurtosis_exc.gpd <- function(object) {
 }
 
 #' @export
-get_cdf.gpd <- function(object) {
-	with(
-		parameters(object),
+eval_cdf.gpd <- function(object, at) {
+	with(parameters(object), {
 		if (shape == 0) {
-			function(x) {
-				left <- x < location
-				z <- (x - location) / scale
-				res <- 1 - exp(-z)
-				res[left] <- 0
-				res
-			}
+			left <- at < location
+			z <- (at - location) / scale
+			res <- 1 - exp(-z)
+			res[left] <- 0
+			res
 		} else {
 			if (shape > 0) {
 				rightend <- Inf
 			} else {
 				rightend <- location - scale / shape
 			}
-			function(x) {
-				left <- x < location
-				right <- x > rightend
-				z <- (x - location) / scale
-				res <- 1 - (1 + shape * z) ^ (-1 / shape)
-				res[left] <- 0
-				res[right] <- 1
-				res
-			}
+			left <- at < location
+			right <- at > rightend
+			z <- (at - location) / scale
+			res <- 1 - (1 + shape * z) ^ (-1 / shape)
+			res[left] <- 0
+			res[right] <- 1
+			res
 		}
-	)
+	})
 }
 
 #' @export
-get_quantile.gpd <- function(object, ...) {
-	with(
-		parameters(object),
+eval_quantile.gpd <- function(object, at, ...) {
+	with(parameters(object), {
+		invalid <- at < 0 | at > 1
 		if (shape == 0) {
-			function(x) {
-				invalid <- x < 0 | x > 1
-				res <- location - scale * log(1 - x)
-				res[invalid] <- NaN
-				res
-			}
+			res <- location - scale * log(1 - at)
+			res[invalid] <- NaN
+			res
 		} else {
 			if (shape > 0) {
 				rightend <- Inf
 			} else {
 				rightend <- location - scale / shape
 			}
-			function(x) {
-				invalid <- x < 0 | x > 1
-				t <- 1 / (1 - x)
-				res <- location + scale * (t ^ shape - 1) / shape
-				res[invalid] <- NaN
-				res
-			}
+			t <- 1 / (1 - at)
+			res <- location + scale * (t ^ shape - 1) / shape
+			res[invalid] <- NaN
+			res
 		}
-	)
+	})
 }
 
 #' @export
-get_probfn.gpd <- function(object) {
-	with(
-		parameters(object),
+eval_probfn.gpd <- function(object, at) {
+	with(parameters(object), {
+		z <- (at - location) / scale
 		if (shape == 0) {
-			function(x) {
-				outside <- x < location
-				z <- (x - location) / scale
-				res <- exp(-z) / scale
-				res[outside] <- 0
-				res
-			}
+			outside <- at < location
+			res <- exp(-z) / scale
+			res[outside] <- 0
+			res
 		} else {
 			if (shape > 0) {
 				rightend <- Inf
 			} else {
 				rightend <- location - scale / shape
 			}
-			function(x) {
-				outside <- x < location | x > rightend
-				z <- (x - location) / scale
-				res <- (1 + shape * z) ^ (-1 / shape - 1) / scale
-				res[outside] <- 0
-				res
-			}
+			outside <- at < location | at > rightend
+			res <- (1 + shape * z) ^ (-1 / shape - 1) / scale
+			res[outside] <- 0
+			res
 		}
-	)
+	})
 }
 
 

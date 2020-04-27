@@ -2,9 +2,12 @@
 % Please edit documentation in R/representation-probfn.R
 \name{eval_probfn}
 \alias{eval_probfn}
-\title{Evaluate probability density/mass function}
+\alias{get_probfn}
+\title{Probability density/mass function}
 \usage{
 eval_probfn(object, at)
+
+get_probfn(object)
 }
 \arguments{
 \item{object}{Object of class "dst"}
@@ -15,12 +18,12 @@ eval_probfn(object, at)
 Vector of density/mass values
 }
 \description{
-Evaluate probability density/mass function
+Probability density/mass function
 }
 \seealso{
 \code{\link{eval_quantile}},
 \code{\link{eval_cdf}},
-\code{\link{eval_randfn}},
+\code{\link{realise}},
 \code{\link{eval_hazard}},
 \code{\link{eval_survival}}
 }

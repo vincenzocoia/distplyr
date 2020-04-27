@@ -53,43 +53,38 @@ get_kurtosis_exc.unif <- function(object) {
 }
 
 #' @export
-get_cdf.unif <- function(object) {
-	with(
-		parameters(object),
-		function(x) stats::punif(x, min = min, max = max)
-	)
+eval_cdf.unif <- function(object, at) {
+	with(parameters(object), {
+		stats::punif(at, min = min, max = max)
+	})
 }
 
 #' @export
-get_survival.unif <- function(object) {
-	with(
-		parameters(object),
-		function(x) stats::punif(x, min = min, max = max, lower.tail = FALSE)
-	)
+eval_survival.unif <- function(object, at) {
+	with(parameters(object), {
+		stats::punif(at, min = min, max = max, lower.tail = FALSE)
+	})
 }
 
 #' @export
-get_probfn.unif <- function(object) {
-	with(
-		parameters(object),
-		function(x) stats::dunif(x, min = min, max = max)
-	)
+eval_probfn.unif <- function(object, at) {
+	with(parameters(object), {
+		stats::dunif(at, min = min, max = max)
+	})
 }
 
 #' @export
-get_randfn.unif <- function(object) {
-	with(
-		parameters(object),
-		function(n) stats::runif(n, min = min, max = max)
-	)
+realise.unif <- function(object, n = 1, ...) {
+	with(parameters(object), {
+		stats::runif(n, min = min, max = max)
+	})
 }
 
 #' @export
-get_quantile.unif <- function(object, ...) {
-	with(
-		parameters(object),
-		function(x) stats::qunif(x, min = min, max = max)
-	)
+eval_quantile.unif <- function(object, at, ...) {
+	with(parameters(object), {
+		stats::qunif(at, min = min, max = max)
+	})
 }
 
 

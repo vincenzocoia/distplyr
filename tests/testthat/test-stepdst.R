@@ -31,7 +31,7 @@ test_that("unweighted empirical distribution works", {
 	set.seed(1)
 	s1 <- sample(sort(unique(y)), size = 100, replace = TRUE, prob = c(1, 3, 1, 1, 1, 1))
 	set.seed(1)
-	s2 <- eval_randfn(edist, 100)
+	s2 <- realise(edist, 100)
 	expect_identical(s1, s2)
 	set.seed(1)
 	at <- c(y, rnorm(10))

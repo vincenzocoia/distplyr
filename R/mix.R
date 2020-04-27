@@ -3,34 +3,37 @@
 #' Create a mixture distribution.
 #'
 #' @param ... Distribution objects to mix.
-#' @param probs Vector of probabilities corresponding to the distributions.
+#' @param weights Vector of weights corresponding to the distributions;
+#' or, single numeric for equal weights.
 #' @return A mixture distribution.
 #' @examples
 #' a <- dst_norm(0, 1)
 #' b <- dst_norm(5, 2)
-#' m1 <- mix(a, b, probs = c(0.2, 0.8))
+#' m1 <- mix(a, b, weights = c(1, 4))
 #' plot(m1)
 #' variable(m1)
 #'
 #' c <- stepdst(0:6)
-#' m2 <- mix(a, b, c, probs = c(0.2, 0.5, 0.3))
+#' m2 <- mix(a, b, c, weights = c(0.2, 0.5, 0.3))
 #' plot(m2, n = 1001)
 #' variable(m2)
 #' @export
-mix <- function(..., probs) {
+mix <- function(..., weights = 1) {
 	dsts <- list(...)
 	lapply(dsts, function(.dst) if (!is_dst(.dst)) {
 		stop("Elipses must contain distributions only.")
 	})
-	if (!identical(length(dsts), length(probs))) {
+	n <- length(dsts)
+	if (identical(length(weights), 1L)) {
+		weights <- rep(weights, n)
+	}
+	if (!identical(n, length(weights))) {
 		stop("There must be one probability per distribution specified.")
 	}
-	if (any(probs < 0, na.rm = TRUE)) {
-		stop("Probabilities must not be negative.")
+	if (any(weights < 0, na.rm = TRUE)) {
+		stop("Weights must not be negative.")
 	}
-	if (sum(probs, na.rm = TRUE) != 1) {
-		stop("Probabilities must sum to 1.")
-	}
+	probs <- weights / sum(weights, na.rm = TRUE)
 	na_probs <- is.na(probs)
 	if (any(na_probs)) {
 		warning("Found NA probabilities. Removing the corresponding distributions.")
@@ -139,67 +142,59 @@ get_kurtosis_exc.mix <- function(object, ...) {
 }
 
 #' @export
-get_probfn.mix <- function(object) {
+eval_probfn.mix <- function(object, at) {
 	if (identical(variable(object), "mixed")) {
 		return(NULL)
 	}
 	with(object[["components"]], {
-		probfns <- lapply(distributions, get_probfn)
-		function(x) {
-			p_times_f <- mapply(function(p, f) p * f(x), probs, probfns,
-								SIMPLIFY = FALSE)
-			Reduce(`+`, p_times_f)
-		}
+		probfn_vals <- lapply(distributions, eval_probfn, at = at)
+		p_times_f <- mapply(function(p, f) p * f, probs, probfn_vals,
+							SIMPLIFY = FALSE)
+		Reduce(`+`, p_times_f)
 	})
 }
 
 #' @export
-get_cdf.mix <- function(object) {
+eval_cdf.mix <- function(object, at) {
 	with(object[["components"]], {
-		cdfs <- lapply(distributions, get_cdf)
-		function(x) {
-			p_times_cdfs <- mapply(function(p, f) p * f(x), probs, cdfs,
-								   SIMPLIFY = FALSE)
-			Reduce(`+`, p_times_cdfs)
-		}
+		cdf_vals <- lapply(distributions, eval_cdf, at = at)
+		p_times_cdfs <- mapply(function(p, f) p * f, probs, cdf_vals,
+							   SIMPLIFY = FALSE)
+		Reduce(`+`, p_times_cdfs)
 	})
 }
 
 #' @export
-get_quantile.mix <- function(object, tol = 1e-6, maxiter = 1000, ...) {
+eval_quantile.mix <- function(object, at, tol = 1e-6, maxiter = 1000, ...) {
 	distributions <- object[["components"]][["distributions"]]
 	cdf <- get_cdf(object)
 	discon <- discontinuities(object)
-	function(x) {
-		res <- x
-		ones <- vapply(x == 1, isTRUE, FUN.VALUE = logical(1L))
-		if (any(ones)) {
-			right_ends <- lapply(distributions, eval_quantile, at = 1)
-			res[ones] <- do.call(max, right_ends)
-		}
-		res[!ones] <- eval_quantile_from_cdf(
-			cdf, discon, at = x[!ones], tol = tol, maxiter = maxiter
-		)
-		res
+	res <- at
+	ones <- vapply(at == 1, isTRUE, FUN.VALUE = logical(1L))
+	if (any(ones)) {
+		right_ends <- lapply(distributions, eval_quantile, at = 1)
+		res[ones] <- do.call(max, right_ends)
 	}
+	res[!ones] <- eval_quantile_from_cdf(
+		cdf, discon, at = at[!ones], tol = tol, maxiter = maxiter
+	)
+	res
 }
 
 #' @export
-get_randfn.mix <- function(object) {
+realise.mix <- function(object, n = 1, ...) {
 	with(object[["components"]], {
-		function(n) {
-			if (n == 0) {
-				if (identical(variable(object), "categorical")) {
-					return(character())
-				} else {
-					return(numeric())
-				}
+		if (n == 0) {
+			if (identical(variable(object), "categorical")) {
+				return(character())
+			} else {
+				return(numeric())
 			}
-			randfns <- lapply(distributions, get_randfn)
-			k <- length(distributions)
-			id <- sample(1:k, size = n, replace = TRUE, prob = probs)
-			sapply(id, function(i) randfns[[i]](1))
 		}
+		randfns <- lapply(distributions, get_randfn)
+		k <- length(distributions)
+		id <- sample(1:k, size = n, replace = TRUE, prob = probs)
+		sapply(id, function(i) randfns[[i]](1))
 	})
 }
 

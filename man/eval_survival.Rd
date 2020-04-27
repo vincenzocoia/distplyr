@@ -22,5 +22,5 @@ Evaluate Survival Function
 \code{\link{eval_probfn}},
 \code{\link{eval_cdf}},
 \code{\link{eval_hazard}},
-\code{\link{eval_randfn}}
+\code{\link{realise}}
 }

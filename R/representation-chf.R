@@ -12,13 +12,17 @@ eval_chf <- function(object, at) UseMethod("eval_chf")
 
 #' @export
 eval_chf.dst <- function(object, at) {
-	get_chf(object)(at)
+	if (identical(variable(object), "continuous")) {
+		sf <- eval_survival(object, at)
+		-log(sf(at))
+	} else {
+		stop("Not programmed yet")
+	}
 }
 
 #' @export
 get_chf.dst <- function(object) {
-	if (variable(object) == "continuous") {
-		sf <- get_survival(object)
-		function(x) -log(sf(x))
-	}
+	chf <- object[["representations"]][["fun_chf"]]
+	if (!is.null(chf)) return(chf)
+	function(at) eval_chf(object, at = at)
 }
