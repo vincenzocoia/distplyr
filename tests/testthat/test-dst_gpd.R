@@ -10,7 +10,7 @@ test_that("GPD quantities work out, shape > 0", {
 	expect_true(all(diff(eval_probfn(.dst, loc + 1:10)) < 0))
 	pdf <- get_probfn(.dst)
 	expect_equal(integrate(pdf, loc, Inf)$value, 1, tolerance = 0.0001)
-	expect_true(all(eval_randfn(.dst, 10) >= loc))
+	expect_true(all(realise(.dst, 10) >= loc))
 })
 
 
@@ -26,7 +26,7 @@ test_that("GPD quantities work out, shape = 0", {
 	pdf <- get_probfn(.dst)
 	expect_true(all(diff(pdf(loc + 1:10)) < 0))
 	expect_equal(integrate(pdf, loc, Inf)$value, 1, tolerance = 0.0001)
-	expect_true(all(eval_randfn(.dst, 10) >= loc))
+	expect_true(all(realise(.dst, 10) >= loc))
 })
 
 test_that("GPD quantities work out, shape < 0", {
@@ -50,6 +50,6 @@ test_that("GPD quantities work out, shape < 0", {
 	)
 	pdf <- get_probfn(.dst)
 	expect_equal(integrate(pdf, loc, rightend)$value, 1, tolerance = 0.0001)
-	r <- eval_randfn(.dst, 10)
+	r <- realise(.dst, 10)
 	expect_true(all(r > loc & r < rightend))
 })

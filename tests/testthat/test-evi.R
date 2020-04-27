@@ -23,10 +23,7 @@ test_that("graft EVI works", {
 
 check_mix <- function(..., evi) {
 	n <- length(list(...))
-	expect_identical(
-		get_evi(mix(..., probs = rep(1, n) / n)),
-		evi
-	)
+	expect_identical(get_evi(mix(...)), evi)
 }
 
 test_that("mixture EVI works", {

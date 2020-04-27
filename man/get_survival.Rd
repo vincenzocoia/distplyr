@@ -20,5 +20,5 @@ Survival Function
 \code{\link{get_probfn}},
 \code{\link{get_cdf}},
 \code{\link{get_hazard}},
-\code{\link{get_randfn}}
+\code{\link{realise}}
 }

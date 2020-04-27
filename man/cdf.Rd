@@ -30,7 +30,7 @@ cdf(0:4)
 \seealso{
 \code{\link{eval_quantile}},
 \code{\link{eval_probfn}},
-\code{\link{eval_randfn}},
+\code{\link{realise}},
 \code{\link{eval_hazard}},
 \code{\link{eval_survival}}
 }

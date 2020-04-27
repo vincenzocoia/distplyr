@@ -8,7 +8,7 @@
 #' \code{\link{eval_probfn}},
 #' \code{\link{eval_cdf}},
 #' \code{\link{eval_hazard}},
-#' \code{\link{eval_randfn}}
+#' \code{\link{realise}}
 #' @export
 eval_survival <- function(object, at) UseMethod("eval_survival")
 
@@ -21,7 +21,7 @@ eval_survival <- function(object, at) UseMethod("eval_survival")
 #' \code{\link{get_probfn}},
 #' \code{\link{get_cdf}},
 #' \code{\link{get_hazard}},
-#' \code{\link{get_randfn}}
+#' \code{\link{realise}}
 #' @export
 get_survival <- function(object) UseMethod("get_survival")
 

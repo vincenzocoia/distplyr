@@ -12,7 +12,7 @@ realise <- function(object, n = 1) UseMethod("realise")
 realize <- function(object, n = 1) UseMethod("realise")
 
 #' @export
-realise.dst <- function(object) {
+realise.dst <- function(object, n) {
 	r <- object[["representations"]][["fun_rand"]]
 	if (is.null(r)) {
 		u <- stats::runif(n)

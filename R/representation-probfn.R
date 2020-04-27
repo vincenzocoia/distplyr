@@ -1,4 +1,4 @@
-#' Evaluate probability density/mass function
+#' Probability density/mass function
 #'
 #' @param object Object of class "dst"
 #' @param at Vector of values to evaluate the density or mass function at
@@ -6,22 +6,14 @@
 #' @seealso
 #' \code{\link{eval_quantile}},
 #' \code{\link{eval_cdf}},
-#' \code{\link{eval_randfn}},
+#' \code{\link{realise}},
 #' \code{\link{eval_hazard}},
 #' \code{\link{eval_survival}}
+#' @rdname probfn
 #' @export
 eval_probfn <- function(object, at) UseMethod("eval_probfn")
 
-#' Get probability density/mass function
-#'
-#' @param object Object of class "dst"
-#' @return a vectorized function of the pdf/pmf.
-#' @seealso
-#' \code{\link{get_quantile}},
-#' \code{\link{get_cdf}},
-#' \code{\link{get_randfn}},
-#' \code{\link{get_hazard}},
-#' \code{\link{get_survival}}
+#' @rdname probfn
 #' @export
 get_probfn <- function(object) UseMethod("get_probfn")
 

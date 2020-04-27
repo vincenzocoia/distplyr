@@ -3,34 +3,37 @@
 #' Create a mixture distribution.
 #'
 #' @param ... Distribution objects to mix.
-#' @param probs Vector of probabilities corresponding to the distributions.
+#' @param weights Vector of weights corresponding to the distributions;
+#' or, single numeric for equal weights.
 #' @return A mixture distribution.
 #' @examples
 #' a <- dst_norm(0, 1)
 #' b <- dst_norm(5, 2)
-#' m1 <- mix(a, b, probs = c(0.2, 0.8))
+#' m1 <- mix(a, b, weights = c(1, 4))
 #' plot(m1)
 #' variable(m1)
 #'
 #' c <- stepdst(0:6)
-#' m2 <- mix(a, b, c, probs = c(0.2, 0.5, 0.3))
+#' m2 <- mix(a, b, c, weights = c(0.2, 0.5, 0.3))
 #' plot(m2, n = 1001)
 #' variable(m2)
 #' @export
-mix <- function(..., probs) {
+mix <- function(..., weights = 1) {
 	dsts <- list(...)
 	lapply(dsts, function(.dst) if (!is_dst(.dst)) {
 		stop("Elipses must contain distributions only.")
 	})
-	if (!identical(length(dsts), length(probs))) {
+	n <- length(dsts)
+	if (identical(length(weights), 1L)) {
+		weights <- rep(weights, n)
+	}
+	if (!identical(n, length(weights))) {
 		stop("There must be one probability per distribution specified.")
 	}
-	if (any(probs < 0, na.rm = TRUE)) {
-		stop("Probabilities must not be negative.")
+	if (any(weights < 0, na.rm = TRUE)) {
+		stop("Weights must not be negative.")
 	}
-	if (sum(probs, na.rm = TRUE) != 1) {
-		stop("Probabilities must sum to 1.")
-	}
+	probs <- weights / sum(weights, na.rm = TRUE)
 	na_probs <- is.na(probs)
 	if (any(na_probs)) {
 		warning("Found NA probabilities. Removing the corresponding distributions.")
