@@ -17,15 +17,22 @@ get_quantile(object, ...)
 
 \method{eval_quantile}{dst}(object, at, tol = 1e-06, maxiter = 1000, ...)
 
-enframe_quantile(object, at, arg_name = ".arg", fn_name = ".quantile")
+enframe_quantile(
+  object,
+  at,
+  arg_name = ".arg",
+  fn_name = ".quantile",
+  tol = 1e-06,
+  maxiter = 1000
+)
 
 \method{enframe_quantile}{dst}(
   object,
   at,
-  tol = 1e-06,
-  maxiter = 1000,
   arg_name = ".arg",
-  fn_name = ".quantile"
+  fn_name = ".quantile",
+  tol = 1e-06,
+  maxiter = 1000
 )
 }
 \arguments{

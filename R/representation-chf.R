@@ -26,7 +26,7 @@ eval_chf <- function(object, at) UseMethod("eval_chf")
 eval_chf.dst <- function(object, at) {
 	if (identical(variable(object), "continuous")) {
 		sf <- eval_survival(object, at)
-		-log(sf(at))
+		-log(sf)
 	} else {
 		stop("Not programmed yet")
 	}

@@ -49,15 +49,17 @@ eval_quantile.dst <- function(object, at, tol = 1e-6, maxiter = 1000, ...) {
 #' @export
 enframe_quantile <- function(object, at,
 							 arg_name = ".arg",
-							 fn_name = ".quantile") {
+							 fn_name = ".quantile",
+							 tol = 1e-6, maxiter = 1000) {
 	UseMethod("enframe_quantile")
 }
 
 #' @rdname quantile
 #' @export
-enframe_quantile.dst <- function(object, at, tol = 1e-6, maxiter = 1000,
+enframe_quantile.dst <- function(object, at,
 								 arg_name = ".arg",
-								 fn_name = ".quantile") {
+								 fn_name = ".quantile",
+								 tol = 1e-6, maxiter = 1000) {
 	f <- eval_quantile(object, at = at)
 	res <- data.frame(at, f)
 	names(res) <- c(arg_name, fn_name)
