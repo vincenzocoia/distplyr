@@ -2,17 +2,20 @@
 % Please edit documentation in R/representation-survival.R
 \name{eval_survival}
 \alias{eval_survival}
+\alias{get_survival}
+\alias{enframe_survival}
 \title{Evaluate Survival Function}
 \usage{
 eval_survival(object, at)
+
+get_survival(object)
+
+enframe_survival(object, at, arg_name = ".arg", fn_name = ".survival")
 }
 \arguments{
 \item{object}{Object of class "dst"}
 
 \item{at}{Vector of values to evaluate the survival function at.}
-}
-\value{
-Vector of the evaluated survival function
 }
 \description{
 Evaluate Survival Function
@@ -22,5 +25,4 @@ Evaluate Survival Function
 \code{\link{eval_probfn}},
 \code{\link{eval_cdf}},
 \code{\link{eval_hazard}},
-\code{\link{realise}}
 }

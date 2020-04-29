@@ -3,11 +3,14 @@
 \name{eval_cdf}
 \alias{eval_cdf}
 \alias{get_cdf}
+\alias{enframe_cdf}
 \title{Distribution Function}
 \usage{
 eval_cdf(object, at)
 
 get_cdf(object)
+
+enframe_cdf(object, at, arg_name = ".arg", fn_name = ".cdf")
 }
 \arguments{
 \item{object}{Object of class "dst"}
@@ -30,7 +33,6 @@ cdf(0:4)
 \seealso{
 \code{\link{eval_quantile}},
 \code{\link{eval_probfn}},
-\code{\link{realise}},
 \code{\link{eval_hazard}},
 \code{\link{eval_survival}}
 }

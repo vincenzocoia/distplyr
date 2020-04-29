@@ -5,6 +5,7 @@
 \alias{get_quantile}
 \alias{get_quantile.dst}
 \alias{eval_quantile.dst}
+\alias{enframe_quantile}
 \title{Distribution Quantiles}
 \usage{
 eval_quantile(object, at, ...)
@@ -14,6 +15,8 @@ get_quantile(object, ...)
 \method{get_quantile}{dst}(object, tol = 1e-06, maxiter = 1000, ...)
 
 \method{eval_quantile}{dst}(object, at, tol = 1e-06, maxiter = 1000, ...)
+
+enframe_quantile(object, at, arg_name = ".arg", fn_name = ".quantile")
 }
 \arguments{
 \item{object}{Object of class "dst"}
@@ -35,7 +38,6 @@ Distribution Quantiles
 \seealso{
 \code{\link{eval_probfn}},
 \code{\link{eval_cdf}},
-\code{\link{realise}},
 \code{\link{eval_hazard}},
 \code{\link{eval_survival}}
 }

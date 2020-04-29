@@ -3,11 +3,14 @@
 \name{eval_probfn}
 \alias{eval_probfn}
 \alias{get_probfn}
+\alias{enframe_probfn}
 \title{Probability density/mass function}
 \usage{
 eval_probfn(object, at)
 
 get_probfn(object)
+
+enframe_probfn(object, at, arg_name = ".arg", fn_name = ".probfn")
 }
 \arguments{
 \item{object}{Object of class "dst"}
@@ -23,7 +26,6 @@ Probability density/mass function
 \seealso{
 \code{\link{eval_quantile}},
 \code{\link{eval_cdf}},
-\code{\link{realise}},
 \code{\link{eval_hazard}},
 \code{\link{eval_survival}}
 }

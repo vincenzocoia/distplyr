@@ -7,7 +7,6 @@
 #' @seealso
 #' \code{\link{eval_probfn}},
 #' \code{\link{eval_cdf}},
-#' \code{\link{realise}},
 #' \code{\link{eval_hazard}},
 #' \code{\link{eval_survival}}
 #' @rdname quantile
@@ -35,4 +34,22 @@ eval_quantile.dst <- function(object, at, tol = 1e-6, maxiter = 1000, ...) {
 	if (!is.null(f)) return(f(at))
 	cdf <- get_cdf(object)
 	eval_quantile_from_cdf(cdf, at, tol = tol, maxiter = maxiter)
+}
+
+#' @rdname quantile
+#' @export
+enframe_quantile <- function(object, at,
+							 arg_name = ".arg",
+							 fn_name = ".quantile") {
+	UseMethod("enframe_quantile")
+}
+
+#' @export
+enframe_quantile.dst <- function(object, at,
+								 arg_name = ".arg",
+								 fn_name = ".quantile") {
+	f <- eval_quantile(object, at = at)
+	res <- data.frame(at, f)
+	names(res) <- c(arg_name, fn_name)
+	res
 }
