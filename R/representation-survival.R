@@ -1,12 +1,19 @@
-#' Evaluate Survival Function
+#' Survival Function
 #'
-#' @param object Object of class "dst"
-#' @param at Vector of values to evaluate the survival function at.
-#' @seealso
-#' \code{\link{eval_quantile}},
-#' \code{\link{eval_probfn}},
-#' \code{\link{eval_cdf}},
-#' \code{\link{eval_hazard}},
+#' Access a distribution's survival function.
+#'
+#' @inheritParams get_cdf
+#' @return A vector of the evaluated survival function, in the case of
+#'   \code{eval_}; a data frame with both the argument and function evaluations,
+#'   in the case of \code{enframe_}; or a vectorized function representing the
+#'   survival function, in the case of \code{get_}.
+#' @examples
+#' d <- dst_unif(0, 4)
+#' eval_survival(d, at = 0:4)
+#' enframe_survival(d, at = 0:4)
+#' survival <- get_survival(d)
+#' survival(0:4)
+#' @family distributional representations
 #' @rdname survival
 #' @export
 eval_survival <- function(object, at) UseMethod("eval_survival")

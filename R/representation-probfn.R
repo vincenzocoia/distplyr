@@ -1,13 +1,19 @@
 #' Probability density/mass function
 #'
-#' @param object Object of class "dst"
-#' @param at Vector of values to evaluate the density or mass function at
-#' @return Vector of density/mass values
-#' @seealso
-#' \code{\link{eval_quantile}},
-#' \code{\link{eval_cdf}},
-#' \code{\link{eval_hazard}},
-#' \code{\link{eval_survival}}
+#' Access a distribution's probability density or mass function.
+#'
+#' @inheritParams get_cdf
+#' @return A vector of the evaluated pmf/pdf, in the case of \code{eval_}; a
+#'   data frame with both the argument and function evaluations, in the case of
+#'   \code{enframe_}; or a vectorized function representing the pmf/pdf, in the
+#'   case of \code{get_}.
+#' @examples
+#' d <- dst_unif(0, 4)
+#' eval_probfn(d, at = 0:4)
+#' enframe_probfn(d, at = 0:4)
+#' probfn <- get_probfn(d)
+#' probfn(0:4)
+#' @family distributional representations
 #' @rdname probfn
 #' @export
 eval_probfn <- function(object, at) UseMethod("eval_probfn")

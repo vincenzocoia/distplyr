@@ -6,6 +6,7 @@
 \alias{get_quantile.dst}
 \alias{eval_quantile.dst}
 \alias{enframe_quantile}
+\alias{enframe_quantile.dst}
 \title{Distribution Quantiles}
 \usage{
 eval_quantile(object, at, ...)
@@ -17,27 +18,58 @@ get_quantile(object, ...)
 \method{eval_quantile}{dst}(object, at, tol = 1e-06, maxiter = 1000, ...)
 
 enframe_quantile(object, at, arg_name = ".arg", fn_name = ".quantile")
+
+\method{enframe_quantile}{dst}(
+  object,
+  at,
+  tol = 1e-06,
+  maxiter = 1000,
+  arg_name = ".arg",
+  fn_name = ".quantile"
+)
 }
 \arguments{
-\item{object}{Object of class "dst"}
+\item{object}{Distribution object.}
 
-\item{at}{Vector of quantile levels (probabilities).}
+\item{at}{Vector of values to evaluate the cdf at.}
 
-\item{...}{Other arguments to pass to specific methods}
+\item{...}{Other arguments to pass to specific methods.}
 
-\item{tol}{tolerance}
+\item{tol}{Error tolerance when using an algorithm to find the left-inverse
+of the cdf.}
 
-\item{maxiter}{Maximum number of iterations}
+\item{maxiter}{Maximum number of iterations when using an algorithm to find
+the left-inverse of the cdf.}
+
+\item{arg_name}{Name of the column containing the function arguments, in the
+output data frame of \code{enframe_}.}
+
+\item{fn_name}{Name of the column containing the function evaluations, in the
+output data frame of \code{enframe_}.}
 }
 \value{
-Vector of quantiles
+A vector of the evaluated quantiles, in the case of
+\code{eval_}; a data frame with both the argument and
+function evaluations, in the case of \code{enframe_};
+or a vectorized function representing the quantile function, in the
+case of \code{get_}.
 }
 \description{
-Distribution Quantiles
+Access a distribution's quantiles.
+}
+\examples{
+d <- dst_unif(0, 4)
+eval_quantile(d, at = 0:4)
+enframe_quantile(d, at = 0:4)
+qf <- get_quantile(d)
+qf(0:4)
 }
 \seealso{
-\code{\link{eval_probfn}},
-\code{\link{eval_cdf}},
-\code{\link{eval_hazard}},
-\code{\link{eval_survival}}
+Other distributional representations: 
+\code{\link{eval_cdf}()},
+\code{\link{eval_hazard}()},
+\code{\link{eval_probfn}()},
+\code{\link{eval_survival}()},
+\code{\link{get_chf}()}
 }
+\concept{distributional representations}

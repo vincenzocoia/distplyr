@@ -1,13 +1,19 @@
 #' Hazard Function
 #'
-#' @param object Object of class "dst"
-#' @param at Vector of values to evaluate the hazard function at.
-#' @return Vector of the evaluated hazard function
-#' @seealso
-#' \code{\link{eval_quantile}},
-#' \code{\link{eval_probfn}},
-#' \code{\link{eval_cdf}},
-#' \code{\link{eval_survival}}
+#' Access a distribution's hazard function.
+#'
+#' @inheritParams get_cdf
+#' @return A vector of the evaluated hazard, in the case of \code{eval_}; a data
+#'   frame with both the argument and function evaluations, in the case of
+#'   \code{enframe_}; or a vectorized function representing the hazard, in the
+#'   case of \code{get_}.
+#' @examples
+#' d <- dst_unif(0, 4)
+#' eval_hazard(d, at = 0:4)
+#' enframe_hazard(d, at = 0:4)
+#' hazard <- get_hazard(d)
+#' hazard(0:4)
+#' @family distributional representations
 #' @rdname hazard
 #' @export
 eval_hazard <- function(object, at) UseMethod("eval_hazard")

@@ -1,14 +1,21 @@
 #' Distribution Quantiles
 #'
-#' @param object Object of class "dst"
-#' @param at Vector of quantile levels (probabilities).
-#' @param ... Other arguments to pass to specific methods
-#' @return Vector of quantiles
-#' @seealso
-#' \code{\link{eval_probfn}},
-#' \code{\link{eval_cdf}},
-#' \code{\link{eval_hazard}},
-#' \code{\link{eval_survival}}
+#' Access a distribution's quantiles.
+#'
+#' @inheritParams get_cdf
+#' @param ... Other arguments to pass to specific methods.
+#' @return A vector of the evaluated quantiles, in the case of
+#' \code{eval_}; a data frame with both the argument and
+#' function evaluations, in the case of \code{enframe_};
+#' or a vectorized function representing the quantile function, in the
+#' case of \code{get_}.
+#' @examples
+#' d <- dst_unif(0, 4)
+#' eval_quantile(d, at = 0:4)
+#' enframe_quantile(d, at = 0:4)
+#' qf <- get_quantile(d)
+#' qf(0:4)
+#' @family distributional representations
 #' @rdname quantile
 #' @export
 eval_quantile <- function(object, at, ...) UseMethod("eval_quantile")
@@ -17,8 +24,10 @@ eval_quantile <- function(object, at, ...) UseMethod("eval_quantile")
 #' @export
 get_quantile <- function(object, ...) UseMethod("get_quantile")
 
-#' @param tol tolerance
-#' @param maxiter Maximum number of iterations
+#' @param tol Error tolerance when using an algorithm to find the left-inverse
+#'   of the cdf.
+#' @param maxiter Maximum number of iterations when using an algorithm to find
+#'   the left-inverse of the cdf.
 #' @rdname quantile
 #' @export
 get_quantile.dst <- function(object, tol = 1e-6, maxiter = 1000, ...) {
@@ -44,8 +53,9 @@ enframe_quantile <- function(object, at,
 	UseMethod("enframe_quantile")
 }
 
+#' @rdname quantile
 #' @export
-enframe_quantile.dst <- function(object, at,
+enframe_quantile.dst <- function(object, at, tol = 1e-6, maxiter = 1000,
 								 arg_name = ".arg",
 								 fn_name = ".quantile") {
 	f <- eval_quantile(object, at = at)

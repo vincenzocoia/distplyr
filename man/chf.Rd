@@ -13,19 +13,38 @@ eval_chf(object, at)
 enframe_chf(object, at, arg_name = ".arg", fn_name = ".chf")
 }
 \arguments{
-\item{object}{Object of class "dst"}
+\item{object}{Distribution object.}
 
-\item{at}{Vector of values to evaluate the cumulative hazard at.}
+\item{at}{Vector of values to evaluate the cdf at.}
+
+\item{arg_name}{Name of the column containing the function arguments, in the
+output data frame of \code{enframe_}.}
+
+\item{fn_name}{Name of the column containing the function evaluations, in the
+output data frame of \code{enframe_}.}
 }
 \value{
-Vector of the evaluated hazard function
+A vector of the evaluated chf, in the case of \code{eval_}; a data
+  frame with both the argument and function evaluations, in the case of
+  \code{enframe_}; or a vectorized function representing the chf, in the case
+  of \code{get_}.
 }
 \description{
-Cumulative Hazard Function
+Access a distribution's cumulative hazard function (chf).
+}
+\examples{
+d <- dst_unif(0, 4)
+eval_chf(d, at = 0:4)
+enframe_chf(d, at = 0:4)
+chf <- get_chf(d)
+chf(0:4)
 }
 \seealso{
-\code{\link{eval_quantile}},
-\code{\link{eval_probfn}},
-\code{\link{eval_cdf}},
-\code{\link{eval_survival}}
+Other distributional representations: 
+\code{\link{eval_cdf}()},
+\code{\link{eval_hazard}()},
+\code{\link{eval_probfn}()},
+\code{\link{eval_quantile}()},
+\code{\link{eval_survival}()}
 }
+\concept{distributional representations}

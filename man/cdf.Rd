@@ -4,7 +4,7 @@
 \alias{eval_cdf}
 \alias{get_cdf}
 \alias{enframe_cdf}
-\title{Distribution Function}
+\title{(Cumulative) Distribution Function}
 \usage{
 eval_cdf(object, at)
 
@@ -13,26 +13,38 @@ get_cdf(object)
 enframe_cdf(object, at, arg_name = ".arg", fn_name = ".cdf")
 }
 \arguments{
-\item{object}{Object of class "dst"}
+\item{object}{Distribution object.}
 
-\item{at}{Vector of values to evaluate the cdf at}
+\item{at}{Vector of values to evaluate the cdf at.}
+
+\item{arg_name}{Name of the column containing the function arguments, in the
+output data frame of \code{enframe_}.}
+
+\item{fn_name}{Name of the column containing the function evaluations, in the
+output data frame of \code{enframe_}.}
 }
 \value{
-Vector of cdf values
+A vector of the evaluated cdf, in the case of \code{eval_}; a data
+  frame with both the argument and function evaluations, in the case of
+  \code{enframe_}; or a vectorized function representing the cdf, in the case
+  of \code{get_}.
 }
 \description{
-Get or evaluate a distribution's cdf
-(Cumulative Distribution Function).
+Access a distribution's cumulative distribution function (cdf).
 }
 \examples{
 d <- dst_unif(0, 4)
 eval_cdf(d, at = 0:4)
+enframe_cdf(d, at = 0:4)
 cdf <- get_cdf(d)
 cdf(0:4)
 }
 \seealso{
-\code{\link{eval_quantile}},
-\code{\link{eval_probfn}},
-\code{\link{eval_hazard}},
-\code{\link{eval_survival}}
+Other distributional representations: 
+\code{\link{eval_hazard}()},
+\code{\link{eval_probfn}()},
+\code{\link{eval_quantile}()},
+\code{\link{eval_survival}()},
+\code{\link{get_chf}()}
 }
+\concept{distributional representations}

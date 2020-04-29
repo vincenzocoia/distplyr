@@ -4,7 +4,7 @@
 \alias{eval_survival}
 \alias{get_survival}
 \alias{enframe_survival}
-\title{Evaluate Survival Function}
+\title{Survival Function}
 \usage{
 eval_survival(object, at)
 
@@ -13,16 +13,38 @@ get_survival(object)
 enframe_survival(object, at, arg_name = ".arg", fn_name = ".survival")
 }
 \arguments{
-\item{object}{Object of class "dst"}
+\item{object}{Distribution object.}
 
-\item{at}{Vector of values to evaluate the survival function at.}
+\item{at}{Vector of values to evaluate the cdf at.}
+
+\item{arg_name}{Name of the column containing the function arguments, in the
+output data frame of \code{enframe_}.}
+
+\item{fn_name}{Name of the column containing the function evaluations, in the
+output data frame of \code{enframe_}.}
+}
+\value{
+A vector of the evaluated survival function, in the case of
+  \code{eval_}; a data frame with both the argument and function evaluations,
+  in the case of \code{enframe_}; or a vectorized function representing the
+  survival function, in the case of \code{get_}.
 }
 \description{
-Evaluate Survival Function
+Access a distribution's survival function.
+}
+\examples{
+d <- dst_unif(0, 4)
+eval_survival(d, at = 0:4)
+enframe_survival(d, at = 0:4)
+survival <- get_survival(d)
+survival(0:4)
 }
 \seealso{
-\code{\link{eval_quantile}},
-\code{\link{eval_probfn}},
-\code{\link{eval_cdf}},
-\code{\link{eval_hazard}},
+Other distributional representations: 
+\code{\link{eval_cdf}()},
+\code{\link{eval_hazard}()},
+\code{\link{eval_probfn}()},
+\code{\link{eval_quantile}()},
+\code{\link{get_chf}()}
 }
+\concept{distributional representations}
