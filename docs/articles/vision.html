@@ -134,12 +134,12 @@ my_dst &lt;- my_dst %&gt;%
 <h3 class="hasAnchor">
 <a href="#in-general" class="anchor"></a>In General</h3>
 <p>In general, you might not have the convenience of having a distribution’s representations already defined. You can make a new distribution using <code>dst()</code>, and specifying at least one of the distribution’s representations:</p>
-<pre><code>dst(probfn = function(x) sqrt(1 - x^2) * 2 / pi,
+<pre><code>dst(density = function(x) sqrt(1 - x^2) * 2 / pi,
     support = c(-1, 1), 
     mean = 0)</code></pre>
 <p>You can either provide details in the <code>dst()</code> function or outside, using the <code>set_*()</code> family of functions:</p>
 <pre><code>dst() %&gt;% 
-    set_probfn(function(x) sqrt(1 - x^2) * 2 / pi) %&gt;% 
+    set_density(function(x) sqrt(1 - x^2) * 2 / pi) %&gt;% 
     set_support(-1, 1) %&gt;% 
     set_mean(0)</code></pre>
 <p>Specifying the components of a distribution does not guarantee that they are in accordance with each other. It’s up to you to double check.</p>
@@ -208,7 +208,7 @@ dst_beta() %&gt;%
     m &lt;- 1 / (1 - x)
     log(m) / beta
   }) %&gt;% 
-  set_probfn(~ beta * exp(-beta * x)) %&gt;% 
+  set_density(~ beta * exp(-beta * x)) %&gt;% 
   restrict_parameters(beta &gt; 0) %&gt;% 
   set_support(0, Inf) %&gt;% 
   set_mean(1 / beta)</code></pre>

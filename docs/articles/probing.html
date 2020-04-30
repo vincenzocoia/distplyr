@@ -109,51 +109,67 @@
 <div id="functional-representations-of-a-distribution" class="section level2">
 <h2 class="hasAnchor">
 <a href="#functional-representations-of-a-distribution" class="anchor"></a>Functional Representations of a Distribution</h2>
-<p>A distribution can be represented by different functions. In <code>distplyr</code>, you can either evaluate the function directly by calling <code>eval_*</code>, or get the function itself using <code>get_*</code>. Here are the representations and the corresponding <code>distplyr</code> functions:</p>
+<p>A distribution can be represented by different functions. In <code>distplyr</code>, you can:</p>
+<ul>
+<li>evaluate the function directly by calling <code>eval_*</code>;</li>
+<li>evaluate the function and enframe results together with the function arguments with <code>enframe_*</code>; or</li>
+<li>get the function itself using <code>get_*</code>.</li>
+</ul>
+<p>Here are the representations and the corresponding <code>distplyr</code> functions:</p>
 <table class="table">
+<colgroup>
+<col width="49%">
+<col width="50%">
+</colgroup>
 <thead><tr class="header">
 <th>Quantity</th>
 <th>
-<code>distplyr</code> Function</th>
+<code>distplyr</code> Functions</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td>Cumulative Distribution Function</td>
 <td>
-<code><a href="../reference/cdf.html">eval_cdf()</a></code>, <code><a href="../reference/cdf.html">get_cdf()</a></code>
+<code><a href="../reference/cdf.html">eval_cdf()</a></code>, <code><a href="../reference/cdf.html">get_cdf()</a></code>, <code><a href="../reference/cdf.html">enframe_cdf()</a></code>
 </td>
 </tr>
 <tr class="even">
 <td>Survival Function</td>
 <td>
-<code><a href="../reference/eval_survival.html">eval_survival()</a></code>, <code><a href="../reference/get_survival.html">get_survival()</a></code>
+<code><a href="../reference/survival.html">eval_survival()</a></code>, <code><a href="../reference/survival.html">get_survival()</a></code>, <code><a href="../reference/survival.html">enframe_survival()</a></code>
 </td>
 </tr>
 <tr class="odd">
 <td>Quantile Function</td>
 <td>
-<code><a href="../reference/quantile.html">eval_quantile()</a></code>, <code><a href="../reference/quantile.html">get_quantile()</a></code>
+<code><a href="../reference/quantile.html">eval_quantile()</a></code>, <code><a href="../reference/quantile.html">get_quantile()</a></code>, <code><a href="../reference/quantile.html">enframe_quantile()</a></code>
 </td>
 </tr>
 <tr class="even">
 <td>Hazard Function</td>
 <td>
-<code><a href="../reference/hazard.html">eval_hazard()</a></code>, <code><a href="../reference/hazard.html">get_hazard()</a></code>
+<code><a href="../reference/hazard.html">eval_hazard()</a></code>, <code><a href="../reference/hazard.html">get_hazard()</a></code>, <code><a href="../reference/hazard.html">enframe_hazard()</a></code>
 </td>
 </tr>
 <tr class="odd">
 <td>Cumulative Hazard Function</td>
 <td>
-<code><a href="../reference/hazard.html">eval_chf()</a></code>, <code><a href="../reference/hazard.html">get_chf()</a></code>
+<code><a href="../reference/chf.html">eval_chf()</a></code>, <code><a href="../reference/chf.html">get_chf()</a></code>, <code><a href="../reference/chf.html">enframe_chf()</a></code>
 </td>
 </tr>
 <tr class="even">
-<td>Probability (mass/density) function</td>
+<td>Probability density function</td>
 <td>
-<code><a href="../reference/probfn.html">eval_probfn()</a></code>, <code><a href="../reference/probfn.html">get_probfn()</a></code>
+<code><a href="../reference/density.html">eval_density()</a></code>, <code><a href="../reference/density.html">get_density()</a></code>, <code><a href="../reference/density.html">enframe_density()</a></code>
 </td>
 </tr>
 <tr class="odd">
+<td>Probability mass function</td>
+<td>
+<code><a href="../reference/pmf.html">eval_pmf()</a></code>, <code><a href="../reference/pmf.html">get_pmf()</a></code>, <code><a href="../reference/pmf.html">enframe_pmf()</a></code>
+</td>
+</tr>
+<tr class="even">
 <td>Random sample generator</td>
 <td>
 <code><a href="../reference/realise.html">realise()</a></code>, <code><a href="../reference/realise.html">realize()</a></code>
@@ -161,7 +177,8 @@
 </tr>
 </tbody>
 </table>
-<p>Both the <code>eval_*</code> and <code>get_*</code> functions take a distribution object as their first argument, but <code>eval_*</code> has a second argument named <code>at</code> indicating where to evaluate the function. The <code>at</code> argument is vectorized, except for <code>eval_randfn()</code>, which returns a vector of a random sample of the length that you specify.</p>
+<p>These functions all take a distribution object as their first argument, and <code>eval_*</code> and <code>enframe_*</code> have a second argument named <code>at</code> indicating where to evaluate the function. The <code>at</code> argument is vectorized.</p>
+<p>Note that all of the <code>stats::p*/d*/q*/r*</code> functions are included in this list of representations, except for the <code>r</code> functions (such as <code><a href="https://rdrr.io/r/stats/Normal.html">rnorm()</a></code>, <code><a href="https://rdrr.io/r/stats/Poisson.html">rpois()</a></code>, etc.). These <code>r</code> functions generate a random sample, which cannot be used to reconstruct a distribution exactly, and are therefore omitted in the list of representations. Instead, use the <code><a href="../reference/realise.html">realise()</a></code> or <code><a href="../reference/realise.html">realize()</a></code> function.</p>
 <p>Here is an example of evaluating the hazard function and the random sample generator of a Uniform(0,1) distribution:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>d &lt;-<span class="st"> </span><span class="kw"><a href="../reference/dst_unif.html">dst_unif</a></span>(<span class="dv">0</span>, <span class="dv">3</span>)</span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="kw"><a href="../reference/hazard.html">eval_hazard</a></span>(d, <span class="dt">at =</span> <span class="dv">0</span><span class="op">:</span><span class="dv">10</span>)</span></code></pre></div>

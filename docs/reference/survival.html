@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot a Distribution — plot.dst • distplyr</title>
+<title>Survival Function — eval_survival • distplyr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,10 +32,9 @@
 
 
 
-<meta property="og:title" content="Plot a Distribution — plot.dst" />
+<meta property="og:title" content="Survival Function — eval_survival" />
 
-<meta property="og:description" content="Plot a functional representation of a distribution.
-Wrapper around the graphics::curve function." />
+<meta property="og:description" content="Access a distribution's survival function." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -135,51 +134,85 @@ Wrapper around the graphics::curve function." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot a Distribution</h1>
+    <h1>Survival Function</h1>
     
-    <div class="hidden name"><code>plot.dst.Rd</code></div>
+    <div class="hidden name"><code>survival.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Plot a functional representation of a distribution.
-Wrapper around the <code><a href='https://rdrr.io/r/graphics/curve.html'>graphics::curve</a></code> function.</p>
+    <p>Access a distribution's survival function.</p>
     
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for dst</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(
-  <span class='no'>x</span>,
-  <span class='kw'>what</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"density"</span>, <span class='st'>"cdf"</span>, <span class='st'>"survival"</span>, <span class='st'>"quantile"</span>, <span class='st'>"hazard"</span>, <span class='st'>"chf"</span>),
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>eval_survival</span>(<span class='no'>object</span>, <span class='no'>at</span>)
+
+<span class='fu'>get_survival</span>(<span class='no'>object</span>)
+
+<span class='fu'>enframe_survival</span>(<span class='no'>object</span>, <span class='no'>at</span>, <span class='kw'>arg_name</span> <span class='kw'>=</span> <span class='st'>".arg"</span>, <span class='kw'>fn_name</span> <span class='kw'>=</span> <span class='st'>".survival"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>Distribution object</p></td>
+      <th>object</th>
+      <td><p>Distribution object.</p></td>
     </tr>
     <tr>
-      <th>what</th>
-      <td><p>Name of the representation to plot.</p></td>
+      <th>at</th>
+      <td><p>Vector of values to evaluate the cdf at.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Other arguments to pass to the <code><a href='https://rdrr.io/r/graphics/curve.html'>graphics::curve</a></code> function.
-plot(dst_norm(5, 5))
-plot(stepdst(-5:2), "cdf", n = 1001)</p></td>
+      <th>arg_name</th>
+      <td><p>Name of the column containing the function arguments, in the
+output data frame of <code>enframe_</code>.</p></td>
+    </tr>
+    <tr>
+      <th>fn_name</th>
+      <td><p>Name of the column containing the function evaluations, in the
+output data frame of <code>enframe_</code>.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>A vector of the evaluated survival function, in the case of
+  <code>eval_</code>; a data frame with both the argument and function evaluations,
+  in the case of <code>enframe_</code>; or a vectorized function representing the
+  survival function, in the case of <code>get_</code>.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other distributional representations: 
+<code><a href='cdf.html'>eval_cdf</a>()</code>,
+<code><a href='density.html'>eval_density</a>()</code>,
+<code><a href='hazard.html'>eval_hazard</a>()</code>,
+<code><a href='pmf.html'>eval_pmf</a>()</code>,
+<code><a href='quantile.html'>eval_quantile</a>()</code>,
+<code><a href='chf.html'>get_chf</a>()</code></p></div>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='dst_unif.html'>dst_unif</a></span>(<span class='fl'>0</span>, <span class='fl'>4</span>)
+<span class='fu'>eval_survival</span>(<span class='no'>d</span>, <span class='kw'>at</span> <span class='kw'>=</span> <span class='fl'>0</span>:<span class='fl'>4</span>)</div><div class='output co'>#&gt; [1] 1.00 0.75 0.50 0.25 0.00</div><div class='input'><span class='fu'>enframe_survival</span>(<span class='no'>d</span>, <span class='kw'>at</span> <span class='kw'>=</span> <span class='fl'>0</span>:<span class='fl'>4</span>)</div><div class='output co'>#&gt;   .arg .survival
+#&gt; 1    0      1.00
+#&gt; 2    1      0.75
+#&gt; 3    2      0.50
+#&gt; 4    3      0.25
+#&gt; 5    4      0.00</div><div class='input'><span class='no'>survival</span> <span class='kw'>&lt;-</span> <span class='fu'>get_survival</span>(<span class='no'>d</span>)
+<span class='fu'>survival</span>(<span class='fl'>0</span>:<span class='fl'>4</span>)</div><div class='output co'>#&gt; [1] 1.00 0.75 0.50 0.25 0.00</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

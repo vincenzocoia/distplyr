@@ -34,7 +34,7 @@
 
 <meta property="og:title" content="Distribution Quantiles — eval_quantile" />
 
-<meta property="og:description" content="Distribution Quantiles" />
+<meta property="og:description" content="Access a distribution's quantiles." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -141,7 +141,7 @@
 
     <div class="ref-description">
     
-    <p>Distribution Quantiles</p>
+    <p>Access a distribution's quantiles.</p>
     
     </div>
 
@@ -153,46 +153,92 @@
 <span class='fu'>get_quantile</span>(<span class='no'>object</span>, <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>, <span class='kw'>maxiter</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for dst</span>
-<span class='fu'>eval_quantile</span>(<span class='no'>object</span>, <span class='no'>at</span>, <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>, <span class='kw'>maxiter</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>eval_quantile</span>(<span class='no'>object</span>, <span class='no'>at</span>, <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>, <span class='kw'>maxiter</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='no'>...</span>)
+
+<span class='fu'>enframe_quantile</span>(
+  <span class='no'>object</span>,
+  <span class='no'>at</span>,
+  <span class='kw'>arg_name</span> <span class='kw'>=</span> <span class='st'>".arg"</span>,
+  <span class='kw'>fn_name</span> <span class='kw'>=</span> <span class='st'>".quantile"</span>,
+  <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>,
+  <span class='kw'>maxiter</span> <span class='kw'>=</span> <span class='fl'>1000</span>
+)
+
+<span class='co'># S3 method for dst</span>
+<span class='fu'>enframe_quantile</span>(
+  <span class='no'>object</span>,
+  <span class='no'>at</span>,
+  <span class='kw'>arg_name</span> <span class='kw'>=</span> <span class='st'>".arg"</span>,
+  <span class='kw'>fn_name</span> <span class='kw'>=</span> <span class='st'>".quantile"</span>,
+  <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>,
+  <span class='kw'>maxiter</span> <span class='kw'>=</span> <span class='fl'>1000</span>
+)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>object</th>
-      <td><p>Object of class "dst"</p></td>
+      <td><p>Distribution object.</p></td>
     </tr>
     <tr>
       <th>at</th>
-      <td><p>Vector of quantile levels (probabilities).</p></td>
+      <td><p>Vector of values to evaluate the cdf at.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Other arguments to pass to specific methods</p></td>
+      <td><p>Other arguments to pass to specific methods.</p></td>
     </tr>
     <tr>
       <th>tol</th>
-      <td><p>tolerance</p></td>
+      <td><p>Error tolerance when using an algorithm to find the left-inverse
+of the cdf.</p></td>
     </tr>
     <tr>
       <th>maxiter</th>
-      <td><p>Maximum number of iterations</p></td>
+      <td><p>Maximum number of iterations when using an algorithm to find
+the left-inverse of the cdf.</p></td>
+    </tr>
+    <tr>
+      <th>arg_name</th>
+      <td><p>Name of the column containing the function arguments, in the
+output data frame of <code>enframe_</code>.</p></td>
+    </tr>
+    <tr>
+      <th>fn_name</th>
+      <td><p>Name of the column containing the function evaluations, in the
+output data frame of <code>enframe_</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Vector of quantiles</p>
+    <p>A vector of the evaluated quantiles, in the case of
+<code>eval_</code>; a data frame with both the argument and
+function evaluations, in the case of <code>enframe_</code>;
+or a vectorized function representing the quantile function, in the
+case of <code>get_</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='probfn.html'>eval_probfn</a></code>,
-<code><a href='cdf.html'>eval_cdf</a></code>,
-<code><a href='realise.html'>realise</a></code>,
-<code><a href='hazard.html'>eval_hazard</a></code>,
-<code><a href='eval_survival.html'>eval_survival</a></code></p></div>
+    <div class='dont-index'><p>Other distributional representations: 
+<code><a href='cdf.html'>eval_cdf</a>()</code>,
+<code><a href='density.html'>eval_density</a>()</code>,
+<code><a href='hazard.html'>eval_hazard</a>()</code>,
+<code><a href='pmf.html'>eval_pmf</a>()</code>,
+<code><a href='survival.html'>eval_survival</a>()</code>,
+<code><a href='chf.html'>get_chf</a>()</code></p></div>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='dst_unif.html'>dst_unif</a></span>(<span class='fl'>0</span>, <span class='fl'>4</span>)
+<span class='fu'>eval_quantile</span>(<span class='no'>d</span>, <span class='kw'>at</span> <span class='kw'>=</span> <span class='fl'>0</span>:<span class='fl'>4</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: NaNs produced</span></div><div class='output co'>#&gt; [1]   0   4 NaN NaN NaN</div><div class='input'><span class='fu'>enframe_quantile</span>(<span class='no'>d</span>, <span class='kw'>at</span> <span class='kw'>=</span> <span class='fl'>0</span>:<span class='fl'>4</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: NaNs produced</span></div><div class='output co'>#&gt;   .arg .quantile
+#&gt; 1    0         0
+#&gt; 2    1         4
+#&gt; 3    2       NaN
+#&gt; 4    3       NaN
+#&gt; 5    4       NaN</div><div class='input'><span class='no'>qf</span> <span class='kw'>&lt;-</span> <span class='fu'>get_quantile</span>(<span class='no'>d</span>)
+<span class='fu'><a href='https://rdrr.io/r/stats/Fdist.html'>qf</a></span>(<span class='fl'>0</span>:<span class='fl'>4</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: NaNs produced</span></div><div class='output co'>#&gt; [1]   0   4 NaN NaN NaN</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -202,7 +248,9 @@
       <li><a href="#value">Value</a></li>
 
       <li><a href="#see-also">See also</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
