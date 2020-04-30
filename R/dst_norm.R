@@ -77,7 +77,7 @@ eval_survival.norm <- function(object, at) {
 }
 
 #' @export
-eval_probfn.norm <- function(object, at) {
+eval_density.norm <- function(object, at) {
 	with(parameters(object), {
 		stats::dnorm(at, mean = mean, sd = sd)
 	})

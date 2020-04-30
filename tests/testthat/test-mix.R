@@ -15,6 +15,7 @@ test_that("variables are as expected", {
 })
 
 test_that("computations are correct", {
-	expect_identical(eval_probfn(m1, at = -1), dnorm(-1) * 0.4)
+	expect_identical(eval_density(m1, at = -1), dnorm(-1) * 0.4)
+	expect_null(eval_pmf(m1, at = -1))
 	expect_identical(eval_cdf(m1, at = -1), pnorm(-1) * 0.4)
 })

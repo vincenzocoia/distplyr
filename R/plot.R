@@ -10,12 +10,16 @@
 #' plot(stepdst(-5:2), "cdf", n = 1001)
 #' @export
 plot.dst <- function(x,
-					 what = c("probfn", "cdf", "survival", "quantile", "hazard", "chf"),
+					 what = c("density", "cdf", "survival", "quantile", "hazard", "chf"),
 					 ...) {
 	ellipses <- list(...)
 	fname <- match.arg(what)
-	if (identical(fname, "probfn") && identical(variable(x), "mixed")) {
-		warning("No density or mass function available. Plotting cdf instead.")
+	if (identical(fname, "density") && variable(x) != "continuous") {
+		warning("Density function does not exist. Plotting cdf instead.")
+		fname <- "cdf"
+	}
+	if (identical(fname, "pmf") && variable(x) != "discrete") {
+		warning("Probability mass function does not exist. Plotting cdf instead.")
 		fname <- "cdf"
 	}
 	if (is.null(ellipses[["ylab"]])) {

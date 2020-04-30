@@ -123,7 +123,7 @@ eval_quantile.gpd <- function(object, at, ...) {
 }
 
 #' @export
-eval_probfn.gpd <- function(object, at) {
+eval_density.gpd <- function(object, at) {
 	with(parameters(object), {
 		z <- (at - location) / scale
 		if (shape == 0) {

@@ -27,7 +27,7 @@ get_hazard <- function(object) UseMethod("get_hazard")
 eval_hazard.dst <- function(object, at) {
 	if (identical(variable(object), "continuous")) {
 		sf <- eval_survival(object, at)
-		pdf <- eval_probfn(object, at)
+		pdf <- eval_density(object, at)
 		pdf / sf
 	} else {
 		stop("Not programmed yet.")

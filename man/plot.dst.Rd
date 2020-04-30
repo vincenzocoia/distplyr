@@ -6,7 +6,7 @@
 \usage{
 \method{plot}{dst}(
   x,
-  what = c("probfn", "cdf", "survival", "quantile", "hazard", "chf"),
+  what = c("density", "cdf", "survival", "quantile", "hazard", "chf"),
   ...
 )
 }

@@ -9,11 +9,12 @@ g5 <- graft_right(d1, d3, sep_y = 3.5)
 
 test_that("evaluation of representations works", {
 	expect_equal(eval_cdf(g1, -1:11),
-				 c(0, 0:2/5, seq(3/5, 1, length.out = 8), 1))
+				 c(0, 0:2 / 5, seq(3 / 5, 1, length.out = 8), 1))
 	expect_equal(eval_quantile(g1, seq(0, 1, length.out = 11)),
 				 c(seq(0, 2.5, length.out = 6), seq(3, 10, length.out = 5)))
-	expect_equal(eval_probfn(g1, -1:11),
-				 c(0, rep(1/5, 4), rep(0.4/7, 7), 0))
+	expect_equal(eval_density(g1, -1:11),
+				 c(0, rep(1 / 5, 4), rep(0.4 / 7, 7), 0))
+	expect_null(eval_pmf(g1, -1:11))
 })
 
 test_that("variable determination works", {
@@ -21,6 +22,11 @@ test_that("variable determination works", {
 	expect_identical(variable(g2), "mixed")
 	expect_identical(variable(g3), "discrete")
 	expect_identical(variable(g4), "continuous")
+	expect_null(get_pmf(g1))
+	expect_null(get_pmf(g2))
+	expect_null(get_density(g2))
+	expect_null(get_density(g3))
+	expect_null(get_pmf(g4))
 	expect_identical(
 		discontinuities(g2),
 		data.frame(location = 1:3, size = 0.2)

@@ -159,9 +159,8 @@ realise.stepdst <- function(object, n = 1, ...) {
 }
 
 #' @export
-eval_probfn.stepdst <- function(object, at) {
+eval_pmf.stepdst <- function(object, at) {
 	with(discontinuities(object), {
 		vapply(at, function(x) sum(size[x == location]), FUN.VALUE = numeric(1L))
 	})
 }
-

@@ -20,19 +20,28 @@ One purpose of `distplyr` is to handle the menial distribution-related calculati
 
 ## Functional Representations of a Distribution
 
-A distribution can be represented by different functions. In `distplyr`, you can either evaluate the function directly by calling `eval_*`, or get the function itself using `get_*`. Here are the representations and the corresponding `distplyr` functions:  
+A distribution can be represented by different functions. In `distplyr`, you can: 
 
-| Quantity                            | `distplyr` Function               |
-|-------------------------------------|-----------------------------------|
-| Cumulative Distribution Function    | `eval_cdf()`,    `get_cdf()`    |
-| Survival Function                   | `eval_survival()`,    `get_survival()`    |
-| Quantile Function                   | `eval_quantile()`, `get_quantile()` |
-| Hazard Function                     | `eval_hazard()`,   `get_hazard()`   |
-| Cumulative Hazard Function          | `eval_chf()`,     `get_chf()`     |
-| Probability (mass/density) function | `eval_probfn()`,  `get_probfn()`  |
-| Random sample generator             | `realise()`, `realize()`  |
+- evaluate the function directly by calling `eval_*`;
+- evaluate the function and enframe results together with the function arguments with `enframe_*`; or 
+- get the function itself using `get_*`. 
 
-Both the `eval_*` and `get_*` functions take a distribution object as their first argument, but `eval_*` has a second argument named `at` indicating where to evaluate the function. The `at` argument is vectorized, except for `eval_randfn()`, which returns a vector of a random sample of the length that you specify. 
+Here are the representations and the corresponding `distplyr` functions:  
+
+| Quantity                         | `distplyr` Functions              |
+|----------------------------------|-----------------------------------|
+| Cumulative Distribution Function | `eval_cdf()`,      `get_cdf()`,      `enframe_cdf()`      |
+| Survival Function                | `eval_survival()`, `get_survival()`, `enframe_survival()` |
+| Quantile Function                | `eval_quantile()`, `get_quantile()`, `enframe_quantile()` |
+| Hazard Function                  | `eval_hazard()`,   `get_hazard()`,   `enframe_hazard()`   |
+| Cumulative Hazard Function       | `eval_chf()`,      `get_chf()`,      `enframe_chf()`      |
+| Probability density function     | `eval_density()`,  `get_density()`,  `enframe_density()`  |
+| Probability mass function        | `eval_pmf()`,      `get_pmf()`,      `enframe_pmf()`      |
+| Random sample generator          | `realise()`, `realize()`  |
+
+These functions all take a distribution object as their first argument, and `eval_*` and `enframe_*` have a second argument named `at` indicating where to evaluate the function. The `at` argument is vectorized.
+
+Note that all of the `stats::p*/d*/q*/r*` functions are included in this list of representations, except for the `r` functions (such as `rnorm()`, `rpois()`, etc.). These `r` functions generate a random sample, which cannot be used to reconstruct a distribution exactly, and are therefore omitted in the list of representations. Instead, use the `realise()` or `realize()` function.
 
 Here is an example of evaluating the hazard function and the random sample generator of a Uniform(0,1) distribution:
 

@@ -67,7 +67,7 @@ eval_survival.unif <- function(object, at) {
 }
 
 #' @export
-eval_probfn.unif <- function(object, at) {
+eval_density.unif <- function(object, at) {
 	with(parameters(object), {
 		stats::dunif(at, min = min, max = max)
 	})

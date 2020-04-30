@@ -39,7 +39,11 @@ graft_right <- function(dst_left, dst_right, sep_y) {
 								  tau_right = tau_right,
 								  sep_y     = sep_y,
 								  base      = "left"))
-	new_dst(res, variable = v, class = "graft")
+	if (identical(v, "discrete")) {
+		new_stepdst(res, variable = v, class = "graft")
+	} else {
+		new_dst(res, variable = v, class = "graft")
+	}
 }
 
 #' @export
@@ -111,8 +115,8 @@ eval_quantile.graft <- function(object, at, ...) {
 }
 
 #' @export
-eval_probfn.graft <- function(object, at) {
-	if (identical(variable(object), "mixed")) {
+eval_density.graft <- function(object, at) {
+	if (variable(object) != "continuous") {
 		return(NULL)
 	}
 	with(object[["components"]], {
@@ -122,12 +126,11 @@ eval_probfn.graft <- function(object, at) {
 			y_lower <- at[lower]
 			y_upper <- at[upper]
 			res <- rep(NA_real_, length(at))
-			res[lower] <- eval_probfn(dst_left,  y_lower)
-			res[upper] <- eval_probfn(dst_right, y_upper) /
+			res[lower] <- eval_density(dst_left,  y_lower)
+			res[upper] <- eval_density(dst_right, y_upper) /
 				(1 - tau_right) * (1 - tau_left)
 			res
 		} else {
-			stop("Not yet programmed.")
 		}
 	})
 }

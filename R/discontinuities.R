@@ -114,6 +114,7 @@ make_empty_discontinuities_df <- function() {
 #' the output of \code{\link{discontinuities}}.
 #' @return One of \code{"continuous"},
 #' \code{"discrete"}, or \code{"mixed"}.
+#' @export
 discontinuities_to_variable <- function(df) {
 	n <- nrow(df)
 	if (identical(n, 0L)) return("continuous")

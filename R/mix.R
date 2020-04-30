@@ -142,13 +142,13 @@ get_kurtosis_exc.mix <- function(object, ...) {
 }
 
 #' @export
-eval_probfn.mix <- function(object, at) {
-	if (identical(variable(object), "mixed")) {
+eval_density.mix <- function(object, at) {
+	if (variable(object) != "continuous") {
 		return(NULL)
 	}
 	with(object[["components"]], {
-		probfn_vals <- lapply(distributions, eval_probfn, at = at)
-		p_times_f <- mapply(function(p, f) p * f, probs, probfn_vals,
+		density_vals <- lapply(distributions, eval_density, at = at)
+		p_times_f <- mapply(function(p, f) p * f, probs, density_vals,
 							SIMPLIFY = FALSE)
 		Reduce(`+`, p_times_f)
 	})

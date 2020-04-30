@@ -74,8 +74,9 @@ qf(0:4)
 \seealso{
 Other distributional representations: 
 \code{\link{eval_cdf}()},
+\code{\link{eval_density}()},
 \code{\link{eval_hazard}()},
-\code{\link{eval_probfn}()},
+\code{\link{eval_pmf}()},
 \code{\link{eval_survival}()},
 \code{\link{get_chf}()}
 }

@@ -44,7 +44,7 @@ my_dst <- my_dst %>%
 In general, you might not have the convenience of having a distribution's representations already defined. You can make a new distribution using `dst()`, and specifying at least one of the distribution's representations:
 
 ```
-dst(probfn = function(x) sqrt(1 - x^2) * 2 / pi,
+dst(density = function(x) sqrt(1 - x^2) * 2 / pi,
 	support = c(-1, 1), 
 	mean = 0)
 ```
@@ -53,7 +53,7 @@ You can either provide details in the `dst()` function or outside, using the `se
 
 ```
 dst() %>% 
-	set_probfn(function(x) sqrt(1 - x^2) * 2 / pi) %>% 
+	set_density(function(x) sqrt(1 - x^2) * 2 / pi) %>% 
 	set_support(-1, 1) %>% 
 	set_mean(0)
 ```
@@ -151,7 +151,7 @@ my_dst2 <- dst() %>%
     m <- 1 / (1 - x)
     log(m) / beta
   }) %>% 
-  set_probfn(~ beta * exp(-beta * x)) %>% 
+  set_density(~ beta * exp(-beta * x)) %>% 
   restrict_parameters(beta > 0) %>% 
   set_support(0, Inf) %>% 
   set_mean(1 / beta)
