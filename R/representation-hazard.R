@@ -25,6 +25,8 @@ get_hazard <- function(object) UseMethod("get_hazard")
 
 #' @export
 eval_hazard.dst <- function(object, at) {
+	f <- object[["representations"]][["hazard"]]
+	if (!is.null(f)) return(f(at))
 	if (identical(variable(object), "continuous")) {
 		sf <- eval_survival(object, at)
 		pdf <- eval_density(object, at)
@@ -36,7 +38,7 @@ eval_hazard.dst <- function(object, at) {
 
 #' @export
 get_hazard.dst <- function(object) {
-	hf <- object[["representations"]][["fun_hazard"]]
+	hf <- object[["representations"]][["hazard"]]
 	if (!is.null(hf)) return(hf)
 	function(at) eval_hazard(object, at = at)
 }

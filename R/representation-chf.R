@@ -24,6 +24,8 @@ eval_chf <- function(object, at) UseMethod("eval_chf")
 
 #' @export
 eval_chf.dst <- function(object, at) {
+	f <- object[["representations"]][["chf"]]
+	if (!is.null(f)) return(f(at))
 	if (identical(variable(object), "continuous")) {
 		sf <- eval_survival(object, at)
 		-log(sf)
@@ -34,7 +36,7 @@ eval_chf.dst <- function(object, at) {
 
 #' @export
 get_chf.dst <- function(object) {
-	chf <- object[["representations"]][["fun_chf"]]
+	chf <- object[["representations"]][["chf"]]
 	if (!is.null(chf)) return(chf)
 	function(at) eval_chf(object, at = at)
 }

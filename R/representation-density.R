@@ -25,7 +25,7 @@ get_density <- function(object) UseMethod("get_density")
 
 #' @export
 eval_density.dst <- function(object, at) {
-	f <- object[["representations"]][["fun_density"]]
+	f <- object[["representations"]][["density"]]
 	if (!is.null(f)) return(f(at))
 	if (variable(object) != "continuous") return(NULL)
 	stop("Can't find a probability function for this distribution.")
@@ -33,7 +33,7 @@ eval_density.dst <- function(object, at) {
 
 #' @export
 get_density.dst <- function(object) {
-	f <- object[["representations"]][["fun_density"]]
+	f <- object[["representations"]][["density"]]
 	if (!is.null(f)) return(f)
 	if (variable(object) != "continuous") return(NULL)
 	function(at) eval_density(object, at = at)

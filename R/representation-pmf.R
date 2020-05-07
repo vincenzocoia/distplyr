@@ -25,7 +25,7 @@ get_pmf <- function(object) UseMethod("get_pmf")
 
 #' @export
 eval_pmf.dst <- function(object, at) {
-	f <- object[["representations"]][["fun_pmf"]]
+	f <- object[["representations"]][["pmf"]]
 	if (!is.null(f)) return(f(at))
 	if (variable(object) != "discrete") return(NULL)
 	stop("Can't find a probability function for this distribution.")
@@ -33,7 +33,7 @@ eval_pmf.dst <- function(object, at) {
 
 #' @export
 get_pmf.dst <- function(object) {
-	f <- object[["representations"]][["fun_pmf"]]
+	f <- object[["representations"]][["pmf"]]
 	if (!is.null(f)) return(f)
 	if (variable(object) != "discrete") return(NULL)
 	function(at) eval_pmf(object, at = at)

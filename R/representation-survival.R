@@ -25,7 +25,7 @@ get_survival <- function(object) UseMethod("get_survival")
 
 #' @export
 get_survival.dst <- function(object) {
-	sf <- object[["representations"]][["fun_survival"]]
+	sf <- object[["representations"]][["survival"]]
 	if (!is.null(sf)) return(sf)
 	function(at) eval_survival(object, at = at)
 }
@@ -33,7 +33,7 @@ get_survival.dst <- function(object) {
 
 #' @export
 eval_survival.dst <- function(object, at) {
-	sf <- object[["representations"]][["fun_survival"]]
+	sf <- object[["representations"]][["survival"]]
 	if (is.null(sf)) {
 		cdf <- get_cdf(object)
 		1 - cdf(at)

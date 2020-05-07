@@ -59,6 +59,24 @@
 # 				chf = c("from_sf"),
 # 				rf  = c("from_qf"))
 
+#' Make a blank distribution
+#'
+#' Currently, this function makes a distribution object with nothing in it. The
+#' idea is that you can then set things downstream, with functions such as
+#' set_cdf() and set_mean(). The idea behind this function is expected to be in
+#' flux.
+#'
+#' @param variable Is this variable continuous, discrete, or mixed?
+#' @return A distribution object with nothing in it.
+#' @export
+dst <- function(variable = c("continuous", "discrete", "mixed")) {
+	variable <- match.arg(variable)
+	res <- list(representations = list(),
+				parameters = list())
+	new_dst(res, variable = variable)
+}
+
+
 #' Constructor Function for "dst" Objects
 #'
 #' @param l List containing the components of a distribution object.
