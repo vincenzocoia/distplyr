@@ -191,10 +191,9 @@ realise.mix <- function(object, n = 1, ...) {
 				return(numeric())
 			}
 		}
-		randfns <- lapply(distributions, get_randfn)
 		k <- length(distributions)
 		id <- sample(1:k, size = n, replace = TRUE, prob = probs)
-		sapply(id, function(i) randfns[[i]](1))
+		sapply(id, function(i) realize(distributions[[id[i]]]))
 	})
 }
 
