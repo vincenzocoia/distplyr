@@ -22,6 +22,14 @@ eval_pmf <- function(object, at) UseMethod("eval_pmf")
 #' @export
 get_pmf <- function(object) UseMethod("get_pmf")
 
+#' @rdname pmf
+#' @export
+enframe_pmf <- function(object, at,
+						arg_name = ".arg",
+						fn_name = ".pmf") {
+	UseMethod("enframe_pmf")
+}
+
 
 #' @export
 eval_pmf.dst <- function(object, at) {
@@ -39,20 +47,11 @@ get_pmf.dst <- function(object) {
 	function(at) eval_pmf(object, at = at)
 }
 
-#' @rdname pmf
-#' @export
-enframe_pmf <- function(object, at,
-						   arg_name = ".arg",
-						   fn_name = ".pmf") {
-	UseMethod("enframe_pmf")
-}
-
 #' @export
 enframe_pmf.dst <- function(object, at,
 							   arg_name = ".arg",
 							   fn_name = ".pmf") {
 	f <- eval_pmf(object, at = at)
-	if (is.null(f)) return(NULL)
 	res <- data.frame(at, f)
 	names(res) <- c(arg_name, fn_name)
 	res

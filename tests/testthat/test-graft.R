@@ -14,7 +14,7 @@ test_that("evaluation of representations works", {
 				 c(seq(0, 2.5, length.out = 6), seq(3, 10, length.out = 5)))
 	expect_equal(eval_density(g1, -1:11),
 				 c(0, rep(1 / 5, 4), rep(0.4 / 7, 7), 0))
-	expect_null(eval_pmf(g1, -1:11))
+	expect_identical(eval_pmf(g1, -1:11), rep(0, 13))
 })
 
 test_that("variable determination works", {
@@ -22,11 +22,14 @@ test_that("variable determination works", {
 	expect_identical(variable(g2), "mixed")
 	expect_identical(variable(g3), "discrete")
 	expect_identical(variable(g4), "continuous")
-	expect_null(get_pmf(g1))
-	expect_null(get_pmf(g2))
-	expect_null(get_density(g2))
+	expect_identical(eval_pmf(g1, at = c(1, 1.5, 4)),
+					 c(0, 0, 0))
+	expect_identical(eval_pmf(g2, at = c(1, 1.5, 4)),
+					 c(0.2, 0, 0))
+	expect_null(eval_density(g2, at = c(1, 1.5, 4)))
 	expect_null(get_density(g3))
-	expect_null(get_pmf(g4))
+	expect_equal(eval_pmf(g5, at = c(1, 1.5, 4)),
+				 c(0, 0, (5 - 3.5) / 5 / 2))
 	expect_identical(
 		discontinuities(g2),
 		data.frame(location = 1:3, size = 0.2)

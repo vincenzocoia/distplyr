@@ -142,6 +142,7 @@ get_evi.graft <- function(object) {
 	})
 }
 
+
 # Moment-based quantities may require integration - TBD
 
 # Using .dst method for:
