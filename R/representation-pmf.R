@@ -27,15 +27,15 @@ get_pmf <- function(object) UseMethod("get_pmf")
 eval_pmf.dst <- function(object, at) {
 	f <- object[["representations"]][["pmf"]]
 	if (!is.null(f)) return(f(at))
-	if (variable(object) != "discrete") return(NULL)
-	stop("Can't find a probability function for this distribution.")
+	with(discontinuities(object), {
+		vapply(at, function(x) sum(size[x == location]), FUN.VALUE = numeric(1L))
+	})
 }
 
 #' @export
 get_pmf.dst <- function(object) {
 	f <- object[["representations"]][["pmf"]]
 	if (!is.null(f)) return(f)
-	if (variable(object) != "discrete") return(NULL)
 	function(at) eval_pmf(object, at = at)
 }
 

@@ -15,7 +15,14 @@ test_that("variables are as expected", {
 })
 
 test_that("computations are correct", {
-	expect_identical(eval_density(m1, at = -1), dnorm(-1) * 0.4)
-	expect_null(eval_pmf(m1, at = -1))
-	expect_identical(eval_cdf(m1, at = -1), pnorm(-1) * 0.4)
+	expect_identical(eval_density(m1, at = -1),
+					 dnorm(-1) * 0.4)
+	expect_identical(eval_pmf(m1, at = c(-1, 1)),
+					 c(0, 0))
+	expect_identical(eval_pmf(m2, at = c(0.5, 1, 1.5)),
+					 c(0, 0.2 * 0.6, 0))
+	expect_identical(eval_pmf(m3, at = c(1, 2.5, 5)),
+					 c(0.2 * 0.4, 0, 0.2 * 0.4 + 0.6 / 3))
+	expect_identical(eval_cdf(m1, at = -1),
+					 pnorm(-1) * 0.4)
 })
