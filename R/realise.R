@@ -22,3 +22,8 @@ realise.dst <- function(object, n = 1, ...) {
 		r(n)
 	}
 }
+
+#' @export
+realise.default <- function(object, n = 1, ...) {
+	rep(object, n)
+}

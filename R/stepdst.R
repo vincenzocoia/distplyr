@@ -56,6 +56,7 @@ stepdst <- function(y, data, weights = 1, ...) {
 		w <- rep(w, length(y))
 	}
 	steps <- aggregate_weights(y, w, sum_to_one = TRUE)
+	if (nrow(steps) == 1L) return(dst_degenerate(steps$location))
 	res <- list(name = "Step", discontinuities = steps)
 	new_stepdst(res, variable = "discrete")
 }
