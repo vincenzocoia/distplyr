@@ -21,7 +21,7 @@
 mix <- function(..., weights = 1) {
 	dsts <- list(...)
 	lapply(dsts, function(.dst) if (!is_dst(.dst)) {
-		stop("Elipses must contain distributions only.")
+		stop("Ellipses must contain distributions only.")
 	})
 	n <- length(dsts)
 	if (identical(length(weights), 1L)) {
@@ -193,7 +193,7 @@ realise.mix <- function(object, n = 1, ...) {
 		}
 		k <- length(distributions)
 		id <- sample(1:k, size = n, replace = TRUE, prob = probs)
-		sapply(id, function(i) realize(distributions[[id[i]]]))
+		sapply(id, function(i) realise(distributions[[i]]))
 	})
 }
 
