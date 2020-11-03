@@ -14,7 +14,8 @@ Suggests:
     covr,
     knitr,
     rmarkdown,
-    datasets
+    datasets,
+    digest
 RoxygenNote: 7.1.0
 Imports: 
     stats,
