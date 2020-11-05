@@ -19,7 +19,7 @@
 #' variable(m2)
 #' @export
 mix <- function(..., weights = 1) {
-	dsts <- list(...)
+	dsts <- rlang::list2(...)
 	lapply(dsts, function(.dst) if (!is_dst(.dst)) {
 		stop("Ellipses must contain distributions only.")
 	})
