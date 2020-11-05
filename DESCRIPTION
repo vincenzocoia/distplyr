@@ -4,7 +4,7 @@ Title: Manipulation of Univariate Distributions
 Version: 0.1.1.9000
 Authors@R: person("Vincenzo", "Coia", email = "vincenzo.coia@stat.ubc.ca",
                   role = c("aut", "cre"))
-Description: Provides an interface for invoking and maipulating
+Description: Provides an interface for invoking and manipulating
     distributions. 
 License: GPL-3
 Encoding: UTF-8
