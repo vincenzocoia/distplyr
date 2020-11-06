@@ -58,6 +58,9 @@ enframe_cdf.dst <- function(object, at,
 	f <- eval_cdf(object, at = at)
 	res <- data.frame(at, f)
 	names(res) <- c(arg_name, fn_name)
+	if (requireNamespace("tibble", quietly = TRUE)) {
+		res <- tibble::as_tibble(res)
+	}
 	res
 }
 

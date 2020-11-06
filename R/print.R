@@ -6,7 +6,11 @@ print.dst <- function(x, ...) {
 		cat("\nParameters:\n")
 		df <- data.frame(parameter = names(px),
 						 value = c(px, recursive = TRUE))
-		row.names(df) <- NULL
+		if (requireNamespace("tibble", quietly = TRUE)) {
+			df <- tibble::as_tibble(df)
+		} else {
+			row.names(df) <- NULL
+		}
 		print(df)
 	}
 	cat("\nNumber of Discontinuities: ", nrow(discontinuities(x)))

@@ -80,7 +80,11 @@ print.mix <- function(x, ...) {
 	nm <- vapply(x[["components"]][["distributions"]], name,
 				 FUN.VALUE = character(1L))
 	df <- data.frame(distribution = nm, weight = x[["components"]][["probs"]])
-	row.names(df) <- NULL
+	if (requireNamespace("tibble", quietly = TRUE)) {
+		df <- tibble::as_tibble(df)
+	} else {
+		row.names(df) <- NULL
+	}
 	print(df)
 	cat("\nNumber of Discontinuities: ", nrow(discontinuities(x)))
 }
