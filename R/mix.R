@@ -5,7 +5,10 @@
 #' @param ... Distribution objects to mix.
 #' @param weights Vector of weights corresponding to the distributions;
 #' or, single numeric for equal weights.
-#' @return A mixture distribution.
+#' @param na.rm Remove distributions corresponding to \code{NA} weights?
+#' Default is \code{FALSE}.
+#' @return A mixture distribution -- an empty distribution if any weights
+#' are \code{NA} and `na.rm = FALSE`, the default.
 #' @examples
 #' a <- dst_norm(0, 1)
 #' b <- dst_norm(5, 2)
@@ -18,7 +21,7 @@
 #' plot(m2, n = 1001)
 #' variable(m2)
 #' @export
-mix <- function(..., weights = 1) {
+mix <- function(..., weights = 1, na.rm = FALSE) {
 	dsts <- rlang::list2(...)
 	lapply(dsts, function(.dst) if (!is_dst(.dst)) {
 		stop("Ellipses must contain distributions only.")
@@ -36,7 +39,7 @@ mix <- function(..., weights = 1) {
 	probs <- weights / sum(weights, na.rm = TRUE)
 	na_probs <- is.na(probs)
 	if (any(na_probs)) {
-		warning("Found NA probabilities. Removing the corresponding distributions.")
+		if (!na.rm) return(dst())
 		probs <- probs[!na_probs]
 		dsts <- dsts[!na_probs]
 	}
@@ -58,9 +61,10 @@ mix <- function(..., weights = 1) {
 	v <- discontinuities_to_variable(new_steps)
 	lgl_stepdst <- vapply(dsts, is_stepdst, FUN.VALUE = logical(1L))
 	if (all(lgl_stepdst)) {
-		return(stepdst(new_steps[["location"]],
-					   weights = new_steps[["size"]],
-					   variable = v))
+		l <- list(name = "Mixture", discontinuities = new_steps)
+		res <- new_stepdst(l, variable = "discrete")
+		class(res) <- c("stepdst", "mix", "dst")  # Hacky and temporary
+		return(res)
 	}
 	res <- list(name = "Mixture",
 				discontinuities = new_steps,
