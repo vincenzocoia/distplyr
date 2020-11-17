@@ -16,7 +16,10 @@ Suggests:
     rmarkdown,
     datasets,
     digest,
-    tibble
+    tibble,
+    purrr,
+    dplyr,
+    tidyr
 RoxygenNote: 7.1.1
 Imports: 
     stats,

@@ -28,7 +28,10 @@ sd.dst <- function(object, ...) {
 #' default method dispatches the \code{stats::sd()} function
 #' whenever \code{sd()} is called on a non-distribution object.
 #'
-#' @seealso \link{\code{stats::sd}}
+#' @param object Object for which to compute the standard deviation
+#' @param ... Other arguments to pass to \code{stats::sd()}.
+#'
+#' @seealso \code{stats::sd}
 #'
 #' @export
 sd.default <- function(object, ...) {

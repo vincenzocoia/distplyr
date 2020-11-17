@@ -6,11 +6,16 @@
 \usage{
 \method{sd}{default}(object, ...)
 }
+\arguments{
+\item{object}{Object for which to compute the standard deviation}
+
+\item{...}{Other arguments to pass to \code{stats::sd()}.}
+}
 \description{
 Since distplyr makes \code{sd()} a generic function, this
 default method dispatches the \code{stats::sd()} function
 whenever \code{sd()} is called on a non-distribution object.
 }
 \seealso{
-\link{\code{stats::sd}}
+\code{stats::sd}
 }

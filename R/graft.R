@@ -42,7 +42,7 @@ graft_right <- function(dst_left, dst_right, sep_y) {
 	if (identical(v, "discrete")) {
 		new_stepdst(res, variable = v, class = "graft")
 	} else {
-		new_dst(res, variable = v, class = "graft")
+		new_distribution(res, variable = v, class = "graft")
 	}
 }
 

@@ -29,14 +29,6 @@ sd(object, ...)
 }
 \value{
 A single numeric.
-a <- dst_gpd(0, 1, 0.5)
-b <- dst_unif(0, 1)
-c <- dst_norm(3, 4)
-mean(a)
-variance(b)
-kurtosis_raw(c)
-kurtosis_exc(c)
-mean(mix(a, b, probs = c(0.5, 0.5)))
 }
 \description{
 Get common moment-related quantities of a
@@ -47,4 +39,14 @@ skewness, and kurtosis.
 If there is no method associated with a subclass of
 \code{object}, then moments are calculated using \code{stats::integrate()}
 from the survival function.
+}
+\examples{
+a <- dst_gpd(0, 1, 0.5)
+b <- dst_unif(0, 1)
+c <- dst_norm(3, 4)
+mean(a)
+variance(b)
+kurtosis_raw(c)
+kurtosis_exc(c)
+mean(mix(a, b, probs = c(0.5, 0.5)))
 }

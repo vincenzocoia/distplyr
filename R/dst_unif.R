@@ -12,7 +12,7 @@ dst_unif <- function(min = 0, max = 1) {
 	res <- list(name = "Uniform",
 				discontinuities = make_empty_discontinuities_df(),
 				parameters = list(min = min, max = max))
-	new_dst(
+	new_distribution(
 		res,
 		variable = "continuous",
 		class    = "unif"

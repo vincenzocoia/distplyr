@@ -23,7 +23,7 @@
 #' @export
 mix <- function(..., weights = 1, na.rm = FALSE) {
 	dsts <- rlang::list2(...)
-	lapply(dsts, function(.dst) if (!is_dst(.dst)) {
+	lapply(dsts, function(.dst) if (!is_distribution(.dst)) {
 		stop("Ellipses must contain distributions only.")
 	})
 	n <- length(dsts)
@@ -39,7 +39,7 @@ mix <- function(..., weights = 1, na.rm = FALSE) {
 	probs <- weights / sum(weights, na.rm = TRUE)
 	na_probs <- is.na(probs)
 	if (any(na_probs)) {
-		if (!na.rm) return(dst())
+		if (!na.rm) return(distribution())
 		probs <- probs[!na_probs]
 		dsts <- dsts[!na_probs]
 	}
@@ -70,7 +70,7 @@ mix <- function(..., weights = 1, na.rm = FALSE) {
 				discontinuities = new_steps,
 				components = list(distributions = dsts,
 								  probs = probs))
-	new_dst(res, variable = v, class = "mix")
+	new_distribution(res, variable = v, class = "mix")
 }
 
 #' @export

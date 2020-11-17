@@ -70,7 +70,7 @@ stepdst <- function(y, data, weights = 1, ...) {
 #' @param class If making a subclass, specify its name here.
 #' @export
 new_stepdst <- function(l, variable, ..., class = character()) {
-	new_dst(
+	new_distribution(
 		l,
 		variable = variable,
 		...,

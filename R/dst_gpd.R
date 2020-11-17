@@ -17,7 +17,7 @@ dst_gpd <- function(location, scale, shape) {
 				parameters = list(location = location,
 								  scale    = scale,
 								  shape    = shape))
-	new_dst(res, variable = "continuous", class = "gpd")
+	new_distribution(res, variable = "continuous", class = "gpd")
 }
 
 

@@ -10,6 +10,7 @@
 #' \code{object}, then moments are calculated using \code{stats::integrate()}
 #' from the survival function.
 #' @return A single numeric.
+#' @examples
 #' a <- dst_gpd(0, 1, 0.5)
 #' b <- dst_unif(0, 1)
 #' c <- dst_norm(3, 4)

@@ -36,7 +36,7 @@ tbl_dst <- function(.data, ...) {
 		# dot_label <- rlang::as_label(dot)
 		if (dot_name != "") {
 			.dst <- rlang::eval_tidy(dot, .data)
-			if (is_dst(.dst)) {
+			if (is_distribution(.dst)) {
 				distributions[[dot_name]] <- .dst
 			} else {
 				stop("Specification for variable '", dot_name,
