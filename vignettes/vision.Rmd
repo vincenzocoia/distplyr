@@ -165,3 +165,43 @@ This is a family of distributions because `beta` has not been specified yet. If 
 my_dst2 %>% 
   restrict_parameters(beta = 1.5)
 ```
+
+### Use cases
+
+**1**
+
+You fit a supervised learning model for the mean of Y|X -- that's your priority. A secondary priority is to get a sense of the uncertainty in Y|X. You'd like to make a log-normal approximation to the distribution of Y|X.
+
+Univariate equivalent:
+
+```
+m <- predict(model)[1]
+dst_lnorm() %>% 
+  set_mean(m)   # Then, resolve via MLE
+```
+
+Simpler version:
+
+```
+m <- predict(model)[1]
+dst_norm() %>% 
+  set_mean(m)   # Then, resolve via MLE
+```
+
+**2**
+
+This might not be so useful in a univariate distribution setting, but would be if we're specifying a multivariate distribution, and want to keep a measure of dependence constant between two pairs (X1, X2) and (X2, X3).
+
+```
+dst_norm(mean = a, variance = a)   # Then, resolve via MLE.
+```
+
+
+**3**
+
+Restrict a parameter: you'd like to fit a GPD, and are confident that the distribution is heavy tailed, so would like the shape parameter to be >0.
+
+```
+dst_gpd() %>% 
+   set(shape > 0)
+```
