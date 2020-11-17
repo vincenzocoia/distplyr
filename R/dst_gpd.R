@@ -22,7 +22,7 @@ dst_gpd <- function(location, scale, shape) {
 
 
 #' @export
-get_mean.gpd <- function(object, ...) {
+mean.gpd <- function(object, ...) {
 	with(
 		parameters(object),
 		ifelse(shape < 1,
@@ -33,7 +33,7 @@ get_mean.gpd <- function(object, ...) {
 
 
 #' @export
-get_variance.gpd <- function(object, ...) {
+variance.gpd <- function(object, ...) {
 	with(
 		parameters(object),
 		ifelse(shape < 1 / 2,
@@ -44,12 +44,12 @@ get_variance.gpd <- function(object, ...) {
 
 
 #' @export
-get_evi.gpd <- function(object) {
+evi.gpd <- function(object) {
 	with(parameters(object), shape)
 }
 
 #' @export
-get_skewness.gpd <- function(object) {
+skewness.gpd <- function(object) {
 	with(
 		parameters(object),
 		ifelse(
@@ -62,7 +62,7 @@ get_skewness.gpd <- function(object) {
 }
 
 #' @export
-get_kurtosis_exc.gpd <- function(object) {
+kurtosis_exc.gpd <- function(object) {
 	with(
 		parameters(object),
 		ifelse(
@@ -148,8 +148,7 @@ eval_density.gpd <- function(object, at) {
 
 # Using .dst method for:
 #
-# - get_median
+# - median
 # - get_survival
-# - get_randfn
 # - get_hazard
 # - get_chf

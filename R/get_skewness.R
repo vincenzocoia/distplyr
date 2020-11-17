@@ -1,11 +1,11 @@
 #' @rdname moments
 #' @export
-get_skewness <- function(object) UseMethod("get_skewness")
+skewness <- function(object) UseMethod("skewness")
 
 #' @export
-get_skewness.dst <- function(object) {
-	mu <- get_mean(object)
-	sigma <- get_sd(object)
+skewness.dst <- function(object) {
+	mu <- mean(object)
+	sigma <- sd(object)
 	sf <- get_survival(object)
 	sf2 <- function(x) sf(mu + x ^ (1 / 3))
 	one_minus_flipped <- function(x) 1 - sf(mu - x ^ (1 / 3))

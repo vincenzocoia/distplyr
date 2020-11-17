@@ -136,9 +136,9 @@ eval_density.graft <- function(object, at) {
 }
 
 #' @export
-get_evi.graft <- function(object) {
+evi.graft <- function(object) {
 	with(object[["components"]], {
-		get_evi(dst_right)
+		evi(dst_right)
 	})
 }
 
@@ -148,7 +148,6 @@ get_evi.graft <- function(object) {
 # Using .dst method for:
 # - get_hazard
 # - get_chf
-# - get_randfn
 # - get_survival
-# - get_median
+# - median
 

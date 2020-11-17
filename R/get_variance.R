@@ -1,10 +1,10 @@
 #' @rdname moments
 #' @export
-get_variance <- function(object, ...) UseMethod("get_variance")
+variance <- function(object, ...) UseMethod("variance")
 
 #' @export
-get_variance.dst <- function(object, ...) {
-	mu <- get_mean(object)
+variance.dst <- function(object, ...) {
+	mu <- mean(object)
 	sf <- get_survival(object)
 	sf2 <- function(x) 1 + sf(mu + sqrt(x)) - sf(mu - sqrt(x))
 	int <- stats::integrate(sf2, 0, Inf)
@@ -14,10 +14,23 @@ get_variance.dst <- function(object, ...) {
 
 #' @rdname moments
 #' @export
-get_sd <- function(object, ...) UseMethod("get_sd")
+sd <- function(object, ...) UseMethod("sd")
 
 #' @export
-get_sd.dst <- function(object, ...) {
-	ss <- get_variance(object, ...)
+sd.dst <- function(object, ...) {
+	ss <- variance(object, ...)
 	sqrt(ss)
+}
+
+#' Access to the original sd function
+#'
+#' Since distplyr makes \code{sd()} a generic function, this
+#' default method dispatches the \code{stats::sd()} function
+#' whenever \code{sd()} is called on a non-distribution object.
+#'
+#' @seealso \link{\code{stats::sd}}
+#'
+#' @export
+sd.default <- function(object, ...) {
+	stats::sd(object, ...)
 }

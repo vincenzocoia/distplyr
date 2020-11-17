@@ -90,32 +90,32 @@ print.mix <- function(x, ...) {
 }
 
 #' @export
-get_mean.mix <- function(object, ...) {
+mean.mix <- function(object, ...) {
 	with(object[["components"]], {
-		means <- vapply(distributions, get_mean, FUN.VALUE = numeric(1L))
+		means <- vapply(distributions, mean, FUN.VALUE = numeric(1L))
 		sum(probs * means)
 	})
 }
 
 #' @export
-get_variance.mix <- function(object, ...) {
-	overall_mean <- get_mean(object)
+variance.mix <- function(object, ...) {
+	overall_mean <- mean(object)
 	with(object[["components"]], {
-		means <- vapply(distributions, get_mean, FUN.VALUE = numeric(1L))
-		variances <- vapply(distributions, get_variance, FUN.VALUE = numeric(1L))
+		means <- vapply(distributions, mean, FUN.VALUE = numeric(1L))
+		variances <- vapply(distributions, variance, FUN.VALUE = numeric(1L))
 		sum(probs * (variances + means ^ 2 - overall_mean ^ 2))
 	})
 }
 
 #' @export
-get_skewness.mix <- function(object, ...) {
-	overall_mean <- get_mean(object)
-	overall_sd <- get_sd(object)
+skewness.mix <- function(object, ...) {
+	overall_mean <- mean(object)
+	overall_sd <- sd(object)
 	with(object[["components"]], {
-		means <- vapply(distributions, get_mean, FUN.VALUE = numeric(1L))
-		vars <- vapply(distributions, get_variance, FUN.VALUE = numeric(1L))
+		means <- vapply(distributions, mean, FUN.VALUE = numeric(1L))
+		vars <- vapply(distributions, variance, FUN.VALUE = numeric(1L))
 		sds <- sqrt(vars)
-		skews <- vapply(distributions, get_skewness, FUN.VALUE = numeric(1L))
+		skews <- vapply(distributions, skewness, FUN.VALUE = numeric(1L))
 		cmoms <- list(zero = 1,
 					  first = 0,
 					  second = vars,
@@ -128,15 +128,15 @@ get_skewness.mix <- function(object, ...) {
 }
 
 #' @export
-get_kurtosis_exc.mix <- function(object, ...) {
-	overall_mean <- get_mean(object)
-	overall_var <- get_variance(object)
+kurtosis_exc.mix <- function(object, ...) {
+	overall_mean <- mean(object)
+	overall_var <- variance(object)
 	with(object[["components"]], {
-		means <- vapply(distributions, get_mean, FUN.VALUE = numeric(1L))
-		vars <- vapply(distributions, get_variance, FUN.VALUE = numeric(1L))
+		means <- vapply(distributions, mean, FUN.VALUE = numeric(1L))
+		vars <- vapply(distributions, variance, FUN.VALUE = numeric(1L))
 		sds <- sqrt(vars)
-		skews <- vapply(distributions, get_skewness, FUN.VALUE = numeric(1L))
-		kurts <- vapply(distributions, get_kurtosis_raw, FUN.VALUE = numeric(1L))
+		skews <- vapply(distributions, skewness, FUN.VALUE = numeric(1L))
+		kurts <- vapply(distributions, kurtosis_raw, FUN.VALUE = numeric(1L))
 		cmoms <- list(zero = 1,
 					  first = 0,
 					  second = vars,
@@ -206,13 +206,13 @@ realise.mix <- function(object, n = 1, ...) {
 }
 
 #' @export
-get_evi.mix <- function(object) {
+evi.mix <- function(object) {
 	if (is_stepdst(object)) return(NaN)
 	with(object[["components"]], {
 		right_ends <- vapply(distributions, eval_quantile, at = 1, FUN.VALUE = numeric(1L))
 		max_end <- max(right_ends)
 		has_max_ends <- right_ends == max_end
-		evis <- vapply(distributions, get_evi, FUN.VALUE = numeric(1L))
+		evis <- vapply(distributions, evi, FUN.VALUE = numeric(1L))
 		final_sign <- if (max_end < Inf) -1 else 1
 		final_sign * max(abs(evis[has_max_ends]))
 	})

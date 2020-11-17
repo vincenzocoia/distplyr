@@ -1,20 +1,20 @@
 #' @rdname moments
 #' @export
-get_kurtosis_raw <- function(object) UseMethod("get_kurtosis_raw")
+kurtosis_raw <- function(object) UseMethod("kurtosis_raw")
 
 #' @rdname moments
 #' @export
-get_kurtosis_exc <- function(object) UseMethod("get_kurtosis_exc")
+kurtosis_exc <- function(object) UseMethod("kurtosis_exc")
 
 #' @export
-get_kurtosis_raw.dst <- function(object) {
-	3 + get_kurtosis_exc(object)
+kurtosis_raw.dst <- function(object) {
+	3 + kurtosis_exc(object)
 }
 
 #' @export
-get_kurtosis_exc.dst <- function(object) {
-	mu <- get_mean(object)
-	var <- get_variance(object)
+kurtosis_exc.dst <- function(object) {
+	mu <- mean(object)
+	var <- variance(object)
 	sf <- get_survival(object)
 	sf2 <- function(x) 1 + sf(mu + x ^ (1 / 4)) - sf(mu - x ^ (1 / 4))
 	int <- stats::integrate(sf2, 0, Inf)

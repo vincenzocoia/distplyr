@@ -40,7 +40,7 @@ With `distplyr`:
 
 ```{r}
 d <- dst_unif(-1, 1)
-get_variance(d)
+variance(d)
 eval_quantile(d, at = c(0.25, 0.75))
 realise(d, 10)
 ```
@@ -124,24 +124,24 @@ Below is a table of the properties incorporated in `distplyr`:
 
 | Property | `distplyr` Function |
 |----------|---------------------|
-| Mean                       | `get_mean()` |
-| Median                     | `get_median()` |
-| ~~Mode~~                       | ~~`get_mode()`~~ |
-| Variance                   | `get_variance()` |
-| Standard Deviation         | `get_sd()` |
-| ~~Inter-Quartile Range~~       | ~~`get_iqr()`~~ |
-| ~~Entropy~~                    | ~~`get_entropy()`~~ |
-| Skewness                   | `get_skewness()` |
-| Excess Kurtosis            | `get_kurtosis_exc()` |
-| Kurtosis                   | `get_kurtosis_raw()` |
-| Extreme Value (Tail) Index | `get_evi()` |
+| Mean                       | `mean()` |
+| Median                     | `median()` |
+| ~~Mode~~                       | ~~`mode()`~~ |
+| Variance                   | `variance()` |
+| Standard Deviation         | `sd()` |
+| ~~Inter-Quartile Range~~       | ~~`iqr()`~~ |
+| ~~Entropy~~                    | ~~`entropy()`~~ |
+| Skewness                   | `skewness()` |
+| Excess Kurtosis            | `kurtosis_exc()` |
+| Kurtosis                   | `kurtosis_raw()` |
+| Extreme Value (Tail) Index | `evi()` |
 
 Here are some properties of our original Uniform(-1, 1) distribution:
 
 ```{r}
-get_mean(d)
-get_sd(d)
-get_evi(d)
+mean(d)
+sd(d)
+evi(d)
 ```
 
 

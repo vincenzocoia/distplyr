@@ -13,18 +13,14 @@
 #' a <- dst_gpd(0, 1, 0.5)
 #' b <- dst_unif(0, 1)
 #' c <- dst_norm(3, 4)
-#' get_mean(a)
-#' get_variance(b)
-#' get_kurtosis_raw(c)
-#' get_kurtosis_exc(c)
-#' get_mean(mix(a, b, probs = c(0.5, 0.5)))
+#' mean(a)
+#' variance(b)
+#' kurtosis_raw(c)
+#' kurtosis_exc(c)
+#' mean(mix(a, b, probs = c(0.5, 0.5)))
 #' @rdname moments
 #' @export
-get_mean <- function(object, ...) UseMethod("get_mean")
-
-
-#' @export
-get_mean.dst <- function(object, ...) {
+mean.dst <- function(object, ...) {
 	qf <- get_quantile(object)
 	int <- stats::integrate(qf, 0, 1)
 	int$value

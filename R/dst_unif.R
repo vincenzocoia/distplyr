@@ -22,33 +22,33 @@ dst_unif <- function(min = 0, max = 1) {
 
 
 #' @export
-get_mean.unif <- function(object, ...) {
+mean.unif <- function(object, ...) {
 	with(parameters(object), (min + max) / 2)
 }
 
 #' @export
-get_median.unif <- function(object) {
+median.unif <- function(object) {
 	with(parameters(object), (min + max) / 2)
 }
 
 #' @export
-get_variance.unif <- function(object, ...) {
+variance.unif <- function(object, ...) {
 	with(parameters(object), (min - max)^2 / 12)
 }
 
 
 #' @export
-get_evi.unif <- function(object) {
+evi.unif <- function(object) {
 	-1
 }
 
 #' @export
-get_skewness.unif <- function(object) {
+skewness.unif <- function(object) {
 	0
 }
 
 #' @export
-get_kurtosis_exc.unif <- function(object) {
+kurtosis_exc.unif <- function(object) {
 	-6/5
 }
 
@@ -91,4 +91,4 @@ eval_quantile.unif <- function(object, at, ...) {
 # Using .dst method for:
 # - get_hazard
 # - get_chf
-# - get_sd
+# - sd

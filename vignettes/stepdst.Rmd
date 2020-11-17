@@ -38,7 +38,7 @@ plot(d2, "cdf", n = 1001, lty = 2, add = TRUE)
 This is much more informative compared with a point prediction of `hp` when `disp = 150`. Such a prediction might be:
 
 ```{r}
-get_mean(d2)
+mean(d2)
 ```
 
 With a distribution, you can get much more, such as a prediction interval. Here's a 90% interval:
@@ -50,7 +50,7 @@ eval_quantile(d2, at = c(0.05, 0.95))
 Here's the proportion of variance that's reduced compared to the marginal:
 
 ```{r}
-1 - get_variance(d2) / get_variance(d1)
+1 - variance(d2) / variance(d1)
 ```
 
 You can extract the step discontinuities in any distribution, using the `discontinuities()` function. It will give you the location of the discontinuities, and the size of the jump in the cdf:

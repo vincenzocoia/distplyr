@@ -2,9 +2,9 @@
 #'
 #' @param object Distribution object
 #' @export
-get_median <- function(object) UseMethod("get_median")
+median <- function(object) UseMethod("median")
 
 #' @export
-get_median.dst <- function(object) {
+median.dst <- function(object) {
 	eval_quantile(object, at = 0.5)
 }
