@@ -33,7 +33,7 @@ Use `distplyr` to:
 
 Many distributions in practice are built in "layers", by transforming and combining other distributions. The result is a tailored distribution that does not follow a basic parametric form such as "Normal" or "Exponential". The motivation behind the name of `distplyr` is that distributions are built by manipulation, akin to the package `dplyr`.
 
-**Note**: This package is still in its infancy. There are many other critical features to come. Expect breaking changes over the first several versions.
+**Note**: This package is still in its infancy. There are many other critical features to come. Expect breaking changes as long as this package is marked as "Experimental".
 
 ## Design Choices
 

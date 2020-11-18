@@ -32,8 +32,8 @@ that does not follow a basic parametric form such as “Normal” or
 distributions are built by manipulation, akin to the package `dplyr`.
 
 **Note**: This package is still in its infancy. There are many other
-critical features to come. Expect breaking changes over the first
-several versions.
+critical features to come. Expect breaking changes as long as this
+package is marked as “Experimental”.
 
 ## Design Choices
 
