@@ -1,5 +1,14 @@
 # distplyr (development version)
 
+- If you have the tibble package installed, distplyr will now output tibbles wherever data frames were previously output.  
+
+## Breaking changes
+
+- The `get_` prefix has been removed from distributional quantities. `get_mean()` is now `mean()`, etc.
+	- For now, the `get_` prefix still holds for distributional representations, like `get_cdf()`. 
+- Make your own distribution object with `distribution()` instead of `dst()`, and checked with `is_distribution()`. 
+
+
 # distplyr 0.1.1
 
 This patch both fixes some problems in the previous release, as well as offering a step towards a bigger expansion.
