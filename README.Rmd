@@ -33,7 +33,7 @@ Use `distplyr` to:
 
 Many distributions in practice are built in "layers", by transforming and combining other distributions. The result is a tailored distribution that does not follow a basic parametric form such as "Normal" or "Exponential". The motivation behind the name of `distplyr` is that distributions are built by manipulation, akin to the package `dplyr`.
 
-**Note**: This package is still in its infancy. There are many other critical features to come.
+**Note**: This package is still in its infancy. There are many other critical features to come. Expect breaking changes over the first several versions.
 
 ## Design Choices
 
@@ -56,11 +56,11 @@ There are many parametric families of distributions at your disposal. Here is a 
 (d1 <- dst_unif(2, 5))
 ```
 
-Evaluate functional representations, such as the cdf and hazard function:
+Evaluate or enframe functional representations, such as the cdf and hazard function:
 
 ```{r}
 eval_cdf(d1, at = 3)
-eval_hazard(d1, at = 3)
+enframe_hazard(d1, at = 3)
 ```
 
 Make a mixture distribution by combining some distributions:
@@ -74,10 +74,20 @@ Make a graft distribution by replacing a distribution's tail:
 
 ```{r}
 d3 <- stepdst(mpg, data = mtcars)
-d4 <- graft_right(d3, dst_gpd(25, 5, 1), sep_y = 25)
+d4 <- graft_right(d3, dst_gpd(25, 5, 2), sep_y = 25)
 plot(d4, "cdf", n = 1001, to = 34)
 plot(d3, "cdf", n = 1001, lty = 2, add = TRUE)
 ```
+
+Calculate mean, variance, etc:
+
+```{r}
+variance(d1)
+skewness(d2)
+mean(d3)
+evi(d4)
+```
+
 
 ## Installation
 
@@ -90,7 +100,7 @@ devtools::install_github("vincenzocoia/distplyr")
 
 ## `distplyr` in Context
 
-Note that `distplyr` is _not_ a modelling package, meaning it won't optimize a distribution's fit to data.
+`distplyr` is _not_ a modelling package, meaning it won't optimize a distribution's fit to data.
 
 The [`distributions3`](https://cran.r-project.org/web/packages/distributions3/index.html) package is a similar package in that it bundles parametric distributions together using S3 objects, but does not handle step distributions.
 

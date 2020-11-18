@@ -32,7 +32,8 @@ that does not follow a basic parametric form such as “Normal” or
 distributions are built by manipulation, akin to the package `dplyr`.
 
 **Note**: This package is still in its infancy. There are many other
-critical features to come.
+critical features to come. Expect breaking changes over the first
+several versions.
 
 ## Design Choices
 
@@ -58,21 +59,26 @@ Here is a Uniform distribution:
 #> Uniform Distribution
 #> 
 #> Parameters:
+#> # A tibble: 2 x 2
 #>   parameter value
-#> 1       min     2
-#> 2       max     5
+#>   <chr>     <dbl>
+#> 1 min           2
+#> 2 max           5
 #> 
 #> Number of Discontinuities:  0
 ```
 
-Evaluate functional representations, such as the cdf and hazard
-function:
+Evaluate or enframe functional representations, such as the cdf and
+hazard function:
 
 ``` r
 eval_cdf(d1, at = 3)
 #> [1] 0.3333333
-eval_hazard(d1, at = 3)
-#> [1] 0.5
+enframe_hazard(d1, at = 3)
+#> # A tibble: 1 x 2
+#>    .arg .hazard
+#>   <dbl>   <dbl>
+#> 1     3     0.5
 ```
 
 Make a mixture distribution by combining some distributions:
@@ -82,9 +88,11 @@ Make a mixture distribution by combining some distributions:
 #> Mixture Distribution
 #> 
 #> Components:
+#> # A tibble: 2 x 2
 #>   distribution weight
-#> 1     Gaussian    0.2
-#> 2     Gaussian    0.8
+#>   <chr>         <dbl>
+#> 1 Gaussian        0.2
+#> 2 Gaussian        0.8
 #> 
 #> Number of Discontinuities:  0
 plot(d2, n = 1001)
@@ -104,12 +112,25 @@ Make a graft distribution by replacing a distribution’s tail:
 
 ``` r
 d3 <- stepdst(mpg, data = mtcars)
-d4 <- graft_right(d3, dst_gpd(25, 5, 1), sep_y = 25)
+d4 <- graft_right(d3, dst_gpd(25, 5, 2), sep_y = 25)
 plot(d4, "cdf", n = 1001, to = 34)
 plot(d3, "cdf", n = 1001, lty = 2, add = TRUE)
 ```
 
 <img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" style="display: block; margin: auto;" />
+
+Calculate mean, variance, etc:
+
+``` r
+variance(d1)
+#> [1] 0.75
+skewness(d2)
+#> [1] -1.073313
+mean(d3)
+#> [1] 20.09062
+evi(d4)
+#> [1] 2
+```
 
 ## Installation
 
@@ -121,8 +142,8 @@ devtools::install_github("vincenzocoia/distplyr")
 
 ## `distplyr` in Context
 
-Note that `distplyr` is *not* a modelling package, meaning it won’t
-optimize a distribution’s fit to data.
+`distplyr` is *not* a modelling package, meaning it won’t optimize a
+distribution’s fit to data.
 
 The
 [`distributions3`](https://cran.r-project.org/web/packages/distributions3/index.html)
