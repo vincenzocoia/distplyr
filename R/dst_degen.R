@@ -40,7 +40,7 @@ mean.degenerate <- function(object, ...) {
 }
 
 #' @export
-median.degenerate <- function(object) {
+median.degenerate <- function(object, ...) {
 	mean(object)
 }
 

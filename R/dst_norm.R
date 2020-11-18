@@ -33,7 +33,7 @@ mean.norm <- function(object, ...) {
 }
 
 #' @export
-median.norm <- function(object) {
+median.norm <- function(object, ...) {
 	with(parameters(object), mean)
 }
 

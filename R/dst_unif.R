@@ -27,7 +27,7 @@ mean.unif <- function(object, ...) {
 }
 
 #' @export
-median.unif <- function(object) {
+median.unif <- function(object, ...) {
 	with(parameters(object), (min + max) / 2)
 }
 
