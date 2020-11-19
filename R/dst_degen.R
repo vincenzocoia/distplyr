@@ -35,32 +35,32 @@ is.degenerate <- function(object) {
 }
 
 #' @export
-mean.degenerate <- function(object, ...) {
-	discontinuities(object)[["location"]]
+mean.degenerate <- function(x, ...) {
+	discontinuities(x)[["location"]]
 }
 
 #' @export
-median.degenerate <- function(object, ...) {
-	mean(object)
+median.degenerate <- function(x, ...) {
+	mean(x)
 }
 
 #' @export
-variance.degenerate <- function(object, ...) {
+variance.degenerate <- function(x, ...) {
 	0
 }
 
 #' @export
-sd.degenerate <- function(object, ...) {
+sd.degenerate <- function(x, ...) {
 	0
 }
 
 #' @export
-skewness.degenerate <- function(object) {
+skewness.degenerate <- function(x, ...) {
 	NaN
 }
 
 #' @export
-kurtosis_exc.degenerate <- function(object) {
+kurtosis_exc.degenerate <- function(x, ...) {
 	NaN
 }
 

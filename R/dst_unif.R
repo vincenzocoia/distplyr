@@ -22,34 +22,34 @@ dst_unif <- function(min = 0, max = 1) {
 
 
 #' @export
-mean.unif <- function(object, ...) {
-	with(parameters(object), (min + max) / 2)
+mean.unif <- function(x, ...) {
+	with(parameters(x), (min + max) / 2)
 }
 
 #' @export
-median.unif <- function(object, ...) {
-	with(parameters(object), (min + max) / 2)
+median.unif <- function(x, ...) {
+	with(parameters(x), (min + max) / 2)
 }
 
 #' @export
-variance.unif <- function(object, ...) {
-	with(parameters(object), (min - max)^2 / 12)
+variance.unif <- function(x, ...) {
+	with(parameters(x), (min - max) ^ 2 / 12)
 }
 
 
 #' @export
-evi.unif <- function(object) {
+evi.unif <- function(x, ...) {
 	-1
 }
 
 #' @export
-skewness.unif <- function(object) {
+skewness.unif <- function(x, ...) {
 	0
 }
 
 #' @export
-kurtosis_exc.unif <- function(object) {
-	-6/5
+kurtosis_exc.unif <- function(x, ...) {
+	-6 / 5
 }
 
 #' @export

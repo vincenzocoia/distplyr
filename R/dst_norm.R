@@ -28,37 +28,37 @@ dst_norm <- function(mean, variance) {
 
 
 #' @export
-mean.norm <- function(object, ...) {
-	with(parameters(object), mean)
+mean.norm <- function(x, ...) {
+	with(parameters(x), mean)
 }
 
 #' @export
-median.norm <- function(object, ...) {
-	with(parameters(object), mean)
+median.norm <- function(x, ...) {
+	with(parameters(x), mean)
 }
 
 #' @export
-variance.norm <- function(object, ...) {
-	with(parameters(object), variance)
+variance.norm <- function(x, ...) {
+	with(parameters(x), variance)
 }
 
 #' @export
-sd.norm <- function(object, ...) {
-	with(parameters(object), sd)
+sd.norm <- function(x, ...) {
+	with(parameters(x), sd)
 }
 
 #' @export
-evi.norm <- function(object) {
+evi.norm <- function(x, ...) {
 	0
 }
 
 #' @export
-skewness.norm <- function(object) {
+skewness.norm <- function(x, ...) {
 	0
 }
 
 #' @export
-kurtosis_exc.norm <- function(object) {
+kurtosis_exc.norm <- function(x, ...) {
 	0
 }
 

@@ -3,7 +3,7 @@ x <- c(-1, 4, 5, -1, -2, 7)
 
 test_that("mean and variance works with stepdst", {
 	expect_equal(mean(x), mean(.dst))
-	v <- mean(x^2) - mean(x)^2
+	v <- mean(x ^ 2) - mean(x) ^ 2
 	expect_equal(v, variance(.dst))
 	expect_equal(sqrt(v), sd(.dst))
 })

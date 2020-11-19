@@ -2,26 +2,18 @@
 % Please edit documentation in R/evi.R
 \name{evi}
 \alias{evi}
-\title{Get the EVI of a distribution}
+\title{Extreme Value Index}
 \usage{
-evi(object)
+evi(x, ...)
 }
 \arguments{
-\item{object}{Distribution object to obtain EVI from.}
+\item{x}{Object to obtain EVI from.}
+
+\item{...}{Other arguments to pass to specific methods.}
 }
 \value{
-A single numeric
+A single numeric.
 }
 \description{
-EVI = Extreme value index
-}
-\details{
-Doesn't calculate EVI if not present in the object.
-}
-\examples{
-evi(dst_gpd(0, 1, 2))
-evi(dst_gpd(0, 1, -1))
-evi(dst_unif(0, 10))
-evi(dst_norm(5, 5))
-evi(stepdst(1:10))
+Extreme Value Index
 }

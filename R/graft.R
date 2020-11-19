@@ -136,8 +136,8 @@ eval_density.graft <- function(object, at) {
 }
 
 #' @export
-evi.graft <- function(object) {
-	with(object[["components"]], {
+evi.graft <- function(x, ...) {
+	with(x[["components"]], {
 		evi(dst_right)
 	})
 }

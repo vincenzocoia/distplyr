@@ -40,7 +40,7 @@ d2 <- mix(dst_norm(0, 1), dst_norm(4, 1))
 
 test_that("Quantile algorithm works with no discontinuities", {
 	expect_equal(eval_quantile(d2, at = 0.5), 2)
-	eval_quantile(d2, at = 1:9/10)
+	# eval_quantile(d2, at = 1:9/10)
 	expect_equal(
 		eval_quantile(d2, at = c(0, 0.5, NA, 1, 1.3)),
 		c(-Inf, 2, NA, Inf, Inf))

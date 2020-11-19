@@ -22,9 +22,9 @@ dst_gpd <- function(location, scale, shape) {
 
 
 #' @export
-mean.gpd <- function(object, ...) {
+mean.gpd <- function(x, ...) {
 	with(
-		parameters(object),
+		parameters(x),
 		ifelse(shape < 1,
 			   location + scale / (1 - shape),
 			   Inf)
@@ -33,9 +33,9 @@ mean.gpd <- function(object, ...) {
 
 
 #' @export
-variance.gpd <- function(object, ...) {
+variance.gpd <- function(x, ...) {
 	with(
-		parameters(object),
+		parameters(x),
 		ifelse(shape < 1 / 2,
 			   scale ^ 2 / (1 - shape) ^ 2 / (1 - 2 * shape),
 			   Inf)
@@ -44,14 +44,14 @@ variance.gpd <- function(object, ...) {
 
 
 #' @export
-evi.gpd <- function(object) {
-	with(parameters(object), shape)
+evi.gpd <- function(x, ...) {
+	with(parameters(x), shape)
 }
 
 #' @export
-skewness.gpd <- function(object) {
+skewness.gpd <- function(x, ...) {
 	with(
-		parameters(object),
+		parameters(x),
 		ifelse(
 			shape < 1 / 3,
 			2 * (1 + shape) * sqrt(1 - 2 * shape) /
@@ -62,9 +62,9 @@ skewness.gpd <- function(object) {
 }
 
 #' @export
-kurtosis_exc.gpd <- function(object) {
+kurtosis_exc.gpd <- function(x, ...) {
 	with(
-		parameters(object),
+		parameters(x),
 		ifelse(
 			shape < 1 / 4,
 			3 * (1 - 2 * shape) * (2 * shape ^ 2 + shape + 3) /

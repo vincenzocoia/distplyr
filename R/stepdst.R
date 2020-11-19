@@ -89,18 +89,23 @@ is.stepdst <- function(object) inherits(object, "stepdst")
 
 
 #' @export
-mean.stepdst <- function(object, ...) {
-	with(discontinuities(object), {
+mean.stepdst <- function(x, ...) {
+	with(discontinuities(x), {
 		sum(size * location)
 	})
 }
 
 #' @export
-variance.stepdst <- function(object, ...) {
-	with(discontinuities(object), {
-		mu <- mean(object)
-		mu2 <- sum(size * location^2)
-		mu2 - mu^2
+evi.stepdst <- function(x, ...) {
+	NaN
+}
+
+#' @export
+variance.stepdst <- function(x, ...) {
+	with(discontinuities(x), {
+		mu <- mean(x)
+		mu2 <- sum(size * location ^ 2)
+		mu2 - mu ^ 2
 	})
 }
 

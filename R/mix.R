@@ -90,17 +90,17 @@ print.mix <- function(x, ...) {
 }
 
 #' @export
-mean.mix <- function(object, ...) {
-	with(object[["components"]], {
+mean.mix <- function(x, ...) {
+	with(x[["components"]], {
 		means <- vapply(distributions, mean, FUN.VALUE = numeric(1L))
 		sum(probs * means)
 	})
 }
 
 #' @export
-variance.mix <- function(object, ...) {
-	overall_mean <- mean(object)
-	with(object[["components"]], {
+variance.mix <- function(x, ...) {
+	overall_mean <- mean(x)
+	with(x[["components"]], {
 		means <- vapply(distributions, mean, FUN.VALUE = numeric(1L))
 		variances <- vapply(distributions, variance, FUN.VALUE = numeric(1L))
 		sum(probs * (variances + means ^ 2 - overall_mean ^ 2))
@@ -108,10 +108,10 @@ variance.mix <- function(object, ...) {
 }
 
 #' @export
-skewness.mix <- function(object, ...) {
-	overall_mean <- mean(object)
-	overall_sd <- sd(object)
-	with(object[["components"]], {
+skewness.mix <- function(x, ...) {
+	overall_mean <- mean(x)
+	overall_sd <- sd(x)
+	with(x[["components"]], {
 		means <- vapply(distributions, mean, FUN.VALUE = numeric(1L))
 		vars <- vapply(distributions, variance, FUN.VALUE = numeric(1L))
 		sds <- sqrt(vars)
@@ -128,10 +128,10 @@ skewness.mix <- function(object, ...) {
 }
 
 #' @export
-kurtosis_exc.mix <- function(object, ...) {
-	overall_mean <- mean(object)
-	overall_var <- variance(object)
-	with(object[["components"]], {
+kurtosis_exc.mix <- function(x, ...) {
+	overall_mean <- mean(x)
+	overall_var <- variance(x)
+	with(x[["components"]], {
 		means <- vapply(distributions, mean, FUN.VALUE = numeric(1L))
 		vars <- vapply(distributions, variance, FUN.VALUE = numeric(1L))
 		sds <- sqrt(vars)
@@ -206,9 +206,9 @@ realise.mix <- function(object, n = 1, ...) {
 }
 
 #' @export
-evi.mix <- function(object) {
-	if (is_stepdst(object)) return(NaN)
-	with(object[["components"]], {
+evi.mix <- function(x, ...) {
+	if (is_stepdst(x)) return(NaN)
+	with(x[["components"]], {
 		right_ends <- vapply(distributions, eval_quantile, at = 1, FUN.VALUE = numeric(1L))
 		max_end <- max(right_ends)
 		has_max_ends <- right_ends == max_end

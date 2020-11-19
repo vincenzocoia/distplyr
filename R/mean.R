@@ -4,11 +4,13 @@
 #' distribution: mean, variance, standard deviation (sd),
 #' skewness, and kurtosis.
 #'
-#' @param object A distribution object.
+#' @param x A distribution object.
 #' @param ... Arguments to pass to the \code{integrate()} function (if needed).
+#'
 #' @details If there is no method associated with a subclass of
-#' \code{object}, then moments are calculated using \code{stats::integrate()}
+#' \code{x}, then moments are calculated using \code{stats::integrate()}
 #' from the survival function.
+#'
 #' @return A single numeric.
 #' @examples
 #' a <- dst_gpd(0, 1, 0.5)
@@ -18,12 +20,12 @@
 #' variance(b)
 #' kurtosis_raw(c)
 #' kurtosis_exc(c)
-#' mean(mix(a, b, probs = c(0.5, 0.5)))
+#' mean(mix(a, b))
 #' @rdname moments
 #' @export
-mean.dst <- function(object, ...) {
-	qf <- get_quantile(object)
-	int <- stats::integrate(qf, 0, 1)
+mean.dst <- function(x, ...) {
+	qf <- get_quantile(x)
+	int <- stats::integrate(qf, lower = 0, upper = 1, ...)
 	int$value
 }
 
