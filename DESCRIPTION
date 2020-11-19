@@ -6,7 +6,7 @@ Authors@R: person("Vincenzo", "Coia", email = "vincenzo.coia@stat.ubc.ca",
                   role = c("aut", "cre"))
 Description: Provides an interface for creating, invoking, and manipulating
     distributions. 
-License: GPL-3
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Suggests: 

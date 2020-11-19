@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Parameters of a Distribution — parameters • distplyr</title>
+<title>Access to the original sd function — sd.default • distplyr</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,10 @@
 
 
 
-<meta property="og:title" content="Parameters of a Distribution — parameters" />
-<meta property="og:description" content="Parameters of a Distribution" />
+<meta property="og:title" content="Access to the original sd function — sd.default" />
+<meta property="og:description" content="Since distplyr makes sd() a generic function, this
+default method dispatches the stats::sd() function
+whenever sd() is called on a non-distribution object." />
 
 
 
@@ -139,26 +141,36 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Parameters of a Distribution</h1>
+    <h1>Access to the original sd function</h1>
     
-    <div class="hidden name"><code>parameters.Rd</code></div>
+    <div class="hidden name"><code>sd.default.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Parameters of a Distribution</p>
+    <p>Since distplyr makes <code><a href='kurtosis_raw.html'>sd()</a></code> a generic function, this
+default method dispatches the <code><a href='https://rdrr.io/r/stats/sd.html'>stats::sd()</a></code> function
+whenever <code><a href='kurtosis_raw.html'>sd()</a></code> is called on a non-distribution object.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>parameters</span><span class='op'>(</span><span class='va'>object</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='co'># S3 method for default</span>
+<span class='fu'><a href='kurtosis_raw.html'>sd</a></span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>object</th>
-      <td><p>Distribution object</p></td>
+      <td><p>Object for which to compute the standard deviation</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Other arguments to pass to <code><a href='https://rdrr.io/r/stats/sd.html'>stats::sd()</a></code>.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='https://rdrr.io/r/stats/sd.html'>stats::sd</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -24,7 +24,7 @@
 mix <- function(..., weights = 1, na.rm = FALSE) {
 	dsts <- rlang::list2(...)
 	lapply(dsts, function(.dst) if (!is_distribution(.dst)) {
-		stop("Ellipses must contain distributions only.")
+		stop("Ellipsis must contain distributions only.")
 	})
 	n <- length(dsts)
 	if (identical(length(weights), 1L)) {

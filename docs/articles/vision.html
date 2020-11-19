@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">distplyr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1.9000</span>
       </span>
     </div>
 
@@ -133,11 +133,11 @@ my_dst &lt;- my_dst %&gt;%
 <div id="in-general" class="section level3">
 <h3 class="hasAnchor">
 <a href="#in-general" class="anchor"></a>In General</h3>
-<p>In general, you might not have the convenience of having a distribution’s representations already defined. You can make a new distribution using <code><a href="../reference/dst.html">dst()</a></code>, and specifying at least one of the distribution’s representations:</p>
-<pre><code><a href="../reference/dst.html">dst(density = function(x) sqrt(1 - x^2) * 2 / pi,
+<p>In general, you might not have the convenience of having a distribution’s representations already defined. You can make a new distribution using <code>dst()</code>, and specifying at least one of the distribution’s representations:</p>
+<pre><code>dst(density = function(x) sqrt(1 - x^2) * 2 / pi,
     support = c(-1, 1), 
-    mean = 0)</a></code></pre>
-<p>You can either provide details in the <code><a href="../reference/dst.html">dst()</a></code> function or outside, using the <code>set_*()</code> family of functions:</p>
+    mean = 0)</code></pre>
+<p>You can either provide details in the <code>dst()</code> function or outside, using the <code>set_*()</code> family of functions:</p>
 <pre><code>dst() %&gt;% 
     set_density(function(x) sqrt(1 - x^2) * 2 / pi) %&gt;% 
     set_support(-1, 1) %&gt;% 
@@ -201,7 +201,7 @@ dst_beta() %&gt;%
 <p>You can also make your own parametric family.</p>
 <p>If the <code>p/d/q/rfoo</code> functions are already defined, just use <code>as_dst()</code>, but don’t specify the parameters, and you’ll get a family:</p>
 <pre><code>as_dst("foo")</code></pre>
-<p>Similarly, you can use <code><a href="../reference/dst.html">dst()</a></code> to specify your own family. To represent a function, use the tilde notation with <code>x</code> as the variable. Here’s an example that starts from scratch:</p>
+<p>Similarly, you can use <code>dst()</code> to specify your own family. To represent a function, use the tilde notation with <code>x</code> as the variable. Here’s an example that starts from scratch:</p>
 <pre><code>my_dst2 &lt;- dst() %&gt;% 
   set_cdf(~ 1 - exp(-beta * x)) %&gt;% 
   set_quantile(~ {
@@ -216,6 +216,27 @@ dst_beta() %&gt;%
 <p>This is a family of distributions because <code>beta</code> has not been specified yet. If you’d like to resolve the family, you can go ahead and specify beta:</p>
 <pre><code>my_dst2 %&gt;% 
   restrict_parameters(beta = 1.5)</code></pre>
+</div>
+<div id="use-cases" class="section level3">
+<h3 class="hasAnchor">
+<a href="#use-cases" class="anchor"></a>Use cases</h3>
+<p><strong>1</strong></p>
+<p>You fit a supervised learning model for the mean of Y|X – that’s your priority. A secondary priority is to get a sense of the uncertainty in Y|X. You’d like to make a log-normal approximation to the distribution of Y|X.</p>
+<p>Univariate equivalent:</p>
+<pre><code>m &lt;- predict(model)[1]
+dst_lnorm() %&gt;% 
+  set_mean(m)   # Then, resolve via MLE</code></pre>
+<p>Simpler version:</p>
+<pre><code>m &lt;- predict(model)[1]
+dst_norm() %&gt;% 
+  set_mean(m)   # Then, resolve via MLE</code></pre>
+<p><strong>2</strong></p>
+<p>This might not be so useful in a univariate distribution setting, but would be if we’re specifying a multivariate distribution, and want to keep a measure of dependence constant between two pairs (X1, X2) and (X2, X3).</p>
+<pre><code><a href="../reference/dst_norm.html">dst_norm(mean = a, variance = a)   # Then, resolve via MLE.</a></code></pre>
+<p><strong>3</strong></p>
+<p>Restrict a parameter: you’d like to fit a GPD, and are confident that the distribution is heavy tailed, so would like the shape parameter to be &gt;0.</p>
+<pre><code>dst_gpd() %&gt;% 
+   set(shape &gt; 0)</code></pre>
 </div>
 </div>
   </div>

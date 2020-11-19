@@ -13,6 +13,8 @@ status](https://travis-ci.org/vincenzocoia/distplyr.svg?branch=master)](https://
 coverage](https://codecov.io/gh/vincenzocoia/distplyr/branch/master/graph/badge.svg)](https://codecov.io/gh/vincenzocoia/distplyr?branch=master)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/distplyr)](https://CRAN.R-project.org/package=distplyr)
+[![License:
+MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://cran.r-project.org/web/licenses/MIT)
 <!-- badges: end -->
 
 The purpose of `distplyr` is to equip every analyst with a tool to
