@@ -21,5 +21,5 @@ sd.dst <- function(x, ...) {
 #'
 #' @export
 sd.default <- function(x, ...) {
-	sd(x, ...)
+	stats::sd(x, ...)
 }
