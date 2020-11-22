@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get the EVI of a distribution — evi • distplyr</title>
+<title>Extreme Value Index — evi • distplyr</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Get the EVI of a distribution — evi" />
-<meta property="og:description" content="EVI = Extreme value index" />
+<meta property="og:title" content="Extreme Value Index — evi" />
+<meta property="og:description" content="Extreme Value Index" />
 
 
 
@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">distplyr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -105,10 +105,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/probing.html">Probing a Distribution</a>
+      <a href="../articles/creating.html">Creating a Distribution</a>
     </li>
     <li>
-      <a href="../articles/stepdst.html">Step Distributions</a>
+      <a href="../articles/manipulating.html">Manipulating Distributions</a>
+    </li>
+    <li>
+      <a href="../articles/probing.html">Probing a Distribution</a>
     </li>
     <li>
       <a href="../articles/vision.html">Vision</a>
@@ -139,40 +142,34 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get the EVI of a distribution</h1>
+    <h1>Extreme Value Index</h1>
     
     <div class="hidden name"><code>evi.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>EVI = Extreme value index</p>
+    <p>Extreme Value Index</p>
     </div>
 
-    <pre class="usage"><span class='fu'>evi</span><span class='op'>(</span><span class='va'>object</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>evi</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>object</th>
-      <td><p>Distribution object to obtain EVI from.</p></td>
+      <th>x</th>
+      <td><p>Object to obtain EVI from.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Other arguments to pass to specific methods.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A single numeric</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <p>A single numeric.</p>
 
-    <p>Doesn't calculate EVI if not present in the object.</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>evi</span><span class='op'>(</span><span class='fu'><a href='dst_gpd.html'>dst_gpd</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 2</div><div class='input'><span class='fu'>evi</span><span class='op'>(</span><span class='fu'><a href='dst_gpd.html'>dst_gpd</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] -1</div><div class='input'><span class='fu'>evi</span><span class='op'>(</span><span class='fu'><a href='dst_unif.html'>dst_unif</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] -1</div><div class='input'><span class='fu'>evi</span><span class='op'>(</span><span class='fu'><a href='dst_norm.html'>dst_norm</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0</div><div class='input'><span class='fu'>evi</span><span class='op'>(</span><span class='fu'><a href='stepdst.html'>stepdst</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] NaN</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
