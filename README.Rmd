@@ -57,37 +57,48 @@ There are many parametric families of distributions at your disposal. Here is a 
 (d1 <- dst_unif(2, 5))
 ```
 
-Evaluate or enframe functional representations, such as the cdf and hazard function:
+Empirical distributions are accomodated, too.
 
 ```{r}
-eval_cdf(d1, at = 3)
-enframe_hazard(d1, at = 3)
+(d2 <- stepdst(mpg, data = mtcars))
 ```
 
-Make a mixture distribution by combining some distributions:
+
+Manipulate distributions. Here's an example of a mixture distribution of two Normals:
+
+```{r, fig.width = 4, fig.height = 3}
+(d3 <- mix(
+  dst_norm(-5, 1), 
+  dst_norm(0, 1), 
+  weights = c(1, 4)
+))
+plot(d3)
+```
+
+Generate a sample from a distribution.
 
 ```{r}
-(d2 <- mix(dst_norm(-5, 1), dst_norm(0, 1), weights = c(1, 4)))
-plot(d2, n = 1001)
+realise(d3, n = 10)
 ```
 
-Make a graft distribution by replacing a distribution's tail:
+
+Calculate properties of a distribution. 
 
 ```{r}
-d3 <- stepdst(mpg, data = mtcars)
-d4 <- graft_right(d3, dst_gpd(25, 5, 2), sep_y = 25)
-plot(d4, "cdf", n = 1001, to = 34)
-plot(d3, "cdf", n = 1001, lty = 2, add = TRUE)
+mean(d1)
+variance(d2)
+median(d3)
+evi(d1)
 ```
 
-Calculate mean, variance, etc:
+Evaluate distributional representations:
 
 ```{r}
-variance(d1)
-skewness(d2)
-mean(d3)
-evi(d4)
+eval_density(d1, at = c(2, 3.5, 4.5))
+enframe_cdf(d2, at = 1:5)
+enframe_hazard(d3, at = 1:5)
 ```
+
 
 
 ## Installation
@@ -103,9 +114,9 @@ devtools::install_github("vincenzocoia/distplyr")
 
 `distplyr` is _not_ a modelling package, meaning it won't optimize a distribution's fit to data.
 
-The [`distributions3`](https://cran.r-project.org/web/packages/distributions3/index.html) package is a similar package in that it bundles parametric distributions together using S3 objects, but does not handle step distributions.
+The [`distributions3`](https://cran.r-project.org/web/packages/distributions3/index.html) package is a similar package in that it bundles parametric distributions together using S3 objects, but is less flexible. 
 
-The [`distr`](https://cran.r-project.org/web/packages/distr/index.html) package allows you to make distributions including empirical ones, and transform them, using S4 classes. 
+The [`distr`](https://cran.r-project.org/web/packages/distr/index.html) package allows you to make distributions including empirical ones, and transform them, using S4 classes. distplyr aims to provide a simpler interface using S3 objects. 
 
 -----
 
