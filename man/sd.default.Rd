@@ -12,9 +12,6 @@
 \item{...}{Other arguments to pass to \code{sd} function
 from the stats package.}
 }
-\value{
-
-}
 \description{
 Dispatch sd function from stats
 }
