@@ -19,7 +19,8 @@ Suggests:
     tibble,
     purrr,
     dplyr,
-    tidyr
+    tidyr,
+    magrittr
 RoxygenNote: 7.1.1
 Imports: 
     stats,

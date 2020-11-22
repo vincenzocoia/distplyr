@@ -9,19 +9,15 @@ vignette: >
 
 `distplyr` is still in its infancy, but it has an ambitious vision. To truly empower the analyst, there are some key functionalities that should be developed:
 
-1. Making new base distributions not in `distplyr`.
-2. Transforming distributions
-3. Families of distributions instead of an isolated distribution.
+1. Make a new parametric distribution not in `distplyr`.
+2. Manipulating distributions
+3. Gradually isolate distribution.
 
 This page is a vision of `distplyr` after having achieved these things, written in the form of a vignette. Some of these things might be too ambitious, but I truly think they are possible, and very powerful. If you believe in empowering analysts to seemlessly draw powerful insights using distributions, please consider contributing to this open source project. 
 
 ## 1\. Base Distributions not included in `distplyr`
 
-Of course, `distplyr` cannot contain an exhaustive list of parametric distributions, nor does such a list exist. But, you can make new ones.
-
-### When `p/d/q/r` Functions Exist
-
-The easiest way to do this is if the functions `p/d/q/rfoo()` already exist, such as by loading an R package. If so, just call `as_dst()` with the name of the distribution, followed by parameter specifications:
+There are plenty of packages that give you access to `p/d/q/rfoo()` functions for a distribution not contained in base R. distplyr can't include all of those. When such functions exist, make a distribution using distplyr with `as_distribution()` followed by parameter specifications:
 
 ```
 my_dst <- as_dst("foo", param1 = 3, param2 = 6)
@@ -30,7 +26,6 @@ my_dst <- as_dst("foo", param1 = 3, param2 = 6)
 While the above is enough, you might want to consider adding more information. With no knowledge of properties such as mean and variance, these quantities will be computed by their definition, often involving an integral. Instead, you can specify these things using the `set_*()` functions:
 
 ```
-library(magrittr)
 my_dst <- my_dst %>%
   set_mean(param1 / (param1 + param2)) %>% 
   set_variance({
@@ -39,30 +34,9 @@ my_dst <- my_dst %>%
   })
 ```
 
-### In General
-
-In general, you might not have the convenience of having a distribution's representations already defined. You can make a new distribution using `dst()`, and specifying at least one of the distribution's representations:
-
-```
-dst(density = function(x) sqrt(1 - x^2) * 2 / pi,
-	support = c(-1, 1), 
-	mean = 0)
-```
-
-You can either provide details in the `dst()` function or outside, using the `set_*()` family of functions:
-
-```
-dst() %>% 
-	set_density(function(x) sqrt(1 - x^2) * 2 / pi) %>% 
-	set_support(-1, 1) %>% 
-	set_mean(0)
-```
-
-Specifying the components of a distribution does not guarantee that they are in accordance with each other. It's up to you to double check.
-
 ## 2\. Transformations
 
-It's important to be able to transform distributions. Simple ones include `add_by()` and `divide_by()`.
+It's important to be able to transform distributions. Simple ones include `add_by()` and `divide_by()` -- better yet, define binary operators for distributions. 
 
 For example, here is an empirical distribution of the residuals of a regression model:
 
@@ -77,131 +51,53 @@ It would be useful to add the mean back in to the error distribution:
 
 ```
 broom::augment(model) %>% 
-	mutate(dist = map(.fitted, ~ add_by(error_dist, .x)))
+	mutate(dist = map(.fitted, ~ .x + error_dist))
 ```
 
 Now the error distribution is non-parametric -- useful if you are skeptical of assumptions such as the usual Gaussian assumption.
 
-## 3\. Parametric Families
+## 3\. Gradually Isolate a Distribution
 
-Oftentimes, we work with *families* of distributions before isolating a single member. `distplyr` allows you to work with families as well as isolated distributions. For example, don't specify the parameters of a distribution, and it is a family:
+It's useful to gradually isolate a distribution. Consider these use cases.
 
-```
-dst_norm()
-```
+**Example 1**
 
+Your client wants you to come up with the best supervised learning model that predicts the mean of Y given X. A secondary goal is to communicate uncertainty in the prediction -- you suspect the residuals are lognormal, but don't want to make that assumption when fitting your baseline model. You're willing to consider making the second Lognormal parameter constant across X (let's say this to make this demo simpler). 
 
-### Resolving a Family to a Distribution
-
-You are able to gradually resolve a distribution from a family using the `restrict_*()` family of functions. 
+To find the distribution of the residuals, set a generic Lognormal distribution with unspecified parameters `a` and `b`, then set the mean at 0. The remaining parameter can be estimated via maximum likelihood. 
 
 ```
-dst_beta() %>% 
-	restrict_parameters(alpha = 5) %>% 
-	parameters()
-#> alpha   beta 
-#>     5     NA 
+res <- dst_lnorm() %>% 
+    set_mean(0)
+f <- get_density(res)   # Maximize
 ```
 
-Note that this is the same as:
+Notice that neither `a` nor `b` is the mean of the distribution, yet we can still restrict this distribution down to a 1-dimensional parameter space.
+
+**Example 2**
+
+You're trying to forecast your income, and you know that most of the time you make between 3 and 4 thousand dollars per month. You decide to make this a 90% prediction interval of your income, using a Normal distribution:
 
 ```
-dst_beta(alpha = 5) %>% 
-	parameters()
-#> alpha   beta 
-#>     5     NA 
-```
-
-You aren't forced to use the standard parameterization, either. Perhaps you'd like to consider the family of Beta distributions whose mean is 0.5, or whose 0.25-quantile is 0.5:
-
-```
-dst_beta() %>% 
-	restrict_mean(to = 0.5) %>% 
-	parameters()
-#> mean   beta 
-#>  0.5     NA 
-dst_beta() %>% 
-	restrict_quantile(0.25, to = 0.5) %>%
-	parameters()
-#> 0.25.quantile   beta 
-#>           0.5     NA 
-```
-
-The need for gradually reducing a family of distributions is useful in analyses with more than one goal. 
-
-- Perhaps the mean is a priority to estimate, and you would like to do so without a distributional assumption. Only after the mean's estimation would you then like to choose a conforming Beta distribution that has the largest likelihood, to set the final parameter.
-- Perhaps you've fit a regression model to the 0.25- and 0.75-quantiles, and would like your distribution to adopt those quantiles.
-
-### Making your own Parametric Family
-
-You can also make your own parametric family.
-
-If the `p/d/q/rfoo` functions are already defined, just use `as_dst()`, but don't specify the parameters, and you'll get a family:
-
-```
-as_dst("foo")
-```
-
-Similarly, you can use `dst()` to specify your own family. To represent a function, use the tilde notation with `x` as the variable. Here's an example that starts from scratch:
-
-```
-my_dst2 <- dst() %>% 
-  set_cdf(~ 1 - exp(-beta * x)) %>% 
-  set_quantile(~ {
-    m <- 1 / (1 - x)
-    log(m) / beta
-  }) %>% 
-  set_density(~ beta * exp(-beta * x)) %>% 
-  restrict_parameters(beta > 0) %>% 
-  set_support(0, Inf) %>% 
-  set_mean(1 / beta)
-```
-
-_Development note_: tidy evaluation might be the best course of action for obtaining this.
-
-This is a family of distributions because `beta` has not been specified yet. If you'd like to resolve the family, you can go ahead and specify beta:
-
-```
-my_dst2 %>% 
-  restrict_parameters(beta = 1.5)
-```
-
-### Use cases
-
-**1**
-
-You fit a supervised learning model for the mean of Y|X -- that's your priority. A secondary priority is to get a sense of the uncertainty in Y|X. You'd like to make a log-normal approximation to the distribution of Y|X.
-
-Univariate equivalent:
-
-```
-m <- predict(model)[1]
-dst_lnorm() %>% 
-  set_mean(m)   # Then, resolve via MLE
-```
-
-Simpler version:
-
-```
-m <- predict(model)[1]
 dst_norm() %>% 
-  set_mean(m)   # Then, resolve via MLE
+    set_quantiles(0.05 ~ 3000, 0.95 ~ 4000)
 ```
 
-**2**
+Note that this is different from `set_quantile()`, which sets the entire quantile function (?).
 
-This might not be so useful in a univariate distribution setting, but would be if we're specifying a multivariate distribution, and want to keep a measure of dependence constant between two pairs (X1, X2) and (X2, X3).
+**Example 3**
+
+Maybe you want a normal distribution that has the same mean and same variance. Although an example like this might not be practical in the univariate setting, it does in the multivariate, where we'd like to set dependence to be equal between two pairs of variables. 
 
 ```
-dst_norm(mean = a, variance = a)   # Then, resolve via MLE.
+dst_norm(a, a)  # Then, resolve via MLE 
 ```
 
+**Example 4**
 
-**3**
-
-Restrict a parameter: you'd like to fit a GPD, and are confident that the distribution is heavy tailed, so would like the shape parameter to be >0.
+You'd like to fit a GPD, and you are confident that the distribution is heavy tailed, so would like the shape parameter to be positive. 
 
 ```
 dst_gpd() %>% 
-   set(shape > 0)
+   set_parameters(shape > 0)
 ```
