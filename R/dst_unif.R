@@ -12,7 +12,7 @@ dst_unif <- function(min = 0, max = 1) {
 	res <- list(name = "Uniform",
 				discontinuities = make_empty_discontinuities_df(),
 				parameters = list(min = min, max = max))
-	new_dst(
+	new_distribution(
 		res,
 		variable = "continuous",
 		class    = "unif"
@@ -22,34 +22,34 @@ dst_unif <- function(min = 0, max = 1) {
 
 
 #' @export
-get_mean.unif <- function(object, ...) {
-	with(parameters(object), (min + max) / 2)
+mean.unif <- function(x, ...) {
+	with(parameters(x), (min + max) / 2)
 }
 
 #' @export
-get_median.unif <- function(object) {
-	with(parameters(object), (min + max) / 2)
+median.unif <- function(x, ...) {
+	with(parameters(x), (min + max) / 2)
 }
 
 #' @export
-get_variance.unif <- function(object, ...) {
-	with(parameters(object), (min - max)^2 / 12)
+variance.unif <- function(x, ...) {
+	with(parameters(x), (min - max) ^ 2 / 12)
 }
 
 
 #' @export
-get_evi.unif <- function(object) {
+evi.unif <- function(x, ...) {
 	-1
 }
 
 #' @export
-get_skewness.unif <- function(object) {
+skewness.unif <- function(x, ...) {
 	0
 }
 
 #' @export
-get_kurtosis_exc.unif <- function(object) {
-	-6/5
+kurtosis_exc.unif <- function(x, ...) {
+	-6 / 5
 }
 
 #' @export
@@ -91,4 +91,4 @@ eval_quantile.unif <- function(object, at, ...) {
 # Using .dst method for:
 # - get_hazard
 # - get_chf
-# - get_sd
+# - sd

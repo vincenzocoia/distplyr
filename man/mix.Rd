@@ -4,16 +4,20 @@
 \alias{mix}
 \title{Mixture Distributions}
 \usage{
-mix(..., weights = 1)
+mix(..., weights = 1, na.rm = FALSE)
 }
 \arguments{
 \item{...}{Distribution objects to mix.}
 
 \item{weights}{Vector of weights corresponding to the distributions;
 or, single numeric for equal weights.}
+
+\item{na.rm}{Remove distributions corresponding to \code{NA} weights?
+Default is \code{FALSE}.}
 }
 \value{
-A mixture distribution.
+A mixture distribution -- an empty distribution if any weights
+are \code{NA} and `na.rm = FALSE`, the default.
 }
 \description{
 Create a mixture distribution.

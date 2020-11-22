@@ -31,8 +31,8 @@ test_that("variable determination works", {
 	expect_equal(eval_pmf(g5, at = c(1, 1.5, 4)),
 				 c(0, 0, (5 - 3.5) / 5 / 2))
 	expect_identical(
-		discontinuities(g2),
-		data.frame(location = 1:3, size = 0.2)
+		unclass(discontinuities(g2)),
+		unclass(data.frame(location = 1:3, size = 0.2))
 	)
 })
 

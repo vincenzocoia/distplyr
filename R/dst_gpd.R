@@ -17,14 +17,14 @@ dst_gpd <- function(location, scale, shape) {
 				parameters = list(location = location,
 								  scale    = scale,
 								  shape    = shape))
-	new_dst(res, variable = "continuous", class = "gpd")
+	new_distribution(res, variable = "continuous", class = "gpd")
 }
 
 
 #' @export
-get_mean.gpd <- function(object, ...) {
+mean.gpd <- function(x, ...) {
 	with(
-		parameters(object),
+		parameters(x),
 		ifelse(shape < 1,
 			   location + scale / (1 - shape),
 			   Inf)
@@ -33,9 +33,9 @@ get_mean.gpd <- function(object, ...) {
 
 
 #' @export
-get_variance.gpd <- function(object, ...) {
+variance.gpd <- function(x, ...) {
 	with(
-		parameters(object),
+		parameters(x),
 		ifelse(shape < 1 / 2,
 			   scale ^ 2 / (1 - shape) ^ 2 / (1 - 2 * shape),
 			   Inf)
@@ -44,14 +44,14 @@ get_variance.gpd <- function(object, ...) {
 
 
 #' @export
-get_evi.gpd <- function(object) {
-	with(parameters(object), shape)
+evi.gpd <- function(x, ...) {
+	with(parameters(x), shape)
 }
 
 #' @export
-get_skewness.gpd <- function(object) {
+skewness.gpd <- function(x, ...) {
 	with(
-		parameters(object),
+		parameters(x),
 		ifelse(
 			shape < 1 / 3,
 			2 * (1 + shape) * sqrt(1 - 2 * shape) /
@@ -62,9 +62,9 @@ get_skewness.gpd <- function(object) {
 }
 
 #' @export
-get_kurtosis_exc.gpd <- function(object) {
+kurtosis_exc.gpd <- function(x, ...) {
 	with(
-		parameters(object),
+		parameters(x),
 		ifelse(
 			shape < 1 / 4,
 			3 * (1 - 2 * shape) * (2 * shape ^ 2 + shape + 3) /
@@ -148,8 +148,7 @@ eval_density.gpd <- function(object, at) {
 
 # Using .dst method for:
 #
-# - get_median
+# - median
 # - get_survival
-# - get_randfn
 # - get_hazard
 # - get_chf

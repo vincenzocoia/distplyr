@@ -13,6 +13,8 @@ status](https://travis-ci.org/vincenzocoia/distplyr.svg?branch=master)](https://
 coverage](https://codecov.io/gh/vincenzocoia/distplyr/branch/master/graph/badge.svg)](https://codecov.io/gh/vincenzocoia/distplyr?branch=master)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/distplyr)](https://CRAN.R-project.org/package=distplyr)
+[![License:
+MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://cran.r-project.org/web/licenses/MIT)
 <!-- badges: end -->
 
 The purpose of `distplyr` is to equip every analyst with a tool to
@@ -32,7 +34,8 @@ that does not follow a basic parametric form such as “Normal” or
 distributions are built by manipulation, akin to the package `dplyr`.
 
 **Note**: This package is still in its infancy. There are many other
-critical features to come.
+critical features to come. Expect breaking changes as long as this
+package is marked as “Experimental”.
 
 ## Design Choices
 
@@ -58,36 +61,44 @@ Here is a Uniform distribution:
 #> Uniform Distribution
 #> 
 #> Parameters:
+#> # A tibble: 2 x 2
 #>   parameter value
-#> 1       min     2
-#> 2       max     5
+#>   <chr>     <dbl>
+#> 1 min           2
+#> 2 max           5
 #> 
 #> Number of Discontinuities:  0
 ```
 
-Evaluate functional representations, such as the cdf and hazard
-function:
+Empirical distributions are accomodated, too.
 
 ``` r
-eval_cdf(d1, at = 3)
-#> [1] 0.3333333
-eval_hazard(d1, at = 3)
-#> [1] 0.5
+(d2 <- stepdst(mpg, data = mtcars))
+#> Step Distribution
+#> 
+#> Number of Discontinuities:  25
 ```
 
-Make a mixture distribution by combining some distributions:
+Manipulate distributions. Here’s an example of a mixture distribution of
+two Normals:
 
 ``` r
-(d2 <- mix(dst_norm(-5, 1), dst_norm(0, 1), weights = c(1, 4)))
+(d3 <- mix(
+  dst_norm(-5, 1), 
+  dst_norm(0, 1), 
+  weights = c(1, 4)
+))
 #> Mixture Distribution
 #> 
 #> Components:
+#> # A tibble: 2 x 2
 #>   distribution weight
-#> 1     Gaussian    0.2
-#> 2     Gaussian    0.8
+#>   <chr>         <dbl>
+#> 1 Gaussian        0.2
+#> 2 Gaussian        0.8
 #> 
 #> Number of Discontinuities:  0
-plot(d2, n = 1001)
+plot(d3)
 #> Warning in get_lower(cdf, level = at[1L]): This function doesn't work properly
 #> yet!
 #> Warning in get_higher(cdf, level = at[n_x]): This function doesn't work properly
@@ -100,16 +111,55 @@ plot(d2, n = 1001)
 
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" style="display: block; margin: auto;" />
 
-Make a graft distribution by replacing a distribution’s tail:
+Generate a sample from a distribution.
 
 ``` r
-d3 <- stepdst(mpg, data = mtcars)
-d4 <- graft_right(d3, dst_gpd(25, 5, 1), sep_y = 25)
-plot(d4, "cdf", n = 1001, to = 34)
-plot(d3, "cdf", n = 1001, lty = 2, add = TRUE)
+realise(d3, n = 10)
+#>  [1] -0.97745078  0.36756790 -5.17486764 -0.05309186  1.47034339 -1.76827802
+#>  [7]  0.10127566  0.44638520 -0.08511528  0.80953957
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" style="display: block; margin: auto;" />
+Calculate properties of a distribution.
+
+``` r
+mean(d1)
+#> [1] 3.5
+variance(d2)
+#> [1] 35.18897
+median(d3)
+#> Warning in get_lower(cdf, level = at[1L]): This function doesn't work properly
+#> yet!
+#> Warning in get_higher(cdf, level = at[n_x]): This function doesn't work properly
+#> yet!
+#> [1] -0.3186384
+evi(d1)
+#> [1] -1
+```
+
+Evaluate distributional representations:
+
+``` r
+eval_density(d1, at = c(2, 3.5, 4.5))
+#> [1] 0.3333333 0.3333333 0.3333333
+enframe_cdf(d2, at = 1:5)
+#> # A tibble: 5 x 2
+#>    .arg  .cdf
+#>   <int> <dbl>
+#> 1     1     0
+#> 2     2     0
+#> 3     3     0
+#> 4     4     0
+#> 5     5     0
+enframe_hazard(d3, at = 1:5)
+#> # A tibble: 5 x 2
+#>    .arg .hazard
+#>   <int>   <dbl>
+#> 1     1    1.53
+#> 2     2    2.37
+#> 3     3    3.28
+#> 4     4    4.23
+#> 5     5    5.19
+```
 
 ## Installation
 
@@ -121,17 +171,18 @@ devtools::install_github("vincenzocoia/distplyr")
 
 ## `distplyr` in Context
 
-Note that `distplyr` is *not* a modelling package, meaning it won’t
-optimize a distribution’s fit to data.
+`distplyr` is *not* a modelling package, meaning it won’t optimize a
+distribution’s fit to data.
 
 The
 [`distributions3`](https://cran.r-project.org/web/packages/distributions3/index.html)
 package is a similar package in that it bundles parametric distributions
-together using S3 objects, but does not handle step distributions.
+together using S3 objects, but is less flexible.
 
 The [`distr`](https://cran.r-project.org/web/packages/distr/index.html)
 package allows you to make distributions including empirical ones, and
-transform them, using S4 classes.
+transform them, using S4 classes. distplyr aims to provide a simpler
+interface using S3 objects.
 
 -----
 

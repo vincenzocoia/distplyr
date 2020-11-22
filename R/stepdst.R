@@ -32,14 +32,14 @@
 #' plot(cond, "cdf", n = 1001, lty = 2, add = TRUE)
 #' @export
 stepdst <- function(y, data, weights = 1, ...) {
-	sy <- substitute(y)
-	sw <- substitute(weights)
+	enquo_y <- rlang::enquo(y)
+	enquo_w <- rlang::enquo(weights)
 	if (missing(data)) {
-		y <- eval.parent(sy)
-		w <- eval.parent(sw)
+		y <- rlang::eval_tidy(enquo_y)
+		w <- rlang::eval_tidy(enquo_w)
 	} else {
-		y <- eval(sy, envir = data)
-		w <- eval(sw, envir = data)
+		y <- rlang::eval_tidy(enquo_y, data)
+		w <- rlang::eval_tidy(enquo_w, data)
 	}
 	if (any(w < 0, na.rm = TRUE)) {
 		stop("Weights must not be negative.")
@@ -70,7 +70,7 @@ stepdst <- function(y, data, weights = 1, ...) {
 #' @param class If making a subclass, specify its name here.
 #' @export
 new_stepdst <- function(l, variable, ..., class = character()) {
-	new_dst(
+	new_distribution(
 		l,
 		variable = variable,
 		...,
@@ -89,18 +89,23 @@ is.stepdst <- function(object) inherits(object, "stepdst")
 
 
 #' @export
-get_mean.stepdst <- function(object, ...) {
-	with(discontinuities(object), {
+mean.stepdst <- function(x, ...) {
+	with(discontinuities(x), {
 		sum(size * location)
 	})
 }
 
 #' @export
-get_variance.stepdst <- function(object, ...) {
-	with(discontinuities(object), {
-		mu <- get_mean(object)
-		mu2 <- sum(size * location^2)
-		mu2 - mu^2
+evi.stepdst <- function(x, ...) {
+	NaN
+}
+
+#' @export
+variance.stepdst <- function(x, ...) {
+	with(discontinuities(x), {
+		mu <- mean(x)
+		mu2 <- sum(size * location ^ 2)
+		mu2 - mu ^ 2
 	})
 }
 

@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">distplyr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1.9000</span>
       </span>
     </div>
 
@@ -148,7 +148,7 @@
     <p>Create a mixture distribution.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mix</span><span class='op'>(</span><span class='va'>...</span>, weights <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>mix</span><span class='op'>(</span><span class='va'>...</span>, weights <span class='op'>=</span> <span class='fl'>1</span>, na.rm <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -162,11 +162,17 @@
       <td><p>Vector of weights corresponding to the distributions;
 or, single numeric for equal weights.</p></td>
     </tr>
+    <tr>
+      <th>na.rm</th>
+      <td><p>Remove distributions corresponding to <code>NA</code> weights?
+Default is <code>FALSE</code>.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A mixture distribution.</p>
+    <p>A mixture distribution -- an empty distribution if any weights
+are <code>NA</code> and `na.rm = FALSE`, the default.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='dst_norm.html'>dst_norm</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span>

@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">distplyr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1.9000</span>
       </span>
     </div>
 
@@ -142,6 +142,25 @@
       
     </div>
 
+    <div id="distplyr-development-version" class="section level1">
+<h1 class="page-header" data-toc-text="development version">
+<a href="#distplyr-development-version" class="anchor"></a>distplyr (development version)</h1>
+<ul>
+<li>If you have the tibble package installed, distplyr will now output tibbles wherever data frames were previously output.</li>
+</ul>
+<div id="breaking-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#breaking-changes" class="anchor"></a>Breaking changes</h2>
+<ul>
+<li>The <code>get_</code> prefix has been removed from distributional quantities. <code>get_mean()</code> is now <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code>, etc.
+<ul>
+<li>For now, the <code>get_</code> prefix still holds for distributional representations, like <code><a href="../reference/eval_cdf.html">get_cdf()</a></code>.</li>
+</ul>
+</li>
+<li>Make your own distribution object with <code><a href="../reference/distribution.html">distribution()</a></code> instead of <code>dst()</code>, and checked with <code><a href="../reference/distribution.html">is_distribution()</a></code>.</li>
+</ul>
+</div>
+</div>
     <div id="distplyr-011" class="section level1">
 <h1 class="page-header" data-toc-text="0.1.1">
 <a href="#distplyr-011" class="anchor"></a>distplyr 0.1.1</h1>
@@ -155,7 +174,7 @@
 </ul>
 </li>
 <li>Added the <code>enframe</code> suite of functions.</li>
-<li>Implement the beginnings of being able to specify your own distribution, with the <code>set_</code> suite of functions, after making an empty distribution with <code><a href="../reference/dst.html">dst()</a></code>.</li>
+<li>Implement the beginnings of being able to specify your own distribution, with the <code>set_</code> suite of functions, after making an empty distribution with <code>dst()</code>.</li>
 </ul>
 <p>Additionally, there’s some internal rearrangement, where the <code>get</code> functions call the <code>eval</code> functions, not vice versa.</p>
 </div>

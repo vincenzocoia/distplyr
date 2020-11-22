@@ -56,6 +56,9 @@ aggregate_weights <- function(y, weights, sum_to_one = FALSE) {
 	df <- stats::aggregate(data.frame(size = w), by = list(location = y), FUN = sum)
 	df <- df[order(df[["location"]]), ]
 	stopifnot(is_discontinuities_df(df))
+	if (requireNamespace("tibble", quietly = TRUE)) {
+		df <- tibble::as_tibble(df)
+	}
 	df
 }
 
@@ -70,6 +73,9 @@ aggregate_weights <- function(y, weights, sum_to_one = FALSE) {
 make_discontinuities_df <- function(location, size) {
 	df <- data.frame(location = location, size = size)
 	stopifnot(is_discontinuities_df(df))
+	if (requireNamespace("tibble", quietly = TRUE)) {
+		df <- tibble::as_tibble(df)
+	}
 	df
 }
 

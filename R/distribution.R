@@ -69,11 +69,11 @@
 #' @param variable Is this variable continuous, discrete, or mixed?
 #' @return A distribution object with nothing in it.
 #' @export
-dst <- function(variable = c("continuous", "discrete", "mixed")) {
+distribution <- function(variable = c("continuous", "discrete", "mixed")) {
 	variable <- match.arg(variable)
 	res <- list(representations = list(),
 				parameters = list())
-	new_dst(res, variable = variable)
+	new_distribution(res, variable = variable)
 }
 
 
@@ -85,7 +85,7 @@ dst <- function(variable = c("continuous", "discrete", "mixed")) {
 #' @param ... Attributes to add to the list.
 #' @param class If making a subclass, specify its name here.
 #' @export
-new_dst <- function(l, variable, ...,
+new_distribution <- function(l, variable, ...,
 					class = character()) {
 	structure(
 		l,
@@ -97,10 +97,10 @@ new_dst <- function(l, variable, ...,
 
 #' Distribution Objects
 #' @param object Object to be tested
-#' @rdname dst
+#' @rdname distribution
 #' @export
-is_dst <- function(object) inherits(object, "dst")
+is_distribution <- function(object) inherits(object, "dst")
 
-#' @rdname dst
+#' @rdname distribution
 #' @export
-is.dst <- function(object) inherits(object, "dst")
+is.distribution <- function(object) inherits(object, "dst")

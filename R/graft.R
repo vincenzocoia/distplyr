@@ -42,7 +42,7 @@ graft_right <- function(dst_left, dst_right, sep_y) {
 	if (identical(v, "discrete")) {
 		new_stepdst(res, variable = v, class = "graft")
 	} else {
-		new_dst(res, variable = v, class = "graft")
+		new_distribution(res, variable = v, class = "graft")
 	}
 }
 
@@ -136,9 +136,9 @@ eval_density.graft <- function(object, at) {
 }
 
 #' @export
-get_evi.graft <- function(object) {
-	with(object[["components"]], {
-		get_evi(dst_right)
+evi.graft <- function(x, ...) {
+	with(x[["components"]], {
+		evi(dst_right)
 	})
 }
 
@@ -148,7 +148,6 @@ get_evi.graft <- function(object) {
 # Using .dst method for:
 # - get_hazard
 # - get_chf
-# - get_randfn
 # - get_survival
-# - get_median
+# - median
 

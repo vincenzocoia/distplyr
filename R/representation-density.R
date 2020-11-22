@@ -55,5 +55,8 @@ enframe_density.dst <- function(object, at,
 	if (is.null(f)) return(NULL)
 	res <- data.frame(at, f)
 	names(res) <- c(arg_name, fn_name)
+	if (requireNamespace("tibble", quietly = TRUE)) {
+		res <- tibble::as_tibble(res)
+	}
 	res
 }

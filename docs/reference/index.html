@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">distplyr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1.9000</span>
       </span>
     </div>
 
@@ -206,7 +206,7 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="dst.html">dst()</a></code> <code><a href="dst.html">is_dst()</a></code> <code><a href="dst.html">is.dst()</a></code> </p>
+          <p><code><a href="distribution.html">distribution()</a></code> <code><a href="distribution.html">is_distribution()</a></code> <code><a href="distribution.html">is.distribution()</a></code> </p>
         </td>
         <td><p>Make a blank distribution</p></td>
       </tr><tr>
@@ -242,15 +242,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="get_evi.html">get_evi()</a></code> </p>
+          <p><code><a href="evi.html">evi()</a></code> </p>
         </td>
         <td><p>Get the EVI of a distribution</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_median.html">get_median()</a></code> </p>
-        </td>
-        <td><p>Median of a Distribution</p></td>
       </tr><tr>
         
         <td>
@@ -290,13 +284,19 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="median.dst.html">median(<i>&lt;dst&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Median of a Distribution</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="mix.html">mix()</a></code> </p>
         </td>
         <td><p>Mixture Distributions</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="moments.html">get_kurtosis_raw()</a></code> <code><a href="moments.html">get_kurtosis_exc()</a></code> <code><a href="moments.html">get_mean()</a></code> <code><a href="moments.html">get_skewness()</a></code> <code><a href="moments.html">get_variance()</a></code> <code><a href="moments.html">get_sd()</a></code> </p>
+          <p><code><a href="moments.html">kurtosis_raw()</a></code> <code><a href="moments.html">kurtosis_exc()</a></code> <code><a href="moments.html">mean(<i>&lt;dst&gt;</i>)</a></code> <code><a href="moments.html">skewness()</a></code> <code><a href="moments.html">variance()</a></code> <code><a href="moments.html">sd()</a></code> </p>
         </td>
         <td><p>Moments of a Distribution</p></td>
       </tr><tr>
@@ -308,7 +308,7 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="new_dst.html">new_dst()</a></code> </p>
+          <p><code><a href="new_distribution.html">new_distribution()</a></code> </p>
         </td>
         <td><p>Constructor Function for "dst" Objects</p></td>
       </tr><tr>
@@ -359,6 +359,12 @@
           <p><code><a href="realise.html">realise()</a></code> <code><a href="realise.html">realize()</a></code> </p>
         </td>
         <td><p>Generate a Sample from a Distribution</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="sd.default.html">sd(<i>&lt;default&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Access to the original sd function</p></td>
       </tr><tr>
         
         <td>

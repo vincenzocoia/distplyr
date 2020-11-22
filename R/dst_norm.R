@@ -19,7 +19,7 @@ dst_norm <- function(mean, variance) {
 	res <- list(name = "Gaussian",
 				discontinuities = make_empty_discontinuities_df(),
 				parameters = list(mean = mean, variance = variance, sd = sqrt(variance)))
-	new_dst(
+	new_distribution(
 		res,
 		variable = "continuous",
 		class    = "norm"
@@ -28,37 +28,37 @@ dst_norm <- function(mean, variance) {
 
 
 #' @export
-get_mean.norm <- function(object, ...) {
-	with(parameters(object), mean)
+mean.norm <- function(x, ...) {
+	with(parameters(x), mean)
 }
 
 #' @export
-get_median.norm <- function(object) {
-	with(parameters(object), mean)
+median.norm <- function(x, ...) {
+	with(parameters(x), mean)
 }
 
 #' @export
-get_variance.norm <- function(object, ...) {
-	with(parameters(object), variance)
+variance.norm <- function(x, ...) {
+	with(parameters(x), variance)
 }
 
 #' @export
-get_sd.norm <- function(object, ...) {
-	with(parameters(object), sd)
+sd.norm <- function(x, ...) {
+	with(parameters(x), sd)
 }
 
 #' @export
-get_evi.norm <- function(object) {
+evi.norm <- function(x, ...) {
 	0
 }
 
 #' @export
-get_skewness.norm <- function(object) {
+skewness.norm <- function(x, ...) {
 	0
 }
 
 #' @export
-get_kurtosis_exc.norm <- function(object) {
+kurtosis_exc.norm <- function(x, ...) {
 	0
 }
 

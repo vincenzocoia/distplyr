@@ -35,38 +35,38 @@ is.degenerate <- function(object) {
 }
 
 #' @export
-get_mean.degenerate <- function(object, ...) {
-	discontinuities(object)[["location"]]
+mean.degenerate <- function(x, ...) {
+	discontinuities(x)[["location"]]
 }
 
 #' @export
-get_median.degenerate <- function(object) {
-	get_mean(object)
+median.degenerate <- function(x, ...) {
+	mean(x)
 }
 
 #' @export
-get_variance.degenerate <- function(object, ...) {
+variance.degenerate <- function(x, ...) {
 	0
 }
 
 #' @export
-get_sd.degenerate <- function(object, ...) {
+sd.degenerate <- function(x, ...) {
 	0
 }
 
 #' @export
-get_skewness.degenerate <- function(object) {
+skewness.degenerate <- function(x, ...) {
 	NaN
 }
 
 #' @export
-get_kurtosis_exc.degenerate <- function(object) {
+kurtosis_exc.degenerate <- function(x, ...) {
 	NaN
 }
 
 #' @export
 realise.degenerate <- function(object, n = 1, ...) {
-	location <- get_mean(object)
+	location <- mean(object)
 	rep(location, n)
 }
 
@@ -76,4 +76,4 @@ realise.degenerate <- function(object, n = 1, ...) {
 # Using .stepdst method for:
 # - all functional representations (cdf, hazard, etc.), except random number
 #    generator.
-# - get_evi
+# - evi
