@@ -12,9 +12,7 @@
 dst_gpd <- function(location, scale, shape) {
 	if (scale == 0) return(dst_degenerate(location))
 	if (scale < 0) stop("'scale' parameter must be non-negative.")
-	res <- list(name = "Generalized Pareto",
-				discontinuities = make_empty_discontinuities_df(),
-				parameters = list(location = location,
+	res <- list(parameters = list(location = location,
 								  scale    = scale,
 								  shape    = shape))
 	new_distribution(res, variable = "continuous", class = "gpd")
