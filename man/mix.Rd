@@ -17,7 +17,7 @@ Default is \code{FALSE}.}
 }
 \value{
 A mixture distribution -- an empty distribution if any weights
-are \code{NA} and `na.rm = FALSE`, the default.
+are \code{NA} and \code{na.rm = FALSE}, the default.
 }
 \description{
 Create a mixture distribution.
@@ -29,7 +29,7 @@ m1 <- mix(a, b, weights = c(1, 4))
 plot(m1)
 variable(m1)
 
-c <- stepdst(0:6)
+c <- dst_empirical(0:6)
 m2 <- mix(a, b, c, weights = c(0.2, 0.5, 0.3))
 plot(m2, n = 1001)
 variable(m2)

@@ -12,7 +12,7 @@
 #' @return A grafted distribution object.
 #' @examples
 #' require(datasets)
-#' base <- stepdst(mpg, data = mtcars)
+#' base <- dst_empirical(mpg, data = mtcars)
 #' right <- dst_gpd(25, 5, 1)
 #' g <- graft_right(base, right, sep_y = 25)
 #' plot(g, "cdf", n = 1001, to = 34)
@@ -40,7 +40,7 @@ graft_right <- function(dst_left, dst_right, sep_y) {
 								  sep_y     = sep_y,
 								  base      = "left"))
 	if (identical(v, "discrete")) {
-		new_stepdst(res, variable = v, class = "graft")
+		new_finite(res, variable = v, class = "graft")
 	} else {
 		new_distribution(res, variable = v, class = "graft")
 	}

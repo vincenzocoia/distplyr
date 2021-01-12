@@ -15,7 +15,7 @@
 #' }
 #' @rdname discontinuities
 #' @examples
-#' a <- stepdst(1:5)
+#' a <- dst_empirical(1:5)
 #' discontinuities(a)
 #' b <- dst_norm(0, 1)
 #' discontinuities(b)

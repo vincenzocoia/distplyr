@@ -73,7 +73,7 @@ realise.degenerate <- function(object, n = 1, ...) {
 
 
 
-# Using .stepdst method for:
+# Using .finite method for:
 # - all functional representations (cdf, hazard, etc.), except random number
 #    generator.
 # - evi

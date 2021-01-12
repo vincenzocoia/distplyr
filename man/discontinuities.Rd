@@ -23,9 +23,9 @@ to sum to 1? Default is FALSE.}
 \value{
 Data frame with the following columns:
 \enumerate{
-  \item \code{location}: Increasing vector of unique values of \code{y}
-  having positive weight.
-  \item \code{size}: Weights corresponding to each outcome.
+\item \code{location}: Increasing vector of unique values of \code{y}
+having positive weight.
+\item \code{size}: Weights corresponding to each outcome.
 }
 }
 \description{
@@ -42,7 +42,7 @@ matching vector of \code{weights},
 weight per unique value of \code{y}.
 }
 \examples{
-a <- stepdst(1:5)
+a <- dst_empirical(1:5)
 discontinuities(a)
 b <- dst_norm(0, 1)
 discontinuities(b)

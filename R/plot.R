@@ -7,7 +7,7 @@
 #' @param what Name of the representation to plot.
 #' @param ... Other arguments to pass to the \code{graphics::curve} function.
 #' plot(dst_norm(5, 5))
-#' plot(stepdst(-5:2), "cdf", n = 1001)
+#' plot(dst_empirical(-5:2), "cdf", n = 1001)
 #' @export
 plot.dst <- function(x,
 					 what = c("density", "cdf", "survival", "quantile", "hazard", "chf"),

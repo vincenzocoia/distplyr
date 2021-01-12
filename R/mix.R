@@ -16,7 +16,7 @@
 #' plot(m1)
 #' variable(m1)
 #'
-#' c <- stepdst(0:6)
+#' c <- dst_empirical(0:6)
 #' m2 <- mix(a, b, c, weights = c(0.2, 0.5, 0.3))
 #' plot(m2, n = 1001)
 #' variable(m2)
@@ -59,11 +59,11 @@ mix <- function(..., weights = 1, na.rm = FALSE) {
 	y <- c(y_vecs, recursive = TRUE)
 	new_steps <- aggregate_weights(y, jumps)
 	v <- discontinuities_to_variable(new_steps)
-	lgl_stepdst <- vapply(dsts, is_stepdst, FUN.VALUE = logical(1L))
-	if (all(lgl_stepdst)) {
+	lgl_finite <- vapply(dsts, is_finite, FUN.VALUE = logical(1L))
+	if (all(lgl_finite)) {
 		l <- list(name = "Mixture", discontinuities = new_steps)
-		res <- new_stepdst(l, variable = "discrete")
-		class(res) <- c("stepdst", "mix", "dst")  # Hacky and temporary
+		res <- new_finite(l, variable = "discrete")
+		class(res) <- c("finite", "mix", "dst")  # Hacky and temporary
 		return(res)
 	}
 	res <- list(name = "Mixture",
@@ -207,7 +207,7 @@ realise.mix <- function(object, n = 1, ...) {
 
 #' @export
 evi.mix <- function(x, ...) {
-	if (is_stepdst(x)) return(NaN)
+	if (is_finite(x)) return(NaN)
 	with(x[["components"]], {
 		right_ends <- vapply(distributions, eval_quantile, at = 1, FUN.VALUE = numeric(1L))
 		max_end <- max(right_ends)

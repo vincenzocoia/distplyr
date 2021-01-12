@@ -8,7 +8,7 @@
 #'   \code{enframe_}; or a vectorized function representing the pmf/pdf, in the
 #'   case of \code{get_}.
 #' @examples
-#' d <- stepdst(1:10)
+#' d <- dst_empirical(1:10)
 #' eval_pmf(d, at = c(1, 2, 2.5))
 #' enframe_pmf(d, at = 0:4)
 #' pmf <- get_pmf(d)

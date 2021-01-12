@@ -25,9 +25,9 @@ output data frame of \code{enframe_}.}
 }
 \value{
 A vector of the evaluated chf, in the case of \code{eval_}; a data
-  frame with both the argument and function evaluations, in the case of
-  \code{enframe_}; or a vectorized function representing the chf, in the case
-  of \code{get_}.
+frame with both the argument and function evaluations, in the case of
+\code{enframe_}; or a vectorized function representing the chf, in the case
+of \code{get_}.
 }
 \description{
 Access a distribution's cumulative hazard function (chf).

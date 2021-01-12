@@ -9,6 +9,7 @@ Description: Provides an interface for creating, invoking, and manipulating
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Roxygen: list(markdown = TRUE)
 Suggests: 
     testthat (>= 2.1.0),
     covr,

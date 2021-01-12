@@ -25,15 +25,15 @@ output data frame of \code{enframe_}.}
 }
 \value{
 A vector of the evaluated pmf/pdf, in the case of \code{eval_}; a
-  data frame with both the argument and function evaluations, in the case of
-  \code{enframe_}; or a vectorized function representing the pmf/pdf, in the
-  case of \code{get_}.
+data frame with both the argument and function evaluations, in the case of
+\code{enframe_}; or a vectorized function representing the pmf/pdf, in the
+case of \code{get_}.
 }
 \description{
 Access a distribution's probability mass function (pmf).
 }
 \examples{
-d <- stepdst(1:10)
+d <- dst_empirical(1:10)
 eval_pmf(d, at = c(1, 2, 2.5))
 enframe_pmf(d, at = 0:4)
 pmf <- get_pmf(d)

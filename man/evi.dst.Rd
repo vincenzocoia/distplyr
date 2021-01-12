@@ -25,5 +25,5 @@ evi(dst_gpd(0, 1, 2))
 evi(dst_gpd(0, 1, -1))
 evi(dst_unif(0, 10))
 evi(dst_norm(5, 5))
-evi(stepdst(1:10))
+evi(dst_empirical(1:10))
 }
