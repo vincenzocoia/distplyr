@@ -7,14 +7,9 @@
 #' dst_norm(0, 1)
 #' @export
 dst_norm <- function(mean, variance) {
-	# qq <- rlang::enquos(mean, variance)
-	# qmean <- rlang::enquo(mean)
-	# qvariance <- rlang::enquo(variance)
-	# try_variance <- try(rlang::eval_tidy(qvariance), silent = TRUE)
-	try_variance <- variance
-	if (!inherits(try_variance, "try-error")) {
-		if (try_variance == 0) return(dst_degenerate(mean))
-		if (try_variance < 0) stop("'variance' parameter must be non-negative.")
+	if (!inherits(variance, "try-error")) {
+		if (variance == 0) return(dst_degenerate(mean))
+		if (variance < 0) stop("'variance' parameter must be non-negative.")
 	}
 	res <- list(parameters = list(
 		mean = mean,
