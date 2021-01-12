@@ -4,10 +4,11 @@
 \alias{dst_unif}
 \title{Make a Uniform distribution}
 \usage{
-dst_unif(min = 0, max = 1)
+dst_unif(min, max)
 }
 \arguments{
-\item{min, max}{Parameters of the distribution family.}
+\item{min, max}{Parameters of the distribution family. Need not specify
+anything (uses tidy evaluation).}
 }
 \value{
 Object of class "dst".
@@ -15,5 +16,6 @@ dst_unif(0, 1)
 }
 \description{
 Makes a distribution belonging to the continuous uniform family of
-distributions.
+distributions. Note: this distribution has been adapted to trial
+a tidy evaluation framework.
 }

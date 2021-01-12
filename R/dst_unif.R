@@ -43,7 +43,7 @@ dst_unif <- function(min, max) {
 		min = min,
 		max = max
 	))
-	new_distribution(
+	new_parametric(
 		res,
 		variable = "continuous",
 		class    = "unif"

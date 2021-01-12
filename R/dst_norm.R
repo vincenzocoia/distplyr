@@ -16,7 +16,7 @@ dst_norm <- function(mean, variance) {
 		variance = variance,
 		sd = sqrt(variance)
 	))
-	new_distribution(
+	new_parametric(
 		res,
 		variable = "continuous",
 		class    = "norm"
