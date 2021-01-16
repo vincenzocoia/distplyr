@@ -29,7 +29,7 @@ eval_quantile_from_cdf <- function(cdf, discon, at, tol, maxiter) {
 	n_x <- sum(x_lte_1, na.rm = TRUE)
 	break_id <- 0L
 	while (i < n_x) {
-		remaining_xs <- at[i + seq_len(n_x - i)]
+		remaining_xs <- at[seq(i + 1, n_x)]
 		next_x <- remaining_xs[1L]
 		higher_breaks <- next_x <= cdf_high
 		break_id <- which(higher_breaks)[1L]
