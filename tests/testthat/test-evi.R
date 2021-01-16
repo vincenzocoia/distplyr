@@ -4,7 +4,7 @@ c <- dst_gpd(1/2, 1, -2) # right endpoint = 1
 d <- dst_gpd(0, 1, -3) # right endpoint = 1/3
 e <- dst_gpd(0, 1, 0)
 f <- dst_norm(0, 1)
-g <- stepdst(-10:10)
+g <- dst_empirical(-10:10)
 
 test_that("graft EVI works", {
 	expect_identical(

@@ -57,10 +57,10 @@ There are many parametric families of distributions at your disposal. Here is a 
 (d1 <- dst_unif(2, 5))
 ```
 
-Empirical distributions are accomodated, too.
+Empirical distributions are accommodated, too.
 
 ```{r}
-(d2 <- stepdst(mpg, data = mtcars))
+(d2 <- dst_empirical(mpg, data = mtcars))
 ```
 
 

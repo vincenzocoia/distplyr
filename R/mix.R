@@ -59,7 +59,7 @@ mix <- function(..., weights = 1, na.rm = FALSE) {
 	y <- c(y_vecs, recursive = TRUE)
 	new_steps <- aggregate_weights(y, jumps)
 	v <- discontinuities_to_variable(new_steps)
-	lgl_finite <- vapply(dsts, is_finite, FUN.VALUE = logical(1L))
+	lgl_finite <- vapply(dsts, is_finite_dst, FUN.VALUE = logical(1L))
 	if (all(lgl_finite)) {
 		l <- list(name = "Mixture", discontinuities = new_steps)
 		res <- new_finite(l, variable = "discrete")
@@ -207,7 +207,7 @@ realise.mix <- function(object, n = 1, ...) {
 
 #' @export
 evi.mix <- function(x, ...) {
-	if (is_finite(x)) return(NaN)
+	if (is_finite_dst(x)) return(NaN)
 	with(x[["components"]], {
 		right_ends <- vapply(distributions, eval_quantile, at = 1, FUN.VALUE = numeric(1L))
 		max_end <- max(right_ends)

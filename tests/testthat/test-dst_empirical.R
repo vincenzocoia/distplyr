@@ -2,7 +2,7 @@ y <- c(5, 2, 4, 2, NA, 2, -3, 8, 9)
 w <- c(2, 2, 0, 2, 10, 1, NA, -1, 1)
 dat <- data.frame(y = y, w = w)
 
-edist <- stepdst(y, data = dat)
+edist <- dst_empirical(y, data = dat)
 cdf <- get_cdf(edist)
 qf <- get_quantile(edist)
 sf <- get_survival(edist)
@@ -10,11 +10,11 @@ sf <- get_survival(edist)
 # plot(qf)
 
 set.seed(5)
-edist2 <- stepdst(rnorm(10))
+edist2 <- dst_empirical(rnorm(10))
 
 test_that("unweighted empirical distribution works", {
-	expect_true(is_stepdst(edist))
-	expect_true(is_stepdst(edist2))
+	expect_true(is_empirical(edist))
+	expect_true(is_empirical(edist2))
 	expect_true(is_distribution(edist))
 	expect_true(is_distribution(edist2))
 	expect_equal(plateaus(get_cdf(edist2)), 0:10/10)
@@ -38,9 +38,9 @@ test_that("unweighted empirical distribution works", {
 	expect_identical(eval_survival(edist, at), 1 - cdf(at))
 })
 
-# wdist <- stepdst(y, data = dat, weights = w) # Error
+# wdist <- dst_empirical(y, data = dat, weights = w) # Error
 dat <- dat[-8, ]
-wdist <- stepdst(y, data = dat, weights = w)
+wdist <- dst_empirical(y, data = dat, weights = w)
 cdf <- get_cdf(wdist)
 qf <- get_quantile(wdist)
 sf <- get_survival(wdist)

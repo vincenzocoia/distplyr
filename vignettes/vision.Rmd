@@ -44,7 +44,7 @@ For example, here is an empirical distribution of the residuals of a regression 
 model <- lm(mpg ~ I(1 / disp), data = mtcars)
 error_dist <-  model %>% 
 	residuals() %>% 
-	stepdst()
+	dst_empirical()
 ```
 
 It would be useful to add the mean back in to the error distribution:

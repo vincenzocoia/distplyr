@@ -46,10 +46,10 @@ dst_gpd(0, 1, 1)
 
 ## 2\. Empirical Distributions
 
-Whereas base R only has the `ecdf()` function to handle empirical distributions, distplyr provides full functionality with `stepdst()` (soon to be called something like `dst_emp()`). Empirical distribution of `hp` values in the `mtcars` dataset:
+Whereas base R only has the `ecdf()` function to handle empirical distributions, distplyr provides full functionality with `dst_empirical()`. Empirical distribution of `hp` values in the `mtcars` dataset:
 
 ```{r}
-(hp <- stepdst(hp, data = mtcars))
+(hp <- dst_empirical(hp, data = mtcars))
 ```
 
 The "step" in the name comes from the cdf:
@@ -62,7 +62,7 @@ You can also weigh the outcomes differently. This is useful for explicitly speci
 
 ```{r}
 K <- function(x) dnorm(x, sd = 25)
-hp2 <- stepdst(hp, data = mtcars, weights = K(disp - 150))
+hp2 <- dst_empirical(hp, data = mtcars, weights = K(disp - 150))
 plot(hp, "cdf", n = 1001)
 plot(hp2, "cdf", n = 1001, lty = 2, add = TRUE)
 ```

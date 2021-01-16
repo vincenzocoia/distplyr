@@ -1,6 +1,6 @@
 d1 <- dst_unif(0, 5)
 d2 <- dst_unif(0, 10)
-d3 <- stepdst(1:5)
+d3 <- dst_empirical(1:5)
 g1 <- graft_right(d1, d2, sep_y = 3)
 g2 <- graft_right(d3, d1, sep_y = 3)
 g3 <- graft_right(g2, d3, sep_y = 3) # Put original tail back

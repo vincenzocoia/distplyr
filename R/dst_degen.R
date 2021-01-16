@@ -14,11 +14,16 @@ dst_degenerate <- function(location) {
 	if (!is.numeric(location)) {
 		stop("'location' parameter must be numeric.")
 	}
-	df <- make_discontinuities_df(location, size = 1)
-	res <- list(name = "Degenerate",
-				discontinuities = df,
-				parameters = list(location = location))
-	new_stepdst(res, variable = "discrete", class = "degenerate")
+	if (length(location) != 1L) {
+		stop("'location' parameter must contain exactly one number. ",
+			 "Received ", length(location))
+	}
+	as_param <- list(location = location)
+	as_table <- aggregate_weights(location, 1, sum_to_one = FALSE)
+	res <- list(parameters = as_param,
+				probabilities = as_table)
+	new_parametric(res, variable = "discrete",
+				   class = c("degenerate", "finite"))
 }
 
 #' @param object Object to test
@@ -36,12 +41,12 @@ is.degenerate <- function(object) {
 
 #' @export
 mean.degenerate <- function(x, ...) {
-	discontinuities(x)[["location"]]
+	parameters(x)$location
 }
 
 #' @export
 median.degenerate <- function(x, ...) {
-	mean(x)
+	parameters(x)$location
 }
 
 #' @export
@@ -66,8 +71,7 @@ kurtosis_exc.degenerate <- function(x, ...) {
 
 #' @export
 realise.degenerate <- function(object, n = 1, ...) {
-	location <- mean(object)
-	rep(location, n)
+	rep(parameters(object)$location, n)
 }
 
 

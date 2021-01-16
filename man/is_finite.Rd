@@ -3,15 +3,23 @@
 \name{is_finite_dst}
 \alias{is_finite_dst}
 \alias{is.finite_dst}
+\alias{is.empirical}
+\alias{is_empirical}
 \title{Is a distribution a finite distribution?}
 \usage{
 is_finite_dst(object)
 
 is.finite_dst(object)
+
+is.empirical(object)
+
+is_empirical(object)
 }
 \arguments{
 \item{object}{Object to check}
 }
 \description{
-Is a distribution a finite distribution?
+There's no difference between checking whether a distribution
+is finite or empirical -- the functions exist simply for
+completeness.
 }

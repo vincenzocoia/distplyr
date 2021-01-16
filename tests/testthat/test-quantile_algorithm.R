@@ -1,4 +1,4 @@
-d <- mix(dst_unif(0, 5), stepdst(c(2, 3, 3, 4, 6)))
+d <- mix(dst_unif(0, 5), dst_empirical(c(2, 3, 3, 4, 6)))
 # plot(d, "cdf", from = -1, to = 7, n = 1001)
 cdf <- get_cdf(d)
 tau <- c(0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5, NA, NaN, 0.55, 0.6, 0.9, 1)

@@ -44,7 +44,7 @@ Consider an empirical distribution of Ozone measurements from the `airquality` d
 
 ```{r, fig.width = 4, fig.height = 3}
 o3_raw <- as_tibble(airquality) %>% 
-  stepdst(Ozone, data = .)
+  dst_empirical(Ozone, data = .)
 ```
 
 We can graft a GPD to either end:

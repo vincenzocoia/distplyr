@@ -147,6 +147,10 @@ new_finite <- function(l, variable, ..., class = character()) {
 
 #' Is a distribution a finite distribution?
 #'
+#' There's no difference between checking whether a distribution
+#' is finite or empirical -- the functions exist simply for
+#' completeness.
+#'
 #' @param object Object to check
 #' @rdname is_finite
 #' @export
@@ -155,6 +159,15 @@ is_finite_dst <- function(object) inherits(object, "finite")
 #' @rdname is_finite
 #' @export
 is.finite_dst <- function(object) inherits(object, "finite")
+
+#' @rdname is_finite
+#' @export
+is.empirical <- function(object) inherits(object, "finite")
+
+#' @rdname is_finite
+#' @export
+is_empirical <- function(object) inherits(object, "finite")
+
 
 
 #' @export
