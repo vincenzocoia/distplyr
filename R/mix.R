@@ -23,15 +23,15 @@
 #' @export
 mix <- function(..., weights = 1, na.rm = FALSE) {
 	dsts <- rlang::list2(...)
-	lapply(dsts, function(.dst) if (!is_distribution(.dst)) {
+	if (!all(vapply(dsts, is_distribution, FUN.VALUE = logical(1L)))) {
 		stop("Ellipsis must contain distributions only.")
-	})
+	}
 	n <- length(dsts)
 	if (identical(length(weights), 1L)) {
 		weights <- rep(weights, n)
 	}
 	if (!identical(n, length(weights))) {
-		stop("There must be one probability per distribution specified.")
+		stop("There must be one weight per distribution specified.")
 	}
 	if (any(weights < 0, na.rm = TRUE)) {
 		stop("Weights must not be negative.")
@@ -51,42 +51,38 @@ mix <- function(..., weights = 1, na.rm = FALSE) {
 	if (identical(length(probs), 1L)) {
 		return(dsts[[1L]])
 	}
-	step_dfs <- lapply(dsts, discontinuities)
-	y_vecs <- lapply(step_dfs, `[[`, "location")
-	jump_vecs <- lapply(step_dfs, `[[`, "size")
-	reduced_jumps <- mapply(`*`, probs, jump_vecs, SIMPLIFY = FALSE)
-	jumps <- c(reduced_jumps, recursive = TRUE)
-	y <- c(y_vecs, recursive = TRUE)
-	new_steps <- aggregate_weights(y, jumps)
-	v <- discontinuities_to_variable(new_steps)
-	lgl_finite <- vapply(dsts, is_finite_dst, FUN.VALUE = logical(1L))
-	if (all(lgl_finite)) {
-		l <- list(name = "Mixture", discontinuities = new_steps)
-		res <- new_finite(l, variable = "discrete")
-		class(res) <- c("finite", "mix", "dst")  # Hacky and temporary
+	if (all(vapply(dsts, is_finite_dst, FUN.VALUE = logical(1L)))) {
+		prob_dfs <- lapply(dsts, `[[`, "probabilities")
+		y_list <- lapply(prob_dfs, `[[`, "location")
+		y <- c(y_list, recursive = TRUE)
+		weight_list_original <- lapply(prob_dfs, `[[`, "size")
+		weight_list_scaled <- mapply(`*`, weight_list_original, probs,
+									 SIMPLIFY = FALSE)
+		weight_scaled <- c(weight_list_scaled, recursive = TRUE)
+		new_prob_df <- aggregate_weights(y, weight_scaled, sum_to_one = FALSE)
+		res <- new_finite(list(probabilities = new_prob_df), variable = "discrete")
 		return(res)
 	}
-	res <- list(name = "Mixture",
-				discontinuities = new_steps,
-				components = list(distributions = dsts,
+	res <- list(components = list(distributions = dsts,
 								  probs = probs))
-	new_distribution(res, variable = v, class = "mix")
+	var_type <- vapply(dsts, variable, FUN.VALUE = character(1L))
+	var_unique <- unique(var_type)
+	if (length(var_unique) > 1L) {
+		var_unique <- "mixed"
+	}
+	new_distribution(res, variable = var_unique, class = "mix")
 }
 
 #' @export
 print.mix <- function(x, ...) {
 	cat("Mixture Distribution\n")
-	cat("\nComponents:\n")
-	nm <- vapply(x[["components"]][["distributions"]], name,
-				 FUN.VALUE = character(1L))
-	df <- data.frame(distribution = nm, weight = x[["components"]][["probs"]])
+	cat("\nComponents: ")
 	if (requireNamespace("tibble", quietly = TRUE)) {
-		df <- tibble::as_tibble(df)
+		cat("\n")
+		print(tibble::as_tibble(x$components))
 	} else {
-		row.names(df) <- NULL
+		cat(length(x$components$probs))
 	}
-	print(df)
-	cat("\nNumber of Discontinuities: ", nrow(discontinuities(x)))
 }
 
 #' @export
