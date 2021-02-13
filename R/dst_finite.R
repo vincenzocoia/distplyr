@@ -5,7 +5,7 @@
 #'
 #' @param y <`data-masking`>
 #'   Outcomes to comprise the distribution. Should either
-#'   evaluate to a vector, or be a name in the specified data.
+#'   evaluate to an (atomic) vector, or be a name in the specified data.
 #' @param probs <`data-masking`>
 #'   Probabilities corresponding to the outcomes in `y`.
 #'   Must not be negative, but **must sum to 1**
@@ -70,7 +70,7 @@ dst_finite <- function(y, probs, data, ...) {
 #'
 #' @param y <`data-masking`>
 #'   Outcomes to comprise the distribution. Should either
-#'   evaluate to a vector, or be a name in the specified data.
+#'   evaluate to an (atomic) vector, or be a name in the specified data.
 #' @param data Data frame containing the outcomes `y` and/or
 #'   `weights`. Optional.
 #' @param weights <`data-masking`>
@@ -101,7 +101,7 @@ dst_empirical <- function(y, data, weights = 1, ...) {
 		y <- rlang::eval_tidy(enquo_y, data = data)
 		w <- rlang::eval_tidy(enquo_w, data = data)
 	}
-	if (length(y) == 0) {
+	if (length(y) == 0L) {
 		warning("Can't make an empirical distribution from empty data. ",
 				"Returning an empty distribution.")
 		return(distribution())
@@ -109,7 +109,7 @@ dst_empirical <- function(y, data, weights = 1, ...) {
 	if (any(w < 0, na.rm = TRUE)) {
 		stop("Weights must not be negative.")
 	}
-	if (length(w) == 1) {
+	if (length(w) == 1L) {
 		w <- rep(w, length(y))
 	}
 	if (length(w) < length(y)) {
@@ -117,9 +117,6 @@ dst_empirical <- function(y, data, weights = 1, ...) {
 	}
 	if (length(w) > length(y)) {
 		stop("Not enough outcomes `y` to match weights.")
-	}
-	if (!is.numeric(y)) {
-		stop("Outcomes must be numeric.")
 	}
 	steps <- aggregate_weights(y, w, sum_to_one = TRUE)
 	if (nrow(steps) == 1L) return(dst_degenerate(steps$location))
