@@ -44,17 +44,26 @@ discontinuities.dst <- function(object) {
 #' @export
 aggregate_weights <- function(y, weights, sum_to_one = FALSE) {
 	stopifnot(identical(length(y), length(weights)))
-	if (identical(length(y), 0L)) {
+	na_y <- is.na(y)
+	na_w <- is.na(weights)
+	na <- na_y | na_w
+	clean_y <- y[!na]
+	clean_w <- weights[!na]
+	zero_w <- clean_w == 0
+	cleaner_y <- clean_y[!zero_w]
+	cleaner_w <- clean_w[!zero_w]
+	if (length(cleaner_y) == 0L) {
 		return(make_empty_discontinuities_df())
 	}
-	yw <- data.frame(y = y, w = weights)
-	yw <- stats::na.omit(yw)
-	yw <- yw[yw[["w"]] != 0, ]
-	y <- yw[["y"]]
-	w <- yw[["w"]]
-	if (sum_to_one) w <- w / sum(w)
-	df <- stats::aggregate(data.frame(size = w), by = list(location = y), FUN = sum)
-	df <- df[order(df[["location"]]), ]
+	if (sum_to_one) {
+		cleaner_w <- cleaner_w / sum(cleaner_w)
+	}
+	df <- stats::aggregate(
+		data.frame(size = cleaner_w),
+		by = list(location = cleaner_y),
+		FUN = sum
+	)
+	df <- df[order(df[["location"]]), , drop = FALSE]
 	stopifnot(is_discontinuities_df(df))
 	if (requireNamespace("tibble", quietly = TRUE)) {
 		df <- tibble::as_tibble(df)

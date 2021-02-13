@@ -39,7 +39,7 @@ mix <- function(..., weights = 1, na.rm = FALSE) {
 	probs <- weights / sum(weights, na.rm = TRUE)
 	na_probs <- is.na(probs)
 	if (any(na_probs)) {
-		if (!na.rm) return(distribution())
+		if (!na.rm) return(NA)
 		probs <- probs[!na_probs]
 		dsts <- dsts[!na_probs]
 	}
@@ -50,6 +50,29 @@ mix <- function(..., weights = 1, na.rm = FALSE) {
 	}
 	if (identical(length(probs), 1L)) {
 		return(dsts[[1L]])
+	}
+	already_mixtures <- vapply(dsts, is_mix, FUN.VALUE = logical(1L))
+	if (any(already_mixtures)) {
+		dsts_mixture <- dsts[already_mixtures]
+		dsts_inner <- lapply(dsts_mixture, function(dst) {
+			dst$components$distributions
+		})
+		dsts_flat <- unlist(dsts_inner, recursive = FALSE)
+		probs_mixture_outer <- probs[already_mixtures]
+		probs_mixture_inner <- lapply(dsts_mixture, function(dst) {
+			dst$components$probs
+		})
+		probs_mixture_list <- mapply(
+			`*`,
+			probs_mixture_outer,
+			probs_mixture_inner,
+			SIMPLIFY = FALSE
+		)
+		probs_mixture_flat <- unlist(probs_mixture_list, recursive = FALSE)
+		stopifnot(length(probs_mixture_flat) == length(dsts_flat))
+		new_probs <- c(probs_mixture_flat, probs[!already_mixtures])
+		new_dsts <- c(dsts_flat, dsts[!already_mixtures])
+		return(rlang::exec(mix, !!!new_dsts, weights = new_probs, na.rm = na.rm))
 	}
 	if (all(vapply(dsts, is_finite_dst, FUN.VALUE = logical(1L)))) {
 		prob_dfs <- lapply(dsts, `[[`, "probabilities")
@@ -72,6 +95,16 @@ mix <- function(..., weights = 1, na.rm = FALSE) {
 	}
 	new_distribution(res, variable = var_unique, class = "mix")
 }
+
+#' @param object Object to be tested
+#' @rdname mix
+#' @export
+is_mix <- function(object) inherits(object, "mix")
+
+#' @rdname mix
+#' @export
+is.mix <- function(object) inherits(object, "mix")
+
 
 #' @export
 print.mix <- function(x, ...) {
@@ -205,7 +238,8 @@ realise.mix <- function(object, n = 1, ...) {
 evi.mix <- function(x, ...) {
 	if (is_finite_dst(x)) return(NaN)
 	with(x[["components"]], {
-		right_ends <- vapply(distributions, eval_quantile, at = 1, FUN.VALUE = numeric(1L))
+		right_ends <- vapply(distributions, eval_quantile, at = 1,
+							 FUN.VALUE = numeric(1L))
 		max_end <- max(right_ends)
 		has_max_ends <- right_ends == max_end
 		evis <- vapply(distributions, evi, FUN.VALUE = numeric(1L))
