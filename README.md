@@ -1,9 +1,7 @@
 
-# pkgdown <img src="man/figures/distplyr-240x278.png" align="right" />
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# distplyr
+# distplyr <img src="man/figures/distplyr-240x278.png" align="right" />
 
 <!-- badges: start -->
 
@@ -117,8 +115,8 @@ Generate a sample from a distribution.
 
 ``` r
 realise(d3, n = 10)
-#>  [1]  1.2879788 -1.0373925 -2.5944331  2.4287642 -0.7412411  0.5141509
-#>  [7] -5.4403901  0.7292217 -1.0461610 -0.7304330
+#>  [1] -0.77434763 -5.44541849  0.31158146  0.47065853  0.68328860 -0.10685444
+#>  [7]  0.17142651 -0.07658614  2.24661477  0.75396800
 ```
 
 Calculate properties of a distribution.
