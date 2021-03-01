@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">distplyr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -60,10 +60,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/probing.html">Probing a Distribution</a>
+      <a href="../articles/creating.html">Creating a Distribution</a>
     </li>
     <li>
-      <a href="../articles/stepdst.html">Step Distributions</a>
+      <a href="../articles/manipulating.html">Manipulating Distributions</a>
+    </li>
+    <li>
+      <a href="../articles/probing.html">Probing a Distribution</a>
     </li>
     <li>
       <a href="../articles/vision.html">Vision</a>
@@ -106,49 +109,29 @@
     
 <p><code>distplyr</code> is still in its infancy, but it has an ambitious vision. To truly empower the analyst, there are some key functionalities that should be developed:</p>
 <ol style="list-style-type: decimal">
-<li>Making new base distributions not in <code>distplyr</code>.</li>
-<li>Transforming distributions</li>
-<li>Families of distributions instead of an isolated distribution.</li>
+<li>Make a new parametric distribution not in <code>distplyr</code>.</li>
+<li>Manipulating distributions</li>
+<li>Gradually isolate distribution.</li>
 </ol>
 <p>This page is a vision of <code>distplyr</code> after having achieved these things, written in the form of a vignette. Some of these things might be too ambitious, but I truly think they are possible, and very powerful. If you believe in empowering analysts to seemlessly draw powerful insights using distributions, please consider contributing to this open source project.</p>
 <div id="base-distributions-not-included-in-distplyr" class="section level2">
 <h2 class="hasAnchor">
 <a href="#base-distributions-not-included-in-distplyr" class="anchor"></a>1. Base Distributions not included in <code>distplyr</code>
 </h2>
-<p>Of course, <code>distplyr</code> cannot contain an exhaustive list of parametric distributions, nor does such a list exist. But, you can make new ones.</p>
-<div id="when-pdqr-functions-exist" class="section level3">
-<h3 class="hasAnchor">
-<a href="#when-pdqr-functions-exist" class="anchor"></a>When <code>p/d/q/r</code> Functions Exist</h3>
-<p>The easiest way to do this is if the functions <code>p/d/q/rfoo()</code> already exist, such as by loading an R package. If so, just call <code>as_dst()</code> with the name of the distribution, followed by parameter specifications:</p>
+<p>There are plenty of packages that give you access to <code>p/d/q/rfoo()</code> functions for a distribution not contained in base R. distplyr can’t include all of those. When such functions exist, make a distribution using distplyr with <code>as_distribution()</code> followed by parameter specifications:</p>
 <pre><code>my_dst &lt;- as_dst("foo", param1 = 3, param2 = 6)</code></pre>
 <p>While the above is enough, you might want to consider adding more information. With no knowledge of properties such as mean and variance, these quantities will be computed by their definition, often involving an integral. Instead, you can specify these things using the <code>set_*()</code> functions:</p>
-<pre><code>library(magrittr)
-my_dst &lt;- my_dst %&gt;%
+<pre><code>my_dst &lt;- my_dst %&gt;%
   set_mean(param1 / (param1 + param2)) %&gt;% 
   set_variance({
     denominator &lt;- param1 + param
     param1 / denominator
   })</code></pre>
 </div>
-<div id="in-general" class="section level3">
-<h3 class="hasAnchor">
-<a href="#in-general" class="anchor"></a>In General</h3>
-<p>In general, you might not have the convenience of having a distribution’s representations already defined. You can make a new distribution using <code>dst()</code>, and specifying at least one of the distribution’s representations:</p>
-<pre><code>dst(density = function(x) sqrt(1 - x^2) * 2 / pi,
-    support = c(-1, 1), 
-    mean = 0)</code></pre>
-<p>You can either provide details in the <code>dst()</code> function or outside, using the <code>set_*()</code> family of functions:</p>
-<pre><code>dst() %&gt;% 
-    set_density(function(x) sqrt(1 - x^2) * 2 / pi) %&gt;% 
-    set_support(-1, 1) %&gt;% 
-    set_mean(0)</code></pre>
-<p>Specifying the components of a distribution does not guarantee that they are in accordance with each other. It’s up to you to double check.</p>
-</div>
-</div>
 <div id="transformations" class="section level2">
 <h2 class="hasAnchor">
 <a href="#transformations" class="anchor"></a>2. Transformations</h2>
-<p>It’s important to be able to transform distributions. Simple ones include <code>add_by()</code> and <code>divide_by()</code>.</p>
+<p>It’s important to be able to transform distributions. Simple ones include <code>add_by()</code> and <code><a href="https://magrittr.tidyverse.org/reference/aliases.html">divide_by()</a></code> – better yet, define binary operators for distributions.</p>
 <p>For example, here is an empirical distribution of the residuals of a regression model:</p>
 <pre><code>model &lt;- lm(mpg ~ I(1 / disp), data = mtcars)
 error_dist &lt;-  model %&gt;% 
@@ -156,88 +139,32 @@ error_dist &lt;-  model %&gt;%
     stepdst()</code></pre>
 <p>It would be useful to add the mean back in to the error distribution:</p>
 <pre><code>broom::augment(model) %&gt;% 
-    mutate(dist = map(.fitted, ~ add_by(error_dist, .x)))</code></pre>
+    mutate(dist = map(.fitted, ~ .x + error_dist))</code></pre>
 <p>Now the error distribution is non-parametric – useful if you are skeptical of assumptions such as the usual Gaussian assumption.</p>
 </div>
-<div id="parametric-families" class="section level2">
+<div id="gradually-isolate-a-distribution" class="section level2">
 <h2 class="hasAnchor">
-<a href="#parametric-families" class="anchor"></a>3. Parametric Families</h2>
-<p>Oftentimes, we work with <em>families</em> of distributions before isolating a single member. <code>distplyr</code> allows you to work with families as well as isolated distributions. For example, don’t specify the parameters of a distribution, and it is a family:</p>
-<pre><code><a href="../reference/dst_norm.html">dst_norm()</a></code></pre>
-<div id="resolving-a-family-to-a-distribution" class="section level3">
-<h3 class="hasAnchor">
-<a href="#resolving-a-family-to-a-distribution" class="anchor"></a>Resolving a Family to a Distribution</h3>
-<p>You are able to gradually resolve a distribution from a family using the <code>restrict_*()</code> family of functions.</p>
-<pre><code>dst_beta() %&gt;% 
-    restrict_parameters(alpha = 5) %&gt;% 
-    parameters()
-#&gt; alpha   beta 
-#&gt;     5     NA </code></pre>
-<p>Note that this is the same as:</p>
-<pre><code>dst_beta(alpha = 5) %&gt;% 
-    parameters()
-#&gt; alpha   beta 
-#&gt;     5     NA </code></pre>
-<p>You aren’t forced to use the standard parameterization, either. Perhaps you’d like to consider the family of Beta distributions whose mean is 0.5, or whose 0.25-quantile is 0.5:</p>
-<pre><code>dst_beta() %&gt;% 
-    restrict_mean(to = 0.5) %&gt;% 
-    parameters()
-#&gt; mean   beta 
-#&gt;  0.5     NA 
-dst_beta() %&gt;% 
-    restrict_quantile(0.25, to = 0.5) %&gt;%
-    parameters()
-#&gt; 0.25.quantile   beta 
-#&gt;           0.5     NA </code></pre>
-<p>The need for gradually reducing a family of distributions is useful in analyses with more than one goal.</p>
-<ul>
-<li>Perhaps the mean is a priority to estimate, and you would like to do so without a distributional assumption. Only after the mean’s estimation would you then like to choose a conforming Beta distribution that has the largest likelihood, to set the final parameter.</li>
-<li>Perhaps you’ve fit a regression model to the 0.25- and 0.75-quantiles, and would like your distribution to adopt those quantiles.</li>
-</ul>
-</div>
-<div id="making-your-own-parametric-family" class="section level3">
-<h3 class="hasAnchor">
-<a href="#making-your-own-parametric-family" class="anchor"></a>Making your own Parametric Family</h3>
-<p>You can also make your own parametric family.</p>
-<p>If the <code>p/d/q/rfoo</code> functions are already defined, just use <code>as_dst()</code>, but don’t specify the parameters, and you’ll get a family:</p>
-<pre><code>as_dst("foo")</code></pre>
-<p>Similarly, you can use <code>dst()</code> to specify your own family. To represent a function, use the tilde notation with <code>x</code> as the variable. Here’s an example that starts from scratch:</p>
-<pre><code>my_dst2 &lt;- dst() %&gt;% 
-  set_cdf(~ 1 - exp(-beta * x)) %&gt;% 
-  set_quantile(~ {
-    m &lt;- 1 / (1 - x)
-    log(m) / beta
-  }) %&gt;% 
-  set_density(~ beta * exp(-beta * x)) %&gt;% 
-  restrict_parameters(beta &gt; 0) %&gt;% 
-  set_support(0, Inf) %&gt;% 
-  set_mean(1 / beta)</code></pre>
-<p><em>Development note</em>: tidy evaluation might be the best course of action for obtaining this.</p>
-<p>This is a family of distributions because <code>beta</code> has not been specified yet. If you’d like to resolve the family, you can go ahead and specify beta:</p>
-<pre><code>my_dst2 %&gt;% 
-  restrict_parameters(beta = 1.5)</code></pre>
-</div>
-<div id="use-cases" class="section level3">
-<h3 class="hasAnchor">
-<a href="#use-cases" class="anchor"></a>Use cases</h3>
-<p><strong>1</strong></p>
-<p>You fit a supervised learning model for the mean of Y|X – that’s your priority. A secondary priority is to get a sense of the uncertainty in Y|X. You’d like to make a log-normal approximation to the distribution of Y|X.</p>
-<p>Univariate equivalent:</p>
-<pre><code>m &lt;- predict(model)[1]
-dst_lnorm() %&gt;% 
-  set_mean(m)   # Then, resolve via MLE</code></pre>
-<p>Simpler version:</p>
-<pre><code>m &lt;- predict(model)[1]
-dst_norm() %&gt;% 
-  set_mean(m)   # Then, resolve via MLE</code></pre>
-<p><strong>2</strong></p>
-<p>This might not be so useful in a univariate distribution setting, but would be if we’re specifying a multivariate distribution, and want to keep a measure of dependence constant between two pairs (X1, X2) and (X2, X3).</p>
-<pre><code><a href="../reference/dst_norm.html">dst_norm(mean = a, variance = a)   # Then, resolve via MLE.</a></code></pre>
-<p><strong>3</strong></p>
-<p>Restrict a parameter: you’d like to fit a GPD, and are confident that the distribution is heavy tailed, so would like the shape parameter to be &gt;0.</p>
+<a href="#gradually-isolate-a-distribution" class="anchor"></a>3. Gradually Isolate a Distribution</h2>
+<p>It’s useful to gradually isolate a distribution. Consider these use cases.</p>
+<p><strong>Example 1</strong></p>
+<p>Your client wants you to come up with the best supervised learning model that predicts the mean of Y given X. A secondary goal is to communicate uncertainty in the prediction – you suspect the residuals are lognormal, but don’t want to make that assumption when fitting your baseline model. You’re willing to consider making the second Lognormal parameter constant across X (let’s say this to make this demo simpler).</p>
+<p>To find the distribution of the residuals, set a generic Lognormal distribution with unspecified parameters <code>a</code> and <code>b</code>, then set the mean at 0. The remaining parameter can be estimated via maximum likelihood.</p>
+<pre><code>res &lt;- dst_lnorm() %&gt;% 
+    set_mean(0)
+f &lt;- get_density(res)   # Maximize</code></pre>
+<p>Notice that neither <code>a</code> nor <code>b</code> is the mean of the distribution, yet we can still restrict this distribution down to a 1-dimensional parameter space.</p>
+<p><strong>Example 2</strong></p>
+<p>You’re trying to forecast your income, and you know that most of the time you make between 3 and 4 thousand dollars per month. You decide to make this a 90% prediction interval of your income, using a Normal distribution:</p>
+<pre><code>dst_norm() %&gt;% 
+    set_quantiles(0.05 ~ 3000, 0.95 ~ 4000)</code></pre>
+<p>Note that this is different from <code><a href="../reference/set_cdf.html">set_quantile()</a></code>, which sets the entire quantile function (?).</p>
+<p><strong>Example 3</strong></p>
+<p>Maybe you want a normal distribution that has the same mean and same variance. Although an example like this might not be practical in the univariate setting, it does in the multivariate, where we’d like to set dependence to be equal between two pairs of variables.</p>
+<pre><code><a href="../reference/dst_norm.html">dst_norm(a, a)  # Then, resolve via MLE </a></code></pre>
+<p><strong>Example 4</strong></p>
+<p>You’d like to fit a GPD, and you are confident that the distribution is heavy tailed, so would like the shape parameter to be positive.</p>
 <pre><code>dst_gpd() %&gt;% 
-   set(shape &gt; 0)</code></pre>
-</div>
+   set_parameters(shape &gt; 0)</code></pre>
 </div>
   </div>
 
