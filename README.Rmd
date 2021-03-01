@@ -2,8 +2,6 @@
 output: github_document
 ---
 
-# pkgdown <img src="man/figures/distplyr-240x278.png" align="right" />
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r, include = FALSE}
@@ -17,7 +15,7 @@ knitr::opts_chunk$set(
   fig.align = "center"
 )
 ```
-# distplyr
+# distplyr <img src="man/figures/distplyr-240x278.png" align="right" />
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
