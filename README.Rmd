@@ -2,6 +2,8 @@
 output: github_document
 ---
 
+# pkgdown <img src="man/figures/distplyr-240x278.png" align="right" />
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r, include = FALSE}
@@ -116,7 +118,7 @@ devtools::install_github("vincenzocoia/distplyr")
 
 The [`distributions3`](https://cran.r-project.org/web/packages/distributions3/index.html) package is a similar package in that it bundles parametric distributions together using S3 objects, but is less flexible. 
 
-The [`distr`](https://cran.r-project.org/web/packages/distr/index.html) package allows you to make distributions including empirical ones, and transform them, using S4 classes. distplyr aims to provide a simpler interface using S3 objects. 
+The [`distr`](https://cran.r-project.org/web/packages/distr/index.html) package allows you to make distributions including empirical ones, and transform them, using S4 classes. distplyr aims to provide a simpler interface using S3 objects.
 
 -----
 

@@ -131,7 +131,7 @@
 <div id="transformations" class="section level2">
 <h2 class="hasAnchor">
 <a href="#transformations" class="anchor"></a>2. Transformations</h2>
-<p>It’s important to be able to transform distributions. Simple ones include <code>add_by()</code> and <code><a href="https://rdrr.io/pkg/magrittr/man/aliases.html">divide_by()</a></code> – better yet, define binary operators for distributions.</p>
+<p>It’s important to be able to transform distributions. Simple ones include <code>add_by()</code> and <code><a href="https://magrittr.tidyverse.org/reference/aliases.html">divide_by()</a></code> – better yet, define binary operators for distributions.</p>
 <p>For example, here is an empirical distribution of the residuals of a regression model:</p>
 <pre><code>model &lt;- lm(mpg ~ I(1 / disp), data = mtcars)
 error_dist &lt;-  model %&gt;% 
