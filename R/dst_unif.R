@@ -176,7 +176,7 @@ eval_quantile.unif <- function(object, at, ...) {
 #' @rdname range
 #' @export
 range.unif <- function(x, ...) {
-	return(c(parameters(x)$min, parameters(x)$max))
+	c(parameters(x)$min, parameters(x)$max)
 }
 
 
