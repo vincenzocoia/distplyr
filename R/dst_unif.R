@@ -13,23 +13,35 @@ dst_unif <- function(min, max) {
 		min <- rlang::expr(.min)
 		resolved_min <- FALSE
 	} else {
-		min <- resolve_if_possible({{ min }})
+		min <- resolve_if_possible({
+			{
+				min
+			}
+		})
 		resolved_min <- min$resolved
 		min <- min$outcome
 	}
 	if (resolved_min && !is.numeric(min)) {
-		stop("'min' argument should be numeric, but received ", class(min), ".")
+		stop("'min' argument should be numeric, but received ",
+			 class(min),
+			 ".")
 	}
 	if (missing(max)) {
 		max <- rlang::expr(.max)
 		resolved_max <- FALSE
 	} else {
-		max <- resolve_if_possible({{ max }})
+		max <- resolve_if_possible({
+			{
+				max
+			}
+		})
 		resolved_max <- max$resolved
 		max <- max$outcome
 	}
 	if (resolved_max && !is.numeric(max)) {
-		stop("'max' argument should be numeric, but received ", class(max), ".")
+		stop("'max' argument should be numeric, but received ",
+			 class(max),
+			 ".")
 	}
 	if (resolved_min && resolved_max) {
 		if (max < min) {
@@ -39,15 +51,11 @@ dst_unif <- function(min, max) {
 			return(dst_degenerate(min))
 		}
 	}
-	res <- list(parameters = list(
-		min = min,
-		max = max
-	))
-	new_parametric(
-		res,
-		variable = "continuous",
-		class    = "unif"
-	)
+	res <- list(parameters = list(min = min,
+								  max = max))
+	new_parametric(res,
+				   variable = "continuous",
+				   class    = "unif")
 }
 
 #' Resolve an input if possible
@@ -85,7 +93,7 @@ resolve_if_possible <- function(x) {
 #' @export
 mean.unif <- function(x, ...) {
 	with(parameters(x), {
-		res <- resolve_if_possible((!!min + !!max) / 2)
+		res <- resolve_if_possible((!!min+!!max) / 2)
 		if (res$resolved) {
 			res$outcome
 		} else {
@@ -130,14 +138,18 @@ eval_cdf.unif <- function(object, at) {
 #' @export
 eval_survival.unif <- function(object, at) {
 	with(parameters(object), {
-		stats::punif(at, min = min, max = max, lower.tail = FALSE)
+		stats::punif(at,
+					 min = min,
+					 max = max,
+					 lower.tail = FALSE)
 	})
 }
 
 #' @export
 eval_density.unif <- function(object, at) {
 	with(parameters(object), {
-		res <- resolve_if_possible(stats::dunif(!!at, min = !!min, max = !!max))
+		res <-
+			resolve_if_possible(stats::dunif(!!at, min = !!min, max = !!max))
 		if (res$resolved) {
 			res$outcome
 		} else {
@@ -158,6 +170,13 @@ eval_quantile.unif <- function(object, at, ...) {
 	with(parameters(object), {
 		stats::qunif(at, min = min, max = max)
 	})
+}
+
+
+#' @rdname range
+#' @export
+range.unif <- function(x, ...) {
+	return(c(parameters(x)$min, parameters(x)$max))
 }
 
 

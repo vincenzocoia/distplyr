@@ -249,3 +249,11 @@ eval_pmf.finite <- function(object, at) {
 		vapply(at, function(x) sum(size[x == location]), FUN.VALUE = numeric(1L))
 	})
 }
+
+#' @rdname range
+#' @export
+range.finite <- function(x, ...) {
+	minVal <- min(unlist(x$probabilities$location))
+	maxVal <- max(unlist(x$probabilities$location))
+	return(c(minVal, maxVal))
+}

@@ -9,7 +9,7 @@ dst_finite(y, probs, data, ...)
 \arguments{
 \item{y}{<\code{data-masking}>
 Outcomes to comprise the distribution. Should either
-evaluate to a vector, or be a name in the specified data.}
+evaluate to an (atomic) vector, or be a name in the specified data.}
 
 \item{probs}{<\code{data-masking}>
 Probabilities corresponding to the outcomes in \code{y}.

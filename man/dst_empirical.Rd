@@ -9,7 +9,7 @@ dst_empirical(y, data, weights = 1, ...)
 \arguments{
 \item{y}{<\code{data-masking}>
 Outcomes to comprise the distribution. Should either
-evaluate to a vector, or be a name in the specified data.}
+evaluate to an (atomic) vector, or be a name in the specified data.}
 
 \item{data}{Data frame containing the outcomes \code{y} and/or
 \code{weights}. Optional.}

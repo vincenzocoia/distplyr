@@ -143,6 +143,14 @@ eval_density.gpd <- function(object, at) {
 	})
 }
 
+#' @rdname range
+#' @export
+range.gpd <- function(x, ...) {
+	return(c(parameters(x)$location, Inf))
+}
+
+
+
 
 # Using .dst method for:
 #
