@@ -253,7 +253,8 @@ eval_pmf.finite <- function(object, at) {
 #' @rdname range
 #' @export
 range.finite <- function(x, ...) {
-	minVal <- min(unlist(x$probabilities$location))
-	maxVal <- max(unlist(x$probabilities$location))
-	return(c(minVal, maxVal))
+  unlisted_probability_list <- unlist(x$probabilities$location)
+  min_val <- min(unlisted_probability_list)
+  max_val <- max(unlisted_probability_list)
+  c(min_val, max_val)
 }

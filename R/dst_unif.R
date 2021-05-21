@@ -93,7 +93,7 @@ resolve_if_possible <- function(x) {
 #' @export
 mean.unif <- function(x, ...) {
 	with(parameters(x), {
-		res <- resolve_if_possible((!!min+!!max) / 2)
+		res <- resolve_if_possible((!!min + !!max) / 2)
 		if (res$resolved) {
 			res$outcome
 		} else {
@@ -176,7 +176,9 @@ eval_quantile.unif <- function(object, at, ...) {
 #' @rdname range
 #' @export
 range.unif <- function(x, ...) {
-	c(parameters(x)$min, parameters(x)$max)
+  with(parameters(x), {
+    c(min, max)
+  })
 }
 
 

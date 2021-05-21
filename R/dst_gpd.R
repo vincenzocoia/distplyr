@@ -10,10 +10,12 @@
 #' plot(d, "survival", to = 20)
 #' @export
 dst_gpd <- function(location, scale, shape) {
-	if (scale == 0)
+	if (scale == 0) {
 		return(dst_degenerate(location))
-	if (scale < 0)
+	}
+	if (scale < 0) {
 		stop("'scale' parameter must be non-negative.")
+	}
 	res <- list(parameters = list(
 		location = location,
 		scale    = scale,
@@ -25,19 +27,21 @@ dst_gpd <- function(location, scale, shape) {
 
 #' @export
 mean.gpd <- function(x, ...) {
-	with(parameters(x),
+	with(parameters(x), {
 		 ifelse(shape < 1,
 		 	   location + scale / (1 - shape),
-		 	   Inf))
+		 	   Inf)
+		})
 }
 
 
 #' @export
 variance.gpd <- function(x, ...) {
-	with(parameters(x),
+	with(parameters(x), {
 		 ifelse(shape < 1 / 2,
 		 	   scale ^ 2 / (1 - shape) ^ 2 / (1 - 2 * shape),
-		 	   Inf))
+		 	   Inf)
+		})
 }
 
 
@@ -48,22 +52,23 @@ evi.gpd <- function(x, ...) {
 
 #' @export
 skewness.gpd <- function(x, ...) {
-	with(parameters(x),
+	with(parameters(x), {
 		 ifelse(shape < 1 / 3,
 		 	   2 * (1 + shape) * sqrt(1 - 2 * shape) /
 		 	   	(1 - 3 * shape),
-		 	   Inf))
+		 	   Inf)
+		})
 }
 
 #' @export
 kurtosis_exc.gpd <- function(x, ...) {
-	with(parameters(x),
+	with(parameters(x), {
 		 ifelse(
 		 	shape < 1 / 4,
 		 	3 * (1 - 2 * shape) * (2 * shape ^ 2 + shape + 3) /
 		 		((1 - 3 * shape) * (1 - 4 * shape)) - 3,
-		 	Inf
-		 ))
+		 	Inf)
+		})
 }
 
 #' @export
@@ -140,18 +145,17 @@ eval_density.gpd <- function(object, at) {
 #' @rdname range
 #' @export
 range.gpd <- function(x, ...) {
-	if (parameters(x)$shape >= 0) {
-		return(c(parameters(x)$location, Inf))
-	} else {
-		maxVal <- parameters(x)$location -
-			(parameters(x)$scale / parameters(x)$shape)
-		return(c(parameters(x)$location, maxVal))
-	}
-
+  location <- parameters(x)$location
+  shape <- parameters(x)$shape
+  scale <- parameters(x)$scale
+  if (shape >= 0) {
+    return(c(location, Inf))
+  } else {
+    max_val <- location -
+      (scale / shape)
+    c(location, max_val)
+  }
 }
-
-
-
 
 # Using .dst method for:
 #

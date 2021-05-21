@@ -14,17 +14,13 @@
 #' range(a)
 #' range(b)
 #' range(c)
-
 #' @export
 range <- function(x, ...) {
-	UseMethod("range")
-
+  UseMethod("range")
 }
 
 #' @rdname range
 #' @export
 range.dst <- function(x, ...) {
-	minVal <- eval_quantile(x, at = 0)
-	maxVal <- eval_quantile(x, at = 1)
-	return(c(minVal, maxVal))
+  eval_quantile(x, at = 0:1)
 }

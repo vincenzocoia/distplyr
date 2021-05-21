@@ -97,7 +97,7 @@ eval_quantile.norm <- function(object, at, ...) {
 #' @rdname range
 #' @export
 range.norm <- function(x, ...) {
-	return(c(-Inf, Inf))
+  c(-Inf, Inf)
 }
 
 

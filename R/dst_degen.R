@@ -77,7 +77,8 @@ realise.degenerate <- function(object, n = 1, ...) {
 #' @rdname range
 #' @export
 range.degenerate <- function(x, ...) {
-	c(parameters(x)$location,parameters(x)$location)
+  location <- parameters(x)$location
+  c(location, location)
 }
 
 
