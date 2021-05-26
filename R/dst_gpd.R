@@ -156,6 +156,7 @@ range.gpd <- function(x, ...) {
   })
 }
 
+#' @rdname discontinuities
 #' @export
 discontinuities.gpd <- function(object, from, to, ...) {
 	make_empty_discontinuities_df()

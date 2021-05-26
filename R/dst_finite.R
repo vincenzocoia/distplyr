@@ -259,6 +259,7 @@ range.finite <- function(x, ...) {
   c(min_val, max_val)
 }
 
+#' @rdname discontinuities
 #' @export
 discontinuities.finite <- function(object, from, to, ...) {
   probabilities <- object$probabilities
