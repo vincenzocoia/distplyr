@@ -23,6 +23,12 @@ jobs:
           install.packages(c("remotes", "rcmdcheck", "styler", "lintr"))
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
+      - name: Load all Libraries
+        run: library(styler)
+        shell: Rscript {0}
+      - name: Load all Libraries
+        run: library(lintr)
+        shell: Rscript {0}
       - name: Set Style
         run: |
           styler::tidyverse_style(scope = "tokens", strict = TRUE, indent_by = 2, start_comments_with_one_space = FALSE, reindention = tidyverse_reindention(), math_token_spacing = tidyverse_math_token_spacing())
