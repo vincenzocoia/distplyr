@@ -23,10 +23,10 @@ jobs:
           install.packages(c("remotes", "rcmdcheck", "styler", "lintr"))
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
-      - name: Load all Libraries
+      - name: Load Styler
         run: library(styler)
         shell: Rscript {0}
-      - name: Load all Libraries
+      - name: Load Lintr
         run: library(lintr)
         shell: Rscript {0}
       - name: Set Style
