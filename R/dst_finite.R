@@ -258,3 +258,12 @@ range.finite <- function(x, ...) {
   max_val <- max(unlisted_probability_list)
   c(min_val, max_val)
 }
+
+#' @export
+discontinuities.finite <- function(object, from, to, ...) {
+  probabilities <- object$probabilities
+  location <- probabilities$location
+  from_filtered <- probabilities[location >= from, ]
+  res <- from_filtered[location <= to, ]
+  res
+}

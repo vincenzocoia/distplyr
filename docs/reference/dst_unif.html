@@ -41,7 +41,8 @@
 
 <meta property="og:title" content="Make a Uniform distribution — dst_unif" />
 <meta property="og:description" content="Makes a distribution belonging to the continuous uniform family of
-distributions." />
+distributions. Note: this distribution has been adapted to trial
+a tidy evaluation framework." />
 
 
 
@@ -83,7 +84,7 @@ distributions." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">distplyr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2.9000</span>
       </span>
     </div>
 
@@ -91,7 +92,7 @@ distributions." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -126,7 +127,7 @@ distributions." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/vincenzocoia/distplyr">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
@@ -150,17 +151,19 @@ distributions." />
 
     <div class="ref-description">
     <p>Makes a distribution belonging to the continuous uniform family of
-distributions.</p>
+distributions. Note: this distribution has been adapted to trial
+a tidy evaluation framework.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>dst_unif</span><span class='op'>(</span>min <span class='op'>=</span> <span class='fl'>0</span>, max <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>dst_unif</span><span class='op'>(</span><span class='va'>min</span>, <span class='va'>max</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>min, max</th>
-      <td><p>Parameters of the distribution family.</p></td>
+      <td><p>Parameters of the distribution family. Need not specify
+anything (uses tidy evaluation).</p></td>
     </tr>
     </table>
 

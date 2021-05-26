@@ -86,7 +86,7 @@ with the size of the discontinuity gap." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">distplyr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2.9000</span>
       </span>
     </div>
 
@@ -94,7 +94,7 @@ with the size of the discontinuity gap." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -129,7 +129,7 @@ with the size of the discontinuity gap." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/vincenzocoia/distplyr">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
@@ -159,7 +159,7 @@ each discontinuity in the cdf, together
 with the size of the discontinuity gap.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>discontinuities</span><span class='op'>(</span><span class='va'>object</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>discontinuities</span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>from</span>, <span class='va'>to</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='fu'>aggregate_weights</span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>weights</span>, sum_to_one <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
@@ -190,7 +190,7 @@ to sum to 1? Default is FALSE.</p></td>
 
     <p>Data frame with the following columns:</p><ol>
 <li><p><code>location</code>: Increasing vector of unique values of <code>y</code>
-  having positive weight.</p></li>
+having positive weight.</p></li>
 <li><p><code>size</code>: Weights corresponding to each outcome.</p></li>
 </ol>
 
@@ -202,26 +202,14 @@ matching vector of <code>weights</code>,
 weight per unique value of <code>y</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='stepdst.html'>stepdst</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='dst_empirical.html'>dst_empirical</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>)</span>
 <span class='fu'>discontinuities</span><span class='op'>(</span><span class='va'>a</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 5 x 2</span><span>
-#&gt;   location  size
-#&gt;      </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>        1   0.2
-#&gt; </span><span style='color: #555555;'>2</span><span>        2   0.2
-#&gt; </span><span style='color: #555555;'>3</span><span>        3   0.2
-#&gt; </span><span style='color: #555555;'>4</span><span>        4   0.2
-#&gt; </span><span style='color: #555555;'>5</span><span>        5   0.2</div><div class='input'><span class='va'>b</span> <span class='op'>&lt;-</span> <span class='fu'><a href='dst_norm.html'>dst_norm</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in `[.tbl_df`(probabilities, location &gt;= from, ): argument "from" is missing, with no default</span></div><div class='input'><span class='va'>b</span> <span class='op'>&lt;-</span> <span class='fu'><a href='dst_norm.html'>dst_norm</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span>
 <span class='fu'>discontinuities</span><span class='op'>(</span><span class='va'>b</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 0 x 2</span><span>
-#&gt; </span><span style='color: #555555;'># … with 2 variables: location </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, size </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'><span class='va'>c</span> <span class='op'>&lt;-</span> <span class='fu'><a href='graft_right.html'>graft_right</a></span><span class='op'>(</span><span class='va'>a</span>, <span class='va'>b</span>, sep_y <span class='op'>=</span> <span class='fl'>3.5</span><span class='op'>)</span>
-<span class='fu'>discontinuities</span><span class='op'>(</span><span class='va'>c</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
-#&gt;   location  size
-#&gt;      </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>        1   0.2
-#&gt; </span><span style='color: #555555;'>2</span><span>        2   0.2
-#&gt; </span><span style='color: #555555;'>3</span><span>        3   0.2</div></span></pre>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 0 x 2</span><span>
+#&gt; </span><span style='color: #949494;'># ... with 2 variables: at &lt;dbl&gt;, probability &lt;dbl&gt;</span><span></div><div class='input'><span class='va'>c</span> <span class='op'>&lt;-</span> <span class='fu'><a href='graft_right.html'>graft_right</a></span><span class='op'>(</span><span class='va'>a</span>, <span class='va'>b</span>, sep_y <span class='op'>=</span> <span class='fl'>3.5</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in `[.tbl_df`(probabilities, location &gt;= from, ): argument "from" is missing, with no default</span></div><div class='input'><span class='fu'>discontinuities</span><span class='op'>(</span><span class='va'>c</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("discontinuities"): no applicable method for 'discontinuities' applied to an object of class "function"</span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

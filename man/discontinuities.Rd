@@ -5,7 +5,7 @@
 \alias{aggregate_weights}
 \title{Discontinuities in a Distribution}
 \usage{
-discontinuities(object)
+discontinuities(object, from, to, ...)
 
 aggregate_weights(y, weights, sum_to_one = FALSE)
 }

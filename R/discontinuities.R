@@ -22,11 +22,38 @@
 #' c <- graft_right(a, b, sep_y = 3.5)
 #' discontinuities(c)
 #' @export
-discontinuities <- function(object) UseMethod("discontinuities")
+discontinuities <- function(object, from, to, ...) UseMethod("discontinuities")
+
+#' #' @export
+#' discontinuities.dst <- function(object) {
+#' 	object[["discontinuities"]]
+#' }
+#'
+
 
 #' @export
-discontinuities.dst <- function(object) {
-	object[["discontinuities"]]
+discontinuities.mix <- function(object, from, to, ...) {
+	res <- make_empty_discontinuities_df()
+  distributions <- lapply(
+    object$components$distributions, discontinuities,
+    from, to
+  )
+
+  # for (i in 1:length(distributions)) {
+  #   distributions[[i]]$size <- distributions[[i]]$size *
+  #     object$components$probs[i]
+  # }
+
+  for (i in 1:length(distributions)) {
+  	res <- rbind(res, distributions[[i]])
+  }
+
+  res <- aggregate_weights(res$location,
+    weights = res$size,
+    sum_to_one = TRUE
+  )
+
+  convert_dataframe_to_tibble(res)
 }
 
 
@@ -82,9 +109,7 @@ aggregate_weights <- function(y, weights, sum_to_one = FALSE) {
 make_discontinuities_df <- function(location, size) {
 	df <- data.frame(location = location, size = size)
 	stopifnot(is_discontinuities_df(df))
-	if (requireNamespace("tibble", quietly = TRUE)) {
-		df <- tibble::as_tibble(df)
-	}
+	df <- convert_dataframe_to_tibble(df)
 	df
 }
 

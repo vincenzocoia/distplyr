@@ -145,16 +145,20 @@ eval_density.gpd <- function(object, at) {
 #' @rdname range
 #' @export
 range.gpd <- function(x, ...) {
-  location <- parameters(x)$location
-  shape <- parameters(x)$shape
-  scale <- parameters(x)$scale
-  if (shape >= 0) {
-    return(c(location, Inf))
-  } else {
-    max_val <- location -
-      (scale / shape)
-    c(location, max_val)
-  }
+  with(parameters(x), {
+    if (shape >= 0) {
+      c(location, Inf)
+    } else {
+      max_val <- location -
+        (scale / shape)
+      c(location, max_val)
+    }
+  })
+}
+
+#' @export
+discontinuities.gpd <- function(object, from, to, ...) {
+	make_empty_discontinuities_df()
 }
 
 # Using .dst method for:

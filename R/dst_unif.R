@@ -181,6 +181,10 @@ range.unif <- function(x, ...) {
   })
 }
 
+#' @export
+discontinuities.unif <- function(object, from, to, ...) {
+	make_empty_discontinuities_df()
+}
 
 # Using .dst method for:
 # - get_hazard

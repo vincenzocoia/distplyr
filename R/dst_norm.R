@@ -100,6 +100,10 @@ range.norm <- function(x, ...) {
   c(-Inf, Inf)
 }
 
+#' @export
+discontinuities.norm <- function(object, from, to, ...) {
+	make_empty_discontinuities_df()
+}
 
 # Using .dst method for:
 # - get_hazard
