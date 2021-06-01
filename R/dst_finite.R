@@ -272,6 +272,9 @@ range.finite <- function(x, ...) {
 #' @rdname discontinuities
 #' @export
 discontinuities.finite <- function(object, from = -Inf, to = Inf, ...) {
+  if (from > to) {
+    stop("To argument must be larger or equal than from argument")
+  }
   probabilities <- object$probabilities
   location <- probabilities$location
   res <- subset(probabilities, location >= from & location <= to)

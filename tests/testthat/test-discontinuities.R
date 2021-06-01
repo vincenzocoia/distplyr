@@ -43,6 +43,33 @@ test_that("Discontinuites GPD works", {
   )
 })
 
+test_that("Discontinuites Poisson works", {
+  expect_equal(
+    discontinuities(dst_pois(3), 0, 1),
+    tibble::tibble(
+      location = c(0, 1),
+      size = c(dpois(0, 3), dpois(1, 3))
+    )
+  )
+  results <- c()
+  for (i in 0:10) {
+    results <- c(results, dpois(i, 18))
+  }
+  expect_equal(
+    discontinuities(dst_pois(18), 0, 10),
+    tibble::tibble(
+      location = 0:10,
+      size = results
+    )
+  )
+  expect_error(
+    discontinuities(dst_pois(1456))
+  )
+  expect_error(
+    discontinuities(dst_pois(1), 1, 0)
+  )
+})
+
 test_that("Discontinuites Finite works", {
   expect_equal(
     discontinuities(dst_finite(1:5, rep(0.2, 5)), 1, 4),
@@ -224,6 +251,34 @@ test_that("Discontinuites Mix works", {
     ),
     tibble::tibble(
       location = numeric(), size = numeric()
+    )
+  )
+  expect_equal(
+    discontinuities(
+      mix(
+        dst_pois(1),
+        dst_norm(1, 5)
+      ), 0, 2
+    ),
+    tibble::tibble(
+      location = 0:2,
+      size = c(dpois(0, 1) / 2, dpois(1, 1) / 2, dpois(2, 1) / 2)
+    )
+  )
+  expect_error(
+    discontinuities(
+      mix(
+        dst_pois(14),
+        dst_norm(56, 8)
+      )
+    )
+  )
+  expect_error(
+    discontinuities(
+      mix(
+        dst_pois(14),
+        dst_norm(56, 8)
+      ), -1, -6
     )
   )
 })

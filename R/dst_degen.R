@@ -91,6 +91,9 @@ range.degenerate <- function(x, ...) {
 #' @export
 discontinuities.degenerate <- function(object, from = -Inf, to = Inf, ...) {
   with(parameters(object), {
+    if (from > to) {
+      stop("To argument must be larger or equal than from argument")
+    }
     if (from <= location & to >= location) {
       res <- data.frame(location = location, size = 1)
     } else {

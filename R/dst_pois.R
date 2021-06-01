@@ -7,8 +7,10 @@
 #' dst_poisson(1)
 #' @export
 dst_pois <- function(lambda) {
-  if (lambda <= 0) {
+  if (lambda < 0) {
     stop("'scale' parameter must greater than 0")
+  } else if (lambda == 0) {
+    return(dst_degenerate(lambda))
   }
   res <- list(parameters = list(
     lambda = lambda
@@ -32,6 +34,20 @@ sd.pois <- function(x, ...) {
   with(parameters(x), sqrt(lambda))
 }
 
+#' @export
+evi.pois <- function(x, ...) {
+  NaN
+}
+
+#' @export
+skewness.pois <- function(x, ...) {
+  with(parameters(x), lambda^(-0.5))
+}
+
+#' @export
+kurtosis_exc.pois <- function(x, ...) {
+  with(parameters(x), lambda^(-1))
+}
 
 #' @export
 eval_cdf.pois <- function(object, at) {
@@ -81,12 +97,13 @@ range.pois <- function(x, ...) {
 discontinuities.pois <- function(object, from = -Inf, to = Inf, ...) {
   if (to == Inf) {
     stop("Poisson Distribution must have to limit")
-  }
-  if (from <= 0 & to <= 0) {
-    res <- make_empty_discontinuities_df()
-    res <- convert_dataframe_to_tibble(res)
   } else if (to < from) {
     stop("To argument must be larger or equal than from argument")
+  }
+
+  if (to <= 0) {
+    res <- make_empty_discontinuities_df()
+    res <- convert_dataframe_to_tibble(res)
   }
   else {
     size <- c()

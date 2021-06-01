@@ -267,6 +267,9 @@ evi.mix <- function(x, ...) {
 #' @rdname discontinuities
 #' @export
 discontinuities.mix <- function(object, from = -Inf, to = Inf, ...) {
+  if (from > to) {
+    stop("To argument must be larger or equal than from argument")
+  }
   res <- make_empty_discontinuities_df()
   distributions <- lapply(
     object$components$distributions, discontinuities,
