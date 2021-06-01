@@ -162,14 +162,10 @@ range.gpd <- function(x, ...) {
 
 #' @rdname discontinuities
 #' @export
-<<<<<<< HEAD
-discontinuities.gpd <- function(object, from, to, ...) {
-=======
 discontinuities.gpd <- function(object, from = -Inf, to = Inf, ...) {
   if (from > to) {
     stop("To argument must be larger or equal than from argument")
   }
->>>>>>> pois
   make_empty_discontinuities_df()
 }
 
