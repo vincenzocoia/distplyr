@@ -266,22 +266,41 @@ evi.mix <- function(x, ...) {
 
 #' @rdname discontinuities
 #' @export
+<<<<<<< HEAD
 discontinuities.mix <- function(object, from, to, ...) {
+=======
+discontinuities.mix <- function(object, from = -Inf, to = Inf, ...) {
+  if (from > to) {
+    stop("To argument must be larger or equal than from argument")
+  }
+>>>>>>> pois
   res <- make_empty_discontinuities_df()
   distributions <- lapply(
     object$components$distributions, discontinuities,
     from, to
   )
+<<<<<<< HEAD
   if (inherits(object, "mix")) {
     for (i in 1:length(distributions)) {
       distributions[[i]]$size <- distributions[[i]]$size *
         object$components$probs[i]
       res <- rbind(res, distributions[[i]])
     }
+=======
+  for (i in 1:length(distributions)) {
+    distributions[[i]]$size <- distributions[[i]]$size *
+      object$components$probs[i]
+    res <- rbind(res, distributions[[i]])
+    # might need to use c() function to join them
+>>>>>>> pois
   }
   res <- aggregate_weights(res$location,
     weights = res$size,
     sum_to_one = FALSE
   )
   convert_dataframe_to_tibble(res)
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> pois

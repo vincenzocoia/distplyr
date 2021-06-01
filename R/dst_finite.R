@@ -271,10 +271,12 @@ range.finite <- function(x, ...) {
 
 #' @rdname discontinuities
 #' @export
-discontinuities.finite <- function(object, from, to, ...) {
+discontinuities.finite <- function(object, from = -Inf, to = Inf, ...) {
+  if (from > to) {
+    stop("To argument must be larger or equal than from argument")
+  }
   probabilities <- object$probabilities
   location <- probabilities$location
-  from_filtered <- probabilities[location >= from, ]
-  res <- from_filtered[location <= to, ]
-  res
+  res <- subset(probabilities, location >= from & location <= to)
+  convert_dataframe_to_tibble(res)
 }
