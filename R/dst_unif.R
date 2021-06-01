@@ -9,52 +9,52 @@
 #' dst_unif(0, 1)
 #' @export
 dst_unif <- function(min, max) {
-    if (missing(min)) {
-        min <- rlang::expr(.min)
-        resolved_min <- FALSE
-    } else {
-        min <- resolve_if_possible({{ min }})
-        resolved_min <- min$resolved
-        min <- min$outcome
-    }
-    if (resolved_min && !is.numeric(min)) {
-        stop(
-            "'min' argument should be numeric, but received ",
-            class(min),
-            "."
-        )
-    }
-    if (missing(max)) {
-        max <- rlang::expr(.max)
-        resolved_max <- FALSE
-    } else {
-        max <- resolve_if_possible({{ max }})
-        resolved_max <- max$resolved
-        max <- max$outcome
-    }
-    if (resolved_max && !is.numeric(max)) {
-        stop(
-            "'max' argument should be numeric, but received ",
-            class(max),
-            "."
-        )
-    }
-    if (resolved_min && resolved_max) {
-        if (max < min) {
-            stop("Parameter 'min' must be less than 'max'.")
-        }
-        if (max == min) {
-            return(dst_degenerate(min))
-        }
-    }
-    res <- list(parameters = list(
-        min = min,
-        max = max
-    ))
-    new_parametric(res,
-        variable = "continuous",
-        class = "unif"
+  if (missing(min)) {
+    min <- rlang::expr(.min)
+    resolved_min <- FALSE
+  } else {
+    min <- resolve_if_possible({{ min }})
+    resolved_min <- min$resolved
+    min <- min$outcome
+  }
+  if (resolved_min && !is.numeric(min)) {
+    stop(
+      "'min' argument should be numeric, but received ",
+      class(min),
+      "."
     )
+  }
+  if (missing(max)) {
+    max <- rlang::expr(.max)
+    resolved_max <- FALSE
+  } else {
+    max <- resolve_if_possible({{ max }})
+    resolved_max <- max$resolved
+    max <- max$outcome
+  }
+  if (resolved_max && !is.numeric(max)) {
+    stop(
+      "'max' argument should be numeric, but received ",
+      class(max),
+      "."
+    )
+  }
+  if (resolved_min && resolved_max) {
+    if (max < min) {
+      stop("Parameter 'min' must be less than 'max'.")
+    }
+    if (max == min) {
+      return(dst_degenerate(min))
+    }
+  }
+  res <- list(parameters = list(
+    min = min,
+    max = max
+  ))
+  new_parametric(res,
+    variable = "continuous",
+    class = "unif"
+  )
 }
 
 #' Resolve an input if possible
@@ -76,13 +76,13 @@ dst_unif <- function(min, max) {
 #' cowabunga <- 42
 #' resolve_if_possible(cowabunga)
 resolve_if_possible <- function(x) {
-    x <- rlang::enquo(x)
-    try_x <- try(rlang::eval_tidy(x), silent = TRUE)
-    resolved <- !inherits(try_x, "try-error")
-    if (resolved) {
-        x <- try_x
-    }
-    list(outcome = x, resolved = resolved)
+  x <- rlang::enquo(x)
+  try_x <- try(rlang::eval_tidy(x), silent = TRUE)
+  resolved <- !inherits(try_x, "try-error")
+  if (resolved) {
+    x <- try_x
+  }
+  list(outcome = x, resolved = resolved)
 }
 
 
@@ -91,100 +91,100 @@ resolve_if_possible <- function(x) {
 
 #' @export
 mean.unif <- function(x, ...) {
-    with(parameters(x), {
-        res <- resolve_if_possible((!!min + !!max) / 2)
-        if (res$resolved) {
-            res$outcome
-        } else {
-            rlang::get_expr(res$outcome)
-        }
-    })
+  with(parameters(x), {
+    res <- resolve_if_possible((!!min + !!max) / 2)
+    if (res$resolved) {
+      res$outcome
+    } else {
+      rlang::get_expr(res$outcome)
+    }
+  })
 }
 
 #' @export
 median.unif <- function(x, ...) {
-    with(parameters(x), (min + max) / 2)
+  with(parameters(x), (min + max) / 2)
 }
 
 #' @export
 variance.unif <- function(x, ...) {
-    with(parameters(x), (min - max)^2 / 12)
+  with(parameters(x), (min - max)^2 / 12)
 }
 
 
 #' @export
 evi.unif <- function(x, ...) {
-    -1
+  -1
 }
 
 #' @export
 skewness.unif <- function(x, ...) {
-    0
+  0
 }
 
 #' @export
 kurtosis_exc.unif <- function(x, ...) {
-    -6 / 5
+  -6 / 5
 }
 
 #' @export
 eval_cdf.unif <- function(object, at) {
-    with(parameters(object), {
-        stats::punif(at, min = min, max = max)
-    })
+  with(parameters(object), {
+    stats::punif(at, min = min, max = max)
+  })
 }
 
 #' @export
 eval_survival.unif <- function(object, at) {
-    with(parameters(object), {
-        stats::punif(at,
-            min = min,
-            max = max,
-            lower.tail = FALSE
-        )
-    })
+  with(parameters(object), {
+    stats::punif(at,
+      min = min,
+      max = max,
+      lower.tail = FALSE
+    )
+  })
 }
 
 #' @export
 eval_density.unif <- function(object, at) {
-    with(parameters(object), {
-        res <-
-            resolve_if_possible(stats::dunif(!!at, min = !!min, max = !!max))
-        if (res$resolved) {
-            res$outcome
-        } else {
-            rlang::get_expr(res$outcome)
-        }
-    })
+  with(parameters(object), {
+    res <-
+      resolve_if_possible(stats::dunif(!!at, min = !!min, max = !!max))
+    if (res$resolved) {
+      res$outcome
+    } else {
+      rlang::get_expr(res$outcome)
+    }
+  })
 }
 
 #' @export
 realise.unif <- function(object, n = 1, ...) {
-    with(parameters(object), {
-        stats::runif(n, min = min, max = max)
-    })
+  with(parameters(object), {
+    stats::runif(n, min = min, max = max)
+  })
 }
 
 #' @export
 eval_quantile.unif <- function(object, at, ...) {
-    with(parameters(object), {
-        stats::qunif(at, min = min, max = max)
-    })
+  with(parameters(object), {
+    stats::qunif(at, min = min, max = max)
+  })
 }
 
 
 #' @rdname range
 #' @export
 range.unif <- function(x, ...) {
-    with(parameters(x), {
-        c(min, max)
-    })
+  with(parameters(x), {
+    c(min, max)
+  })
 }
 
 #' @rdname discontinuities
 #' @export
 discontinuities.unif <- function(object, from, to, ...) {
-    make_empty_discontinuities_df()
+  make_empty_discontinuities_df()
 }
 
 # Using .dst method for:

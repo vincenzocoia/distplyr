@@ -31,37 +31,39 @@ get_cdf <- function(object) UseMethod("get_cdf")
 
 #' @export
 eval_cdf.dst <- function(object, at) {
-	cdf <- object[["representations"]][["cdf"]]
-	if (!is.null(cdf)) return(cdf(at))
-	stop("Can't find a cdf for this distribution.")
+  cdf <- object[["representations"]][["cdf"]]
+  if (!is.null(cdf)) {
+    return(cdf(at))
+  }
+  stop("Can't find a cdf for this distribution.")
 }
 
 #' @export
 get_cdf.dst <- function(object) {
-	cdf <- object[["representations"]][["cdf"]]
-	if (!is.null(cdf)) return(cdf)
-	function(at) eval_cdf(object, at = at)
+  cdf <- object[["representations"]][["cdf"]]
+  if (!is.null(cdf)) {
+    return(cdf)
+  }
+  function(at) eval_cdf(object, at = at)
 }
 
 #' @rdname cdf
 #' @export
 enframe_cdf <- function(object, at,
-						arg_name = ".arg",
-						fn_name = ".cdf") {
-	UseMethod("enframe_cdf")
+                        arg_name = ".arg",
+                        fn_name = ".cdf") {
+  UseMethod("enframe_cdf")
 }
 
 #' @export
 enframe_cdf.dst <- function(object, at,
-							arg_name = ".arg",
-							fn_name = ".cdf") {
-	f <- eval_cdf(object, at = at)
-	res <- data.frame(at, f)
-	names(res) <- c(arg_name, fn_name)
-	if (requireNamespace("tibble", quietly = TRUE)) {
-		res <- tibble::as_tibble(res)
-	}
-	res
+                            arg_name = ".arg",
+                            fn_name = ".cdf") {
+  f <- eval_cdf(object, at = at)
+  res <- data.frame(at, f)
+  names(res) <- c(arg_name, fn_name)
+  if (requireNamespace("tibble", quietly = TRUE)) {
+    res <- tibble::as_tibble(res)
+  }
+  res
 }
-
-

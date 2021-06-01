@@ -25,38 +25,48 @@ get_density <- function(object) UseMethod("get_density")
 
 #' @export
 eval_density.dst <- function(object, at) {
-	f <- object[["representations"]][["density"]]
-	if (!is.null(f)) return(f(at))
-	if (variable(object) != "continuous") return(NULL)
-	stop("Can't find a probability function for this distribution.")
+  f <- object[["representations"]][["density"]]
+  if (!is.null(f)) {
+    return(f(at))
+  }
+  if (variable(object) != "continuous") {
+    return(NULL)
+  }
+  stop("Can't find a probability function for this distribution.")
 }
 
 #' @export
 get_density.dst <- function(object) {
-	f <- object[["representations"]][["density"]]
-	if (!is.null(f)) return(f)
-	if (variable(object) != "continuous") return(NULL)
-	function(at) eval_density(object, at = at)
+  f <- object[["representations"]][["density"]]
+  if (!is.null(f)) {
+    return(f)
+  }
+  if (variable(object) != "continuous") {
+    return(NULL)
+  }
+  function(at) eval_density(object, at = at)
 }
 
 #' @rdname density
 #' @export
 enframe_density <- function(object, at,
-							 arg_name = ".arg",
-							 fn_name = ".density") {
-	UseMethod("enframe_density")
+                            arg_name = ".arg",
+                            fn_name = ".density") {
+  UseMethod("enframe_density")
 }
 
 #' @export
 enframe_density.dst <- function(object, at,
-								 arg_name = ".arg",
-								 fn_name = ".density") {
-	f <- eval_density(object, at = at)
-	if (is.null(f)) return(NULL)
-	res <- data.frame(at, f)
-	names(res) <- c(arg_name, fn_name)
-	if (requireNamespace("tibble", quietly = TRUE)) {
-		res <- tibble::as_tibble(res)
-	}
-	res
+                                arg_name = ".arg",
+                                fn_name = ".density") {
+  f <- eval_density(object, at = at)
+  if (is.null(f)) {
+    return(NULL)
+  }
+  res <- data.frame(at, f)
+  names(res) <- c(arg_name, fn_name)
+  if (requireNamespace("tibble", quietly = TRUE)) {
+    res <- tibble::as_tibble(res)
+  }
+  res
 }

@@ -6,7 +6,7 @@
 #' @return A single numeric.
 #' @export
 evi <- function(x, ...) {
-	UseMethod("evi")
+  UseMethod("evi")
 }
 
 #' Extreme Value Index
@@ -26,7 +26,5 @@ evi <- function(x, ...) {
 #' evi(dst_empirical(1:10))
 #' @export
 evi.dst <- function(x, ...) {
-	x$prop$evi
+  x$prop$evi
 }
-
-

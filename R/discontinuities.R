@@ -43,29 +43,29 @@ discontinuities <- function(object, from, to, ...) UseMethod("discontinuities")
 #' @rdname discontinuities
 #' @export
 aggregate_weights <- function(y, weights, sum_to_one = FALSE) {
-    stopifnot(identical(length(y), length(weights)))
-    na_y <- is.na(y)
-    na_w <- is.na(weights)
-    na <- na_y | na_w
-    clean_y <- y[!na]
-    clean_w <- weights[!na]
-    zero_w <- clean_w == 0
-    cleaner_y <- clean_y[!zero_w]
-    cleaner_w <- clean_w[!zero_w]
-    if (length(cleaner_y) == 0L) {
-        return(make_empty_discontinuities_df())
-    }
-    if (sum_to_one) {
-        cleaner_w <- cleaner_w / sum(cleaner_w)
-    }
-    df <- stats::aggregate(
-        data.frame(size = cleaner_w),
-        by = list(location = cleaner_y),
-        FUN = sum
-    )
-    df <- df[order(df[["location"]]), , drop = FALSE]
-    stopifnot(is_discontinuities_df(df))
-    convert_dataframe_to_tibble(df)
+  stopifnot(identical(length(y), length(weights)))
+  na_y <- is.na(y)
+  na_w <- is.na(weights)
+  na <- na_y | na_w
+  clean_y <- y[!na]
+  clean_w <- weights[!na]
+  zero_w <- clean_w == 0
+  cleaner_y <- clean_y[!zero_w]
+  cleaner_w <- clean_w[!zero_w]
+  if (length(cleaner_y) == 0L) {
+    return(make_empty_discontinuities_df())
+  }
+  if (sum_to_one) {
+    cleaner_w <- cleaner_w / sum(cleaner_w)
+  }
+  df <- stats::aggregate(
+    data.frame(size = cleaner_w),
+    by = list(location = cleaner_y),
+    FUN = sum
+  )
+  df <- df[order(df[["location"]]), , drop = FALSE]
+  stopifnot(is_discontinuities_df(df))
+  convert_dataframe_to_tibble(df)
 }
 
 #' Make a Data Frame of Discontinuities
@@ -77,10 +77,10 @@ aggregate_weights <- function(y, weights, sum_to_one = FALSE) {
 #' to construct a data frame.
 #' @export
 make_discontinuities_df <- function(location, size) {
-    df <- data.frame(location = location, size = size)
-    stopifnot(is_discontinuities_df(df))
-    df <- convert_dataframe_to_tibble(df)
-    df
+  df <- data.frame(location = location, size = size)
+  stopifnot(is_discontinuities_df(df))
+  df <- convert_dataframe_to_tibble(df)
+  df
 }
 
 #' Check if a Data Frame is a Discontinuity Data Frame
@@ -91,30 +91,30 @@ make_discontinuities_df <- function(location, size) {
 #' @return Logical.
 #' @export
 is_discontinuities_df <- function(df) {
-    if (!is.data.frame(df)) {
-        return(FALSE)
+  if (!is.data.frame(df)) {
+    return(FALSE)
+  }
+  if (!identical(names(df), c("location", "size"))) {
+    return(FALSE)
+  }
+  if (identical(nrow(df), 0L)) {
+    return(TRUE)
+  }
+  with(df, {
+    if (sum(size) > 1) {
+      return(FALSE)
     }
-    if (!identical(names(df), c("location", "size"))) {
-        return(FALSE)
+    if (any(size <= 0)) {
+      return(FALSE)
     }
-    if (identical(nrow(df), 0L)) {
-        return(TRUE)
+    if (!identical(
+      length(location),
+      length(unique(location))
+    )) {
+      return(FALSE)
     }
-    with(df, {
-        if (sum(size) > 1) {
-            return(FALSE)
-        }
-        if (any(size <= 0)) {
-            return(FALSE)
-        }
-        if (!identical(
-            length(location),
-            length(unique(location))
-        )) {
-            return(FALSE)
-        }
-    })
-    TRUE
+  })
+  TRUE
 }
 
 #' Rowless Step Discontinuity Data Frame
@@ -125,7 +125,7 @@ is_discontinuities_df <- function(df) {
 #' do not have any step discontinuities
 #' (i.e., continuous distributions)
 make_empty_discontinuities_df <- function() {
-    make_discontinuities_df(numeric(0L), numeric(0L))
+  make_discontinuities_df(numeric(0L), numeric(0L))
 }
 
 #' Determine Variable Type from Discontinuities Data Frame
@@ -140,14 +140,14 @@ make_empty_discontinuities_df <- function() {
 #' \code{"discrete"}, or \code{"mixed"}.
 #' @export
 discontinuities_to_variable <- function(df) {
-    n <- nrow(df)
-    if (identical(n, 0L)) {
-        return("continuous")
-    }
-    probs <- df[["size"]]
-    if (sum(probs) == 1) {
-        "discrete"
-    } else {
-        "mixed"
-    }
+  n <- nrow(df)
+  if (identical(n, 0L)) {
+    return("continuous")
+  }
+  probs <- df[["size"]]
+  if (sum(probs) == 1) {
+    "discrete"
+  } else {
+    "mixed"
+  }
 }

@@ -24,40 +24,44 @@ eval_chf <- function(object, at) UseMethod("eval_chf")
 
 #' @export
 eval_chf.dst <- function(object, at) {
-	f <- object[["representations"]][["chf"]]
-	if (!is.null(f)) return(f(at))
-	if (identical(variable(object), "continuous")) {
-		sf <- eval_survival(object, at)
-		-log(sf)
-	} else {
-		stop("Not programmed yet")
-	}
+  f <- object[["representations"]][["chf"]]
+  if (!is.null(f)) {
+    return(f(at))
+  }
+  if (identical(variable(object), "continuous")) {
+    sf <- eval_survival(object, at)
+    -log(sf)
+  } else {
+    stop("Not programmed yet")
+  }
 }
 
 #' @export
 get_chf.dst <- function(object) {
-	chf <- object[["representations"]][["chf"]]
-	if (!is.null(chf)) return(chf)
-	function(at) eval_chf(object, at = at)
+  chf <- object[["representations"]][["chf"]]
+  if (!is.null(chf)) {
+    return(chf)
+  }
+  function(at) eval_chf(object, at = at)
 }
 
 #' @rdname chf
 #' @export
 enframe_chf <- function(object, at,
-							 arg_name = ".arg",
-							 fn_name = ".chf") {
-	UseMethod("enframe_chf")
+                        arg_name = ".arg",
+                        fn_name = ".chf") {
+  UseMethod("enframe_chf")
 }
 
 #' @export
 enframe_chf.dst <- function(object, at,
-								 arg_name = ".arg",
-								 fn_name = ".chf") {
-	f <- eval_chf(object, at = at)
-	res <- data.frame(at, f)
-	names(res) <- c(arg_name, fn_name)
-	if (requireNamespace("tibble", quietly = TRUE)) {
-		res <- tibble::as_tibble(res)
-	}
-	res
+                            arg_name = ".arg",
+                            fn_name = ".chf") {
+  f <- eval_chf(object, at = at)
+  res <- data.frame(at, f)
+  names(res) <- c(arg_name, fn_name)
+  if (requireNamespace("tibble", quietly = TRUE)) {
+    res <- tibble::as_tibble(res)
+  }
+  res
 }
