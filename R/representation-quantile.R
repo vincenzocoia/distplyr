@@ -31,40 +31,44 @@ get_quantile <- function(object, ...) UseMethod("get_quantile")
 #' @rdname quantile
 #' @export
 get_quantile.dst <- function(object, tol = 1e-6, maxiter = 1000, ...) {
-	f <- object[["representations"]][["quantile"]]
-	if (!is.null(f)) return(f)
-	function(at) eval_quantile(object, at, tol = tol, maxiter = maxiter, ...)
+  f <- object[["representations"]][["quantile"]]
+  if (!is.null(f)) {
+    return(f)
+  }
+  function(at) eval_quantile(object, at, tol = tol, maxiter = maxiter, ...)
 }
 
 #' @rdname quantile
 #' @export
 eval_quantile.dst <- function(object, at, tol = 1e-6, maxiter = 1000, ...) {
-	f <- object[["representations"]][["quantile"]]
-	if (!is.null(f)) return(f(at))
-	cdf <- get_cdf(object)
-	eval_quantile_from_cdf(cdf, at, tol = tol, maxiter = maxiter)
+  f <- object[["representations"]][["quantile"]]
+  if (!is.null(f)) {
+    return(f(at))
+  }
+  cdf <- get_cdf(object)
+  eval_quantile_from_cdf(cdf, at, tol = tol, maxiter = maxiter)
 }
 
 #' @rdname quantile
 #' @export
 enframe_quantile <- function(object, at,
-							 arg_name = ".arg",
-							 fn_name = ".quantile",
-							 tol = 1e-6, maxiter = 1000) {
-	UseMethod("enframe_quantile")
+                             arg_name = ".arg",
+                             fn_name = ".quantile",
+                             tol = 1e-6, maxiter = 1000) {
+  UseMethod("enframe_quantile")
 }
 
 #' @rdname quantile
 #' @export
 enframe_quantile.dst <- function(object, at,
-								 arg_name = ".arg",
-								 fn_name = ".quantile",
-								 tol = 1e-6, maxiter = 1000) {
-	f <- eval_quantile(object, at = at)
-	res <- data.frame(at, f)
-	names(res) <- c(arg_name, fn_name)
-	if (requireNamespace("tibble", quietly = TRUE)) {
-		res <- tibble::as_tibble(res)
-	}
-	res
+                                 arg_name = ".arg",
+                                 fn_name = ".quantile",
+                                 tol = 1e-6, maxiter = 1000) {
+  f <- eval_quantile(object, at = at)
+  res <- data.frame(at, f)
+  names(res) <- c(arg_name, fn_name)
+  if (requireNamespace("tibble", quietly = TRUE)) {
+    res <- tibble::as_tibble(res)
+  }
+  res
 }

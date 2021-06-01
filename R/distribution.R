@@ -70,10 +70,12 @@
 #' @return A distribution object with nothing in it.
 #' @export
 distribution <- function(variable = c("continuous", "discrete", "mixed")) {
-	variable <- match.arg(variable)
-	res <- list(representations = list(),
-				parameters = list())
-	new_distribution(res, variable = variable)
+  variable <- match.arg(variable)
+  res <- list(
+    representations = list(),
+    parameters = list()
+  )
+  new_distribution(res, variable = variable)
 }
 
 
@@ -86,12 +88,12 @@ distribution <- function(variable = c("continuous", "discrete", "mixed")) {
 #' @param class If making a subclass, specify its name here.
 #' @export
 new_distribution <- function(l, variable, ...,
-					class = character()) {
-	structure(
-		l,
-		variable = variable,
-		class    = c(class, "dst")
-	)
+                             class = character()) {
+  structure(
+    l,
+    variable = variable,
+    class    = c(class, "dst")
+  )
 }
 
 

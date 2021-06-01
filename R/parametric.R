@@ -7,11 +7,11 @@
 #' @param class If making a subclass, specify its name here.
 #' @export
 new_parametric <- function(l, variable, ..., class = character()) {
-	new_distribution(
-		l,
-		variable = variable,
-		class    = c(class, "parametric")
-	)
+  new_distribution(
+    l,
+    variable = variable,
+    class    = c(class, "parametric")
+  )
 }
 
 

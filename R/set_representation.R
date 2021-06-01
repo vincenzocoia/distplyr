@@ -37,42 +37,42 @@ set_chf <- function(object, fn) UseMethod("set_chf")
 
 #' @export
 set_cdf.dst <- function(object, fn) {
-	object[["representations"]][["cdf"]] <- fn
-	object
+  object[["representations"]][["cdf"]] <- fn
+  object
 }
 
 #' @export
 set_density.dst <- function(object, fn) {
-	object[["representations"]][["density"]] <- fn
-	object
+  object[["representations"]][["density"]] <- fn
+  object
 }
 
 #' @export
 set_quantile.dst <- function(object, fn) {
-	object[["representations"]][["quantile"]] <- fn
-	object
+  object[["representations"]][["quantile"]] <- fn
+  object
 }
 
 #' @export
 set_pmf.dst <- function(object, fn) {
-	object[["representations"]][["pmf"]] <- fn
-	object
+  object[["representations"]][["pmf"]] <- fn
+  object
 }
 
 #' @export
 set_hazard.dst <- function(object, fn) {
-	object[["representations"]][["hazard"]] <- fn
-	object
+  object[["representations"]][["hazard"]] <- fn
+  object
 }
 
 #' @export
 set_chf.dst <- function(object, fn) {
-	object[["representations"]][["chf"]] <- fn
-	object
+  object[["representations"]][["chf"]] <- fn
+  object
 }
 
 #' @export
 set_survival.dst <- function(object, fn) {
-	object[["representations"]][["survival"]] <- fn
-	object
+  object[["representations"]][["survival"]] <- fn
+  object
 }

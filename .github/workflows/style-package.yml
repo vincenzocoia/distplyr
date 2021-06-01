@@ -1,7 +1,5 @@
 name: Run Styler
 on:
-  push:
-    branches: [master, v0.1.3, dist]
   pull_request:
     branches: [master, v0.1.3]
 
@@ -10,7 +8,7 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        r-version: [4.0.5]
+        r-version: [3.5, 4.0.5]
 
     steps:
       - uses: actions/checkout@v2

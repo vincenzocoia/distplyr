@@ -24,9 +24,7 @@
 #' @rdname moments
 #' @export
 mean.dst <- function(x, ...) {
-	qf <- get_quantile(x)
-	int <- stats::integrate(qf, lower = 0, upper = 1, ...)
-	int$value
+  qf <- get_quantile(x)
+  int <- stats::integrate(qf, lower = 0, upper = 1, ...)
+  int$value
 }
-
-
