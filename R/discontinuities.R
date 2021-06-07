@@ -58,7 +58,6 @@ aggregate_weights <- function(y, weights, sum_to_one = FALSE) {
     FUN = sum
   )
   df <- df[order(df[["location"]]), , drop = FALSE]
-  # stopifnot(is_discontinuities_df(df))
   convert_dataframe_to_tibble(df)
 }
 
@@ -71,7 +70,6 @@ aggregate_weights <- function(y, weights, sum_to_one = FALSE) {
 #' (i.e., continuous distributions)
 make_empty_discontinuities_df <- function() {
   df <- data.frame(location = numeric(), size = numeric())
-  # stopifnot(is_discontinuities_df(df))
   df <- convert_dataframe_to_tibble(df)
   df
 }
@@ -86,7 +84,6 @@ make_empty_discontinuities_df <- function() {
 #' the output of \code{\link{discontinuities}}.
 #' @return One of \code{"continuous"},
 #' \code{"discrete"}, or \code{"mixed"}.
-#' @export
 discontinuities_to_variable <- function(df) {
   n <- nrow(df)
   if (identical(n, 0L)) {
