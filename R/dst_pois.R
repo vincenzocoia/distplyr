@@ -88,6 +88,7 @@ range.pois <- function(x, ...) {
 }
 
 #' @rdname discontinuities
+#' @export
 discontinuities.pois <- function(object, from = -Inf, to = Inf, ...) {
   if (is.na(from) || is.na(to)) {
     stop("Specified limits must not be NA.")
