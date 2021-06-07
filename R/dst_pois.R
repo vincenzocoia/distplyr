@@ -88,23 +88,28 @@ range.pois <- function(x, ...) {
 }
 
 #' @rdname discontinuities
-#' @export
 discontinuities.pois <- function(object, from = -Inf, to = Inf, ...) {
+  if (is.na(from) || is.na(to)) {
+    stop("Specified limits must not be NA.")
+  }
   if (to == Inf) {
-    stop("Poisson Distribution must have finite 'to' limit")
-  } else if (to < from) {
-    stop("'to' argument must be larger or equal than from argument")
+    stop("Poisson Distribution must have finite 'to' limit.")
   }
-
+  if (to < from) {
+    stop("'to' argument must be larger or equal than from argument.")
+  }
   if (to < 0) {
-    res <- make_empty_discontinuities_df()
-    res <- convert_dataframe_to_tibble(res)
+    return(make_empty_discontinuities_df())
   }
-  else {
-    rounded_from <- ceiling(from)
-    rounded_to <- floor(to)
-    size <- eval_pmf(object, rounded_from:rounded_to)
-    res <- data.frame(location = from:to, size = size)
+  if (from < 0) {
+    from <- 0
   }
-  convert_dataframe_to_tibble(res)
+  rounded_from <- ceiling(from)
+  rounded_to <- floor(to)
+  if (rounded_from > rounded_to) {
+    return(make_empty_discontinuities_df())
+  }
+  locs <- rounded_from:rounded_to
+  size <- eval_pmf(object, at = locs)
+  aggregate_weights(locs, size, sum_to_one = FALSE)
 }
