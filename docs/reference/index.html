@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">distplyr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2.9000</span>
       </span>
     </div>
 
@@ -89,7 +89,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -124,7 +124,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/vincenzocoia/distplyr">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
@@ -197,6 +197,14 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="discontinuities.norm.html">discontinuities(<i>&lt;norm&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>#' @export
+discontinuities.dst &lt;- function(object) 
+object["discontinuities"]</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="discontinuities.html">discontinuities()</a></code> <code><a href="discontinuities.html">aggregate_weights()</a></code> </p>
         </td>
         <td><p>Discontinuities in a Distribution</p></td>
@@ -212,6 +220,18 @@
           <p><code><a href="distribution.html">distribution()</a></code> <code><a href="distribution.html">is_distribution()</a></code> <code><a href="distribution.html">is.distribution()</a></code> </p>
         </td>
         <td><p>Make a blank distribution</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="dst_empirical.html">dst_empirical()</a></code> </p>
+        </td>
+        <td><p>Create an Empirical Distribution</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="dst_finite.html">dst_finite()</a></code> </p>
+        </td>
+        <td><p>Create a Finite Distribution</p></td>
       </tr><tr>
         
         <td>
@@ -245,13 +265,13 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="evi.html">evi()</a></code> </p>
+          <p><code><a href="evi.dst.html">evi(<i>&lt;dst&gt;</i>)</a></code> </p>
         </td>
         <td><p>Extreme Value Index</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="evi.dst.html">evi(<i>&lt;dst&gt;</i>)</a></code> </p>
+          <p><code><a href="evi.html">evi()</a></code> </p>
         </td>
         <td><p>Extreme Value Index</p></td>
       </tr><tr>
@@ -275,6 +295,12 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="is_finite.html">is_finite_dst()</a></code> <code><a href="is_finite.html">is.finite_dst()</a></code> <code><a href="is_finite.html">is.empirical()</a></code> <code><a href="is_finite.html">is_empirical()</a></code> </p>
+        </td>
+        <td><p>Is a distribution a finite distribution?</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="left_inverse.html">left_inverse()</a></code> </p>
         </td>
         <td><p>Algorithm to Compute Left Inverse</p></td>
@@ -293,7 +319,7 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="mix.html">mix()</a></code> </p>
+          <p><code><a href="mix.html">mix()</a></code> <code><a href="mix.html">is_mix()</a></code> <code><a href="mix.html">is.mix()</a></code> </p>
         </td>
         <td><p>Mixture Distributions</p></td>
       </tr><tr>
@@ -305,27 +331,33 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="name.html">name()</a></code> </p>
-        </td>
-        <td><p>Name of a Distribution</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="new_distribution.html">new_distribution()</a></code> </p>
         </td>
         <td><p>Constructor Function for "dst" Objects</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="new_stepdst.html">new_stepdst()</a></code> </p>
+          <p><code><a href="new_finite.html">new_finite()</a></code> </p>
         </td>
-        <td><p>Constructor Function for Step Distributions</p></td>
+        <td><p>Constructor Function for Finite Distributions</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="new_parametric.html">new_parametric()</a></code> </p>
+        </td>
+        <td><p>Constructor Function for "parametric" distribution Objects</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="parameters.html">parameters()</a></code> </p>
         </td>
         <td><p>Parameters of a Distribution</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="parametric.html">is_parametric()</a></code> <code><a href="parametric.html">is.parametric()</a></code> </p>
+        </td>
+        <td><p>Parametric Distribution Objects</p></td>
       </tr><tr>
         
         <td>
@@ -359,9 +391,21 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="range.html">range()</a></code> </p>
+        </td>
+        <td><p>Range of Distribution</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="realise.html">realise()</a></code> <code><a href="realise.html">realize()</a></code> </p>
         </td>
         <td><p>Generate a Sample from a Distribution</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="resolve_if_possible.html">resolve_if_possible()</a></code> </p>
+        </td>
+        <td><p>Resolve an input if possible</p></td>
       </tr><tr>
         
         <td>
@@ -374,12 +418,6 @@
           <p><code><a href="set_representation.html">set_cdf()</a></code> <code><a href="set_representation.html">set_survival()</a></code> <code><a href="set_representation.html">set_quantile()</a></code> <code><a href="set_representation.html">set_density()</a></code> <code><a href="set_representation.html">set_pmf()</a></code> <code><a href="set_representation.html">set_hazard()</a></code> <code><a href="set_representation.html">set_chf()</a></code> </p>
         </td>
         <td><p>Set a representation of a distribution</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="stepdst.html">stepdst()</a></code> <code><a href="stepdst.html">is_stepdst()</a></code> <code><a href="stepdst.html">is.stepdst()</a></code> </p>
-        </td>
-        <td><p>Create a Step Distribution</p></td>
       </tr><tr>
         
         <td>

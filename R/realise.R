@@ -14,16 +14,16 @@ realize <- function(object, n = 1, ...) UseMethod("realise")
 
 #' @export
 realise.dst <- function(object, n = 1, ...) {
-	r <- object[["representations"]][["fun_rand"]]
-	if (is.null(r)) {
-		u <- stats::runif(n)
-		return(eval_quantile(object, at = u, ...))
-	} else {
-		r(n)
-	}
+  r <- object[["representations"]][["fun_rand"]]
+  if (is.null(r)) {
+    u <- stats::runif(n)
+    return(eval_quantile(object, at = u, ...))
+  } else {
+    r(n)
+  }
 }
 
 #' @export
 realise.default <- function(object, n = 1, ...) {
-	rep(object, n)
+  rep(object, n)
 }

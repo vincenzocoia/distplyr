@@ -1,15 +1,15 @@
 #' @rdname moments
 #' @export
-sd <- function(x, ...) {
-	UseMethod("sd")
+stdev <- function(x, ...) {
+  UseMethod("stdev")
 }
 
 
 #' @rdname moments
 #' @export
-sd.dst <- function(x, ...) {
-	ss <- variance(x, ...)
-	sqrt(ss)
+stdev.dst <- function(x, ...) {
+  ss <- variance(x, ...)
+  sqrt(ss)
 }
 
 
@@ -18,8 +18,7 @@ sd.dst <- function(x, ...) {
 #' @param x Object for which to calculate standard deviation
 #' @param ... Other arguments to pass to \code{sd} function
 #' from the stats package.
-#'
 #' @export
-sd.default <- function(x, ...) {
-	stats::sd(x, ...)
+stdev.default <- function(x, ...) {
+  stats::sd(x, ...)
 }

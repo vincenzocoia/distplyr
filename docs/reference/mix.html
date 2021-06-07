@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">distplyr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2.9000</span>
       </span>
     </div>
 
@@ -90,7 +90,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -125,7 +125,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/vincenzocoia/distplyr">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
@@ -151,7 +151,11 @@
     <p>Create a mixture distribution.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mix</span><span class='op'>(</span><span class='va'>...</span>, weights <span class='op'>=</span> <span class='fl'>1</span>, na.rm <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>mix</span><span class='op'>(</span><span class='va'>...</span>, weights <span class='op'>=</span> <span class='fl'>1</span>, na.rm <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+
+<span class='fu'>is_mix</span><span class='op'>(</span><span class='va'>object</span><span class='op'>)</span>
+
+<span class='fu'>is.mix</span><span class='op'>(</span><span class='va'>object</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -170,24 +174,28 @@ or, single numeric for equal weights.</p></td>
       <td><p>Remove distributions corresponding to <code>NA</code> weights?
 Default is <code>FALSE</code>.</p></td>
     </tr>
+    <tr>
+      <th>object</th>
+      <td><p>Object to be tested</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A mixture distribution -- an empty distribution if any weights
-are <code>NA</code> and `na.rm = FALSE`, the default.</p>
+are <code>NA</code> and <code>na.rm = FALSE</code>, the default.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='dst_norm.html'>dst_norm</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span>
 <span class='va'>b</span> <span class='op'>&lt;-</span> <span class='fu'><a href='dst_norm.html'>dst_norm</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>2</span><span class='op'>)</span>
 <span class='va'>m1</span> <span class='op'>&lt;-</span> <span class='fu'>mix</span><span class='op'>(</span><span class='va'>a</span>, <span class='va'>b</span>, weights <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>m1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: This function doesn't work properly yet!</span></div><div class='output co'>#&gt; <span class='warning'>Warning: This function doesn't work properly yet!</span></div><div class='output co'>#&gt; <span class='warning'>Warning: This function doesn't work properly yet!</span></div><div class='output co'>#&gt; <span class='warning'>Warning: This function doesn't work properly yet!</span></div><div class='img'><img src='mix-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='variable.html'>variable</a></span><span class='op'>(</span><span class='va'>m1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in stats::pnorm(at, mean = mean, sd = sd): Non-numeric argument to mathematical function</span></div><div class='input'><span class='fu'><a href='variable.html'>variable</a></span><span class='op'>(</span><span class='va'>m1</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] "continuous"</div><div class='input'>
-<span class='va'>c</span> <span class='op'>&lt;-</span> <span class='fu'><a href='stepdst.html'>stepdst</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>6</span><span class='op'>)</span>
+<span class='va'>c</span> <span class='op'>&lt;-</span> <span class='fu'><a href='dst_empirical.html'>dst_empirical</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>6</span><span class='op'>)</span>
 <span class='va'>m2</span> <span class='op'>&lt;-</span> <span class='fu'>mix</span><span class='op'>(</span><span class='va'>a</span>, <span class='va'>b</span>, <span class='va'>c</span>, weights <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.2</span>, <span class='fl'>0.5</span>, <span class='fl'>0.3</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>m2</span>, n <span class='op'>=</span> <span class='fl'>1001</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Density function does not exist. Plotting cdf instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: This function doesn't work properly yet!</span></div><div class='output co'>#&gt; <span class='warning'>Warning: This function doesn't work properly yet!</span></div><div class='img'><img src='mix-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='variable.html'>variable</a></span><span class='op'>(</span><span class='va'>m2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Density function does not exist. Plotting cdf instead.</span></div><div class='output co'>#&gt; <span class='error'>Error in lapply(object$components$distributions, discontinuities, from,     to): argument "from" is missing, with no default</span></div><div class='input'><span class='fu'><a href='variable.html'>variable</a></span><span class='op'>(</span><span class='va'>m2</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] "mixed"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

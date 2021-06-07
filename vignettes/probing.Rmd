@@ -140,7 +140,7 @@ Here are some properties of our original Uniform(-1, 1) distribution:
 
 ```{r}
 mean(d)
-sd(d)
+stdev(d)
 evi(d)
 ```
 
