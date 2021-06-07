@@ -24,12 +24,6 @@
 #' @export
 discontinuities <- function(object, from, to, ...) UseMethod("discontinuities")
 
-#' #' @export
-#' discontinuities.dst <- function(object) {
-#' 	object[["discontinuities"]]
-#' }
-#'
-
 #' @param y Vector of outcomes.
 #' @param weights Vector of weights, one for each of \code{y}.
 #' These need not sum to one, but must not be negative.
@@ -64,57 +58,8 @@ aggregate_weights <- function(y, weights, sum_to_one = FALSE) {
     FUN = sum
   )
   df <- df[order(df[["location"]]), , drop = FALSE]
-  stopifnot(is_discontinuities_df(df))
+  # stopifnot(is_discontinuities_df(df))
   convert_dataframe_to_tibble(df)
-}
-
-#' Make a Data Frame of Discontinuities
-#'
-#' Places the components of step discontinuities
-#' into a data frame, and checks that the result is named
-#' appropriately.
-#' @param location,size Vectors of equal length from which
-#' to construct a data frame.
-#' @export
-make_discontinuities_df <- function(location, size) {
-  df <- data.frame(location = location, size = size)
-  stopifnot(is_discontinuities_df(df))
-  df <- convert_dataframe_to_tibble(df)
-  df
-}
-
-#' Check if a Data Frame is a Discontinuity Data Frame
-#'
-#' The official names in a discontinuity data frame are
-#' determined (and checked) here.
-#' @param df Data frame to check
-#' @return Logical.
-#' @export
-is_discontinuities_df <- function(df) {
-  if (!is.data.frame(df)) {
-    return(FALSE)
-  }
-  if (!identical(names(df), c("location", "size"))) {
-    return(FALSE)
-  }
-  if (identical(nrow(df), 0L)) {
-    return(TRUE)
-  }
-  with(df, {
-    if (sum(size) > 1) {
-      return(FALSE)
-    }
-    if (any(size <= 0)) {
-      return(FALSE)
-    }
-    if (!identical(
-      length(location),
-      length(unique(location))
-    )) {
-      return(FALSE)
-    }
-  })
-  TRUE
 }
 
 #' Rowless Step Discontinuity Data Frame
@@ -125,7 +70,10 @@ is_discontinuities_df <- function(df) {
 #' do not have any step discontinuities
 #' (i.e., continuous distributions)
 make_empty_discontinuities_df <- function() {
-  make_discontinuities_df(numeric(0L), numeric(0L))
+  df <- data.frame(location = numeric(), size = numeric())
+  # stopifnot(is_discontinuities_df(df))
+  df <- convert_dataframe_to_tibble(df)
+  df
 }
 
 #' Determine Variable Type from Discontinuities Data Frame

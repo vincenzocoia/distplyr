@@ -263,7 +263,7 @@ eval_pmf.finite <- function(object, at) {
 #' @rdname range
 #' @export
 range.finite <- function(x, ...) {
-  unlisted_probability_list <- unlist(x$probabilities$location)
+  unlisted_probability_list <- x$probabilities$location
   min_val <- min(unlisted_probability_list)
   max_val <- max(unlisted_probability_list)
   c(min_val, max_val)
@@ -273,7 +273,7 @@ range.finite <- function(x, ...) {
 #' @export
 discontinuities.finite <- function(object, from = -Inf, to = Inf, ...) {
   if (from > to) {
-    stop("To argument must be larger or equal than from argument")
+    stop("'to' argument must be larger or equal than from argument")
   }
   probabilities <- object$probabilities
   location <- probabilities$location

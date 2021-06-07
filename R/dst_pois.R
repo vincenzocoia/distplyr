@@ -8,7 +8,7 @@
 #' @export
 dst_pois <- function(lambda) {
   if (lambda < 0) {
-    stop("'scale' parameter must greater than 0")
+    stop("'lambda' parameter must greater than 0")
   } else if (lambda == 0) {
     return(dst_degenerate(lambda))
   }
@@ -30,7 +30,7 @@ variance.pois <- function(x, ...) {
 }
 
 #' @export
-sd.pois <- function(x, ...) {
+stdev.pois <- function(x, ...) {
   with(parameters(x), sqrt(lambda))
 }
 
@@ -96,20 +96,19 @@ range.pois <- function(x, ...) {
 #' @export
 discontinuities.pois <- function(object, from = -Inf, to = Inf, ...) {
   if (to == Inf) {
-    stop("Poisson Distribution must have to limit")
+    stop("Poisson Distribution must have finite 'to' limit")
   } else if (to < from) {
-    stop("To argument must be larger or equal than from argument")
+    stop("'to' argument must be larger or equal than from argument")
   }
 
-  if (to <= 0) {
+  if (to < 0) {
     res <- make_empty_discontinuities_df()
     res <- convert_dataframe_to_tibble(res)
   }
   else {
-    size <- c()
-    for (i in from:to) {
-      size <- c(size, distplyr::eval_pmf(object, i))
-    }
+    rounded_from <- ceiling(from)
+    rounded_to <- floor(to)
+    size <- eval_pmf(object, rounded_from:rounded_to)
     res <- data.frame(location = from:to, size = size)
   }
   convert_dataframe_to_tibble(res)

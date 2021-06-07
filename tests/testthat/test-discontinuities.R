@@ -51,10 +51,8 @@ test_that("Discontinuites Poisson works", {
       size = c(dpois(0, 3), dpois(1, 3))
     )
   )
-  results <- c()
-  for (i in 0:10) {
-    results <- c(results, dpois(i, 18))
-  }
+
+  results <- dpois(0:10, 18)
   expect_equal(
     discontinuities(dst_pois(18), 0, 10),
     tibble::tibble(
@@ -71,20 +69,27 @@ test_that("Discontinuites Poisson works", {
 })
 
 test_that("Discontinuites Finite works", {
+  car <- data.frame(
+    hp = c(
+      110, 110, 93, 110, 175, 105, 245, 62, 95, 123, 123,
+      180, 180, 180, 205, 215, 230, 66, 52, 65, 97, 150,
+      150, 245, 175, 66, 91, 113, 264, 175, 335, 109
+    )
+  )
   expect_equal(
     discontinuities(dst_finite(1:5, rep(0.2, 5)), 1, 4),
     tibble::tibble(location = c(1, 2, 3, 4), size = rep(0.2, 4))
   )
   expect_equal(
-    discontinuities(dst_empirical(hp, data = mtcars), 58, 80),
+    discontinuities(dst_empirical(hp, data = car), 58, 80),
     tibble::tibble(
       location = c(62, 65, 66),
       size = c(1 / 32, 1 / 32, 1 / 16)
     )
   )
   expect_equal(
-    discontinuities(dst_empirical(hp, data = mtcars), 52, 500),
-    tibble::tibble(location = sort(unique(mtcars$hp)), size = c(
+    discontinuities(dst_empirical(hp, data = car), 52, 500),
+    tibble::tibble(location = sort(unique(car$hp)), size = c(
       1 / 32, 1 / 32, 1 / 32, 2 / 32, 1 / 32, 1 / 32, 1 / 32,
       1 / 32, 1 / 32, 1 / 32, 3 / 32, 1 / 32, 2 / 32, 2 / 32,
       3 / 32, 3 / 32, 1 / 32, 1 / 32, 1 / 32, 2 / 32, 1 / 32,
@@ -93,10 +98,7 @@ test_that("Discontinuites Finite works", {
   )
   expect_equal(
     discontinuities(dst_finite(1:5, rep(0.2, 5)), 58, 80),
-    tibble::tibble(
-      location = numeric(),
-      size = numeric()
-    )
+    make_empty_discontinuities_df()
   )
   expect_equal(
     discontinuities(dst_finite(1:5, rep(0.2, 5))),
@@ -110,27 +112,34 @@ test_that("Discontinuites Finite works", {
 test_that("Discontinuites Degenerate works", {
   expect_equal(
     discontinuities(dst_degenerate(1), -Inf, Inf),
-    tibble::tibble(location = c(1), size = c(1))
+    tibble::tibble(location = 1, size = 1)
   )
   expect_equal(
     discontinuities(dst_degenerate(5), 0, 456),
-    tibble::tibble(location = c(5), size = c(1))
+    tibble::tibble(location = 5, size = 1)
   )
   expect_equal(
     discontinuities(dst_degenerate(5), 5, 54),
-    tibble::tibble(location = c(5), size = c(1))
+    tibble::tibble(location = 5, size = 1)
   )
   expect_equal(
     discontinuities(dst_degenerate(45), 56, 75654),
-    tibble::tibble(location = numeric(), size = numeric())
+    make_empty_discontinuities_df()
   )
   expect_equal(
     discontinuities(dst_degenerate(4546455)),
-    tibble::tibble(location = c(4546455), size = c(1))
+    tibble::tibble(location = 4546455, size = 1)
   )
 })
 
 test_that("Discontinuites Mix works", {
+  car <- data.frame(
+    hp = c(
+      110, 110, 93, 110, 175, 105, 245, 62, 95, 123, 123,
+      180, 180, 180, 205, 215, 230, 66, 52, 65, 97, 150,
+      150, 245, 175, 66, 91, 113, 264, 175, 335, 109
+    )
+  )
   expect_equal(
     discontinuities(mix(
       dst_norm(1, 4),
@@ -181,7 +190,7 @@ test_that("Discontinuites Mix works", {
     discontinuities(mix(
       dst_finite(1:5, rep(0.2, 5)),
       dst_degenerate(2),
-      dst_empirical(hp, data = mtcars)
+      dst_empirical(hp, data = car)
     ), 1, 6),
     tibble::tibble(location = 1:5, size = c(
       0.2 / 3, (1 + 0.2) / 3,
@@ -198,10 +207,10 @@ test_that("Discontinuites Mix works", {
   expect_equal(
     discontinuities(mix(
       dst_finite(1:5, rep(0.2, 5)),
-      dst_empirical(hp, data = mtcars)
+      dst_empirical(hp, data = car)
     )),
     tibble::tibble(
-      location = c(1:5, sort(unique(mtcars$hp))),
+      location = c(1:5, sort(unique(car$hp))),
       size = c(
         rep(0.1, 5),
         1 / 64, 1 / 64, 1 / 64, 2 / 64, 1 / 64, 1 / 64, 1 / 64,

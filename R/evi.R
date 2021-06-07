@@ -24,7 +24,3 @@ evi <- function(x, ...) {
 #' evi(dst_unif(0, 10))
 #' evi(dst_norm(5, 5))
 #' evi(dst_empirical(1:10))
-#' @export
-evi.dst <- function(x, ...) {
-  x$prop$evi
-}

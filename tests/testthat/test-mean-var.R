@@ -5,7 +5,7 @@ test_that("mean and variance works with dst_empirical", {
   expect_equal(mean(x), mean(.dst))
   v <- mean(x^2) - mean(x)^2
   expect_equal(v, variance(.dst))
-  expect_equal(sqrt(v), sd(.dst))
+  expect_equal(sqrt(v), stdev(.dst))
 })
 
 

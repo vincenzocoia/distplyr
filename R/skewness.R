@@ -10,7 +10,7 @@ skewness <- function(x, ...) UseMethod("skewness")
 #' @export
 skewness.dst <- function(x, ...) {
   mu <- mean(x)
-  sigma <- sd(x)
+  sigma <- stdev(x)
   sf <- get_survival(x)
   sf2 <- function(t) sf(mu + t^(1 / 3))
   one_minus_flipped <- function(t) 1 - sf(mu - t^(1 / 3))

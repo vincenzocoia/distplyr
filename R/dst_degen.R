@@ -61,7 +61,7 @@ variance.degenerate <- function(x, ...) {
 }
 
 #' @export
-sd.degenerate <- function(x, ...) {
+stdev.degenerate <- function(x, ...) {
   0
 }
 
@@ -92,7 +92,7 @@ range.degenerate <- function(x, ...) {
 discontinuities.degenerate <- function(object, from = -Inf, to = Inf, ...) {
   with(parameters(object), {
     if (from > to) {
-      stop("To argument must be larger or equal than from argument")
+      stop("'to' argument must be larger or equal than from argument")
     }
     if (from <= location & to >= location) {
       res <- data.frame(location = location, size = 1)

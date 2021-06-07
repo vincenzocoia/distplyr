@@ -144,7 +144,7 @@ variance.mix <- function(x, ...) {
 #' @export
 skewness.mix <- function(x, ...) {
   overall_mean <- mean(x)
-  overall_sd <- sd(x)
+  overall_sd <- stdev(x)
   with(x[["components"]], {
     means <- vapply(distributions, mean, FUN.VALUE = numeric(1L))
     vars <- vapply(distributions, variance, FUN.VALUE = numeric(1L))
@@ -268,20 +268,23 @@ evi.mix <- function(x, ...) {
 #' @export
 discontinuities.mix <- function(object, from = -Inf, to = Inf, ...) {
   if (from > to) {
-    stop("To argument must be larger or equal than from argument")
+    stop("'to' argument must be larger or equal than from argument")
   }
   res <- make_empty_discontinuities_df()
   distributions <- lapply(
     object$components$distributions, discontinuities,
-    from, to
+    from = from, to = to
   )
+  sizes <- lapply(distributions, "[", "size")
+  locations <- lapply(distributions, "[", "location")
   for (i in 1:length(distributions)) {
-    distributions[[i]]$size <- distributions[[i]]$size *
-      object$components$probs[i]
-    res <- rbind(res, distributions[[i]])
+    sizes[[i]] <- sizes[[i]] * object$components$probs[i]
   }
-  res <- aggregate_weights(res$location,
-    weights = res$size,
+  size <- c(sizes, recursive = TRUE)
+  location <- c(locations, recursive = TRUE)
+  res <- data.frame(size, location)
+  res <- aggregate_weights(location,
+    weights = size,
     sum_to_one = FALSE
   )
   convert_dataframe_to_tibble(res)

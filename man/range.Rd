@@ -8,7 +8,6 @@
 \alias{range.norm}
 \alias{range.pois}
 \alias{range.unif}
-\alias{range}
 \alias{range.dst}
 \title{Range of Distribution}
 \usage{
@@ -23,8 +22,6 @@
 \method{range}{pois}(x, ...)
 
 \method{range}{unif}(x, ...)
-
-range(x, ...)
 
 \method{range}{dst}(x, ...)
 }

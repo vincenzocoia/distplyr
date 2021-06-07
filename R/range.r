@@ -14,11 +14,6 @@
 #' range(a)
 #' range(b)
 #' range(c)
-#' @export
-range <- function(x, ...) {
-  UseMethod("range")
-}
-
 #' @rdname range
 #' @export
 range.dst <- function(x, ...) {

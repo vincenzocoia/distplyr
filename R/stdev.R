@@ -1,13 +1,13 @@
 #' @rdname moments
 #' @export
-sd <- function(x, ...) {
-  UseMethod("sd")
+stdev <- function(x, ...) {
+  UseMethod("stdev")
 }
 
 
 #' @rdname moments
 #' @export
-sd.dst <- function(x, ...) {
+stdev.dst <- function(x, ...) {
   ss <- variance(x, ...)
   sqrt(ss)
 }
@@ -20,6 +20,6 @@ sd.dst <- function(x, ...) {
 #' from the stats package.
 #'
 #' @export
-sd.default <- function(x, ...) {
+stdev.default <- function(x, ...) {
   stats::sd(x, ...)
 }

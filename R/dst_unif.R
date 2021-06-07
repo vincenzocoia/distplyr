@@ -185,7 +185,7 @@ range.unif <- function(x, ...) {
 #' @export
 discontinuities.unif <- function(object, from = -Inf, to = Inf, ...) {
   if (from > to) {
-    stop("To argument must be larger or equal than from argument")
+    stop("'to' argument must be larger or equal than from argument")
   }
   make_empty_discontinuities_df()
 }

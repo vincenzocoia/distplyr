@@ -42,7 +42,7 @@ variance.norm <- function(x, ...) {
 }
 
 #' @export
-sd.norm <- function(x, ...) {
+stdev.norm <- function(x, ...) {
   with(parameters(x), sd)
 }
 
@@ -106,7 +106,7 @@ range.norm <- function(x, ...) {
 #' @export
 discontinuities.norm <- function(object, from = -Inf, to = Inf, ...) {
   if (from > to) {
-    stop("To argument must be larger or equal than from argument")
+    stop("'to' argument must be larger or equal than from argument")
   }
   make_empty_discontinuities_df()
 }
