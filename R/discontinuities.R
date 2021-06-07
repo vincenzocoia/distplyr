@@ -73,26 +73,3 @@ make_empty_discontinuities_df <- function() {
   df <- convert_dataframe_to_tibble(df)
   df
 }
-
-#' Determine Variable Type from Discontinuities Data Frame
-#'
-#' Internal function that uses a data frame of
-#' discontinuities to determine whether the
-#' underlying random variable is continuous,
-#' discrete, or mixed.
-#' @param df A data frame of discontinuities, as in
-#' the output of \code{\link{discontinuities}}.
-#' @return One of \code{"continuous"},
-#' \code{"discrete"}, or \code{"mixed"}.
-discontinuities_to_variable <- function(df) {
-  n <- nrow(df)
-  if (identical(n, 0L)) {
-    return("continuous")
-  }
-  probs <- df[["size"]]
-  if (sum(probs) == 1) {
-    "discrete"
-  } else {
-    "mixed"
-  }
-}
