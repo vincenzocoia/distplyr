@@ -1,3 +1,11 @@
+car <- data.frame(
+  hp = c(
+    110, 110, 93, 110, 175, 105, 245, 62, 95, 123, 123,
+    180, 180, 180, 205, 215, 230, 66, 52, 65, 97, 150,
+    150, 245, 175, 66, 91, 113, 264, 175, 335, 109
+  )
+)
+
 test_that("Discontinuites Norm works", {
   expect_equal(
     discontinuities(dst_norm(1, 2), -Inf, Inf),
@@ -69,13 +77,6 @@ test_that("Discontinuites Poisson works", {
 })
 
 test_that("Discontinuites Finite works", {
-  car <- data.frame(
-    hp = c(
-      110, 110, 93, 110, 175, 105, 245, 62, 95, 123, 123,
-      180, 180, 180, 205, 215, 230, 66, 52, 65, 97, 150,
-      150, 245, 175, 66, 91, 113, 264, 175, 335, 109
-    )
-  )
   expect_equal(
     discontinuities(dst_finite(1:5, rep(0.2, 5)), 1, 4),
     tibble::tibble(location = c(1, 2, 3, 4), size = rep(0.2, 4))
@@ -133,13 +134,6 @@ test_that("Discontinuites Degenerate works", {
 })
 
 test_that("Discontinuites Mix works", {
-  car <- data.frame(
-    hp = c(
-      110, 110, 93, 110, 175, 105, 245, 62, 95, 123, 123,
-      180, 180, 180, 205, 215, 230, 66, 52, 65, 97, 150,
-      150, 245, 175, 66, 91, 113, 264, 175, 335, 109
-    )
-  )
   expect_equal(
     discontinuities(mix(
       dst_norm(1, 4),
@@ -291,3 +285,5 @@ test_that("Discontinuites Mix works", {
     )
   )
 })
+
+rm("car")
