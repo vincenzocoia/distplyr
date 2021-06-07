@@ -30,11 +30,6 @@ variance.pois <- function(x, ...) {
 }
 
 #' @export
-stdev.pois <- function(x, ...) {
-  with(parameters(x), sqrt(lambda))
-}
-
-#' @export
 evi.pois <- function(x, ...) {
   NaN
 }
