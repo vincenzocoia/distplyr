@@ -33,21 +33,15 @@ enframe_pmf <- function(object, at,
 
 #' @export
 eval_pmf.dst <- function(object, at) {
-  f <- object[["representations"]][["pmf"]]
-  if (!is.null(f)) {
-    return(f(at))
-  }
-  with(discontinuities(object), {
-    vapply(at, function(x) sum(size[x == location]), FUN.VALUE = numeric(1L))
-  })
+	rng <- range(at)
+	discretes <- discontinuities(object, from = rng[1], to = rng[2])
+	with(discretes, {
+		vapply(at, function(x) sum(size[x == location]), FUN.VALUE = numeric(1L))
+	})
 }
 
 #' @export
 get_pmf.dst <- function(object) {
-  f <- object[["representations"]][["pmf"]]
-  if (!is.null(f)) {
-    return(f)
-  }
   function(at) eval_pmf(object, at = at)
 }
 
@@ -58,8 +52,5 @@ enframe_pmf.dst <- function(object, at,
   f <- eval_pmf(object, at = at)
   res <- data.frame(at, f)
   names(res) <- c(arg_name, fn_name)
-  if (requireNamespace("tibble", quietly = TRUE)) {
-    res <- tibble::as_tibble(res)
-  }
-  res
+  convert_dataframe_to_tibble(res)
 }

@@ -31,19 +31,11 @@ get_cdf <- function(object) UseMethod("get_cdf")
 
 #' @export
 eval_cdf.dst <- function(object, at) {
-  cdf <- object[["representations"]][["cdf"]]
-  if (!is.null(cdf)) {
-    return(cdf(at))
-  }
   stop("Can't find a cdf for this distribution.")
 }
 
 #' @export
 get_cdf.dst <- function(object) {
-  cdf <- object[["representations"]][["cdf"]]
-  if (!is.null(cdf)) {
-    return(cdf)
-  }
   function(at) eval_cdf(object, at = at)
 }
 
@@ -62,8 +54,5 @@ enframe_cdf.dst <- function(object, at,
   f <- eval_cdf(object, at = at)
   res <- data.frame(at, f)
   names(res) <- c(arg_name, fn_name)
-  if (requireNamespace("tibble", quietly = TRUE)) {
-    res <- tibble::as_tibble(res)
-  }
-  res
+  convert_dataframe_to_tibble(res)
 }

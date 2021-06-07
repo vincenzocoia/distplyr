@@ -25,25 +25,16 @@ get_hazard <- function(object) UseMethod("get_hazard")
 
 #' @export
 eval_hazard.dst <- function(object, at) {
-  f <- object[["representations"]][["hazard"]]
-  if (!is.null(f)) {
-    return(f(at))
+  if (variable(object) != "continuous") {
+    stop("Hazard function requires a continuous distribution.")
   }
-  if (identical(variable(object), "continuous")) {
-    sf <- eval_survival(object, at)
-    pdf <- eval_density(object, at)
-    pdf / sf
-  } else {
-    stop("Not programmed yet.")
-  }
+  sf <- eval_survival(object, at)
+  pdf <- eval_density(object, at)
+  pdf / sf
 }
 
 #' @export
 get_hazard.dst <- function(object) {
-  hf <- object[["representations"]][["hazard"]]
-  if (!is.null(hf)) {
-    return(hf)
-  }
   function(at) eval_hazard(object, at = at)
 }
 
@@ -63,8 +54,5 @@ enframe_hazard.dst <- function(object, at,
   f <- eval_hazard(object, at = at)
   res <- data.frame(at, f)
   names(res) <- c(arg_name, fn_name)
-  if (requireNamespace("tibble", quietly = TRUE)) {
-    res <- tibble::as_tibble(res)
-  }
-  res
+  convert_dataframe_to_tibble(res)
 }

@@ -24,12 +24,8 @@ eval_chf <- function(object, at) UseMethod("eval_chf")
 
 #' @export
 eval_chf.dst <- function(object, at) {
-  f <- object[["representations"]][["chf"]]
-  if (!is.null(f)) {
-    return(f(at))
-  }
-  if (identical(variable(object), "continuous")) {
-    sf <- eval_survival(object, at)
+  if (variable(object) == "continuous") {
+    sf <- eval_survival(object, at = at)
     -log(sf)
   } else {
     stop("Not programmed yet")
@@ -38,10 +34,6 @@ eval_chf.dst <- function(object, at) {
 
 #' @export
 get_chf.dst <- function(object) {
-  chf <- object[["representations"]][["chf"]]
-  if (!is.null(chf)) {
-    return(chf)
-  }
   function(at) eval_chf(object, at = at)
 }
 
@@ -60,8 +52,5 @@ enframe_chf.dst <- function(object, at,
   f <- eval_chf(object, at = at)
   res <- data.frame(at, f)
   names(res) <- c(arg_name, fn_name)
-  if (requireNamespace("tibble", quietly = TRUE)) {
-    res <- tibble::as_tibble(res)
-  }
-  res
+  convert_dataframe_to_tibble(res)
 }
