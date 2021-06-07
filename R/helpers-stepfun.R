@@ -10,21 +10,21 @@
 #' @rdname efun
 #' @export
 eqf <- function(x) {
-	cdf <- stats::ecdf(x)
-	taus <- plateaus(cdf)
-	y <- stats::knots(cdf)
-	y <- c(y[1], y, y[length(y)]) # Perhaps one day y can be sandwiched by NaN's.
-	stats::stepfun(taus, y, right = TRUE)
+  cdf <- stats::ecdf(x)
+  taus <- plateaus(cdf)
+  y <- stats::knots(cdf)
+  y <- c(y[1], y, y[length(y)]) # Perhaps one day y can be sandwiched by NaN's.
+  stats::stepfun(taus, y, right = TRUE)
 }
 
 #' @rdname efun
 #' @export
 epmf <- function(x) {
-	vals <- unique(sort(x))
-	counts <- unname(unclass(table(x)))
-	n <- sum(counts)
-	p <- counts / n
-	Vectorize(function(y) mean(y == x, na.rm = TRUE))
+  vals <- unique(sort(x))
+  counts <- unname(unclass(table(x)))
+  n <- sum(counts)
+  p <- counts / n
+  Vectorize(function(y) mean(y == x, na.rm = TRUE))
 }
 
 
@@ -38,21 +38,21 @@ epmf <- function(x) {
 #' @export
 #' @rdname check_continuous
 check_left_continuous <- function(object) {
-	if (!stats::is.stepfun(object)) {
-		stop("Object being tested is not a step function.")
-	}
-	f <- with(environment(object), f)
-	if (f == 1) TRUE else FALSE
+  if (!stats::is.stepfun(object)) {
+    stop("Object being tested is not a step function.")
+  }
+  f <- with(environment(object), f)
+  if (f == 1) TRUE else FALSE
 }
 
 #' @export
 #' @rdname check_continuous
 check_right_continuous <- function(object) {
-	if (!stats::is.stepfun(object)) {
-		stop("Object being tested is not a step function.")
-	}
-	f <- with(environment(object), f)
-	if (f == 0) TRUE else FALSE
+  if (!stats::is.stepfun(object)) {
+    stop("Object being tested is not a step function.")
+  }
+  f <- with(environment(object), f)
+  if (f == 0) TRUE else FALSE
 }
 
 #' Extract Heights of a Step Function
@@ -68,16 +68,16 @@ plateaus <- function(object) UseMethod("plateaus")
 
 #' @export
 plateaus.stepfun <- function(object) {
-	e <- environment(object)
-	fval <- with(e, f)
-	y <- with(e, y)
-	if (fval == 1) {
-		yright <- with(e, yright)
-		return(c(y, yright))
-	} else {
-		yleft <- with(e, yleft)
-		return(c(yleft, y))
-	}
+  e <- environment(object)
+  fval <- with(e, f)
+  y <- with(e, y)
+  if (fval == 1) {
+    yright <- with(e, yright)
+    return(c(y, yright))
+  } else {
+    yleft <- with(e, yleft)
+    return(c(yleft, y))
+  }
 }
 
 #' Swap Direction of Continuity of a Step Function
@@ -89,18 +89,16 @@ plateaus.stepfun <- function(object) {
 #' breakpoints.
 #' @export
 swap_step_continuity_direction <- function(stepfun) {
-	x <- stats::knots(stepfun)
-	y <- plateaus(stepfun)
-	l <- check_left_continuous(stepfun)
-	r <- check_right_continuous(stepfun)
-	if (!l && !r) {
-		stop("Step function provided is neither left nor right continuous.")
-	}
-	if (l) {
-		stats::stepfun(x, y, right = FALSE)
-	} else {
-		stats::stepfun(x, y, right = TRUE)
-	}
+  x <- stats::knots(stepfun)
+  y <- plateaus(stepfun)
+  l <- check_left_continuous(stepfun)
+  r <- check_right_continuous(stepfun)
+  if (!l && !r) {
+    stop("Step function provided is neither left nor right continuous.")
+  }
+  if (l) {
+    stats::stepfun(x, y, right = FALSE)
+  } else {
+    stats::stepfun(x, y, right = TRUE)
+  }
 }
-
-

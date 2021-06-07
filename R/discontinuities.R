@@ -22,13 +22,7 @@
 #' c <- graft_right(a, b, sep_y = 3.5)
 #' discontinuities(c)
 #' @export
-discontinuities <- function(object) UseMethod("discontinuities")
-
-#' @export
-discontinuities.dst <- function(object) {
-	object[["discontinuities"]]
-}
-
+discontinuities <- function(object, from, to, ...) UseMethod("discontinuities")
 
 #' @param y Vector of outcomes.
 #' @param weights Vector of weights, one for each of \code{y}.
@@ -43,69 +37,28 @@ discontinuities.dst <- function(object) {
 #' @rdname discontinuities
 #' @export
 aggregate_weights <- function(y, weights, sum_to_one = FALSE) {
-	stopifnot(identical(length(y), length(weights)))
-	na_y <- is.na(y)
-	na_w <- is.na(weights)
-	na <- na_y | na_w
-	clean_y <- y[!na]
-	clean_w <- weights[!na]
-	zero_w <- clean_w == 0
-	cleaner_y <- clean_y[!zero_w]
-	cleaner_w <- clean_w[!zero_w]
-	if (length(cleaner_y) == 0L) {
-		return(make_empty_discontinuities_df())
-	}
-	if (sum_to_one) {
-		cleaner_w <- cleaner_w / sum(cleaner_w)
-	}
-	df <- stats::aggregate(
-		data.frame(size = cleaner_w),
-		by = list(location = cleaner_y),
-		FUN = sum
-	)
-	df <- df[order(df[["location"]]), , drop = FALSE]
-	stopifnot(is_discontinuities_df(df))
-	if (requireNamespace("tibble", quietly = TRUE)) {
-		df <- tibble::as_tibble(df)
-	}
-	df
-}
-
-#' Make a Data Frame of Discontinuities
-#'
-#' Places the components of step discontinuities
-#' into a data frame, and checks that the result is named
-#' appropriately.
-#' @param location,size Vectors of equal length from which
-#' to construct a data frame.
-#' @export
-make_discontinuities_df <- function(location, size) {
-	df <- data.frame(location = location, size = size)
-	stopifnot(is_discontinuities_df(df))
-	if (requireNamespace("tibble", quietly = TRUE)) {
-		df <- tibble::as_tibble(df)
-	}
-	df
-}
-
-#' Check if a Data Frame is a Discontinuity Data Frame
-#'
-#' The official names in a discontinuity data frame are
-#' determined (and checked) here.
-#' @param df Data frame to check
-#' @return Logical.
-#' @export
-is_discontinuities_df <- function(df) {
-	if (!is.data.frame(df)) return(FALSE)
-	if (!identical(names(df), c("location", "size"))) return(FALSE)
-	if (identical(nrow(df), 0L)) return(TRUE)
-	with(df, {
-		if (sum(size) > 1) return(FALSE)
-		if (any(size <= 0)) return(FALSE)
-		if (!identical(length(location),
-					   length(unique(location)))) return(FALSE)
-	})
-	TRUE
+  stopifnot(identical(length(y), length(weights)))
+  na_y <- is.na(y)
+  na_w <- is.na(weights)
+  na <- na_y | na_w
+  clean_y <- y[!na]
+  clean_w <- weights[!na]
+  zero_w <- clean_w == 0
+  cleaner_y <- clean_y[!zero_w]
+  cleaner_w <- clean_w[!zero_w]
+  if (length(cleaner_y) == 0L) {
+    return(make_empty_discontinuities_df())
+  }
+  if (sum_to_one) {
+    cleaner_w <- cleaner_w / sum(cleaner_w)
+  }
+  df <- stats::aggregate(
+    data.frame(size = cleaner_w),
+    by = list(location = cleaner_y),
+    FUN = sum
+  )
+  df <- df[order(df[["location"]]), , drop = FALSE]
+  convert_dataframe_to_tibble(df)
 }
 
 #' Rowless Step Discontinuity Data Frame
@@ -116,7 +69,9 @@ is_discontinuities_df <- function(df) {
 #' do not have any step discontinuities
 #' (i.e., continuous distributions)
 make_empty_discontinuities_df <- function() {
-	make_discontinuities_df(numeric(0L), numeric(0L))
+  df <- data.frame(location = numeric(), size = numeric())
+  df <- convert_dataframe_to_tibble(df)
+  df
 }
 
 #' Determine Variable Type from Discontinuities Data Frame
@@ -129,14 +84,15 @@ make_empty_discontinuities_df <- function() {
 #' the output of \code{\link{discontinuities}}.
 #' @return One of \code{"continuous"},
 #' \code{"discrete"}, or \code{"mixed"}.
-#' @export
 discontinuities_to_variable <- function(df) {
-	n <- nrow(df)
-	if (identical(n, 0L)) return("continuous")
-	probs <- df[["size"]]
-	if (sum(probs) == 1) {
-		"discrete"
-	} else {
-		"mixed"
-	}
+  n <- nrow(df)
+  if (identical(n, 0L)) {
+    return("continuous")
+  }
+  probs <- df[["size"]]
+  if (sum(probs) == 1) {
+    "discrete"
+  } else {
+    "mixed"
+  }
 }

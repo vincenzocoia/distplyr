@@ -25,42 +25,34 @@ get_hazard <- function(object) UseMethod("get_hazard")
 
 #' @export
 eval_hazard.dst <- function(object, at) {
-	f <- object[["representations"]][["hazard"]]
-	if (!is.null(f)) return(f(at))
-	if (identical(variable(object), "continuous")) {
-		sf <- eval_survival(object, at)
-		pdf <- eval_density(object, at)
-		pdf / sf
-	} else {
-		stop("Not programmed yet.")
-	}
+  if (variable(object) != "continuous") {
+    stop("Hazard function requires a continuous distribution.")
+  }
+  sf <- eval_survival(object, at)
+  pdf <- eval_density(object, at)
+  pdf / sf
 }
 
 #' @export
 get_hazard.dst <- function(object) {
-	hf <- object[["representations"]][["hazard"]]
-	if (!is.null(hf)) return(hf)
-	function(at) eval_hazard(object, at = at)
+  function(at) eval_hazard(object, at = at)
 }
 
 
 #' @rdname hazard
 #' @export
 enframe_hazard <- function(object, at,
-							 arg_name = ".arg",
-							 fn_name = ".hazard") {
-	UseMethod("enframe_hazard")
+                           arg_name = ".arg",
+                           fn_name = ".hazard") {
+  UseMethod("enframe_hazard")
 }
 
 #' @export
 enframe_hazard.dst <- function(object, at,
-								 arg_name = ".arg",
-								 fn_name = ".hazard") {
-	f <- eval_hazard(object, at = at)
-	res <- data.frame(at, f)
-	names(res) <- c(arg_name, fn_name)
-	if (requireNamespace("tibble", quietly = TRUE)) {
-		res <- tibble::as_tibble(res)
-	}
-	res
+                               arg_name = ".arg",
+                               fn_name = ".hazard") {
+  f <- eval_hazard(object, at = at)
+  res <- data.frame(at, f)
+  names(res) <- c(arg_name, fn_name)
+  convert_dataframe_to_tibble(res)
 }

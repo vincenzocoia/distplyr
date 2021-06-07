@@ -6,5 +6,5 @@ parameters <- function(object) UseMethod("parameters")
 
 #' @export
 parameters.dst <- function(object) {
-	object[["parameters"]]
+  object[["parameters"]]
 }

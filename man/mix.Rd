@@ -2,9 +2,15 @@
 % Please edit documentation in R/mix.R
 \name{mix}
 \alias{mix}
+\alias{is_mix}
+\alias{is.mix}
 \title{Mixture Distributions}
 \usage{
 mix(..., weights = 1, na.rm = FALSE)
+
+is_mix(object)
+
+is.mix(object)
 }
 \arguments{
 \item{...}{Distribution objects to mix.}
@@ -14,6 +20,8 @@ or, single numeric for equal weights.}
 
 \item{na.rm}{Remove distributions corresponding to \code{NA} weights?
 Default is \code{FALSE}.}
+
+\item{object}{Object to be tested}
 }
 \value{
 A mixture distribution -- an empty distribution if any weights

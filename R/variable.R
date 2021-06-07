@@ -8,5 +8,5 @@
 #' @rdname variable
 #' @export
 variable <- function(object) {
-	attributes(object)[["variable"]]
+  attributes(object)[["variable"]]
 }

@@ -25,40 +25,29 @@ get_survival <- function(object) UseMethod("get_survival")
 
 #' @export
 get_survival.dst <- function(object) {
-	sf <- object[["representations"]][["survival"]]
-	if (!is.null(sf)) return(sf)
-	function(at) eval_survival(object, at = at)
+  function(at) eval_survival(object, at = at)
 }
 
 
 #' @export
 eval_survival.dst <- function(object, at) {
-	sf <- object[["representations"]][["survival"]]
-	if (is.null(sf)) {
-		cdf <- get_cdf(object)
-		1 - cdf(at)
-	} else {
-		sf(at)
-	}
+  1 - eval_cdf(object, at = at)
 }
 
 #' @rdname survival
 #' @export
 enframe_survival <- function(object, at,
-							 arg_name = ".arg",
-							 fn_name = ".survival") {
-	UseMethod("enframe_survival")
+                             arg_name = ".arg",
+                             fn_name = ".survival") {
+  UseMethod("enframe_survival")
 }
 
 #' @export
 enframe_survival.dst <- function(object, at,
-								 arg_name = ".arg",
-								 fn_name = ".survival") {
-	f <- eval_survival(object, at = at)
-	res <- data.frame(at, f)
-	names(res) <- c(arg_name, fn_name)
-	if (requireNamespace("tibble", quietly = TRUE)) {
-		res <- tibble::as_tibble(res)
-	}
-	res
+                                 arg_name = ".arg",
+                                 fn_name = ".survival") {
+  f <- eval_survival(object, at = at)
+  res <- data.frame(at, f)
+  names(res) <- c(arg_name, fn_name)
+  convert_dataframe_to_tibble(res)
 }
