@@ -121,6 +121,25 @@ variance.finite <- function(x, ...) {
   })
 }
 
+#' @export
+skewness.finite <- function(x, ...) {
+  mu <- mean(x)
+  sigma <- stdev(x)
+  with(x$probabilities, {
+    trans <- ((location - mu) / sigma) ^ 3
+    sum(trans * size)
+  })
+}
+
+#' @export
+kurtosis_exc.finite <- function(x, ...) {
+  mu <- mean(x)
+  sigma <- stdev(x)
+  with(x$probabilities, {
+    trans <- ((location - mu) / sigma) ^ 4
+    sum(trans * size) - 3
+  })
+}
 
 #' @export
 get_cdf.finite <- function(object) {
