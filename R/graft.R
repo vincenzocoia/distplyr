@@ -158,7 +158,7 @@
 # #'
 
 #' @export
-graft_right <- function(object, dst_right, at, include_at = TRUE, ...) {
+graft_right_old <- function(object, dst_right, at, include_at = TRUE, ...) {
   if (!is_graft(object)) {
     graft(
       object,
@@ -199,7 +199,7 @@ graft_right <- function(object, dst_right, at, include_at = TRUE, ...) {
 }
 
 #' @export
-graft_left <- function(object, dst_left, at, include_at = TRUE, ...) {
+graft_left_old <- function(object, dst_left, at, include_at = TRUE, ...) {
   if (!is_graft(object)) {
     graft(
       object,
@@ -238,7 +238,8 @@ graft_left <- function(object, dst_left, at, include_at = TRUE, ...) {
   }
 }
 
-graft <- function(base, dst_left, dst_right, left_at, right_at, include_at_left_in_base, include_at_right_in_base, graft_side, other_side) {
+graft <- function(base, dst_left, dst_right, left_at, right_at, include_at_left_in_base,
+                  include_at_right_in_base, graft_side, other_side) {
   res <- list(
     name = "Graft",
     components = list(
@@ -280,7 +281,7 @@ graft <- function(base, dst_left, dst_right, left_at, right_at, include_at_left_
 }
 
 
-graft_right_new <- function(base, graft, breakpoint, include_breakpoint_in_base) {
+graft_right <- function(base, graft, breakpoint, include_breakpoint_in_base) {
   res <- list(
     components = list(
       base = base,
@@ -289,10 +290,21 @@ graft_right_new <- function(base, graft, breakpoint, include_breakpoint_in_base)
       include_breakpoint_in_base = include_breakpoint_in_base
     )
   )
-  max_val <- range(base)
-  if (breakpoint > max_val) {
+  rng <- range(base)
+  if (breakpoint > rng[2L]) {
     return(base)
   }
+  v_base <- variable(base)
+  v_graft <- variable(graft)
+  if (breakpoint < rng[1L]) {
+    v <- graft
+  }
+  # Future: if (breakpoint < rng[1L]) return(condition(graft, ~ .x > breakpoint))
+
+  if (v_base == v_graft) {
+
+  }
+  if (variable(base))
   if (is_finite_dst(base) && is_finite_dst(graft)) {
     temp_graft <- new_distribution(res, variable = "discrete", class = "graft_right")
     discont <- discontinuities(temp_graft)
