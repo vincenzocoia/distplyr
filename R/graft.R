@@ -1,5 +1,26 @@
-#' Graft Distributions
-#' Replace the tail of a distribution
+#' @title Graft Distribution
+#' Replace the head or tail of a distribution
+#' \code{graft_right()} keeps the cdf to the left of left_at unchanged,
+#' while adding a continuous, scaled connection to the right cdf
+#' \code{graft_right} keeps the cdf to the right of right_at unchanged,
+#' while adding a continuous, scaled connection to the left cdf
+#' Both functions can be used in tandem to create a distribution which
+#' is both left and right grafted.
+#' @param dst_left,dst_right Distributions to Graft
+#' @param left_at,right_at Positions to graft distribution onto
+#' @param include_at=TRUE TRUE if include left_at/right_at position in base distribution
+#' @return Graft distribution object
+#' @examples
+#' require(datasets)
+#' base <- dst_empirical(mpg, data = mtcars)
+#' right <- dst_gpd(25, 5, 1)
+#' g <- graft_right(base, right, sep_y = 25)
+#' plot(g, "cdf", n = 1001, to = 34)
+#' plot(base, "cdf", n = 1001, lty = 2, add = TRUE)
+#' @rdname graft
+
+#' #' Graft Distributions
+#' #' Replace the tail of a distribution
 # #' #' \code{graft_right()} keeps the left cdf unchanged to the left of
 # #' #' sep_y, and makes a continuous connection with the right cdf
 # #' #' (rescaled as appropriate).
@@ -279,7 +300,6 @@ graft <- function(base, dst_left, dst_right, left_at, right_at, include_at_left_
   }
 }
 
-
 graft_right_new <- function(base, graft, breakpoint, include_breakpoint_in_base) {
   res <- list(
     components = list(
@@ -289,10 +309,11 @@ graft_right_new <- function(base, graft, breakpoint, include_breakpoint_in_base)
       include_breakpoint_in_base = include_breakpoint_in_base
     )
   )
-  max_val <- range(base)
+  max_val <- range(base)[2L]
   if (breakpoint > max_val) {
     return(base)
   }
+
   if (is_finite_dst(base) && is_finite_dst(graft)) {
     temp_graft <- new_distribution(res, variable = "discrete", class = "graft_right")
     discont <- discontinuities(temp_graft)
