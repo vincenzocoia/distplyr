@@ -25,22 +25,14 @@ get_density <- function(object) UseMethod("get_density")
 
 #' @export
 eval_density.dst <- function(object, at) {
-  f <- object[["representations"]][["density"]]
-  if (!is.null(f)) {
-    return(f(at))
-  }
   if (variable(object) != "continuous") {
     return(NULL)
   }
-  stop("Can't find a probability function for this distribution.")
+  stop("Can't find a density function for this distribution.")
 }
 
 #' @export
 get_density.dst <- function(object) {
-  f <- object[["representations"]][["density"]]
-  if (!is.null(f)) {
-    return(f)
-  }
   if (variable(object) != "continuous") {
     return(NULL)
   }
@@ -65,8 +57,5 @@ enframe_density.dst <- function(object, at,
   }
   res <- data.frame(at, f)
   names(res) <- c(arg_name, fn_name)
-  if (requireNamespace("tibble", quietly = TRUE)) {
-    res <- tibble::as_tibble(res)
-  }
-  res
+  convert_dataframe_to_tibble(res)
 }

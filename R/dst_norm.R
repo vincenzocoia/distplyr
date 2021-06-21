@@ -42,11 +42,6 @@ variance.norm <- function(x, ...) {
 }
 
 #' @export
-stdev.norm <- function(x, ...) {
-  with(parameters(x), sd)
-}
-
-#' @export
 evi.norm <- function(x, ...) {
   0
 }

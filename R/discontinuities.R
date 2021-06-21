@@ -58,7 +58,6 @@ aggregate_weights <- function(y, weights, sum_to_one = FALSE) {
     FUN = sum
   )
   df <- df[order(df[["location"]]), , drop = FALSE]
-  # stopifnot(is_discontinuities_df(df))
   convert_dataframe_to_tibble(df)
 }
 
@@ -71,31 +70,6 @@ aggregate_weights <- function(y, weights, sum_to_one = FALSE) {
 #' (i.e., continuous distributions)
 make_empty_discontinuities_df <- function() {
   df <- data.frame(location = numeric(), size = numeric())
-  # stopifnot(is_discontinuities_df(df))
   df <- convert_dataframe_to_tibble(df)
   df
-}
-
-#' Determine Variable Type from Discontinuities Data Frame
-#'
-#' Internal function that uses a data frame of
-#' discontinuities to determine whether the
-#' underlying random variable is continuous,
-#' discrete, or mixed.
-#' @param df A data frame of discontinuities, as in
-#' the output of \code{\link{discontinuities}}.
-#' @return One of \code{"continuous"},
-#' \code{"discrete"}, or \code{"mixed"}.
-#' @export
-discontinuities_to_variable <- function(df) {
-  n <- nrow(df)
-  if (identical(n, 0L)) {
-    return("continuous")
-  }
-  probs <- df[["size"]]
-  if (sum(probs) == 1) {
-    "discrete"
-  } else {
-    "mixed"
-  }
 }

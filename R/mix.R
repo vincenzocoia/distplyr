@@ -275,17 +275,15 @@ discontinuities.mix <- function(object, from = -Inf, to = Inf, ...) {
     object$components$distributions, discontinuities,
     from = from, to = to
   )
-  sizes <- lapply(distributions, "[", "size")
-  locations <- lapply(distributions, "[", "location")
+  sizes <- lapply(distributions, `[`, "size")
+  locations <- lapply(distributions, `[`, "location")
   for (i in 1:length(distributions)) {
     sizes[[i]] <- sizes[[i]] * object$components$probs[i]
   }
   size <- c(sizes, recursive = TRUE)
   location <- c(locations, recursive = TRUE)
-  res <- data.frame(size, location)
-  res <- aggregate_weights(location,
+  aggregate_weights(location,
     weights = size,
     sum_to_one = FALSE
   )
-  convert_dataframe_to_tibble(res)
 }

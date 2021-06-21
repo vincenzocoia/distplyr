@@ -285,3 +285,5 @@ test_that("Discontinuites Mix works", {
     )
   )
 })
+
+rm("car")
