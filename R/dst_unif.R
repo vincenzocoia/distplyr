@@ -146,7 +146,7 @@ eval_survival.unif <- function(object, at) {
 }
 
 #' @export
-eval_density.unif <- function(object, at) {
+eval_density.unif <- function(object, at, strict = TRUE) {
   with(parameters(object), {
     res <-
       resolve_if_possible(stats::dunif(!!at, min = !!min, max = !!max))

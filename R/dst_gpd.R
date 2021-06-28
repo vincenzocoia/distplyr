@@ -124,7 +124,7 @@ eval_quantile.gpd <- function(object, at, ...) {
 }
 
 #' @export
-eval_density.gpd <- function(object, at) {
+eval_density.gpd <- function(object, at, strict = TRUE) {
   with(parameters(object), {
     z <- (at - location) / scale
     if (shape == 0) {

@@ -188,7 +188,7 @@ kurtosis_exc.mix <- function(x, ...) {
 }
 
 #' @export
-eval_density.mix <- function(object, at) {
+eval_density.mix <- function(object, at, strict = TRUE) {
   if (variable(object) != "continuous") {
     return(NULL)
   }

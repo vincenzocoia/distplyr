@@ -6,7 +6,7 @@
 \alias{enframe_density}
 \title{Probability Density Function}
 \usage{
-eval_density(object, at)
+eval_density(object, at, strict = TRUE)
 
 get_density(object)
 

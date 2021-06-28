@@ -16,7 +16,7 @@
 #' @family distributional representations
 #' @rdname pmf
 #' @export
-eval_pmf <- function(object, at) UseMethod("eval_pmf")
+eval_pmf <- function(object, at, strict = TRUE) UseMethod("eval_pmf")
 
 #' @rdname pmf
 #' @export
@@ -32,13 +32,21 @@ enframe_pmf <- function(object, at,
 
 
 #' @export
-eval_pmf.dst <- function(object, at) {
-  rng <- range(at)
-  discretes <- discontinuities(object, from = rng[1], to = rng[2])
-  with(discretes, {
-    vapply(at, function(x) sum(size[x == location]), FUN.VALUE = numeric(1L))
-  })
-  # @todo throw error
+eval_pmf.dst <- function(object, at, strict = TRUE) {
+  # TODO: What is the need for the discontinuites?
+  # TODO: What do we do if strict = false and we need to calculate shit?
+  if (variable(object) == "continuous") {
+    stop("Cannot Evaluate pmf of continuous variable")
+  } else if (variable(object) == "mixed" && strict) {
+    stop("Cannot Evaluate pmf of mixed variable in strict mode")
+  } else {
+    eval_pmf()
+    rng <- range(at)
+    discretes <- discontinuities(object, from = rng[1], to = rng[2])
+    with(discretes, {
+      vapply(at, function(x) sum(size[x == location]), FUN.VALUE = numeric(1L))
+    })
+  }
 }
 
 #' @export

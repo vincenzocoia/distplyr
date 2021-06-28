@@ -126,7 +126,7 @@ skewness.finite <- function(x, ...) {
   mu <- mean(x)
   sigma <- stdev(x)
   with(x$probabilities, {
-    trans <- ((location - mu) / sigma) ^ 3
+    trans <- ((location - mu) / sigma)^3
     sum(trans * size)
   })
 }
@@ -136,7 +136,7 @@ kurtosis_exc.finite <- function(x, ...) {
   mu <- mean(x)
   sigma <- stdev(x)
   with(x$probabilities, {
-    trans <- ((location - mu) / sigma) ^ 4
+    trans <- ((location - mu) / sigma)^4
     sum(trans * size) - 3
   })
 }
@@ -196,7 +196,7 @@ realise.finite <- function(object, n = 1, ...) {
 }
 
 #' @export
-eval_pmf.finite <- function(object, at) {
+eval_pmf.finite <- function(object, at, strict = TRUE) {
   with(object$probabilities, {
     vapply(at, function(x) sum(size[x == location]), FUN.VALUE = numeric(1L))
   })

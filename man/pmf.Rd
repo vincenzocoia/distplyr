@@ -6,7 +6,7 @@
 \alias{enframe_pmf}
 \title{Probability Mass Function}
 \usage{
-eval_pmf(object, at)
+eval_pmf(object, at, strict = TRUE)
 
 get_pmf(object)
 
