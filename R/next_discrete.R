@@ -22,18 +22,18 @@ prev_discrete <- function(object, from, n = 1L, ...) UseMethod("prev_discrete")
 #' @inheritParams next_discrete
 next_discrete.dst <- function(object, from, n = 1L, ...) {
   if (variable(object) == "continuous") {
-    rep(NA_real_, n)
+    return(rep(NA_real_, n))
   }
-  error("Cannot find the next discrete values for this distribution.")
+  stop("Cannot find the next discrete values for this distribution.")
 }
 
 #' @export
 #' @inheritParams next_discrete
 prev_discrete.dst <- function(object, from, n = 1L, ...) {
   if (variable(object) == "continuous") {
-    rep(NA_real_, n)
+    return(rep(NA_real_, n))
   }
-  error("Cannot find the previous discrete values for this distribution.")
+  stop("Cannot find the previous discrete values for this distribution.")
 }
 
 #' @export
