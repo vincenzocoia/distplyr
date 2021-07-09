@@ -58,8 +58,9 @@ eval_survival.pois <- function(object, at) {
   })
 }
 
+
 #' @export
-eval_pmf.pois <- function(object, at) {
+eval_pmf.pois <- function(object, at, strict = TRUE) {
   with(parameters(object), {
     stats::dpois(at, lambda = lambda)
   })
@@ -82,9 +83,7 @@ eval_quantile.pois <- function(object, at, ...) {
 #' @rdname range
 #' @export
 range.pois <- function(x, ...) {
-  with(parameters(x), {
-    c(0, Inf)
-  })
+  c(0, Inf)
 }
 
 #' @rdname discontinuities

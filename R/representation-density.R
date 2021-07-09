@@ -16,7 +16,7 @@
 #' @family distributional representations
 #' @rdname density
 #' @export
-eval_density <- function(object, at) UseMethod("eval_density")
+eval_density <- function(object, at, strict = TRUE) UseMethod("eval_density")
 
 #' @rdname density
 #' @export
@@ -24,9 +24,10 @@ get_density <- function(object) UseMethod("get_density")
 
 
 #' @export
-eval_density.dst <- function(object, at) {
-  if (variable(object) != "continuous") {
-    return(NULL)
+eval_density.dst <- function(object, at, strict = TRUE) {
+  # @TODO: Check if right
+  if (variable(object) != "continuous" && strict) {
+    stop("Can't find a density function for this non-continious function.")
   }
   stop("Can't find a density function for this distribution.")
 }

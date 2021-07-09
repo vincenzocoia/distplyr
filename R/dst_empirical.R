@@ -31,40 +31,40 @@
 #' plot(cond, "cdf", n = 1001, lty = 2, add = TRUE)
 #' @export
 dst_empirical <- function(y, data, weights = 1, ...) {
-	enquo_y <- rlang::enquo(y)
-	enquo_w <- rlang::enquo(weights)
-	if (missing(data)) {
-		y <- rlang::eval_tidy(enquo_y)
-		w <- rlang::eval_tidy(enquo_w)
-	} else {
-		y <- rlang::eval_tidy(enquo_y, data = data)
-		w <- rlang::eval_tidy(enquo_w, data = data)
-	}
-	if (length(y) == 0L) {
-		warning(
-			"Can't make an empirical distribution from empty data. ",
-			"Returning an empty distribution."
-		)
-		return(distribution())
-	}
-	if (any(w < 0, na.rm = TRUE)) {
-		stop("Weights must not be negative.")
-	}
-	if (length(w) == 1L) {
-		w <- rep(w, length(y))
-	}
-	if (length(w) < length(y)) {
-		stop("Not enough weights to match outcomes `y`.")
-	}
-	if (length(w) > length(y)) {
-		stop("Not enough outcomes `y` to match weights.")
-	}
-	steps <- aggregate_weights(y, w, sum_to_one = TRUE)
-	if (nrow(steps) == 1L) {
-		return(dst_degenerate(steps$location))
-	}
-	res <- list(probabilities = steps)
-	new_finite(res, variable = "discrete")
+  enquo_y <- rlang::enquo(y)
+  enquo_w <- rlang::enquo(weights)
+  if (missing(data)) {
+    y <- rlang::eval_tidy(enquo_y)
+    w <- rlang::eval_tidy(enquo_w)
+  } else {
+    y <- rlang::eval_tidy(enquo_y, data = data)
+    w <- rlang::eval_tidy(enquo_w, data = data)
+  }
+  if (length(y) == 0L) {
+    warning(
+      "Can't make an empirical distribution from empty data. ",
+      "Returning an empty distribution."
+    )
+    return(distribution())
+  }
+  if (any(w < 0, na.rm = TRUE)) {
+    stop("Weights must not be negative.")
+  }
+  if (length(w) == 1L) {
+    w <- rep(w, length(y))
+  }
+  if (length(w) < length(y)) {
+    stop("Not enough weights to match outcomes `y`.")
+  }
+  if (length(w) > length(y)) {
+    stop("Not enough outcomes `y` to match weights.")
+  }
+  steps <- aggregate_weights(y, w, sum_to_one = TRUE)
+  if (nrow(steps) == 1L) {
+    return(dst_degenerate(steps$location))
+  }
+  res <- list(probabilities = steps)
+  new_finite(res, variable = "discrete")
 }
 
 #' @rdname is_finite
