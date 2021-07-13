@@ -63,6 +63,16 @@ dst_finite <- function(y, probs, data, ...) {
   new_finite(res, variable = "discrete")
 }
 
+make_finite <- function(e1, e2, FUN) {
+  with(e1$probabilities, {
+    new_location <- sapply(location, function(x) FUN(x))
+    steps <- aggregate_weights(new_location, size)
+    res <- list(
+      probabilites = steps
+    )
+    new_finite(res, variable = "discrete")
+  })
+}
 
 
 
@@ -221,4 +231,39 @@ discontinuities.finite <- function(object, from = -Inf, to = Inf, ...) {
   location <- probabilities$location
   res <- subset(probabilities, location >= from & location <= to)
   convert_dataframe_to_tibble(res)
+}
+
+
+#' @export
+Ops.finite <- function(e1, e2) {
+  op <- .Generic[[1]]
+  switch(op,
+    `+` = {
+      if (is_finite_dst(e1)) {
+        make_finite(e1, e2, function(x) x + e2)
+      } else {
+        make_finite(e2, e1, function(x) x + e1)
+      }
+    },
+    `-` = {
+      if (is_finite_dst(e1)) {
+        return(make_finite(e1, e2, function(x) x - e2))
+      }
+      stop("Cannot subtract number with distribution")
+    },
+    `*` = {
+      if (is_finite_dst(e1)) {
+        make_finite(e1, e2, function(x) x * e2)
+      } else {
+        make_finite(e2, e1, function(x) x * e1)
+      }
+    },
+    `/` = {
+      if (is_finite_dst(e1)) {
+        return(make_finite(e1, e2, function(x) x / e2))
+      }
+      stop("Cannot divide number with distribution")
+    },
+    warning("Not a valid Operation")
+  )
 }

@@ -190,7 +190,47 @@ discontinuities.unif <- function(object, from = -Inf, to = Inf, ...) {
   make_empty_discontinuities_df()
 }
 
-# Using .dst method for:
-# - get_hazard
-# - get_chf
-# - sd
+#' @export
+Ops.unif <- function(e1, e2) {
+  op <- .Generic[[1]]
+  switch(op,
+    `+` = {
+      if (inherits(e1, "unif")) {
+        make_unif(e1, e2, `+`, `+`)
+      } else {
+        make_unif(e2, e1, `+`, `+`)
+      }
+    },
+    `-` = {
+      if (inherits(e1, "unif")) {
+        make_unif(e1, e2, `-`, `-`)
+      } else {
+        if (e1 - e2$max > e1 - e2$min) {
+          make_unif(e2, e1, function(x, y) y - x, function(x, y) y - x)
+        } else {
+          dst_unif(e1 - max, e1 - min)
+        }
+      }
+    },
+    `*` = {
+      if (inherits(e1, "unif")) {
+        make_unif(e1, e2, `*`, `*`)
+      } else {
+        make_unif(e2, e1, `*`, `*`)
+      }
+    },
+    `/` = {
+      if (inherits(e1, "unif")) {
+        return(make_unif(e1, e2, `/`, `/`))
+      }
+      stop("Cannot divide number with distribution")
+    },
+    warning("Not a valid Operation")
+  )
+}
+
+make_unif <- function(e1, e2, FUN, FUN2) {
+  with(parameters(e1), {
+    dst_unif(FUN(min, e2), FUN2(max, e2))
+  })
+}

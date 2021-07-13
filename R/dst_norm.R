@@ -106,6 +106,49 @@ discontinuities.norm <- function(object, from = -Inf, to = Inf, ...) {
   make_empty_discontinuities_df()
 }
 
+# Correct
+#' @export
+Ops.norm <- function(e1, e2) {
+  op <- .Generic[[1]]
+  switch(op,
+    `+` = {
+      if (inherits(e1, "norm")) {
+        make_norm(e1, e2, `+`, function(x, y) x)
+      } else {
+        make_norm(e2, e1, `+`, function(x, y) x)
+      }
+    },
+    `-` = {
+      if (inherits(e1, "norm")) {
+        make_norm(e1, e2, `-`, function(x, y) x)
+      } else {
+        make_norm(e2, e1, function(x, y) y - x, function(x, y) x)
+      }
+      # stop("Cannot subtract number with distribution"))
+    },
+    `*` = {
+      if (inherits(e1, "norm")) {
+        make_norm(e1, e2, function(x, y) x, `*`)
+      } else {
+        make_norm(e2, e1, function(x, y) x, `*`)
+      }
+    },
+    `/` = {
+      if (inherits(e1, "norm")) {
+        make_norm(e1, e2, function(x, y) x, `/`)
+      }
+      stop("Cannot divide number with distribution")
+    },
+    warning("Not a valid Operation")
+  )
+}
+
+make_norm <- function(e1, e2, FUN, FUN2) {
+  with(parameters(e1), {
+    dst_norm(FUN(mean, e2), FUN2(variance, e2))
+  })
+}
+
 # Using .dst method for:
 # - get_hazard
 # - get_chf

@@ -169,9 +169,43 @@ discontinuities.gpd <- function(object, from = -Inf, to = Inf, ...) {
   make_empty_discontinuities_df()
 }
 
-# Using .dst method for:
-#
-# - median
-# - get_survival
-# - get_hazard
-# - get_chf
+#' @export
+Ops.gpd <- function(e1, e2) {
+  op <- .Generic[[1]]
+  switch(op,
+    `+` = {
+      if (inherits(e1, "gpd")) {
+        make_gpd(e1, e2, `+`, function(x, y) x)
+      } else {
+        make_gpd(e2, e1, `+`, function(x, y) x)
+      }
+    },
+    `-` = {
+      if (inherits(e1, "gpd")) {
+        make_gpd(e1, e2, `-`, `-`)
+      }
+      # change
+      stop("Cannot subtract number with distribution")
+    },
+    `*` = {
+      if (inherits(e1, "gpd")) {
+        make_gpd(e1, e2, `*`, `*`)
+      } else {
+        make_gpd(e2, e1, `*`, `*`)
+      }
+    },
+    `/` = {
+      if (inherits(e1, "gpd")) {
+        return(make_gpd(e1, e2, function(x, y) x, `/`))
+      }
+      stop("Cannot divide number with distribution")
+    },
+    warning("Not a valid Operation")
+  )
+}
+
+make_gpd <- function(e1, e2, FUN, FUN2) {
+  with(parameters(e1), {
+    dst_gpd(FUN(location, e2), FUN2(scale, e2), shape)
+  })
+}

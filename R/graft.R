@@ -488,7 +488,7 @@ range.graft <- function() {
 }
 
 #' @export
-eval_density.graft <- function(object, at) {
+eval_density.graft <- function(object, at, strict = TRUE) {
   if (is.null(object[["components"]][["dst_left"]])) {
     if (at >= object[["components"]][["right_at"]] &
       object[["components"]][["include_at_right_in_base"]]) {

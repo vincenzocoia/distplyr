@@ -103,7 +103,8 @@ discontinuities.degenerate <- function(object, from = -Inf, to = Inf, ...) {
   })
 }
 
-# Using .finite method for:
-# - all functional representations (cdf, hazard, etc.), except random number
-#    generator.
-# - evi
+make_degenerate <- function(e1, e2, FUN) {
+  with(parameters(e1), {
+    dst_degenerate(FUN(location, e2))
+  })
+}

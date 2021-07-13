@@ -61,7 +61,7 @@ eval_survival.pois <- function(object, at) {
 #' @export
 eval_pmf.pois <- function(object, at, strict = TRUE) {
   with(parameters(object), {
-    stats::dpois(at, lambda = lambda)
+    suppressWarnings(stats::dpois(at, lambda = lambda))
   })
 }
 
