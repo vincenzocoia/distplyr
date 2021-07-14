@@ -7,13 +7,13 @@
 \alias{prev_discrete_natural}
 \title{Helper functions for finding discrete values}
 \usage{
-next_discrete_finite(x, from, n = 1L)
+next_discrete_finite(x, from, n, include_from)
 
-prev_discrete_finite(x, from, n = 1L)
+prev_discrete_finite(x, from, n, include_from)
 
-next_discrete_natural(from, n = 1L)
+next_discrete_natural(from, n, include_from)
 
-prev_discrete_natural(from, n = 1L)
+prev_discrete_natural(from, n, include_from)
 }
 \arguments{
 \item{x}{A vector of all possible discrete values.}
@@ -21,6 +21,9 @@ prev_discrete_natural(from, n = 1L)
 \item{from}{Reference value.}
 
 \item{n}{Number of discrete values to find.}
+
+\item{include_from}{Logical; should the \code{from} value be included
+in the query?}
 }
 \description{
 \verb{*_discrete_finite} finds discrete values from a

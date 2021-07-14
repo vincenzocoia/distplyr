@@ -4,7 +4,7 @@
 \alias{next_discrete}
 \title{Return neighbouring discrete values from a reference}
 \usage{
-next_discrete(object, from, n = 1L, ...)
+next_discrete(object, from, n = 1L, include_from = FALSE, ...)
 }
 \arguments{
 \item{object}{Distribution}
@@ -12,13 +12,17 @@ next_discrete(object, from, n = 1L, ...)
 \item{from}{Reference value.}
 
 \item{n}{Number of discrete values to find.}
+
+\item{include_from}{Logical; should the \code{from} value be included
+in the query?}
 }
 \value{
-Vector containing the \code{n} discrete points of non-zero
-probability using \code{from} as the reference point.
+Vector of all available discrete points satisfying the query.
+If infinite values satify the query, an error is thrown; if less
+values are available than asked via \code{n}, only those values are returned.
 }
 \description{
-Finds the next \code{n} largest/smallest discrete value in a distribution
+Finds the next \code{n} largest/smallest discrete values in a distribution
 from some reference point.
 }
 \examples{
