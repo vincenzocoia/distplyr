@@ -1,29 +1,36 @@
 #' @rdname slice
 #' @export
-slice_right <- function(object, breakpoint, include = FALSE, ...) {
+slice_right <- function(object, breakpoint, include = TRUE, ...) {
 	UseMethod("slice_right")
 }
 
 #' @export
-slice_right.dst <- function(object, breakpoint, include = FALSE, ...) {
+slice_right.dst <- function(object, breakpoint, include = TRUE, ...) {
 	rng <- range(object)
 	left <- rng[1L]
 	right <- rng[2L]
 	if (breakpoint > right) {
 		return(object)
 	}
+	all_sliced <- FALSE
 	if (breakpoint < left) {
+		all_sliced <- TRUE
+	}
+	if (breakpoint == left) {
+		if (include) {
+			all_sliced <- TRUE
+		} else {
+			p <- eval_pmf(object, at = breakpoint, strict = FALSE)
+			if (p == 0) {
+				all_sliced <- TRUE
+			} else {
+				return(dst_degenerate(breakpoint))
+			}
+		}
+	}
+	if (all_sliced) {
 		stop("No such distribution exists: ",
 			 "cannot slice off entire distribution.")
-	}
-	if (breakpoint == left && include) {
-		p <- eval_pmf(object, at = breakpoint, strict = FALSE)
-		if (p == 0) {
-			stop("No such distribution exists: ",
-				 "cannot slice off entire distribution.")
-		} else {
-			return(dst_degenerate(breakpoint))
-		}
 	}
 	l <- list(
 		distribution = object,
@@ -38,9 +45,9 @@ slice_right.dst <- function(object, breakpoint, include = FALSE, ...) {
 }
 
 #' @export
-slice_right.finite <- function(object, breakpoint, include = FALSE, ...) {
+slice_right.finite <- function(object, breakpoint, include = TRUE, ...) {
 	left_discretes <- prev_discrete(object, from = breakpoint, n = Inf,
-									include_from = include)
+									include_from = !include)
 	if (!length(left_discretes)) {
 		stop("No such distribution exists: ",
 			 "cannot slice off entire distribution.")
@@ -54,7 +61,7 @@ slice_right.finite <- function(object, breakpoint, include = FALSE, ...) {
 eval_cdf.slice_right <- function(object, at) {
 	with(object, {
 		p_kept <- prob_left(
-			distribution, of = breakpoint, inclusive = include
+			distribution, of = breakpoint, inclusive = !include
 		)
 		cdf <- eval_cdf(distribution, at = at) / p_kept
 		pmin(cdf, 1)
@@ -65,13 +72,13 @@ eval_cdf.slice_right <- function(object, at) {
 eval_density.slice_right <- function(object, at, strict = TRUE) {
 	with(object, {
 		p_kept <- prob_left(
-			distribution, of = breakpoint, inclusive = include
+			distribution, of = breakpoint, inclusive = !include
 		)
 		pdf <- eval_density(distribution, at = at, strict = strict) / p_kept
 		if (include) {
-			pdf[at > breakpoint] <- 0
-		} else {
 			pdf[at >= breakpoint] <- 0
+		} else {
+			pdf[at > breakpoint] <- 0
 		}
 		pdf
 	})
@@ -85,9 +92,9 @@ eval_pmf.slice_right <- function(object, at, strict = TRUE) {
 		)
 		pmf <- eval_pmf(distribution, at = at, strict = strict) / p_kept
 		if (include) {
-			pmf[at > breakpoint] <- 0
-		} else {
 			pmf[at >= breakpoint] <- 0
+		} else {
+			pmf[at > breakpoint] <- 0
 		}
 		pmf
 	})
@@ -97,7 +104,7 @@ eval_pmf.slice_right <- function(object, at, strict = TRUE) {
 eval_quantile.slice_right <- function(object, at, ...) {
 	with(object, {
 		p_kept <- prob_left(
-			distribution, of = breakpoint, inclusive = include
+			distribution, of = breakpoint, inclusive = !include
 		)
 		eval_quantile(distribution, at = at * p_kept, ...)
 	})
