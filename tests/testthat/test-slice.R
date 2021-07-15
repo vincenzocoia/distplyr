@@ -75,3 +75,18 @@ test_that("slicing with infinity works as expected", {
 	expect_error(slice_right(e, -Inf))
 	expect_error(slice_right(e, -Inf, include = FALSE))
 })
+
+test_that("slicing off nothing gives us the same distribution", {
+	d1 <- dst_unif(0, 1)
+	r1 <- range(d1)
+	d2 <- dst_empirical(1:5)
+	r2 <- range(d2)
+	d3 <- mix(d1, d2)
+	r3 <- range(d3)
+	expect_equal(slice_left(d1, r1[1L] - 1), d1)
+	expect_equal(slice_right(d1, r1[2L] + 1), d1)
+	expect_equal(slice_left(d2, r2[1L] - 1), d2)
+	expect_equal(slice_right(d2, r2[2L] + 1), d2)
+	expect_equal(slice_left(d3, r3[1L] - 1), d3)
+	expect_equal(slice_right(d3, r3[2L] + 1), d3)
+})
