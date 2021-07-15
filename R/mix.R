@@ -287,3 +287,11 @@ discontinuities.mix <- function(object, from = -Inf, to = Inf, ...) {
     sum_to_one = FALSE
   )
 }
+
+#' @export
+range.mix <- function(object, ...) {
+  r <- lapply(object$components$distributions, range)
+  low <- Reduce(min, r)
+  high <- Reduce(max, r)
+  c(low, high)
+}

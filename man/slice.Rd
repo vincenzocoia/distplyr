@@ -5,17 +5,17 @@
 \alias{slice_right}
 \title{Conditional Distributions}
 \usage{
-slice_left(object, breakpoint, include = FALSE, ...)
+slice_left(object, breakpoint, include = TRUE, ...)
 
-slice_right(object, breakpoint, include = FALSE, ...)
+slice_right(object, breakpoint, include = TRUE, ...)
 }
 \arguments{
 \item{object}{Distribution to slice.}
 
 \item{breakpoint}{Point at which to slice (single numeric).}
 
-\item{include}{Logical; should the breakpoint be kept in the
-resulting conditional distribution? This is only relevant if the
+\item{include}{Logical; should the breakpoint be removed as well?
+This is only relevant if the
 breakpoint has a non-zero probability of occurrence.}
 
 \item{...}{Other arguments to pass to specific methods. Currently unused.}

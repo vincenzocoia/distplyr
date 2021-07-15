@@ -21,13 +21,32 @@ test_that("Range also gets sliced", {
 	d1 <- dst_norm(0, 1)
 	d2 <- dst_unif(0, 1)
 	d3 <- dst_empirical(1:5)
+	d4 <- dst_unif(3, 10)
 	expect_equal(range(slice_left(d1, -2)), c(-2, Inf))
 	expect_equal(range(slice_right(d2, 0.6, include = TRUE)), c(0, 0.6))
 	expect_equal(range(slice_right(d3, 4.5)), c(1, 4))
+	m <- mix(d2, d3, d4)
+	expect_equal(range(slice_left(m, 1.5)), c(2, 10)) # Another ex. where splitting disc & cont is useful.
 })
 
-test_that("breakpoint inclusion works with mixtures", {
-	d <- mix(dst_norm(0, 1), dst_empirical(0:4))
+test_that("Variable assignment works with slicing", {
+	d_disc <- dst_pois(1)
+	d_cont <- dst_unif(-1, 1)
+	d_mix <- mix(d_disc, d_cont)
+	expect_equal(variable(slice_right(d_mix, -0.5)), "continuous")
+	expect_equal(variable(slice_left(d_mix, 1.5)), "discrete")
+	expect_equal(variable(slice_left(d_mix, 0.5)), "mixed")
+	expect_equal(variable(slice_right(d_mix, 0.5)), "mixed")
+	expect_equal(variable(slice_left(d_disc, 0.5)), "discrete")
+	expect_equal(variable(slice_right(d_disc, 5)), "discrete")
+	expect_equal(variable(slice_right(d_cont, 0.5)), "continuous")
+	expect_equal(variable(slice_left(d_cont, 0.5)), "continuous")
+})
+
+test_that("breakpoint inclusion works", {
+	d1 <- dst_norm(0, 1)
+	d2 <- dst_empirical(0:4)
+	d <- mix(d1, d2)
 	dl_inc <- slice_left(d, 0, include = TRUE)
 	dl_not <- slice_left(d, 0, include = FALSE)
 	dr_inc <- slice_right(d, 0, include = TRUE)
@@ -36,6 +55,12 @@ test_that("breakpoint inclusion works with mixtures", {
 	expect_equal(eval_pmf(dl_not, at = 0, strict = FALSE), 0.2)
 	expect_equal(eval_pmf(dr_inc, at = 0, strict = FALSE), 0)
 	expect_equal(eval_pmf(dr_not, at = 0, strict = FALSE), 1 / 6)
+	expect_equal(slice_left(d2, 4, include = FALSE), dst_degenerate(4))
+	expect_equal(slice_right(d2, 0, include = FALSE), dst_degenerate(0))
+	expect_equal(
+		slice_right(dst_pois(1), 0, include = FALSE),
+		dst_degenerate(0)
+	)
 })
 
 test_that("slicing with infinity works as expected", {
