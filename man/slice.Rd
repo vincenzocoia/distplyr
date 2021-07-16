@@ -15,7 +15,7 @@ slice_right(object, breakpoint, include = TRUE, ...)
 \item{breakpoint}{Point at which to slice (single numeric).}
 
 \item{include}{Logical; should the breakpoint be removed as well?
-This is only relevant if the
+This is only realistically relevant if the
 breakpoint has a non-zero probability of occurrence.}
 
 \item{...}{Other arguments to pass to specific methods. Currently unused.}

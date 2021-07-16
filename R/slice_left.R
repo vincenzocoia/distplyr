@@ -8,7 +8,7 @@
 #' @param object Distribution to slice.
 #' @param breakpoint Point at which to slice (single numeric).
 #' @param include Logical; should the breakpoint be removed as well?
-#' This is only relevant if the
+#' This is only realistically relevant if the
 #' breakpoint has a non-zero probability of occurrence.
 #' @param ... Other arguments to pass to specific methods. Currently unused.
 #' @return A conditional distribution.
