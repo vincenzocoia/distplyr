@@ -181,14 +181,6 @@ range.unif <- function(x, ...) {
   })
 }
 
-#' @rdname discontinuities
-#' @export
-discontinuities.unif <- function(object, from = -Inf, to = Inf, ...) {
-  if (from > to) {
-    stop("'to' argument must be larger or equal than from argument")
-  }
-  make_empty_discontinuities_df()
-}
 
 # Using .dst method for:
 # - get_hazard

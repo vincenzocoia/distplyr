@@ -87,21 +87,6 @@ range.degenerate <- function(x, ...) {
   c(location, location)
 }
 
-#' @rdname discontinuities
-#' @export
-discontinuities.degenerate <- function(object, from = -Inf, to = Inf, ...) {
-  with(parameters(object), {
-    if (from > to) {
-      stop("'to' argument must be larger or equal than from argument")
-    }
-    if (from <= location & to >= location) {
-      res <- data.frame(location = location, size = 1)
-    } else {
-      res <- make_empty_discontinuities_df()
-    }
-    convert_dataframe_to_tibble(res)
-  })
-}
 
 # Using .finite method for:
 # - all functional representations (cdf, hazard, etc.), except random number
