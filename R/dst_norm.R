@@ -119,12 +119,13 @@ Ops.norm <- function(e1, e2) {
       }
     },
     `-` = {
-      if (inherits(e1, "norm")) {
+      if (missing(e2)) {
+        make_norm(e1, 0, function(x, y) -x, function(x, y) x)
+      } else if (inherits(e1, "norm")) {
         make_norm(e1, e2, `-`, function(x, y) x)
       } else {
         make_norm(e2, e1, function(x, y) y - x, function(x, y) x)
       }
-      # stop("Cannot subtract number with distribution"))
     },
     `*` = {
       if (inherits(e1, "norm")) {
@@ -136,10 +137,18 @@ Ops.norm <- function(e1, e2) {
     `/` = {
       if (inherits(e1, "norm")) {
         make_norm(e1, e2, function(x, y) x, `/`)
+      } else {
+        if (e2 == 1) {
+          recp <- make_dst_inverse(recp, e2)
+        } else if (e2 < 0) {
+          recp <- make_dst_scale(make_dst_negative(make_dst_inverse(e1)), -e2)
+        } else {
+          recp <- make_dst_scale(make_dst_inverse(e1), e2)
+        }
+        recp
       }
-      stop("Cannot divide number with distribution")
     },
-    warning("Not a valid Operation")
+    stop("Not a valid Operation")
   )
 }
 
@@ -148,6 +157,14 @@ make_norm <- function(e1, e2, FUN, FUN2) {
     dst_norm(FUN(mean, e2), FUN2(variance, e2))
   })
 }
+
+#' @examples
+#' d <- dst_norm(0, 1)
+#' transform_parameters(d, list(variance = function(x) x * 2))
+transform_parameters <- function(distribution, list_of_functions) {
+
+}
+
 
 # Using .dst method for:
 # - get_hazard

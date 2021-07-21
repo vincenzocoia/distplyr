@@ -33,10 +33,12 @@ enframe_pmf <- function(object, at,
 
 #' @export
 eval_pmf.dst <- function(object, at, strict = TRUE) {
-  # TODO: What is the need for the discontinuites?
-  # TODO: What do we do if strict = false and we need to calculate shit?
   if (variable(object) == "continuous") {
-    stop("Cannot Evaluate pmf of continuous variable")
+    if (strict) {
+      stop("Cannot Evaluate pmf of continuous variable")
+    } else {
+      return(rep(0, length(at)))
+    }
   } else if (variable(object) == "mixed" && strict) {
     stop("Cannot Evaluate pmf of mixed variable in strict mode")
   } else {

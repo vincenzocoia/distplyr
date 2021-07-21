@@ -103,6 +103,45 @@ discontinuities.degenerate <- function(object, from = -Inf, to = Inf, ...) {
   })
 }
 
+#' @export
+Ops.degenerate <- function(e1, e2) {
+  op <- .Generic[[1]]
+  switch(op,
+    `+` = {
+      if (is_degenerate(e1)) {
+        make_degenerate(e1, e2, `+`)
+      } else {
+        make_degenerate(e2, e1, `+`)
+      }
+    },
+    `-` = {
+      if (missing(e2)) {
+        make_degenerate(e1, -1, `*`)
+      } else if (is_degenerate(e1)) {
+        make_degenerate(e1, e2, `-`)
+      } else {
+        make_degenerate(e2, e1, `-`)
+      }
+    },
+    `*` = {
+      if (is_degenerate(e1)) {
+        make_degenerate(e1, e2, `*`)
+      } else {
+        make_degenerate(e2, e1, `*`)
+      }
+    },
+    `/` = {
+      if (is_degenerate(e1)) {
+        make_degenerate(e1, e2, `/`)
+      } else {
+        # TODO: ask if this is similar to Ops.dst or this
+        make_degenerate(e2, e1, `/`)
+      }
+    },
+    stop("Not a valid Operation")
+  )
+}
+
 make_degenerate <- function(e1, e2, FUN) {
   with(parameters(e1), {
     dst_degenerate(FUN(location, e2))

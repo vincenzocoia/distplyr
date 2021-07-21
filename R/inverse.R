@@ -9,7 +9,7 @@ make_dst_inverse <- function(e1) {
         res <- structure(
             dist,
             variable = variable(e1),
-            class = c("inverse", class(e1))
+            class = c(class(d)[1], "negative", class(distribution)[-1])
         )
     })
 }

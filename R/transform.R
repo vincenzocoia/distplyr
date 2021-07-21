@@ -39,7 +39,7 @@ Ops.dst <- function(e1, e2) {
       if (inherits(e1, "dst")) {
         make_dst_scale(e1, e2)
       } else {
-        recp <- make_dst_reciprocal(e1)
+        recp <- make_dst_inverse(e1)
         if (e2 == 1) {
           recp <- make_dst_scale(recp, e2)
         } else if (e2 < 0) {
@@ -50,6 +50,6 @@ Ops.dst <- function(e1, e2) {
         recp
       }
     },
-    warning("Not a valid Operation")
+    stop("Not a valid Operation")
   )
 }

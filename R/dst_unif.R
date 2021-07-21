@@ -202,35 +202,45 @@ Ops.unif <- function(e1, e2) {
       }
     },
     `-` = {
-      if (inherits(e1, "unif")) {
+      if (missing(e2)) {
+        with(parameters(e1), {
+          dst_unif(-max, -min)
+        })
+      } else if (inherits(e1, "unif")) {
         make_unif(e1, e2, `-`, `-`)
       } else {
-        if (e1 - e2$max > e1 - e2$min) {
-          make_unif(e2, e1, function(x, y) y - x, function(x, y) y - x)
-        } else {
+        with(parameters(e2), {
           dst_unif(e1 - max, e1 - min)
-        }
+        })
       }
     },
     `*` = {
       if (inherits(e1, "unif")) {
-        make_unif(e1, e2, `*`, `*`)
+        d <- e1
+        cnst <- e2
       } else {
-        make_unif(e2, e1, `*`, `*`)
+        d <- e2
+        cnst <- e1
       }
+      if (cnst < 0) {
+        return(-cnst * (-d))
+      }
+      make_unif(d, cnst, `*`, `*`)
     },
     `/` = {
       if (inherits(e1, "unif")) {
-        return(make_unif(e1, e2, `/`, `/`))
+        make_unif(e1, e2, `/`, `/`)
+      } else {
+        make_unif(e2, e1, `/`, `/`)
       }
       stop("Cannot divide number with distribution")
     },
-    warning("Not a valid Operation")
+    stop("Not a valid Operation")
   )
 }
 
-make_unif <- function(e1, e2, FUN, FUN2) {
-  with(parameters(e1), {
-    dst_unif(FUN(min, e2), FUN2(max, e2))
+make_unif <- function(distribution, constant, FUN, FUN2) {
+  with(parameters(distribution), {
+    dst_unif(FUN(min, constant), FUN2(max, constant))
   })
 }

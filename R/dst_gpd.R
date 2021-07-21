@@ -198,9 +198,7 @@ Ops.gpd <- function(e1, e2) {
       if (inherits(e1, "gpd")) {
         return(make_gpd(e1, e2, function(x, y) x, `/`))
       }
-      stop("Cannot divide number with distribution")
-    },
-    warning("Not a valid Operation")
+    }
   )
 }
 

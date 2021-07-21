@@ -63,9 +63,9 @@ dst_finite <- function(y, probs, data, ...) {
   new_finite(res, variable = "discrete")
 }
 
-make_finite <- function(e1, e2, FUN) {
+make_finite <- function(e1, FUN) {
   with(e1$probabilities, {
-    new_location <- sapply(location, function(x) FUN(x))
+    new_location <- FUN(location)
     steps <- aggregate_weights(new_location, size)
     res <- list(
       probabilites = steps
@@ -240,30 +240,33 @@ Ops.finite <- function(e1, e2) {
   switch(op,
     `+` = {
       if (is_finite_dst(e1)) {
-        make_finite(e1, e2, function(x) x + e2)
+        make_finite(e1, function(x) x + e2)
       } else {
-        make_finite(e2, e1, function(x) x + e1)
+        make_finite(e2, function(x) x + e1)
       }
     },
     `-` = {
-      if (is_finite_dst(e1)) {
-        return(make_finite(e1, e2, function(x) x - e2))
+      if (missing(e2)) {
+        make_finite(e1, function(x) -x)
+      } else if (is_finite_dst(e1)) {
+        make_finite(e1, function(x) x - e2)
+      } else {
+        make_finite(e2, function(x) e1 - x)
       }
-      stop("Cannot subtract number with distribution")
     },
     `*` = {
       if (is_finite_dst(e1)) {
-        make_finite(e1, e2, function(x) x * e2)
+        make_finite(e1, function(x) x * e2)
       } else {
-        make_finite(e2, e1, function(x) x * e1)
+        make_finite(e2, function(x) x * e1)
       }
     },
     `/` = {
       if (is_finite_dst(e1)) {
-        return(make_finite(e1, e2, function(x) x / e2))
+        return(make_finite(e1, function(x) x / e2))
       }
       stop("Cannot divide number with distribution")
     },
-    warning("Not a valid Operation")
+    stop("Not a valid Operation")
   )
 }

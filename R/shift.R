@@ -10,7 +10,7 @@ make_dst_shift <- function(distribution, constant) {
         res <- structure(
             dist,
             variable = variable(distribution),
-            class = c("shift", class(distribution))
+            class = c(class(d)[1], "negative", class(distribution)[-1])
         )
     })
 }

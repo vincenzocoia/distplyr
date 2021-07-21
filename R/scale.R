@@ -10,7 +10,7 @@ make_dst_scale <- function(distribution, constant) {
     res <- structure(
       dist,
       variable = variable(distribution),
-      class = c("scale", class(distribution))
+      class = c(class(d)[1], "negative", class(distribution)[-1])
     )
   })
 }
