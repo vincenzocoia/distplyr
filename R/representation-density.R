@@ -25,11 +25,19 @@ get_density <- function(object) UseMethod("get_density")
 
 #' @export
 eval_density.dst <- function(object, at, strict = TRUE) {
-  # @TODO: Check if right
-  if (variable(object) != "continuous" && strict) {
-    stop("Can't find a density function for this non-continious function.")
+  if (variable(object) == "continuous") {
+    stop("Cannot find this distribution's density function.")
   }
-  stop("Can't find a density function for this distribution.")
+  if (strict) {
+    stop("This distribution does not have a density function. ",
+         "Maybe you want to evaluate in strict mode?")
+  } else {
+    if (variable(object) == "discrete") {
+      return(rep(0, length(at)))
+    } else {
+      stop("Cannot find the derivative of the cdf.")
+    }
+  }
 }
 
 #' @export

@@ -33,21 +33,18 @@ enframe_pmf <- function(object, at,
 
 #' @export
 eval_pmf.dst <- function(object, at, strict = TRUE) {
-  if (variable(object) == "continuous") {
-    if (strict) {
-      stop("Cannot Evaluate pmf of continuous variable")
-    } else {
-      return(rep(0, length(at)))
-    }
-  } else if (variable(object) == "mixed" && strict) {
-    stop("Cannot Evaluate pmf of mixed variable in strict mode")
+  if (variable(object) == "discrete") {
+    stop("Cannot find the pmf for this distribution.")
+  }
+  if (strict) {
+    stop("This distribution does not have a pmf. ",
+         "Maybe you want to evaluate in strict mode?")
   } else {
-    eval_pmf()
-    rng <- range(at)
-    discretes <- discontinuities(object, from = rng[1], to = rng[2])
-    with(discretes, {
-      vapply(at, function(x) sum(size[x == location]), FUN.VALUE = numeric(1L))
-    })
+    if (variable(object) == "continuous") {
+      return(rep(0, length(at)))
+    } else {
+      stop("Cannot find probabilities for this distribution.")
+    }
   }
 }
 

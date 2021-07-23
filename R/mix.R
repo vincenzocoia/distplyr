@@ -101,6 +101,12 @@ mix <- function(..., weights = 1, na.rm = FALSE) {
   new_distribution(res, variable = var_unique, class = "mix")
 }
 
+#' Constructor function for `mix` objects
+#' @inheritParams new_distribution
+new_mix <- function(l, variable, ..., class = character()) {
+  new_distribution(l, variable = variable, class = c(class, "mix"))
+}
+
 #' @param object Object to be tested
 #' @rdname mix
 #' @export
@@ -286,4 +292,12 @@ discontinuities.mix <- function(object, from = -Inf, to = Inf, ...) {
     weights = size,
     sum_to_one = FALSE
   )
+}
+
+#' @export
+range.mix <- function(object, ...) {
+  r <- lapply(object$components$distributions, range)
+  low <- Reduce(min, r)
+  high <- Reduce(max, r)
+  c(low, high)
 }
