@@ -45,13 +45,10 @@ S3method(eval_density,lnorm)
 S3method(eval_density,mix)
 S3method(eval_density,negative)
 S3method(eval_density,norm)
-<<<<<<< HEAD
 S3method(eval_density,scale)
 S3method(eval_density,shift)
-=======
 S3method(eval_density,slice_left)
 S3method(eval_density,slice_right)
->>>>>>> v0.1.3
 S3method(eval_density,unif)
 S3method(eval_hazard,dst)
 S3method(eval_pmf,dst)
@@ -59,13 +56,10 @@ S3method(eval_pmf,finite)
 S3method(eval_pmf,inverse)
 S3method(eval_pmf,negative)
 S3method(eval_pmf,pois)
-<<<<<<< HEAD
 S3method(eval_pmf,scale)
 S3method(eval_pmf,shift)
-=======
 S3method(eval_pmf,slice_left)
 S3method(eval_pmf,slice_right)
->>>>>>> v0.1.3
 S3method(eval_quantile,dst)
 S3method(eval_quantile,finite)
 S3method(eval_quantile,gpd)
@@ -76,13 +70,10 @@ S3method(eval_quantile,mix)
 S3method(eval_quantile,negative)
 S3method(eval_quantile,norm)
 S3method(eval_quantile,pois)
-<<<<<<< HEAD
 S3method(eval_quantile,scale)
 S3method(eval_quantile,shift)
-=======
 S3method(eval_quantile,slice_left)
 S3method(eval_quantile,slice_right)
->>>>>>> v0.1.3
 S3method(eval_quantile,unif)
 S3method(eval_survival,dst)
 S3method(eval_survival,finite)
@@ -90,12 +81,9 @@ S3method(eval_survival,lnorm)
 S3method(eval_survival,negative)
 S3method(eval_survival,norm)
 S3method(eval_survival,pois)
-<<<<<<< HEAD
 S3method(eval_survival,scale)
 S3method(eval_survival,shift)
-=======
 S3method(eval_survival,slice_left)
->>>>>>> v0.1.3
 S3method(eval_survival,unif)
 S3method(evi,dst)
 S3method(evi,finite)
@@ -169,19 +157,16 @@ S3method(range,finite)
 S3method(range,gpd)
 S3method(range,graft)
 S3method(range,lnorm)
-<<<<<<< HEAD
 S3method(range,negative)
 S3method(range,norm)
 S3method(range,pois)
 S3method(range,scale)
 S3method(range,shift)
-=======
 S3method(range,mix)
 S3method(range,norm)
 S3method(range,pois)
 S3method(range,slice_left)
 S3method(range,slice_right)
->>>>>>> v0.1.3
 S3method(range,unif)
 S3method(realise,default)
 S3method(realise,degenerate)
@@ -295,11 +280,8 @@ export(next_discrete)
 export(parameters)
 export(plateaus)
 export(prev_discrete)
-<<<<<<< HEAD
 export(prev_discrete.dst)
 export(prev_discrete.pois)
-=======
->>>>>>> v0.1.3
 export(realise)
 export(realize)
 export(skewness)
