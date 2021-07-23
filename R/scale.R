@@ -7,11 +7,7 @@ make_dst_scale <- function(distribution, constant) {
         scale = constant
       )
     )
-    res <- structure(
-      dist,
-      variable = variable(distribution),
-      class = c(class(d)[1], "negative", class(distribution)[-1])
-    )
+    new_distribution(dist, variable = variable(e1), class = "scale")
   })
 }
 
@@ -103,5 +99,11 @@ eval_density.scale <- function(object, at) {
 eval_survival.scale <- function(object, at) {
   with(object$components, {
     eval_survival(distribution, at / scale)
+  })
+}
+
+realise.scale <- function(object, ...) {
+  with(object$components, {
+    eval_survival(distribution, ...) * scale
   })
 }

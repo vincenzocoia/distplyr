@@ -233,7 +233,6 @@ Ops.unif <- function(e1, e2) {
       } else {
         make_unif(e2, e1, `/`, `/`)
       }
-      stop("Cannot divide number with distribution")
     },
     stop("Not a valid Operation")
   )

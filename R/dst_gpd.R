@@ -181,8 +181,9 @@ Ops.gpd <- function(e1, e2) {
       }
     },
     `-` = {
+      # check if correct
       if (inherits(e1, "gpd")) {
-        make_gpd(e1, e2, `-`, `-`)
+        return(make_gpd(e1, e2, `-`, function(x, y) x))
       }
       # change
       stop("Cannot subtract number with distribution")
@@ -195,6 +196,7 @@ Ops.gpd <- function(e1, e2) {
       }
     },
     `/` = {
+      # check if correct
       if (inherits(e1, "gpd")) {
         return(make_gpd(e1, e2, function(x, y) x, `/`))
       }

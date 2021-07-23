@@ -263,9 +263,10 @@ Ops.finite <- function(e1, e2) {
     },
     `/` = {
       if (is_finite_dst(e1)) {
-        return(make_finite(e1, function(x) x / e2))
+        make_finite(e1, function(x) x / e2)
+      } else {
+        make_finite(e1, function(x) e2 / x)
       }
-      stop("Cannot divide number with distribution")
     },
     stop("Not a valid Operation")
   )

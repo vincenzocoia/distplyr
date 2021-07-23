@@ -134,7 +134,6 @@ Ops.degenerate <- function(e1, e2) {
       if (is_degenerate(e1)) {
         make_degenerate(e1, e2, `/`)
       } else {
-        # TODO: ask if this is similar to Ops.dst or this
         make_degenerate(e2, e1, `/`)
       }
     },

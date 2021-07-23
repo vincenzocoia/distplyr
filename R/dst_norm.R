@@ -158,13 +158,6 @@ make_norm <- function(e1, e2, FUN, FUN2) {
   })
 }
 
-#' @examples
-#' d <- dst_norm(0, 1)
-#' transform_parameters(d, list(variance = function(x) x * 2))
-transform_parameters <- function(distribution, list_of_functions) {
-
-}
-
 
 # Using .dst method for:
 # - get_hazard

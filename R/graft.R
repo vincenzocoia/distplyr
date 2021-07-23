@@ -294,8 +294,7 @@ graft <- function(base, dst_left, dst_right, left_at, right_at, include_at_left_
     } else {
       new_distribution(res, variable = "mixed", class = "graft")
     }
-  }
-  else {
+  } else {
     new_distribution(res, variable = "mixed", class = "graft")
   }
 }
@@ -331,8 +330,7 @@ graft_right_new <- function(base, graft, breakpoint, include_breakpoint_in_base)
     } else {
       new_distribution(res, variable = "mixed", class = "graft")
     }
-  }
-  else {
+  } else {
     new_distribution(res, variable = "mixed", class = "graft")
   }
 }
