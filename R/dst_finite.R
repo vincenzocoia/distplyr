@@ -63,19 +63,6 @@ dst_finite <- function(y, probs, data, ...) {
   new_finite(res, variable = "discrete")
 }
 
-make_finite <- function(e1, FUN) {
-  with(e1$probabilities, {
-    new_location <- FUN(location)
-    steps <- aggregate_weights(new_location, size)
-    res <- list(
-      probabilites = steps
-    )
-    new_finite(res, variable = "discrete")
-  })
-}
-
-
-
 
 #' Constructor Function for Finite Distributions
 #'
@@ -237,37 +224,21 @@ discontinuities.finite <- function(object, from = -Inf, to = Inf, ...) {
 #' @export
 Ops.finite <- function(e1, e2) {
   op <- .Generic[[1]]
-  switch(op,
-    `+` = {
-      if (is_finite_dst(e1)) {
-        make_finite(e1, function(x) x + e2)
-      } else {
-        make_finite(e2, function(x) x + e1)
-      }
-    },
-    `-` = {
-      if (missing(e2)) {
-        make_finite(e1, function(x) -x)
-      } else if (is_finite_dst(e1)) {
-        make_finite(e1, function(x) x - e2)
-      } else {
-        make_finite(e2, function(x) e1 - x)
-      }
-    },
-    `*` = {
-      if (is_finite_dst(e1)) {
-        make_finite(e1, function(x) x * e2)
-      } else {
-        make_finite(e2, function(x) x * e1)
-      }
-    },
-    `/` = {
-      if (is_finite_dst(e1)) {
-        make_finite(e1, function(x) x / e2)
-      } else {
-        make_finite(e1, function(x) e2 / x)
-      }
-    },
-    stop("Not a valid Operation")
-  )
+  if (is_distribution(e1) && is_distribution(e2)) {
+    stop("Operations on two distributions not currently supported.")
+  }
+  if (is_distribution(e1)) {
+    call <- rlang::call2(op, expr(location), e2)
+    mutate_finite(e1, !!call)
+  } else {
+    call <- rlang::call2(op, e1, expr(location))
+    mutate_finite(e2, !!call)
+  }
+}
+
+#' @export
+Math.finite <- function(x) {
+  f <- .Generic[[1]]
+  call <- rlang::call2(f, expr(location))
+  mutate_finite(x, !!call)
 }

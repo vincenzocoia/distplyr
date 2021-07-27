@@ -11,7 +11,8 @@
 #' @rdname degenerate
 #' @export
 dst_degenerate <- function(location) {
-  if (!is.numeric(location)) {
+  cant_be_numeric <- suppressWarnings(is.na(as.numeric(location)))
+  if (cant_be_numeric) {
     stop("'location' parameter must be numeric.")
   }
   if (length(location) != 1L) {
@@ -100,49 +101,5 @@ discontinuities.degenerate <- function(object, from = -Inf, to = Inf, ...) {
       res <- make_empty_discontinuities_df()
     }
     convert_dataframe_to_tibble(res)
-  })
-}
-
-#' @export
-Ops.degenerate <- function(e1, e2) {
-  op <- .Generic[[1]]
-  switch(op,
-    `+` = {
-      if (is_degenerate(e1)) {
-        make_degenerate(e1, e2, `+`)
-      } else {
-        make_degenerate(e2, e1, `+`)
-      }
-    },
-    `-` = {
-      if (missing(e2)) {
-        make_degenerate(e1, -1, `*`)
-      } else if (is_degenerate(e1)) {
-        make_degenerate(e1, e2, `-`)
-      } else {
-        make_degenerate(e2, e1, `-`)
-      }
-    },
-    `*` = {
-      if (is_degenerate(e1)) {
-        make_degenerate(e1, e2, `*`)
-      } else {
-        make_degenerate(e2, e1, `*`)
-      }
-    },
-    `/` = {
-      if (is_degenerate(e1)) {
-        make_degenerate(e1, e2, `/`)
-      } else {
-        make_degenerate(e2, e1, `/`)
-      }
-    },
-    stop("Not a valid Operation")
-  )
-}
-
-make_degenerate <- function(e1, e2, FUN) {
-  with(parameters(e1), {
-    dst_degenerate(FUN(location, e2))
   })
 }
