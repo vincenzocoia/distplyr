@@ -34,7 +34,7 @@ stdev.shift <- function(object) {
 #' @export
 range.shift <- function(object) {
   with(object$components, {
-    c(lapply(range(distribution), function(x) x + shift))
+    range(distribution) + shift
   })
 }
 
