@@ -55,6 +55,12 @@ graft_left <- function(object, graft, breakpoint, include = FALSE) {
 	new_graft(mixture)
 }
 
+#' @param object Object to be tested
+#' @rdname graft
+#' @export
+is_graft <- function(object) inherits(object, "graft")
+
+
 #' Constructor function for graft distributions
 #'
 #' @param object A special mixture of conditional distributions.
@@ -63,3 +69,32 @@ graft_left <- function(object, graft, breakpoint, include = FALSE) {
 new_graft <- function(object, ..., class = character()) {
 	new_mix(object, variable = variable(object), class = c(class, "graft"))
 }
+
+#' @export
+range.graft <- function(object, ...) {
+	d <- object$components$distributions
+	r <- lapply(d, range)
+	c(r[[1L]][1L], r[[2L]][2L])
+}
+
+#' #' @export
+#' eval_quantile.graft <- function(x, at, ...) {
+#' 	p_cutoff <- x$components$probs[1L]
+#' 	at_low <- at[at <= p_cutoff
+#' 	at_high
+#' 	q <- at
+#'
+#' 	with(x[["components"]], {
+#' 		if (at < left_at) {
+#' 			eval_cdf_at_left(object, at)
+#' 		} else if (at > right_at) {
+#' 			eval_quantile_at_right(object, at)
+#' 		} else if (at > left_at &
+#' 				   at < right_at) {
+#' 			left_quantile <- eval_quantile_at_left(dst_left, left_at)
+#' 			base_quantile <- eval_quantile(base, at) -
+#' 				eval_quantile(base, left_at)
+#' 			left_quantile + base_quantile
+#' 		}
+#' 	})
+#' }
