@@ -1,10 +1,10 @@
 #' Mutate Parameters
 #'
-#' Modify parameters using tidy evaluation. Lightweight function that only
+#' Modify distribution parameters. A lightweight function that only
 #' checks that the parameter you're modifying already exists in the
 #' distribution.
 #' @param distribution Parametric distribution
-#' @param ... Named expressions. Names should be parameters names of the
+#' @param ... Named expressions; quoted. Names should be parameters names of the
 #' distribution. Expressions can involve computations with other parameters.
 #' @return The input distribution, with the parameters modified as specified
 #' in `...`.
@@ -23,4 +23,18 @@ mutate_parameters <- function(distribution, ...) {
 		distribution$parameters[[param_name]] <- new_val
 	}
 	distribution
+}
+
+#' Mutate Discrete Values
+#'
+#' Transform discrete values in a finite distribution.
+#' @param distribution Finite distribution.
+#' @param location An expression involving `location`.
+#' @return The input distribution with discrete values modified according
+#' to the expression in `location`.
+mutate_finite <- function(distribution, location) {
+	l <- rlang::enquo(location)
+	df <- distribution$probabilities
+	df$location <- rlang::eval_tidy(l, data = df)
+	dst_empirical(df$location, weights = df$size)
 }
