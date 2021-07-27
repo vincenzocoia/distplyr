@@ -96,7 +96,8 @@ mean.unif <- function(x, ...) {
     if (res$resolved) {
       res$outcome
     } else {
-      rlang::get_expr(res$outcome)
+      # rlang::get_expr(res$outcome)
+      rlang::expr_print(res$outcome)
     }
   })
 }
@@ -153,7 +154,7 @@ eval_density.unif <- function(object, at, strict = TRUE) {
     if (res$resolved) {
       res$outcome
     } else {
-      rlang::get_expr(res$outcome)
+      rlang::expr_print(res$outcome)
     }
   })
 }
