@@ -3,7 +3,7 @@ Ops.dst <- function(e1, e2) {
   op <- .Generic[[1]]
   switch(op,
     `+` = {
-      if (inherits(e1, "dst")) {
+      if (is_distribution(e1)) {
         make_dst_shift(e1, e2)
       } else {
         make_dst_shift(e2, e1)
@@ -12,14 +12,14 @@ Ops.dst <- function(e1, e2) {
     `-` = {
       if (missing(e2)) {
         make_dst_negative(e1)
-      } else if (inherits(e1, "dst")) {
+      } else if (is_distribution(e1)) {
         make_dst_shift(e1, e2)
       } else {
         make_dst_shift(make_dst_negative(e2), e1)
       }
     },
     `*` = {
-      if (inherits(e1, "dst")) {
+      if (is_distribution(e1)) {
         d <- e1
         cnst <- e2
       } else {
@@ -36,7 +36,7 @@ Ops.dst <- function(e1, e2) {
       make_dst_scale(d, cnst)
     },
     `/` = {
-      if (inherits(e1, "dst")) {
+      if (is_distribution(e1)) {
         make_dst_scale(e1, e2)
       } else {
         recp <- make_dst_inverse(e1)
@@ -50,6 +50,6 @@ Ops.dst <- function(e1, e2) {
         recp
       }
     },
-    stop("Not a valid Operation")
+    stop("Operation currently not supported.")
   )
 }
