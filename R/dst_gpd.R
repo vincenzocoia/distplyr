@@ -175,36 +175,32 @@ Ops.gpd <- function(e1, e2) {
   switch(op,
     `+` = {
       if (inherits(e1, "gpd")) {
-        make_gpd(e1, e2, `+`, function(x, y) x)
+        mutate_parameters(e1, location = location + e2)
       } else {
-        make_gpd(e2, e1, `+`, function(x, y) x)
+        mutate_parameters(e2, location = e1 + location)
       }
     },
     `-` = {
       if (inherits(e1, "gpd")) {
-        make_gpd(e1, e2, `-`, function(x, y) x)
-      }else {
-         make_dst_inverse(e2)
+        mutate_parameters(e1, location = location - e1)
+      } else {
+        e1 + make_dst_negative(e2)
       }
     },
     `*` = {
       if (inherits(e1, "gpd")) {
-        make_gpd(e1, e2, `*`, `*`)
+        mutate_parameters(e1, location = location * e2, scale = scale * e2)
       } else {
-        make_gpd(e2, e1, `*`, `*`)
+        mutate_parameters(e2, location = e1 * location, scale = e1 * scale)
       }
     },
     `/` = {
-      # check if correct
       if (inherits(e1, "gpd")) {
-        return(make_gpd(e1, e2, function(x, y) x, `/`))
+        mutate_parameters(e1, location = location / e2, scale = scale / e2)
+      } else {
+        e1 * make_dst_inverse(e2)
       }
-    }
+    },
+    stop("Operation not currently supported.")
   )
-}
-
-make_gpd <- function(e1, e2, FUN, FUN2) {
-  with(parameters(e1), {
-    dst_gpd(FUN(location, e2), FUN2(scale, e2), shape)
-  })
 }
