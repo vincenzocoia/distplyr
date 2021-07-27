@@ -37,17 +37,15 @@ Ops.dst <- function(e1, e2) {
     },
     `/` = {
       if (is_distribution(e1)) {
-        make_dst_scale(e1, e2)
+        make_dst_scale(e1, 1 / e2)
       } else {
-        recp <- make_dst_inverse(e1)
-        if (e2 == 1) {
-          recp <- recp
-        } else if (e2 < 0) {
-          recp <- make_dst_scale(make_dst_negative(e1), -e2)
+        if (e1 == 0) {
+          dst_degenerate(0)
+        } else if (e1 < 0) {
+          (-e1) * make_dst_inverse(make_dst_negative(e2))
         } else {
-          recp <- make_dst_scale(recp, e2)
+          e1 * make_dst_inverse(e2)
         }
-        recp
       }
     },
     stop("Operation currently not supported.")
