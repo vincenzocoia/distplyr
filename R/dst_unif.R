@@ -196,22 +196,18 @@ Ops.unif <- function(e1, e2) {
   switch(op,
     `+` = {
       if (inherits(e1, "unif")) {
-        make_unif(e1, e2, `+`, `+`)
+        mutate_parameters(e1, min = min + e2, max = max + e2)
       } else {
-        make_unif(e2, e1, `+`, `+`)
+        mutate_parameters(e2, min = min + e1, max = max + e1)
       }
     },
     `-` = {
       if (missing(e2)) {
-        with(parameters(e1), {
-          dst_unif(-max, -min)
-        })
+        mutate_parameters(e1, min = -max, max = -min)
       } else if (inherits(e1, "unif")) {
-        make_unif(e1, e2, `-`, `-`)
+        mutate_parameters(e1, min = min - e2, max = max - e2)
       } else {
-        with(parameters(e2), {
-          dst_unif(e1 - max, e1 - min)
-        })
+        mutate_parameters(e2, min = e1 - max, max = e1 - min)
       }
     },
     `*` = {
@@ -225,21 +221,15 @@ Ops.unif <- function(e1, e2) {
       if (cnst < 0) {
         return(-cnst * (-d))
       }
-      make_unif(d, cnst, `*`, `*`)
+      mutate_parameters(e1, min = min * cnst, max = max * cnst)
     },
     `/` = {
       if (inherits(e1, "unif")) {
-        make_unif(e1, e2, `/`, `/`)
+        mutate_parameters(e1, min = min / e2, max = max / e2)
       } else {
-        make_unif(e2, e1, `/`, `/`)
+        make_dst_inverse(e2) * e1
       }
     },
     stop("Not a valid Operation")
   )
-}
-
-make_unif <- function(distribution, constant, FUN, FUN2) {
-  with(parameters(distribution), {
-    dst_unif(FUN(min, constant), FUN2(max, constant))
-  })
 }
