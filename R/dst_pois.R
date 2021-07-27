@@ -85,31 +85,3 @@ eval_quantile.pois <- function(object, at, ...) {
 range.pois <- function(x, ...) {
   c(0, Inf)
 }
-
-#' @rdname discontinuities
-#' @export
-discontinuities.pois <- function(object, from = -Inf, to = Inf, ...) {
-  if (is.na(from) || is.na(to)) {
-    stop("Specified limits must not be NA.")
-  }
-  if (to == Inf) {
-    stop("Poisson Distribution must have finite 'to' limit.")
-  }
-  if (to < from) {
-    stop("'to' argument must be larger or equal than from argument.")
-  }
-  if (to < 0) {
-    return(make_empty_discontinuities_df())
-  }
-  if (from < 0) {
-    from <- 0
-  }
-  rounded_from <- ceiling(from)
-  rounded_to <- floor(to)
-  if (rounded_from > rounded_to) {
-    return(make_empty_discontinuities_df())
-  }
-  locs <- rounded_from:rounded_to
-  size <- eval_pmf(object, at = locs)
-  aggregate_weights(locs, size, sum_to_one = FALSE)
-}
