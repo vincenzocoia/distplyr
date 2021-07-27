@@ -121,7 +121,3 @@ discontinuities.lnorm <- function(object, from = -Inf, to = Inf, ...) {
   }
   make_empty_discontinuities_df()
 }
-
-# Using .dst method for:
-# - get_hazard
-# - get_chf

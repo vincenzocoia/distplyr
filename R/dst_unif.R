@@ -231,6 +231,6 @@ Ops.unif <- function(e1, e2) {
         make_dst_inverse(e2) * e1
       }
     },
-    stop("Not a valid Operation")
+    stop("Operation currently not supported.")
   )
 }
