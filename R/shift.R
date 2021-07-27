@@ -74,16 +74,16 @@ eval_cdf.shift <- function(object, at) {
 }
 
 #' @export
-eval_quantile.shift <- function(object, at) {
+eval_quantile.shift <- function(object, at, ...) {
   with(object$components, {
-    eval_quantile(distribution, at - shift)
+    eval_quantile(distribution, at - shift, ...)
   })
 }
 
 #' @export
-eval_pmf.shift <- function(object, at) {
+eval_pmf.shift <- function(object, at, ...) {
   with(object$components, {
-    eval_pmf(distribution, at - shift)
+    eval_pmf(distribution, at - shift, ...)
   })
 }
 
@@ -114,7 +114,3 @@ eval_quantile.shift <- function(object, at, ...) {
     eval_quantile(distribution, at, ...) + shift
   })
 }
-
-# Relying on the .dst functions for the following:
-# - eval_hazard
-# - eval_chf
