@@ -121,7 +121,7 @@ Ops.norm <- function(e1, e2) {
       if (is_distribution(e1)) {
         mutate_parameters(e1, mean = mean * e2, variance = variance * e2^2)
       } else {
-        mutate_parameters(e1, mean = e1 * mean, variance = e1^2 * variance)
+        mutate_parameters(e2, mean = e1 * mean, variance = e1^2 * variance)
       }
     },
     `/` = {
