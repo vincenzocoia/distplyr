@@ -112,12 +112,3 @@ eval_quantile.lnorm <- function(object, at, ...) {
 range.lnorm <- function(x, ...) {
   c(0, Inf)
 }
-
-#' @rdname discontinuities
-#' @export
-discontinuities.lnorm <- function(object, from = -Inf, to = Inf, ...) {
-  if (from > to) {
-    stop("'to' argument must be larger or equal than from argument")
-  }
-  make_empty_discontinuities_df()
-}
