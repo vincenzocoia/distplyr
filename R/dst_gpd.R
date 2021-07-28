@@ -195,3 +195,11 @@ Ops.gpd <- function(e1, e2) {
     stop("Operation not currently supported.")
   )
 }
+
+
+# Using .dst method for:
+#
+# - median
+# - get_survival
+# - get_hazard
+# - get_chf

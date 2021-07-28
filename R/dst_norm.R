@@ -96,7 +96,6 @@ range.norm <- function(x, ...) {
   c(-Inf, Inf)
 }
 
-# Correct
 #' @export
 Ops.norm <- function(e1, e2) {
   op <- .Generic[[1]]
@@ -134,3 +133,8 @@ Ops.norm <- function(e1, e2) {
     stop("Operation not currently supported.")
   )
 }
+
+
+# Using .dst method for:
+# - get_hazard
+# - get_chf

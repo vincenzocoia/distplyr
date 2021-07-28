@@ -87,3 +87,9 @@ range.degenerate <- function(x, ...) {
   location <- parameters(x)$location
   c(location, location)
 }
+
+
+# Using .finite method for:
+# - all functional representations (cdf, hazard, etc.), except random number
+#    generator.
+# - evi

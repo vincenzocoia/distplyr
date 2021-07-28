@@ -182,7 +182,6 @@ range.unif <- function(x, ...) {
   })
 }
 
-
 #' @export
 Ops.unif <- function(e1, e2) {
   op <- .Generic[[1]]
@@ -226,3 +225,9 @@ Ops.unif <- function(e1, e2) {
     stop("Operation currently not supported.")
   )
 }
+
+
+# Using .dst method for:
+# - get_hazard
+# - get_chf
+# - sd
