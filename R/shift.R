@@ -6,7 +6,7 @@ make_dst_shift <- function(distribution, constant) {
         shift = constant
       )
     )
-    new_distribution(dist, variable = variable(e1), class = "shift")
+    new_distribution(dist, variable = variable(distribution), class = "shift")
   })
 }
 
