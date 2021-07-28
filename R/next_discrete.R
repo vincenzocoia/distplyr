@@ -64,8 +64,10 @@ prev_discrete.pois <- function(object, from, n = 1L,
 next_discrete.finite <- function(object, from, n = 1L,
                                  include_from = FALSE, ...) {
   all_discretes <- object$probabilities$location
-  next_discrete_finite(all_discretes, from = from, n = n,
-                       include_from = include_from)
+  next_discrete_finite(all_discretes,
+    from = from, n = n,
+    include_from = include_from
+  )
 }
 
 #' @export
@@ -73,8 +75,10 @@ next_discrete.finite <- function(object, from, n = 1L,
 prev_discrete.finite <- function(object, from, n = 1L,
                                  include_from = FALSE, ...) {
   all_discretes <- object$probabilities$location
-  prev_discrete_finite(all_discretes, from = from, n = n,
-                       include_from = include_from)
+  prev_discrete_finite(all_discretes,
+    from = from, n = n,
+    include_from = include_from
+  )
 }
 
 #' @export
@@ -82,8 +86,10 @@ prev_discrete.finite <- function(object, from, n = 1L,
 next_discrete.degenerate <- function(object, from, n = 1L,
                                      include_from = FALSE, ...) {
   x <- parameters(object)[["location"]]
-  next_discrete_finite(x, from = from, n = n,
-                       include_from = include_from)
+  next_discrete_finite(x,
+    from = from, n = n,
+    include_from = include_from
+  )
 }
 
 #' @export
@@ -92,6 +98,58 @@ prev_discrete.degenerate <- function(object, from, n = 1L,
                                      include_from = FALSE, ...) {
   x <- parameters(object)[["location"]]
   prev_discrete_finite(x, from = from, n = n, include_from = include_from)
+}
+
+#' @export
+#' @inheritParams next_discrete
+next_discrete.shift <- function(object, from, n = 1L,
+                                include_from = FALSE, ...) {
+  with(object$components, {
+    next_discrete(distribution,
+      from = from,
+      n = n,
+      include_from = include_from
+    ) + shift
+  })
+}
+
+#' @export
+#' @inheritParams next_discrete
+prev_discrete.shift <- function(object, from, n = 1L,
+                                include_from = FALSE, ...) {
+  with(object$components, {
+    prev_discrete(distribution,
+      from = from,
+      n = n,
+      include_from = include_from
+    ) + shift
+  })
+}
+
+#' @export
+#' @inheritParams next_discrete
+next_discrete.scale <- function(object, from, n = 1L,
+                                include_from = FALSE, ...) {
+  with(object$components, {
+    next_discrete(distribution,
+      from = from,
+      n = n,
+      include_from = include_from
+    ) * scale
+  })
+}
+
+#' @export
+#' @inheritParams next_discrete
+prev_discrete.shift <- function(object, from, n = 1L,
+                                include_from = FALSE, ...) {
+  with(object$components, {
+    prev_discrete(distribution,
+      from = from,
+      n = n,
+      include_from = include_from
+    ) * scale
+  })
 }
 
 #' Helper functions for finding discrete values

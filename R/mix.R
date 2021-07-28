@@ -301,3 +301,23 @@ range.mix <- function(object, ...) {
   high <- Reduce(max, r)
   c(low, high)
 }
+
+#' @export
+eval_pmf.mix <- function(object, at, strict = TRUE, ...) {
+  with(object$components, {
+    cumulitive_sum <- 0
+    for (i in 1:length(distributions)) {
+      tryCatch(
+        {
+          cumlative_sum <- cumulitive_sum +
+            eval_pmf(distributions[[i]], at, strict = strict) * probs[[i]]
+        },
+        error = function(c) {
+          warning("A component distribution doesn't have a pmf. Perhaps you want to evaluate in non-strict mode?")
+          return(NA)
+        }
+      )
+    }
+    cumulitive_sum
+  })
+}

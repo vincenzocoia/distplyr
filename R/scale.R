@@ -1,13 +1,21 @@
 #' This helper function is not anticipating a negative constant.
 make_dst_scale <- function(distribution, constant) {
   with(parameters(distribution), {
-    dist <- list(
-      components = list(
-        distribution = distribution,
-        scale = constant
+    if (constant < 0) {
+      stop("make_dst_scale cannot accept negative constant")
+    } else if (constant == 0) {
+      dst_degenerate(0)
+    } else if (constant == 1) {
+      distribution
+    } else {
+      dist <- list(
+        components = list(
+          distribution = distribution,
+          scale = constant
+        )
       )
-    )
-    new_distribution(dist, variable = variable(e1), class = "scale")
+      new_distribution(dist, variable = variable(e1), class = "scale")
+    }
   })
 }
 
@@ -82,9 +90,9 @@ eval_quantile.scale <- function(object, at) {
 }
 
 #' @export
-eval_pmf.scale <- function(object, at) {
+eval_pmf.scale <- function(object, at, strict = TRUE, ...) {
   with(object$components, {
-    eval_pmf(distribution, at / scale)
+    eval_pmf(distribution, at / scale, strict = strict, ...)
   })
 }
 

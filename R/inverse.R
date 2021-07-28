@@ -1,4 +1,5 @@
-make_dst_inverse <- function(distribution) {
+#' @export 
+invert <- function(distribution) {
   with(parameters(distribution), {
     dist <- list(
       distribution = distribution

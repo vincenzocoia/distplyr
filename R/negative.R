@@ -1,4 +1,5 @@
-make_dst_negative <- function(distribution) {
+#' @export 
+negate_dst <- function(distribution) {
   with(parameters(distribution), {
     dist <- list(
       distribution = distribution
@@ -38,7 +39,7 @@ stdev.negative <- function(object, ...) {
 #' @export
 skewness.negative <- function(object, ...) {
   with(object, {
-    skewness(distribution)
+    -skewness(distribution)
   })
 }
 
@@ -60,9 +61,7 @@ realise.negative <- function(object, ...) {
 range.negative <- function(object, ...) {
   with(object, {
     d <- range(distribution)
-    minimum <- -d[1]
-    maximum <- -d[2]
-    c(minimum, maximum)
+    c(-d[2], -d[1])
   })
 }
 
