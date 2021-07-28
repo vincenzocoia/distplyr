@@ -60,6 +60,5 @@
 # })
 
 test_that("Making Graft Works", {
-
   grafted_right <- graft_right()
 })

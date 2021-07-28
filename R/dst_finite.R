@@ -64,9 +64,6 @@ dst_finite <- function(y, probs, data, ...) {
 }
 
 
-
-
-
 #' Constructor Function for Finite Distributions
 #'
 #' @param l List containing the components of a step distribution object.
@@ -211,14 +208,25 @@ range.finite <- function(x, ...) {
   c(min_val, max_val)
 }
 
-#' @rdname discontinuities
+
 #' @export
-discontinuities.finite <- function(object, from = -Inf, to = Inf, ...) {
-  if (from > to) {
-    stop("'to' argument must be larger or equal than from argument")
+Ops.finite <- function(e1, e2) {
+  op <- .Generic[[1]]
+  if (is_distribution(e1) && is_distribution(e2)) {
+    stop("Operations on two distributions not currently supported.")
   }
-  probabilities <- object$probabilities
-  location <- probabilities$location
-  res <- subset(probabilities, location >= from & location <= to)
-  convert_dataframe_to_tibble(res)
+  if (is_distribution(e1)) {
+    call <- rlang::call2(op, expr(location), e2)
+    mutate_finite(e1, !!call)
+  } else {
+    call <- rlang::call2(op, e1, expr(location))
+    mutate_finite(e2, !!call)
+  }
+}
+
+#' @export
+Math.finite <- function(x) {
+  f <- .Generic[[1]]
+  call <- rlang::call2(f, expr(location))
+  mutate_finite(x, !!call)
 }

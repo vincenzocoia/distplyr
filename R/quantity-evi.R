@@ -14,3 +14,9 @@
 evi <- function(x, ...) {
   UseMethod("evi")
 }
+
+#' @export
+evi.dst <- function(x, ...) {
+  warning("Currently not implemented")
+  NA
+}
