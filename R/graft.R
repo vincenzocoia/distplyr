@@ -71,10 +71,11 @@ new_graft <- function(object, ..., class = character()) {
 }
 
 #' @export
-range.graft <- function(object, ...) {
-	d <- object$components$distributions
-	r <- lapply(d, range)
-	c(r[[1L]][1L], r[[2L]][2L])
+evi.graft <- function(object, ...) {
+	with(object$components, {
+		nd <- length(distributions)
+		evi(distributions[[nd]])
+	})
 }
 
 #' #' @export
