@@ -23,7 +23,7 @@ prev_discrete_natural(from, n, include_from)
 \item{n}{Number of discrete values to find.}
 
 \item{include_from}{Logical; should the \code{from} value be included
-in the query?}
+in the query? Should the \code{to} value?}
 }
 \description{
 \verb{*_discrete_finite} finds discrete values from a

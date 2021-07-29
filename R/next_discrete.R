@@ -1,28 +1,39 @@
-#' Return neighbouring discrete values from a reference
+#' Probing discrete values in a distribution
 #'
-#' Finds the next `n` largest/smallest discrete values in a distribution
-#' from some reference point.
+#' `next_discrete()` and `prev_discrete()` find the `n` discrete values
+#' in a distribution next to a reference point. `num_discretes()` finds
+#' the number of discrete values within a range.
 #'
 #' @param object Distribution
 #' @param from Reference value.
 #' @param n Number of discrete values to find.
-#' @param include_from Logical; should the `from` value be included
-#' in the query?
-#' @return Vector of all available discrete points satisfying the query.
-#' If infinite values satify the query, an error is thrown; if less
+#' @param include_from,include_to Logical; should the `from` value be included
+#' in the query? Should the `to` value?
+#' @return For `next_discrete()` and `prev_discrete()`, a vector of
+#' all available discrete points satisfying the query.
+#' If infinite values satisfy the query, an error is thrown; if less
 #' values are available than asked via `n`, only those values are returned.
+#' For `num_discretes()`, a single non-negative integer, possibly infinite.
 #' @examples
 #' next_discrete(dst_pois(1), from = 1.3)
 #' prev_discrete(dst_pois(1), from = 3, n = 10)
 #' next_discrete(dst_norm(0, 1), from = 1.3, n = 4)
+#' @rdname discretes
 #' @export
 next_discrete <- function(object, from, n = 1L, include_from = FALSE, ...) {
   UseMethod("next_discrete")
 }
 
+#' @rdname discretes
 #' @export
 prev_discrete <- function(object, from, n = 1L, include_from = FALSE, ...) {
   UseMethod("prev_discrete")
+}
+
+#' @rdname discretes
+#' @export
+num_discretes <- function(object, from, to, include_from, include_to) {
+  UseMethod("num_discretes")
 }
 
 #' @export
