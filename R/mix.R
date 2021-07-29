@@ -142,16 +142,24 @@ slice_right.mix <- function(object, breakpoint, include = TRUE, ...) {
     kept_p <- probs[keep] / sum(probs[keep])
     sliced_d <- lapply(kept_d, slice_right,
                        breakpoint = breakpoint, include = include)
-    res <- list(components = list(
-      distributions = sliced_d,
-      probs = kept_p
-    ))
-    var_type <- vapply(sliced_d, variable, FUN.VALUE = character(1L))
-    var_unique <- unique(var_type)
-    if (length(var_unique) > 1L) {
-      var_unique <- "mixed"
+    mix(!!!sliced_d, weights = kept_p)
+  })
+}
+
+#' @export
+slice_left.mix <- function(object, breakpoint, include = TRUE, ...) {
+  with(object$components, {
+    keep <- vapply(distributions, prob_left, FUN.VALUE = numeric(1L),
+                   of = breakpoint, inclusive = include) < 1
+    if (all(!keep)) {
+      stop("No such distribution exists: ",
+           "cannot slice off entire distribution.")
     }
-    new_mix(res, variable = var_unique)
+    kept_d <- distributions[keep]
+    kept_p <- probs[keep]
+    sliced_d <- lapply(kept_d, slice_left,
+                       breakpoint = breakpoint, include = include)
+    mix(!!!sliced_d, weights = kept_p)
   })
 }
 
@@ -293,6 +301,25 @@ evi.mix <- function(x, ...) {
     evis <- vapply(distributions, evi, FUN.VALUE = numeric(1L))
     final_sign <- if (max_end < Inf) -1 else 1
     final_sign * max(abs(evis[has_max_ends]))
+  })
+}
+
+#' @export
+num_discretes.mix <- function(object, from, to, include_from, include_to) {
+  with(object$components, {
+    n <- vapply(distributions, num_discretes, FUN.VALUE = numeric(1L),
+                from = from, to = to,
+                include_from = include_from,
+                include_to = include_to)
+    if (any(is.infinite(n))) return(Inf)
+    discretes <- list()
+    for (i in seq_along(distributions)) {
+      discretes[[i]] <- next_discrete(
+        distributions[[i]], from = from, n = n[[i]], include_from = include_from
+      )
+    }
+    discretes <- unique(c(discretes, recursive = TRUE))
+    length(discretes)
   })
 }
 
