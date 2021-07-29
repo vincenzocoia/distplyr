@@ -11,7 +11,8 @@
 #' @rdname degenerate
 #' @export
 dst_degenerate <- function(location) {
-  if (!is.numeric(location)) {
+  cant_be_numeric <- suppressWarnings(is.na(as.numeric(location)))
+  if (cant_be_numeric) {
     stop("'location' parameter must be numeric.")
   }
   if (length(location) != 1L) {

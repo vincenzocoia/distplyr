@@ -113,6 +113,7 @@ range.lnorm <- function(x, ...) {
   c(0, Inf)
 }
 
+
 # Using .dst method for:
 # - get_hazard
 # - get_chf

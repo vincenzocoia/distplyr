@@ -62,7 +62,7 @@
 test_that(paste("A graft distribution is only ever a mixture of two distributions.",
 				"Eventually, conditioning on a mixture distribution may be written",
 				"as a mixture of conditionals, in which case a graft distribution",
-				"may be a mixture of more than two distributions.") {
+				"may be a mixture of more than two distributions."), {
 	d <- dst_norm(0, 1)
 	g <- graft_left(graft_right(d, d, breakpoint = 2), d, breakpoint = -2)
 	expect_length(g$components$distributions, 2L)
