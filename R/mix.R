@@ -98,7 +98,7 @@ mix <- function(..., weights = 1, na.rm = FALSE) {
   if (length(var_unique) > 1L) {
     var_unique <- "mixed"
   }
-  new_distribution(res, variable = var_unique, class = "mix")
+  new_mix(res, variable = var_unique)
 }
 
 #' Constructor function for `mix` objects
@@ -127,6 +127,32 @@ print.mix <- function(x, ...) {
   } else {
     cat(length(x$components$probs))
   }
+}
+
+#' @export
+slice_right.mix <- function(object, breakpoint, include = TRUE, ...) {
+  with(object$components, {
+    keep <- vapply(distributions, prob_right, FUN.VALUE = numeric(1L),
+                   of = breakpoint, inclusive = include) < 1
+    if (all(!keep)) {
+      stop("No such distribution exists: ",
+           "cannot slice off entire distribution.")
+    }
+    kept_d <- distributions[keep]
+    kept_p <- probs[keep] / sum(probs[keep])
+    sliced_d <- lapply(kept_d, slice_right,
+                       breakpoint = breakpoint, include = include)
+    res <- list(components = list(
+      distributions = sliced_d,
+      probs = kept_p
+    ))
+    var_type <- vapply(sliced_d, variable, FUN.VALUE = character(1L))
+    var_unique <- unique(var_type)
+    if (length(var_unique) > 1L) {
+      var_unique <- "mixed"
+    }
+    new_mix(res, variable = var_unique)
+  })
 }
 
 #' @export
