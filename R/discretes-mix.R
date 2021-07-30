@@ -1,7 +1,8 @@
 #' @export
 has_infinite_discretes <- function(object, from = -Inf, to = Inf) {
 	with(object$components, {
-		any(vapply(distributions, has_infinite_discretes, FUN.VALUE = logical(1L),
+		any(vapply(distributions, has_infinite_discretes,
+				   FUN.VALUE = logical(1L),
 				   from = from, to = to))
 	})
 }
@@ -19,7 +20,8 @@ num_discretes.mix <- function(object, from, to, include_from, include_to) {
 		discretes <- list()
 		for (i in seq_along(distributions)) {
 			discretes[[i]] <- next_discrete(
-				distributions[[i]], from = from, n = n[[i]], include_from = include_from
+				distributions[[i]], from = from, n = n[[i]],
+				include_from = include_from
 			)
 		}
 		discretes <- unique(c(discretes, recursive = TRUE))
