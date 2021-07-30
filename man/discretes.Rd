@@ -4,6 +4,7 @@
 \alias{next_discrete}
 \alias{prev_discrete}
 \alias{num_discretes}
+\alias{has_infinite_discretes}
 \title{Probing discrete values in a distribution}
 \usage{
 next_discrete(object, from, n = 1L, include_from = FALSE, ...)
@@ -11,6 +12,8 @@ next_discrete(object, from, n = 1L, include_from = FALSE, ...)
 prev_discrete(object, from, n = 1L, include_from = FALSE, ...)
 
 num_discretes(object, from, to, include_from, include_to)
+
+has_infinite_discretes(object, from = -Inf, to = Inf)
 }
 \arguments{
 \item{object}{Distribution}
@@ -25,8 +28,12 @@ in the query? Should the \code{to} value?}
 \value{
 For \code{next_discrete()} and \code{prev_discrete()}, a vector of
 all available discrete points satisfying the query.
-If infinite values satisfy the query, an error is thrown; if less
-values are available than asked via \code{n}, only those values are returned.
+If less values are available than asked
+via \code{n}, only those values are returned.
+If infinite values satisfy the query, an error is thrown;
+\code{NaN} occurs when no one particular discrete value follows, such as
+when asking for the integer that comes before infinity.
+
 For \code{num_discretes()}, a single non-negative integer, possibly infinite.
 }
 \description{

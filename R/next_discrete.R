@@ -11,8 +11,12 @@
 #' in the query? Should the `to` value?
 #' @return For `next_discrete()` and `prev_discrete()`, a vector of
 #' all available discrete points satisfying the query.
-#' If infinite values satisfy the query, an error is thrown; if less
-#' values are available than asked via `n`, only those values are returned.
+#' If less values are available than asked
+#' via `n`, only those values are returned.
+#' If infinite values satisfy the query, an error is thrown;
+#' `NaN` occurs when no one particular discrete value follows, such as
+#' when asking for the integer that comes before infinity.
+#'
 #' For `num_discretes()`, a single non-negative integer, possibly infinite.
 #' @examples
 #' next_discrete(dst_pois(1), from = 1.3)
@@ -34,6 +38,21 @@ prev_discrete <- function(object, from, n = 1L, include_from = FALSE, ...) {
 #' @export
 num_discretes <- function(object, from, to, include_from, include_to) {
   UseMethod("num_discretes")
+}
+
+#' @rdname discretes
+#' @export
+has_infinite_discretes <- function(object, from = -Inf, to = Inf) {
+  UseMethod("has_infinite_discretes")
+}
+
+#' @export
+has_infinite_discretes.dst <- function(object, from = -Inf, to = Inf) {
+  if (variable(object) == "continuous") {
+    return(FALSE)
+  }
+  stop("Cannot determine whether this distribution has a finite number ",
+       "of discrete values between ", from, " and ", to, ".")
 }
 
 #' @export
@@ -321,7 +340,7 @@ next_discrete_natural <- function(from, n, include_from) {
     return(numeric(0L))
   }
   if (is.infinite(n)) {
-    stop("Your selection includes and infinite number of discrete points.")
+    stop("Your selection includes an infinite number of discrete points.")
   }
   if (from < 0) {
     return(seq_len(n) - 1L)
@@ -334,7 +353,7 @@ next_discrete_natural <- function(from, n, include_from) {
 #' @rdname discrete_helpers
 prev_discrete_natural <- function(from, n, include_from) {
   if (n > 0 && from == Inf) {
-    stop("Impossible to find a discrete value neighbouring infinity.")
+    return(NaN)
   }
   ceil_from <- ceiling(from)
   adjust <- from == ceil_from && include_from
