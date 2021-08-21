@@ -15,7 +15,8 @@ dst_norm <- function(mean, variance) {
   }
   res <- list(parameters = list(
     mean = mean,
-    variance = variance
+    variance = variance,
+    sd = sqrt(variance)
   ))
   new_parametric(
     res,
