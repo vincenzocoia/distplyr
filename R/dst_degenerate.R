@@ -21,16 +21,9 @@ dst_degenerate <- function(location) {
       "Received ", length(location)
     )
   }
-  as_param <- list(location = location)
   as_table <- aggregate_weights(location, 1, sum_to_one = FALSE)
-  res <- list(
-    parameters = as_param,
-    probabilities = as_table
-  )
-  new_parametric(res,
-    variable = "discrete",
-    class = c("degenerate", "finite")
-  )
+  res <- list(probabilities = as_table)
+  new_finite(res, variable = "discrete", class = "degenerate")
 }
 
 #' @param object Object to test
@@ -45,51 +38,3 @@ is_degenerate <- function(object) {
 is.degenerate <- function(object) {
   inherits(object, "degenerate")
 }
-
-#' @export
-mean.degenerate <- function(x, ...) {
-  parameters(x)$location
-}
-
-#' @export
-median.degenerate <- function(x, ...) {
-  parameters(x)$location
-}
-
-#' @export
-variance.degenerate <- function(x, ...) {
-  0
-}
-
-#' @export
-stdev.degenerate <- function(x, ...) {
-  0
-}
-
-#' @export
-skewness.degenerate <- function(x, ...) {
-  NaN
-}
-
-#' @export
-kurtosis_exc.degenerate <- function(x, ...) {
-  NaN
-}
-
-#' @export
-realise.degenerate <- function(object, n = 1, ...) {
-  rep(parameters(object)$location, n)
-}
-
-#' @rdname range
-#' @export
-range.degenerate <- function(x, ...) {
-  location <- parameters(x)$location
-  c(location, location)
-}
-
-
-# Using .finite method for:
-# - all functional representations (cdf, hazard, etc.), except random number
-#    generator.
-# - evi
