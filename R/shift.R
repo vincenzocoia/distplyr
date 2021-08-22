@@ -1,4 +1,4 @@
-make_dst_shift <- function(distribution, constant) {
+shift <- function(distribution, constant) {
   with(parameters(distribution), {
     if (constant == 0) {
       return(distribution)
