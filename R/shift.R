@@ -1,7 +1,7 @@
 shift <- function(distribution, constant) {
   with(parameters(distribution), {
     if (constant == 0) {
-      return(distribution)
+      return(dst_degenerate(0))
     }
     dist <- list(
       components = list(

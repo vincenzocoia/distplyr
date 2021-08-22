@@ -11,11 +11,11 @@ Ops.dst <- function(e1, e2) {
     },
     `-` = {
       if (missing(e2)) {
-        make_dst_negative(e1)
+        flip(e1)
       } else if (is_distribution(e1)) {
-        shift(e1, e2)
+        shift(e1, -e2)
       } else {
-        shift(make_dst_negative(e2), e1)
+        shift(flip(e2), e1)
       }
     },
     `*` = {
@@ -27,8 +27,7 @@ Ops.dst <- function(e1, e2) {
         cnst <- e1
       }
       if (cnst < 0) {
-        d <- make_dst_negative(d)
-        cnst <- -cnst
+        return(flip(multiply(d, -cnst)))
       }
       if (cnst == 0) {
         return(dst_degenerate(0))
@@ -42,9 +41,9 @@ Ops.dst <- function(e1, e2) {
         if (e1 == 0) {
           dst_degenerate(0)
         } else if (e1 < 0) {
-          (-e1) * make_dst_inverse(make_dst_negative(e2))
+          invert(flip(multiply(e2, -e1)))
         } else {
-          e1 * make_dst_inverse(e2)
+          invert(multiply(e2, 1 / e1))
         }
       }
     },
