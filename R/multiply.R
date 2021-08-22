@@ -1,4 +1,4 @@
-#' This helper function is not anticipating a negative constant.
+#' @export
 multiply <- function(distribution, constant) {
   with(parameters(distribution), {
     if (constant < 0) {
@@ -7,6 +7,8 @@ multiply <- function(distribution, constant) {
       dst_degenerate(0)
     } else if (constant == 1) {
       distribution
+    } else if (is.infinite(constant)) {
+      stop("Cannot multiply a distribution by infinity.")
     } else {
       dist <- list(
         components = list(

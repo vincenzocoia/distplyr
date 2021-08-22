@@ -33,3 +33,5 @@ Ops.gpd <- function(e1, e2) {
 		   stop("Operation not currently supported.")
 	)
 }
+
+# shift.gpd <- function()

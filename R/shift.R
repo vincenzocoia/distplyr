@@ -1,3 +1,4 @@
+#' @export
 shift <- function(distribution, constant) {
   with(parameters(distribution), {
     if (constant == 0) {
