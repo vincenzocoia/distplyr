@@ -60,6 +60,9 @@ dst_empirical <- function(y, data, weights = 1, ...) {
     stop("Not enough outcomes `y` to match weights.")
   }
   steps <- aggregate_weights(y, w, sum_to_one = TRUE)
+  if (any(is.infinite(steps$location))) {
+    stop("Possible outcomes of a distribution cannot be infinite.")
+  }
   if (nrow(steps) == 1L) {
     return(dst_degenerate(steps$location))
   }

@@ -8,6 +8,10 @@
 #' distribution. Expressions can involve computations with other parameters.
 #' @return The input distribution, with the parameters modified as specified
 #' in `...`.
+#' @details
+#' Parameters are not modified on-the-fly. That means parameters that are
+#' modified earlier in `...` still retain their original values for use
+#' downstream in `...`.
 #' @examples
 #' d <- dst_unif(1, 3)
 #' distplyr:::mutate_parameters(d, min = max - min)
@@ -23,18 +27,4 @@ mutate_parameters <- function(distribution, ...) {
 		distribution$parameters[[param_name]] <- new_val
 	}
 	distribution
-}
-
-#' Mutate Discrete Values
-#'
-#' Transform discrete values in a finite distribution.
-#' @param distribution Finite distribution.
-#' @param location An expression involving `location`.
-#' @return The input distribution with discrete values modified according
-#' to the expression in `location`.
-mutate_finite <- function(distribution, location) {
-	l <- rlang::enquo(location)
-	df <- distribution$probabilities
-	df$location <- rlang::eval_tidy(l, data = df)
-	dst_empirical(df$location, weights = df$size)
 }

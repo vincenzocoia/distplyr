@@ -21,6 +21,9 @@ dst_degenerate <- function(location) {
       "Received ", length(location)
     )
   }
+  if (is.infinite(location)) {
+    stop("Possible outcomes of a distribution cannot be infinite.")
+  }
   as_table <- aggregate_weights(location, 1, sum_to_one = FALSE)
   res <- list(probabilities = as_table)
   new_finite(res, variable = "discrete", class = "degenerate")

@@ -21,6 +21,11 @@ Modify distribution parameters. A lightweight function that only
 checks that the parameter you're modifying already exists in the
 distribution.
 }
+\details{
+Parameters are not modified on-the-fly. That means parameters that are
+modified earlier in \code{...} still retain their original values for use
+downstream in \code{...}.
+}
 \examples{
 d <- dst_unif(1, 3)
 distplyr:::mutate_parameters(d, min = max - min)
