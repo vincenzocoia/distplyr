@@ -32,15 +32,15 @@ conditioning to be smaller than the breakpoint.
 \examples{
 library(magrittr)
 dst_norm(0, 1) \%>\%
-  slice_left(-2) \%>\%
-  slice_right(2) \%>\%
-  enframe_cdf(at = -3:3)
+    slice_left(-2) \%>\%
+    slice_right(2) \%>\%
+    enframe_cdf(at = -3:3)
 
 d <- dst_empirical(c(2, 5, 6, 9, 11))
 d \%>\%
-  slice_left(5) \%>\%
-  eval_pmf(at = 5)
+    slice_left(5) \%>\%
+    eval_pmf(at = 5)
 d \%>\%
-  slice_left(5, include = TRUE) \%>\%
-  eval_pmf(at = 5)
+    slice_left(5, include = TRUE) \%>\%
+    eval_pmf(at = 5)
 }

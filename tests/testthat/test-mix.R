@@ -20,15 +20,15 @@ test_that("computations are correct", {
     dnorm(-1) * 0.4
   )
   expect_identical(
-    eval_pmf(m1, at = c(-1, 1)),
+    eval_pmf(m1, at = c(-1, 1), strict = FALSE),
     c(0, 0)
   )
   expect_identical(
-    eval_pmf(m2, at = c(0.5, 1, 1.5)),
+    eval_pmf(m2, at = c(0.5, 1, 1.5), strict = FALSE),
     c(0, 0.2 * 0.6, 0)
   )
   expect_identical(
-    eval_pmf(m3, at = c(1, 2.5, 5)),
+    eval_pmf(m3, at = c(1, 2.5, 5), strict = FALSE),
     c(0.2 * 0.4, 0, 0.2 * 0.4 + 0.6 / 3)
   )
   expect_identical(

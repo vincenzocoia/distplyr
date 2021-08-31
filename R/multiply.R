@@ -1,5 +1,8 @@
 #' @export
-multiply <- function(distribution, constant) {
+multiply <- function(distribution, constant) UseMethod("multiply")
+
+#' @export
+multiply.dst <- function(distribution, constant) {
   if (constant < 0) {
     return(flip(multiply(distribution, -constant)))
   } else if (constant == 0) {
@@ -15,6 +18,6 @@ multiply <- function(distribution, constant) {
         scale = constant
       )
     )
-    new_distribution(dist, variable = variable(e1), class = "scale")
+    new_distribution(dist, variable = variable(constant), class = "scale")
   }
 }

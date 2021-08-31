@@ -1,4 +1,4 @@
 #' @export
 realise.degenerate <- function(object, n = 1, ...) {
-	rep(parameters(object)$location, n)
+    rep(object$probabilities$location[[1]], n)
 }
