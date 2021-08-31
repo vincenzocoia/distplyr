@@ -43,6 +43,4 @@ jobs:
       - name: Lint
         run: lintr::lint_package()
         shell: Rscript {0}
-      - uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.PAT }}
+      - uses: stefanzweifel/git-auto-commit-action@v4
