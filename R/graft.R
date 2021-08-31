@@ -45,7 +45,7 @@ graft_left <- function(object, graft, breakpoint, include = FALSE) {
 	if (p_right == 1) {
 		return(object)
 	}
-	if (p_left == 0) {
+	if (p_right == 0) {
 		return(slice_right(graft, breakpoint = breakpoint, include = include))
 	}
 	left <- slice_right(graft, breakpoint = breakpoint, include = include)

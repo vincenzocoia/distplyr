@@ -6,10 +6,8 @@ eval_cdf.negative <- function(object, at, ...) {
 
 #' @export
 eval_survival.negative <- function(object, at, ...) {
-	with(object$distribution, {
-		eval_cdf(distribution, at = -at) -
-			eval_pmf(distribution, at = -at, strict = FALSE)
-	})
+	eval_cdf(object$distribution, at = -at) -
+		eval_pmf(object$distribution, at = -at, strict = FALSE)
 }
 
 #' @export

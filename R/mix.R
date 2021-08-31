@@ -22,15 +22,16 @@
 #' variable(m2)
 #' @export
 mix <- function(..., weights = 1, na.rm = FALSE) {
-  dsts <- rlang::list2(...)
+  dsts <- rlang::quos(...)
+  dsts <- lapply(dsts, rlang::eval_tidy)
   if (!all(vapply(dsts, is_distribution, FUN.VALUE = logical(1L)))) {
     stop("Ellipsis must contain distributions only.")
   }
   n <- length(dsts)
-  if (identical(length(weights), 1L)) {
+  if (length(weights) == 1L) {
     weights <- rep(weights, n)
   }
-  if (!identical(n, length(weights))) {
+  if (length(weights) != n) {
     stop("There must be one weight per distribution specified.")
   }
   if (any(weights < 0, na.rm = TRUE)) {
@@ -50,7 +51,7 @@ mix <- function(..., weights = 1, na.rm = FALSE) {
     probs <- probs[!zero_probs]
     dsts <- dsts[!zero_probs]
   }
-  if (identical(length(probs), 1L)) {
+  if (length(probs) == 1L) {
     return(dsts[[1L]])
   }
   already_mixtures <- vapply(dsts, is_mix, FUN.VALUE = logical(1L))
@@ -74,7 +75,7 @@ mix <- function(..., weights = 1, na.rm = FALSE) {
     stopifnot(length(probs_mixture_flat) == length(dsts_flat))
     new_probs <- c(probs_mixture_flat, probs[!already_mixtures])
     new_dsts <- c(dsts_flat, dsts[!already_mixtures])
-    return(rlang::exec(mix, !!!new_dsts, weights = new_probs, na.rm = na.rm))
+    return(mix(!!!new_dsts, weights = new_probs, na.rm = na.rm))
   }
   if (all(vapply(dsts, is_finite_dst, FUN.VALUE = logical(1L)))) {
     prob_dfs <- lapply(dsts, `[[`, "probabilities")
