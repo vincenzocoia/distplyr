@@ -14,18 +14,18 @@ plot.dst <- function(x,
                      ...) {
   ellipsis <- rlang::list2(...)
   fname <- match.arg(what)
-  if (identical(fname, "density") && variable(x) != "continuous") {
+  if (fname == "density" && variable(x) != "continuous") {
     warning("Density function does not exist. Plotting cdf instead.")
     fname <- "cdf"
   }
-  if (identical(fname, "pmf") && variable(x) != "discrete") {
+  if (fname == "pmf" && variable(x) != "discrete") {
     warning("Probability mass function does not exist. Plotting cdf instead.")
     fname <- "cdf"
   }
   if (is.null(ellipsis[["ylab"]])) {
     ellipsis[["ylab"]] <- fname
   }
-  if (identical(fname, "quantile")) {
+  if (fname == "quantile") {
     if (is.null(ellipsis[["from"]])) {
       ellipsis[["from"]] <- 0
     }
@@ -41,7 +41,7 @@ plot.dst <- function(x,
   }
   if (is.null(ellipsis[["from"]])) {
     q0 <- eval_quantile(x, at = 0)
-    if (identical(q0, -Inf)) {
+    if (q0 == -Inf) {
       ellipsis[["from"]] <- eval_quantile(x, at = 0.001)
     } else {
       ellipsis[["from"]] <- q0
@@ -49,7 +49,7 @@ plot.dst <- function(x,
   }
   if (is.null(ellipsis[["to"]])) {
     q1 <- eval_quantile(x, at = 1)
-    if (identical(q1, Inf)) {
+    if (q1 == Inf) {
       ellipsis[["to"]] <- eval_quantile(x, at = 0.999)
     } else {
       ellipsis[["to"]] <- q1
