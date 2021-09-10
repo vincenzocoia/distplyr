@@ -15,6 +15,6 @@ multiply <- function(distribution, constant) {
         scale = constant
       )
     )
-    new_distribution(dist, variable = variable(e1), class = "scale")
+    new_distribution(dist, variable = variable(distribution), class = "scale")
   }
 }

@@ -33,8 +33,9 @@ eval_survival.scale <- function(object, at) {
 	})
 }
 
+#' @export
 realise.scale <- function(object, ...) {
 	with(object$components, {
-		eval_survival(distribution, ...) * scale
+		realise(distribution, ...) * scale
 	})
 }

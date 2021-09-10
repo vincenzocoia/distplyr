@@ -12,7 +12,7 @@
 plot.dst <- function(x,
                      what = c("density", "cdf", "survival", "quantile", "hazard", "chf"),
                      ...) {
-  ellipses <- list(...)
+  ellipsis <- rlang::list2(...)
   fname <- match.arg(what)
   if (identical(fname, "density") && variable(x) != "continuous") {
     warning("Density function does not exist. Plotting cdf instead.")
@@ -22,44 +22,44 @@ plot.dst <- function(x,
     warning("Probability mass function does not exist. Plotting cdf instead.")
     fname <- "cdf"
   }
-  if (is.null(ellipses[["ylab"]])) {
-    ellipses[["ylab"]] <- fname
+  if (is.null(ellipsis[["ylab"]])) {
+    ellipsis[["ylab"]] <- fname
   }
   if (identical(fname, "quantile")) {
-    if (is.null(ellipses[["from"]])) {
-      ellipses[["from"]] <- 0
+    if (is.null(ellipsis[["from"]])) {
+      ellipsis[["from"]] <- 0
     }
-    if (is.null(ellipses[["to"]])) {
-      ellipses[["to"]] <- 1
+    if (is.null(ellipsis[["to"]])) {
+      ellipsis[["to"]] <- 1
     }
-    if (is.null(ellipses[["xlab"]])) {
-      ellipses[["xlab"]] <- "Probability"
+    if (is.null(ellipsis[["xlab"]])) {
+      ellipsis[["xlab"]] <- "Probability"
     }
     f <- get_quantile(x)
-    ellipses[["expr"]] <- as.name("f")
-    do.call(graphics::curve, args = ellipses)
+    ellipsis[["expr"]] <- as.name("f")
+    do.call(graphics::curve, args = ellipsis)
   }
-  if (is.null(ellipses[["from"]])) {
+  if (is.null(ellipsis[["from"]])) {
     q0 <- eval_quantile(x, at = 0)
     if (identical(q0, -Inf)) {
-      ellipses[["from"]] <- eval_quantile(x, at = 0.001)
+      ellipsis[["from"]] <- eval_quantile(x, at = 0.001)
     } else {
-      ellipses[["from"]] <- q0
+      ellipsis[["from"]] <- q0
     }
   }
-  if (is.null(ellipses[["to"]])) {
+  if (is.null(ellipsis[["to"]])) {
     q1 <- eval_quantile(x, at = 1)
     if (identical(q1, Inf)) {
-      ellipses[["to"]] <- eval_quantile(x, at = 0.999)
+      ellipsis[["to"]] <- eval_quantile(x, at = 0.999)
     } else {
-      ellipses[["to"]] <- q1
+      ellipsis[["to"]] <- q1
     }
   }
-  if (is.null(ellipses[["xlab"]])) {
-    ellipses[["xlab"]] <- "y"
+  if (is.null(ellipsis[["xlab"]])) {
+    ellipsis[["xlab"]] <- "y"
   }
   get_fun <- get(paste0("get_", fname))
   f <- get_fun(x)
-  ellipses[["expr"]] <- as.name("f")
-  do.call("curve", args = ellipses)
+  ellipsis[["expr"]] <- as.name("f")
+  do.call("curve", args = ellipsis)
 }

@@ -73,6 +73,6 @@ realise.mix <- function(object, n = 1, ...) {
 		}
 		k <- length(distributions)
 		id <- sample(1:k, size = n, replace = TRUE, prob = probs)
-		sapply(id, function(i) realise(distributions[[i]]))
+		vapply(id, function(i) realise(distributions[[i]]), FUN.VALUE = numeric(1L))
 	})
 }
