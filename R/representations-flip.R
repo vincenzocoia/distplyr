@@ -22,9 +22,7 @@ eval_density.negative <- function(object, at, ...) {
 
 #' @export
 eval_quantile.negative <- function(object, at, ...) {
-	with(object$distribution, {
-		-eval_quantile(object, at = 1 - at)
-	})
+	-eval_quantile(object$distribution, at = 1 - at)
 }
 
 #' @export

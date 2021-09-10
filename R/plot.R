@@ -40,7 +40,7 @@ plot.dst <- function(x,
     do.call(graphics::curve, args = ellipsis)
   }
   if (is.null(ellipsis[["from"]])) {
-    q0 <- eval_quantile(x, at = 0)
+    q0 <- range(x)[1L]
     if (q0 == -Inf) {
       ellipsis[["from"]] <- eval_quantile(x, at = 0.001)
     } else {
@@ -48,7 +48,7 @@ plot.dst <- function(x,
     }
   }
   if (is.null(ellipsis[["to"]])) {
-    q1 <- eval_quantile(x, at = 1)
+    q1 <- range(x)[2L]
     if (q1 == Inf) {
       ellipsis[["to"]] <- eval_quantile(x, at = 0.999)
     } else {
