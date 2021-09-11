@@ -22,15 +22,6 @@ eval_pmf <- function(object, at, strict = TRUE) UseMethod("eval_pmf")
 #' @export
 get_pmf <- function(object) UseMethod("get_pmf")
 
-#' @rdname pmf
-#' @export
-enframe_pmf <- function(object, at,
-                        arg_name = ".arg",
-                        fn_name = ".pmf") {
-  UseMethod("enframe_pmf")
-}
-
-
 #' @export
 eval_pmf.dst <- function(object, at, strict = TRUE) {
   if (variable(object) == "discrete") {
@@ -51,14 +42,4 @@ eval_pmf.dst <- function(object, at, strict = TRUE) {
 #' @export
 get_pmf.dst <- function(object) {
   function(at) eval_pmf(object, at = at)
-}
-
-#' @export
-enframe_pmf.dst <- function(object, at,
-                            arg_name = ".arg",
-                            fn_name = ".pmf") {
-  f <- eval_pmf(object, at = at)
-  res <- data.frame(at, f)
-  names(res) <- c(arg_name, fn_name)
-  convert_dataframe_to_tibble(res)
 }

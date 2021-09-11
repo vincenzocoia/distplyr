@@ -38,21 +38,3 @@ eval_cdf.dst <- function(object, at) {
 get_cdf.dst <- function(object) {
   function(at) eval_cdf(object, at = at)
 }
-
-#' @rdname cdf
-#' @export
-enframe_cdf <- function(object, at,
-                        arg_name = ".arg",
-                        fn_name = ".cdf") {
-  UseMethod("enframe_cdf")
-}
-
-#' @export
-enframe_cdf.dst <- function(object, at,
-                            arg_name = ".arg",
-                            fn_name = ".cdf") {
-  f <- eval_cdf(object, at = at)
-  res <- data.frame(at, f)
-  names(res) <- c(arg_name, fn_name)
-  convert_dataframe_to_tibble(res)
-}
