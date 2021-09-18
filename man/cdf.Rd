@@ -10,7 +10,13 @@ eval_cdf(object, at)
 
 get_cdf(object)
 
-enframe_cdf(..., at, arg_name = ".arg", fn_name = ".cdf")
+enframe_cdf(
+  ...,
+  at,
+  arg_name = ".arg",
+  fn_prefix = "cdf",
+  names_repair = c("universal", "unique", "minimal")
+)
 }
 \arguments{
 \item{object}{Distribution object.}

@@ -6,7 +6,14 @@
 \alias{get_pmf}
 \title{Probability Mass Function}
 \usage{
-enframe_pmf(..., at, arg_name = ".arg", fn_name = ".pmf", strict = TRUE)
+enframe_pmf(
+  ...,
+  at,
+  arg_name = ".arg",
+  fn_prefix = "pmf",
+  names_repair = c("universal", "unique", "minimal"),
+  strict = TRUE
+)
 
 eval_pmf(object, at, strict = TRUE)
 
@@ -16,9 +23,6 @@ get_pmf(object)
 \item{at}{Vector of values to evaluate the cdf at.}
 
 \item{arg_name}{Name of the column containing the function arguments, in the
-output data frame of \code{enframe_}.}
-
-\item{fn_name}{Name of the column containing the function evaluations, in the
 output data frame of \code{enframe_}.}
 
 \item{object}{Distribution object.}
