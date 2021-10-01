@@ -31,8 +31,7 @@ eval_quantile.mix <- function(object, at, tol = 1e-6, maxiter = 1000, ...) {
 eval_pmf.mix <- function(object, at, strict = TRUE, ...) {
 	with(object[["components"]], {
 		pmf_vals <- lapply(distributions, eval_pmf, at = at, strict = strict)
-		p_times_f <- mapply(function(p, f) p * f, probs, pmf_vals,
-							SIMPLIFY = FALSE)
+		p_times_f <- mapply(`*`, probs, pmf_vals, SIMPLIFY = FALSE)
 		Reduce(`+`, p_times_f)
 	})
 }

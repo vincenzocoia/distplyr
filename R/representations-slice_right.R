@@ -29,7 +29,7 @@ eval_density.slice_right <- function(object, at, strict = TRUE) {
 eval_pmf.slice_right <- function(object, at, strict = TRUE) {
 	with(object, {
 		p_kept <- prob_left(
-			distribution, of = breakpoint, inclusive = include
+			distribution, of = breakpoint, inclusive = !include
 		)
 		pmf <- eval_pmf(distribution, at = at, strict = strict) / p_kept
 		if (include) {
