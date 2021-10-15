@@ -35,6 +35,7 @@ graft_right <- function(object, graft, breakpoint, include = FALSE) {
 	right <- slice_left(graft, breakpoint = breakpoint, include = include)
 	mixture <- mix(left, right, weights = c(p_left, 1 - p_left))
 	mixture$components$breakpoint <- breakpoint
+	mixture$components$include <- include
 	new_graft(mixture)
 }
 
@@ -52,6 +53,7 @@ graft_left <- function(object, graft, breakpoint, include = FALSE) {
 	right <- slice_left(object, breakpoint = breakpoint, include = !include)
 	mixture <- mix(left, right, weights = c(1 - p_right, p_right))
 	mixture$components$breakpoint <- breakpoint
+	mixture$components$include <- include
 	new_graft(mixture)
 }
 

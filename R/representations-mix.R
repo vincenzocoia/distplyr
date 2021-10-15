@@ -29,21 +29,10 @@ eval_quantile.mix <- function(object, at, tol = 1e-6, maxiter = 1000, ...) {
 
 #' @export
 eval_pmf.mix <- function(object, at, strict = TRUE, ...) {
-	with(object$components, {
-		cumulitive_sum <- 0
-		for (i in 1:length(distributions)) {
-			tryCatch(
-				{
-					cumlative_sum <- cumulitive_sum +
-						eval_pmf(distributions[[i]], at, strict = strict) * probs[[i]]
-				},
-				error = function(c) {
-					warning("A component distribution doesn't have a pmf. Perhaps you want to evaluate in non-strict mode?")
-					return(NA)
-				}
-			)
-		}
-		cumulitive_sum
+	with(object[["components"]], {
+		pmf_vals <- lapply(distributions, eval_pmf, at = at, strict = strict)
+		p_times_f <- mapply(`*`, probs, pmf_vals, SIMPLIFY = FALSE)
+		Reduce(`+`, p_times_f)
 	})
 }
 
@@ -55,8 +44,7 @@ eval_density.mix <- function(object, at, strict = TRUE) {
 	with(object[["components"]], {
 		density_vals <- lapply(distributions, eval_density, at = at)
 		p_times_f <- mapply(function(p, f) p * f, probs, density_vals,
-							SIMPLIFY = FALSE
-		)
+							SIMPLIFY = FALSE)
 		Reduce(`+`, p_times_f)
 	})
 }
