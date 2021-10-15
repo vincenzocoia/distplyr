@@ -8,8 +8,7 @@
 #' @param object Base distribution
 #' @param graft The distribution being grafted.
 #' @param breakpoint The location of the graft
-#' @param include Logical; include the breakpoint in the distribution
-#' being grafted?
+#' @param include Logical; include the breakpoint in the base distribution?
 #' @return Graft distribution object, which is a special type of mixture
 #' distribution.
 #' @examples
@@ -24,7 +23,7 @@
 #' @rdname graft
 #' @export
 graft_right <- function(object, graft, breakpoint, include = FALSE) {
-	p_left <- prob_left(object, of = breakpoint, inclusive = !include)
+	p_left <- prob_left(object, of = breakpoint, inclusive = include)
 	if (p_left == 1) {
 		return(object)
 	}
@@ -42,7 +41,7 @@ graft_right <- function(object, graft, breakpoint, include = FALSE) {
 #' @rdname graft
 #' @export
 graft_left <- function(object, graft, breakpoint, include = FALSE) {
-	p_right <- prob_right(object, of = breakpoint, inclusive = !include)
+	p_right <- prob_right(object, of = breakpoint, inclusive = include)
 	if (p_right == 1) {
 		return(object)
 	}
