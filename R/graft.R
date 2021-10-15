@@ -5,7 +5,7 @@
 #' to the left of some breakpoint; `graft_right()` grafts a distribution
 #' to the right. The distribution being grafted is sliced at a breakpoint
 #' and fit to the base distribution also at that breakpoint.
-#' @param object Base distribution
+#' @param distribution Base distribution
 #' @param graft The distribution being grafted.
 #' @param breakpoint The location of the graft
 #' @param include Logical; include the breakpoint in the distribution
@@ -23,15 +23,15 @@
 #' plot(base, "cdf", n = 1001, lty = 2, add = TRUE)
 #' @rdname graft
 #' @export
-graft_right <- function(object, graft, breakpoint, include = FALSE) {
-	p_left <- prob_left(object, of = breakpoint, inclusive = !include)
+graft_right <- function(distribution, graft, breakpoint, include = FALSE) {
+	p_left <- prob_left(distribution, of = breakpoint, inclusive = !include)
 	if (p_left == 1) {
-		return(object)
+		return(distribution)
 	}
 	if (p_left == 0) {
 		return(slice_left(graft, breakpoint = breakpoint, include = include))
 	}
-	left <- slice_right(object, breakpoint = breakpoint, include = !include)
+	left <- slice_right(distribution, breakpoint = breakpoint, include = !include)
 	right <- slice_left(graft, breakpoint = breakpoint, include = include)
 	mixture <- mix(left, right, weights = c(p_left, 1 - p_left))
 	mixture$components$breakpoint <- breakpoint
@@ -40,16 +40,16 @@ graft_right <- function(object, graft, breakpoint, include = FALSE) {
 
 #' @rdname graft
 #' @export
-graft_left <- function(object, graft, breakpoint, include = FALSE) {
-	p_right <- prob_right(object, of = breakpoint, inclusive = !include)
+graft_left <- function(distribution, graft, breakpoint, include = FALSE) {
+	p_right <- prob_right(distribution, of = breakpoint, inclusive = !include)
 	if (p_right == 1) {
-		return(object)
+		return(distribution)
 	}
 	if (p_right == 0) {
 		return(slice_right(graft, breakpoint = breakpoint, include = include))
 	}
 	left <- slice_right(graft, breakpoint = breakpoint, include = include)
-	right <- slice_left(object, breakpoint = breakpoint, include = !include)
+	right <- slice_left(distribution, breakpoint = breakpoint, include = !include)
 	mixture <- mix(left, right, weights = c(1 - p_right, p_right))
 	mixture$components$breakpoint <- breakpoint
 	new_graft(mixture)

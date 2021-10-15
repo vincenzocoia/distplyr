@@ -3,7 +3,6 @@
 #' Aggregates discrete values together with their weights
 #' into a data frame or tibble.
 #'
-#' @param object A distribution object.
 #' @param y Vector of outcomes.
 #' @param weights Vector of weights, one for each of \code{y}.
 #' These need not sum to one, but must not be negative.
@@ -20,7 +19,6 @@
 #' matching vector of \code{weights},
 #' \code{aggregate_weights()} provides a single non-zero, non-NA
 #' weight per unique value of \code{y}.
-#' @rdname discontinuities
 #' @export
 aggregate_weights <- function(y, weights, sum_to_one = FALSE) {
   stopifnot(identical(length(y), length(weights)))

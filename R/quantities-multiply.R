@@ -1,55 +1,55 @@
 #' @export
-mean.scale <- function(object) {
-	with(object$components, {
+mean.scale <- function(distribution) {
+	with(distribution$components, {
 		mean(distribution) * scale
 	})
 }
 
 #' @export
-median.scale <- function(object) {
-	with(object$components, {
+median.scale <- function(distribution) {
+	with(distribution$components, {
 		median(distribution) * scale
 	})
 }
 
 #' @export
-stdev.scale <- function(object) {
-	with(object$components, {
+stdev.scale <- function(distribution) {
+	with(distribution$components, {
 		stdev(distribution) * scale
 	})
 }
 
 #' @export
-variance.scale <- function(object) {
-	with(object$components, {
+variance.scale <- function(distribution) {
+	with(distribution$components, {
 		variance(distribution) * scale^2
 	})
 }
 
 #' @export
-evi.scale <- function(object) {
-	with(object$components, {
+evi.scale <- function(distribution) {
+	with(distribution$components, {
 		evi(distribution)
 	})
 }
 
 #' @export
-skewness.scale <- function(object) {
-	with(object$components, {
+skewness.scale <- function(distribution) {
+	with(distribution$components, {
 		skewness(distribution)
 	})
 }
 
 #' @export
-kurtosis_exc.scale <- function(object) {
-	with(object$components, {
+kurtosis_exc.scale <- function(distribution) {
+	with(distribution$components, {
 		kurtosis_exc(distribution)
 	})
 }
 
 #' @export
-range.scale <- function(object) {
-	with(object$components, {
+range.scale <- function(distribution) {
+	with(distribution$components, {
 		range(distribution) * scale
 	})
 }

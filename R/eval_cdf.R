@@ -1,40 +1,38 @@
-#' (Cumulative) Distribution Function
+#' Cumulative Distribution Function
 #'
 #' Access a distribution's cumulative distribution function (cdf).
 #'
-#' @param object Distribution object.
-#' @param at Vector of values to evaluate the cdf at.
-#' @param arg_name Name of the column containing the function arguments, in the
-#'   output data frame of \code{enframe_}.
-#' @param fn_name Name of the column containing the function evaluations, in the
-#'   output data frame of \code{enframe_}.
-#' @return A vector of the evaluated cdf, in the case of \code{eval_}; a data
-#'   frame with both the argument and function evaluations, in the case of
-#'   \code{enframe_}; or a vectorized function representing the cdf, in the case
-#'   of \code{get_}.
+#' @param distribution,... A distribution, or possibly multiple
+#' distributions in the case of `...`.
+#' @param at Vector of values to evaluate the cdf at. Must be named when using
+#' in `enframe_`.
+#' @param arg_name For `enframe_`, name of the column containing
+#' the function arguments.
+#' @param fn_prefix For `enframe_`, name of the function to
+#' appear in the column(s).
+#' @param sep When `enframe`'ing more than one distribution, the
+#' character that will be separating the `fn_name` and the distribution name.
+#' @return The evaluated cdf in vector form (for `eval_`) and data frame
+#' or tibble form (for `enframe_`).
 #' @family distributional representations
 #' @examples
 #' d <- dst_unif(0, 4)
 #' eval_cdf(d, at = 0:4)
 #' enframe_cdf(d, at = 0:4)
-#' cdf <- get_cdf(d)
-#' cdf(0:4)
+#' enframe_cdf(d, d + 1, at = 0:4)
 #' @rdname cdf
 #' @export
-eval_cdf <- function(object, at) UseMethod("eval_cdf")
-
-
-#' @rdname cdf
-#' @export
-get_cdf <- function(object) UseMethod("get_cdf")
-
+eval_cdf <- function(distribution, at) UseMethod("eval_cdf")
 
 #' @export
-eval_cdf.dst <- function(object, at) {
+eval_cdf.dst <- function(distribution, at) {
   stop("Can't find a cdf for this distribution.")
 }
 
+#' @rdname cdf
 #' @export
-get_cdf.dst <- function(object) {
-  function(at) eval_cdf(object, at = at)
+enframe_cdf <- function(..., at, arg_name = ".arg", fn_prefix = "cdf",
+						sep = "_") {
+	enframe_general(..., at = at, arg_name = arg_name, fn_prefix = fn_prefix,
+					sep = sep, eval_fn = eval_cdf)
 }

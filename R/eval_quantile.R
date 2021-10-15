@@ -2,41 +2,28 @@
 #'
 #' Access a distribution's quantiles.
 #'
-#' @inheritParams get_cdf
-#' @param ... Other arguments to pass to specific methods.
-#' @return A vector of the evaluated quantiles, in the case of
-#' \code{eval_}; a data frame with both the argument and
-#' function evaluations, in the case of \code{enframe_};
-#' or a vectorized function representing the quantile function, in the
-#' case of \code{get_}.
+#' @inheritParams eval_cdf
+#' @return The evaluated quantiles in vector form (for `eval_`) and data frame
+#' or tibble form (for `enframe_`).
 #' @examples
 #' d <- dst_unif(0, 4)
-#' eval_quantile(d, at = 0:4)
-#' enframe_quantile(d, at = 0:4)
-#' qf <- get_quantile(d)
-#' qf(0:4)
+#' eval_quantile(d, at = 1:9 / 10)
+#' enframe_quantile(d, at = 1:9 / 10)
 #' @family distributional representations
 #' @rdname quantile
 #' @export
-eval_quantile <- function(object, at, ...) UseMethod("eval_quantile")
+eval_quantile <- function(distribution, at) UseMethod("eval_quantile")
 
-#' @rdname quantile
 #' @export
-get_quantile <- function(object, ...) UseMethod("get_quantile")
-
-#' @param tol Error tolerance when using an algorithm to find the left-inverse
-#'   of the cdf.
-#' @param maxiter Maximum number of iterations when using an algorithm to find
-#'   the left-inverse of the cdf.
-#' @rdname quantile
-#' @export
-get_quantile.dst <- function(object, tol = 1e-6, maxiter = 1000, ...) {
-  function(at) eval_quantile(object, at, tol = tol, maxiter = maxiter, ...)
+eval_quantile.dst <- function(distribution, at) {
+	cdf <- representation_as_function(distribution, "cdf")
+	eval_quantile_from_cdf(cdf, at, tol = 1e-6, maxiter = 1000)
 }
 
 #' @rdname quantile
 #' @export
-eval_quantile.dst <- function(object, at, tol = 1e-6, maxiter = 1000, ...) {
-  cdf <- get_cdf(object)
-  eval_quantile_from_cdf(cdf, at, tol = tol, maxiter = maxiter)
+enframe_quantile <- function(..., at, arg_name = ".arg", fn_prefix = "quantile",
+							 sep = "_") {
+	enframe_general(..., at = at, arg_name = arg_name, fn_prefix = fn_prefix,
+					sep = sep, eval_fn = eval_quantile)
 }

@@ -1,6 +1,6 @@
 #' @export
-evi.graft <- function(object, ...) {
-	with(object$components, {
+evi.graft <- function(distribution, ...) {
+	with(distribution$components, {
 		nd <- length(distributions)
 		evi(distributions[[nd]])
 	})

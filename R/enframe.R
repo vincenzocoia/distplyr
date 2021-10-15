@@ -1,4 +1,32 @@
-#' @export
+#' Enframe a distributional representation's evaluation
+#'
+#' This is the workhorse for the `enframe_` family of functions.
+#' `enframe_general()` evaluates a specified distributional representation
+#' for multiple distributions, and places the results in a data frame
+#' or tibble.
+#'
+#' @inheritParams eval_cdf
+#' @param eval_fn Name of the `eval_` function for the desired distributional
+#' representation, such as `eval_cdf` and `eval_density`.
+#' @param fn_args A named list of arguments to pass to the `eval_fn` function,
+#' besides the distribution and `at` argument (the `strict` argument
+#' being the most common, and perhaps the only use case).
+#' @return A data frame or tibble of the input argument (`at`), with the
+#' evaluated distributional representation for each distribution in
+#' `...` in its own column.
+#' @details If only one distribution is specified in `...`, then the evaluation
+#' column will be named that of `fn_prefix`.
+#'
+#' If more than one distribution
+#' is specified in `...`, the evaluation columns will be named by the
+#' prefix `fn_prefix` followed by the distribution names, with `sep` in between.
+#'
+#' Distributions are named first by their argument names, if given, or if not,
+#' the input text. Names are then made unique using `vctrs::vec_as_names()`
+#' with the "unique" names repair. "Unique" is chosen instead of "universal"
+#' because names are anticipated to be syntactic with the `eval_fn` prefix;
+#' "minimal" is not sufficient because it may result in columns having the
+#' same names.
 enframe_general <- function(..., at, arg_name, fn_prefix, sep,
 							eval_fn, fn_args = list()) {
 	ellipsis <- rlang::quos(...)
@@ -19,7 +47,7 @@ enframe_general <- function(..., at, arg_name, fn_prefix, sep,
 	f <- list()
 	for (i in seq_len(n)) {
 		f[[i]] <- rlang::exec(
-			eval_fn, object = distributions[[i]], at = at, !!!fn_args
+			eval_fn, distribution = distributions[[i]], at = at, !!!fn_args
 		)
 	}
 	if (n == 1L) {
@@ -36,68 +64,3 @@ enframe_general <- function(..., at, arg_name, fn_prefix, sep,
 	convert_dataframe_to_tibble(res)
 }
 
-#' @rdname cdf
-#' @export
-enframe_cdf <- function(..., at, arg_name = ".arg", fn_prefix = "cdf",
-						sep = "_") {
-	enframe_general(..., at = at, arg_name = arg_name, fn_prefix = fn_prefix,
-					sep = sep, eval_fn = eval_cdf)
-}
-
-#' @rdname pmf
-#' @export
-enframe_pmf <- function(..., at, arg_name = ".arg", fn_prefix = "pmf",
-						sep = "_", strict = TRUE) {
-	enframe_general(..., at = at, arg_name = arg_name, fn_prefix = fn_prefix,
-					sep = sep, eval_fn = eval_pmf,
-					fn_args = list(strict = strict))
-}
-
-#' @rdname odds
-#' @export
-enframe_odds <- function(..., at, arg_name = ".arg", fn_prefix = "odds",
-						 sep = "_") {
-	enframe_general(..., at = at, arg_name = arg_name, fn_prefix = fn_prefix,
-					sep = sep, eval_fn = eval_odds)
-}
-
-#' @rdname survival
-#' @export
-enframe_survival <- function(..., at, arg_name = ".arg", fn_prefix = "survival",
-							 sep = "_") {
-	enframe_general(..., at = at, arg_name = arg_name, fn_prefix = fn_prefix,
-					sep = sep, eval_fn = eval_survival)
-}
-
-#' @rdname density
-#' @export
-enframe_density <- function(..., at, arg_name = ".arg", fn_prefix = "density",
-							sep = "_", strict = TRUE) {
-	enframe_general(..., at = at, arg_name = arg_name, fn_prefix = fn_prefix,
-					sep = sep, eval_fn = eval_density,
-					fn_args = list(strict = strict))
-}
-
-#' @rdname hazard
-#' @export
-enframe_hazard <- function(..., at, arg_name = ".arg", fn_prefix = "hazard",
-						   sep = "_") {
-	enframe_general(..., at = at, arg_name = arg_name, fn_prefix = fn_prefix,
-					sep = sep, eval_fn = eval_hazard)
-}
-
-#' @rdname chf
-#' @export
-enframe_chf <- function(..., at, arg_name = ".arg", fn_prefix = "chf",
-						sep = "_") {
-	enframe_general(..., at = at, arg_name = arg_name, fn_prefix = fn_prefix,
-					sep = sep, eval_fn = eval_chf)
-}
-
-#' @rdname quantile
-#' @export
-enframe_quantile <- function(..., at, arg_name = ".arg", fn_prefix = "quantile",
-							 sep = "_") {
-	enframe_general(..., at = at, arg_name = arg_name, fn_prefix = fn_prefix,
-					sep = sep, eval_fn = eval_quantile)
-}

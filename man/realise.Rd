@@ -5,12 +5,12 @@
 \alias{realize}
 \title{Generate a Sample from a Distribution}
 \usage{
-realise(object, n = 1, ...)
+realise(distribution, n = 1, ...)
 
-realize(object, n = 1, ...)
+realize(distribution, n = 1, ...)
 }
 \arguments{
-\item{object}{Object of class "dst"}
+\item{distribution}{Distribution.}
 
 \item{n}{Number of observations to generate}
 

@@ -82,8 +82,8 @@ evi.mix <- function(x, ...) {
 
 
 #' @export
-range.mix <- function(object, ...) {
-	r <- lapply(object$components$distributions, range)
+range.mix <- function(distribution, ...) {
+	r <- lapply(distribution$components$distributions, range)
 	low <- Reduce(min, r)
 	high <- Reduce(max, r)
 	c(low, high)

@@ -1,34 +1,34 @@
 #' @export
-eval_cdf.norm <- function(object, at) {
-	with(parameters(object), {
+eval_cdf.norm <- function(distribution, at) {
+	with(parameters(distribution), {
 		stats::pnorm(at, mean = mean, sd = sqrt(variance))
 	})
 }
 
 #' @export
-eval_survival.norm <- function(object, at) {
-	with(parameters(object), {
+eval_survival.norm <- function(distribution, at) {
+	with(parameters(distribution), {
 		stats::pnorm(at, mean = mean, sd = sqrt(variance), lower.tail = FALSE)
 	})
 }
 
 #' @export
-eval_density.norm <- function(object, at, strict = TRUE) {
-	with(parameters(object), {
+eval_density.norm <- function(distribution, at, strict = TRUE) {
+	with(parameters(distribution), {
 		stats::dnorm(at, mean = mean, sd = sqrt(variance))
 	})
 }
 
 #' @export
-realise.norm <- function(object, n = 1, ...) {
-	with(parameters(object), {
+realise.norm <- function(distribution, n = 1, ...) {
+	with(parameters(distribution), {
 		stats::rnorm(n, mean = mean, sd = sqrt(variance))
 	})
 }
 
 #' @export
-eval_quantile.norm <- function(object, at, ...) {
-	with(parameters(object), {
+eval_quantile.norm <- function(distribution, at, ...) {
+	with(parameters(distribution), {
 		stats::qnorm(at, mean = mean, sd = sqrt(variance))
 	})
 }

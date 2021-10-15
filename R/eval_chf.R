@@ -2,37 +2,33 @@
 #'
 #' Access a distribution's cumulative hazard function (chf).
 #'
-#' @inheritParams get_cdf
-#' @return A vector of the evaluated chf, in the case of \code{eval_}; a data
-#'   frame with both the argument and function evaluations, in the case of
-#'   \code{enframe_}; or a vectorized function representing the chf, in the case
-#'   of \code{get_}.
+#' @inheritParams eval_cdf
+#' @return The evaluated cumulative hazard
+#' in vector form (for `eval_`) and data frame
+#' or tibble form (for `enframe_`).
 #' @examples
 #' d <- dst_unif(0, 4)
 #' eval_chf(d, at = 0:4)
-#' enframe_chf(d, at = 0:4)
-#' chf <- get_chf(d)
-#' chf(0:4)
+#' enframe_chf(d, d + 1, at = 0:4)
 #' @family distributional representations
 #' @rdname chf
 #' @export
-get_chf <- function(object) UseMethod("get_chf")
-
-#' @rdname chf
-#' @export
-eval_chf <- function(object, at) UseMethod("eval_chf")
+eval_chf <- function(distribution, at) UseMethod("eval_chf")
 
 #' @export
-eval_chf.dst <- function(object, at) {
-  if (variable(object) == "continuous") {
-    sf <- eval_survival(object, at = at)
+eval_chf.dst <- function(distribution, at) {
+  if (variable(distribution) == "continuous") {
+    sf <- eval_survival(distribution, at = at)
     -log(sf)
   } else {
     stop("Not programmed yet")
   }
 }
 
+#' @rdname chf
 #' @export
-get_chf.dst <- function(object) {
-  function(at) eval_chf(object, at = at)
+enframe_chf <- function(..., at, arg_name = ".arg", fn_prefix = "chf",
+						sep = "_") {
+	enframe_general(..., at = at, arg_name = arg_name, fn_prefix = fn_prefix,
+					sep = sep, eval_fn = eval_chf)
 }

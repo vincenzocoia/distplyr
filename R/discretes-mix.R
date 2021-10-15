@@ -1,6 +1,6 @@
 #' @export
-has_infinite_discretes <- function(object, from = -Inf, to = Inf) {
-	with(object$components, {
+has_infinite_discretes <- function(distribution, from = -Inf, to = Inf) {
+	with(distribution$components, {
 		any(vapply(distributions, has_infinite_discretes,
 				   FUN.VALUE = logical(1L),
 				   from = from, to = to))
@@ -8,11 +8,11 @@ has_infinite_discretes <- function(object, from = -Inf, to = Inf) {
 }
 
 #' @export
-num_discretes.mix <- function(object, from, to, include_from, include_to) {
-	if (has_infinite_discretes(object, from = from, to = to)) {
+num_discretes.mix <- function(distribution, from, to, include_from, include_to) {
+	if (has_infinite_discretes(distribution, from = from, to = to)) {
 		return(Inf)
 	}
-	with(object$components, {
+	with(distribution$components, {
 		n <- vapply(distributions, num_discretes, FUN.VALUE = numeric(1L),
 					from = from, to = to,
 					include_from = include_from,
@@ -30,13 +30,13 @@ num_discretes.mix <- function(object, from, to, include_from, include_to) {
 }
 
 #' @export
-next_discrete.mix <- function(object, from, n, include_from) {
+next_discrete.mix <- function(distribution, from, n, include_from) {
 	if (n == 0) return(numeric(0L))
 	if (is.infinite(n) &&
-		has_infinite_discretes(object, from = from, to = Inf)) {
+		has_infinite_discretes(distribution, from = from, to = Inf)) {
 		stop("Your selection includes an infinite number of discrete points.")
 	}
-	distributions <- object$components$distributions
+	distributions <- distribution$components$distributions
 	next_discretes <- lapply(distributions, next_discrete, from = from, n = 1L,
 							 include_from = include_from)
 	next_discretes <- c(next_discretes, recursive = TRUE)
@@ -46,7 +46,7 @@ next_discrete.mix <- function(object, from, n, include_from) {
 	if (length(next_discretes) == 0) return(NaN)
 	candidate <- min(next_discretes)
 	if (any(is_nan) &&
-		has_infinite_discretes(object, from = from, to = candidate)) {
+		has_infinite_discretes(distribution, from = from, to = candidate)) {
 		return(NaN)
 	}
 	discretes <- candidate
@@ -65,7 +65,7 @@ next_discrete.mix <- function(object, from, n, include_from) {
 		}
 		candidate <- min(next_discretes)
 		if (any(is_nan) &&
-			has_infinite_discretes(object, from = discretes[i - 1L],
+			has_infinite_discretes(distribution, from = discretes[i - 1L],
 								   to = candidate)) {
 			discretes[i] <- NaN
 			return(discretes)
@@ -77,13 +77,13 @@ next_discrete.mix <- function(object, from, n, include_from) {
 }
 
 #' @export
-prev_discrete.mix <- function(object, from, n, include_from) {
+prev_discrete.mix <- function(distribution, from, n, include_from) {
 	if (n == 0) return(numeric(0L))
 	if (is.infinite(n) &&
-		has_infinite_discretes(object, from = -Inf, to = from)) {
+		has_infinite_discretes(distribution, from = -Inf, to = from)) {
 		stop("Your selection includes an infinite number of discrete points.")
 	}
-	distributions <- object$components$distributions
+	distributions <- distribution$components$distributions
 	prev_discretes <- lapply(distributions, prev_discrete, from = from, n = 1L,
 							 include_from = include_from)
 	prev_discretes <- c(prev_discretes, recursive = TRUE)
@@ -93,7 +93,7 @@ prev_discrete.mix <- function(object, from, n, include_from) {
 	if (length(prev_discretes) == 0) return(NaN)
 	candidate <- min(prev_discretes)
 	if (any(is_nan) &&
-		has_infinite_discretes(object, from = discretes[i - 1L],
+		has_infinite_discretes(distribution, from = discretes[i - 1L],
 							   to = candidate)) {
 		return(NaN)
 	}
@@ -113,7 +113,7 @@ prev_discrete.mix <- function(object, from, n, include_from) {
 		}
 		candidate <- min(prev_discretes)
 		if (any(is_nan) &&
-			has_infinite_discretes(object, from = from, to = candidate)) {
+			has_infinite_discretes(distribution, from = from, to = candidate)) {
 			discretes[i] <- NaN
 			return(discretes)
 		}

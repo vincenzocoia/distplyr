@@ -2,36 +2,32 @@
 #'
 #' Access a distribution's probability mass function (pmf).
 #'
-#' @inheritParams get_cdf
-#' @return A vector of the evaluated pmf/pdf, in the case of \code{eval_}; a
-#'   data frame with both the argument and function evaluations, in the case of
-#'   \code{enframe_}; or a vectorized function representing the pmf/pdf, in the
-#'   case of \code{get_}.
+#' @inheritParams eval_cdf
+#' @param strict Only evaluate when the pmf exists? `TRUE` if so;
+#' if `FALSE`, simply evaluates the probability of the specified outcomes.
+#' @return The evaluated probabilities
+#' in vector form (for `eval_`) and data frame
+#' or tibble form (for `enframe_`).
 #' @examples
 #' d <- dst_empirical(1:10)
 #' eval_pmf(d, at = c(1, 2, 2.5))
-#' enframe_pmf(d, at = 0:4)
-#' pmf <- get_pmf(d)
-#' pmf(0:4)
+#' enframe_pmf(d, d + 1, at = 0:4)
+#' eval_pmf(dst_norm(0, 1), at = -3:3, strict = FALSE)
 #' @family distributional representations
 #' @rdname pmf
 #' @export
-eval_pmf <- function(object, at, strict = TRUE) UseMethod("eval_pmf")
-
-#' @rdname pmf
-#' @export
-get_pmf <- function(object) UseMethod("get_pmf")
+eval_pmf <- function(distribution, at, strict = TRUE) UseMethod("eval_pmf")
 
 #' @export
-eval_pmf.dst <- function(object, at, strict = TRUE) {
-  if (variable(object) == "discrete") {
+eval_pmf.dst <- function(distribution, at, strict = TRUE) {
+  if (variable(distribution) == "discrete") {
     stop("Cannot find the pmf for this distribution.")
   }
   if (strict) {
     stop("This distribution does not have a pmf. ",
          "Maybe you want to evaluate in strict mode?")
   } else {
-    if (variable(object) == "continuous") {
+    if (variable(distribution) == "continuous") {
       return(rep(0, length(at)))
     } else {
       stop("Cannot find probabilities for this distribution.")
@@ -39,7 +35,11 @@ eval_pmf.dst <- function(object, at, strict = TRUE) {
   }
 }
 
+#' @rdname pmf
 #' @export
-get_pmf.dst <- function(object) {
-  function(at) eval_pmf(object, at = at)
+enframe_pmf <- function(..., at, arg_name = ".arg", fn_prefix = "pmf",
+							sep = "_", strict = TRUE) {
+	enframe_general(..., at = at, arg_name = arg_name, fn_prefix = fn_prefix,
+					sep = sep, eval_fn = eval_pmf,
+					fn_args = list(strict = strict))
 }

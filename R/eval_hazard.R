@@ -2,11 +2,9 @@
 #'
 #' Access a distribution's hazard function.
 #'
-#' @inheritParams get_cdf
-#' @return A vector of the evaluated hazard, in the case of \code{eval_}; a data
-#'   frame with both the argument and function evaluations, in the case of
-#'   \code{enframe_}; or a vectorized function representing the hazard, in the
-#'   case of \code{get_}.
+#' @inheritParams eval_cdf
+#' @return The evaluated hazard in vector form (for `eval_`) and data frame
+#' or tibble form (for `enframe_`).
 #' @examples
 #' d <- dst_unif(0, 4)
 #' eval_hazard(d, at = 0:4)
@@ -16,24 +14,22 @@
 #' @family distributional representations
 #' @rdname hazard
 #' @export
-eval_hazard <- function(object, at) UseMethod("eval_hazard")
-
-
-#' @rdname hazard
-#' @export
-get_hazard <- function(object) UseMethod("get_hazard")
+eval_hazard <- function(distribution, at) UseMethod("eval_hazard")
 
 #' @export
-eval_hazard.dst <- function(object, at) {
-  if (variable(object) != "continuous") {
+eval_hazard.dst <- function(distribution, at) {
+  if (variable(distribution) != "continuous") {
     stop("Hazard function requires a continuous distribution.")
   }
-  sf <- eval_survival(object, at)
-  pdf <- eval_density(object, at)
+  sf <- eval_survival(distribution, at)
+  pdf <- eval_density(distribution, at)
   pdf / sf
 }
 
+#' @rdname hazard
 #' @export
-get_hazard.dst <- function(object) {
-  function(at) eval_hazard(object, at = at)
+enframe_hazard <- function(..., at, arg_name = ".arg", fn_prefix = "hazard",
+						   sep = "_") {
+	enframe_general(..., at = at, arg_name = arg_name, fn_prefix = fn_prefix,
+					sep = sep, eval_fn = eval_hazard)
 }

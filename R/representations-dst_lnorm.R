@@ -1,13 +1,13 @@
 #' @export
-eval_cdf.lnorm <- function(object, at) {
-	with(parameters(object), {
+eval_cdf.lnorm <- function(distribution, at) {
+	with(parameters(distribution), {
 		stats::plnorm(at, meanlog = meanlog, sdlog = sqrt(variancelog))
 	})
 }
 
 #' @export
-eval_survival.lnorm <- function(object, at) {
-	with(parameters(object), {
+eval_survival.lnorm <- function(distribution, at) {
+	with(parameters(distribution), {
 		stats::plnorm(at,
 					  meanlog = meanlog, sdlog = sqrt(variancelog),
 					  lower.tail = FALSE
@@ -16,22 +16,22 @@ eval_survival.lnorm <- function(object, at) {
 }
 
 #' @export
-eval_density.lnorm <- function(object, at, strict = TRUE) {
-	with(parameters(object), {
+eval_density.lnorm <- function(distribution, at, strict = TRUE) {
+	with(parameters(distribution), {
 		stats::dlnorm(at, meanlog = meanlog, sdlog = sqrt(variancelog))
 	})
 }
 
 #' @export
-eval_quantile.lnorm <- function(object, at, ...) {
-	with(parameters(object), {
+eval_quantile.lnorm <- function(distribution, at, ...) {
+	with(parameters(distribution), {
 		stats::qlnorm(at, meanlog = meanlog, sdlog = sqrt(variancelog))
 	})
 }
 
 #' @export
-realise.lnorm <- function(object, n = 1, ...) {
-	with(parameters(object), {
+realise.lnorm <- function(distribution, n = 1, ...) {
+	with(parameters(distribution), {
 		stats::rlnorm(n, meanlog = meanlog, sdlog = sqrt(variancelog))
 	})
 }

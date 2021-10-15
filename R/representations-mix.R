@@ -1,6 +1,6 @@
 #' @export
-eval_cdf.mix <- function(object, at) {
-	with(object[["components"]], {
+eval_cdf.mix <- function(distribution, at) {
+	with(distribution[["components"]], {
 		cdf_vals <- lapply(distributions, eval_cdf, at = at)
 		p_times_cdfs <- mapply(function(p, f) p * f, probs, cdf_vals,
 							   SIMPLIFY = FALSE
@@ -10,10 +10,10 @@ eval_cdf.mix <- function(object, at) {
 }
 
 #' @export
-eval_quantile.mix <- function(object, at, tol = 1e-6, maxiter = 1000, ...) {
-	distributions <- object[["components"]][["distributions"]]
-	cdf <- get_cdf(object)
-	discon <- discontinuities(object)
+eval_quantile.mix <- function(distribution, at, tol = 1e-6, maxiter = 1000, ...) {
+	distributions <- distribution[["components"]][["distributions"]]
+	cdf <- get_cdf(distribution)
+	discon <- discontinuities(distribution)
 	res <- at
 	ones <- vapply(at == 1, isTRUE, FUN.VALUE = logical(1L))
 	if (any(ones)) {
@@ -28,8 +28,8 @@ eval_quantile.mix <- function(object, at, tol = 1e-6, maxiter = 1000, ...) {
 }
 
 #' @export
-eval_pmf.mix <- function(object, at, strict = TRUE, ...) {
-	with(object[["components"]], {
+eval_pmf.mix <- function(distribution, at, strict = TRUE, ...) {
+	with(distribution[["components"]], {
 		pmf_vals <- lapply(distributions, eval_pmf, at = at, strict = strict)
 		p_times_f <- mapply(function(p, f) p * f, probs, pmf_vals,
 							SIMPLIFY = FALSE)
@@ -38,11 +38,11 @@ eval_pmf.mix <- function(object, at, strict = TRUE, ...) {
 }
 
 #' @export
-eval_density.mix <- function(object, at, strict = TRUE) {
-	if (variable(object) != "continuous") {
+eval_density.mix <- function(distribution, at, strict = TRUE) {
+	if (variable(distribution) != "continuous") {
 		return(NULL)
 	}
-	with(object[["components"]], {
+	with(distribution[["components"]], {
 		density_vals <- lapply(distributions, eval_density, at = at)
 		p_times_f <- mapply(function(p, f) p * f, probs, density_vals,
 							SIMPLIFY = FALSE)
@@ -51,10 +51,10 @@ eval_density.mix <- function(object, at, strict = TRUE) {
 }
 
 #' @export
-realise.mix <- function(object, n = 1, ...) {
-	with(object[["components"]], {
+realise.mix <- function(distribution, n = 1, ...) {
+	with(distribution[["components"]], {
 		if (n == 0) {
-			if (identical(variable(object), "categorical")) {
+			if (identical(variable(distribution), "categorical")) {
 				return(character())
 			} else {
 				return(numeric())

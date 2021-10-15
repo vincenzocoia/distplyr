@@ -1,10 +1,10 @@
 #' Parameters of a Distribution
 #'
-#' @param object Distribution object
+#' @param distribution Distribution.
 #' @export
-parameters <- function(object) UseMethod("parameters")
+parameters <- function(distribution) UseMethod("parameters")
 
 #' @export
-parameters.dst <- function(object) {
-  object[["parameters"]]
+parameters.dst <- function(distribution) {
+  distribution[["parameters"]]
 }

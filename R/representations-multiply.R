@@ -1,41 +1,41 @@
 #' @export
-eval_cdf.scale <- function(object, at) {
-	with(object$components, {
+eval_cdf.scale <- function(distribution, at) {
+	with(distribution$components, {
 		eval_cdf(distribution, at = at / scale)
 	})
 }
 
 #' @export
-eval_quantile.scale <- function(object, at) {
-	with(object$components, {
+eval_quantile.scale <- function(distribution, at) {
+	with(distribution$components, {
 		eval_quantile(distribution, at) * scale
 	})
 }
 
 #' @export
-eval_pmf.scale <- function(object, at, strict = TRUE, ...) {
-	with(object$components, {
+eval_pmf.scale <- function(distribution, at, strict = TRUE, ...) {
+	with(distribution$components, {
 		eval_pmf(distribution, at / scale, strict = strict, ...)
 	})
 }
 
 #' @export
-eval_density.scale <- function(object, at) {
-	with(object$components, {
+eval_density.scale <- function(distribution, at) {
+	with(distribution$components, {
 		eval_density(distribution, at / scale) / scale
 	})
 }
 
 #' @export
-eval_survival.scale <- function(object, at) {
-	with(object$components, {
+eval_survival.scale <- function(distribution, at) {
+	with(distribution$components, {
 		eval_survival(distribution, at / scale)
 	})
 }
 
 #' @export
-realise.scale <- function(object, ...) {
-	with(object$components, {
+realise.scale <- function(distribution, ...) {
+	with(distribution$components, {
 		realise(distribution, ...) * scale
 	})
 }
