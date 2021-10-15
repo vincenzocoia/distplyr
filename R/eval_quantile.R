@@ -40,24 +40,3 @@ eval_quantile.dst <- function(object, at, tol = 1e-6, maxiter = 1000, ...) {
   cdf <- get_cdf(object)
   eval_quantile_from_cdf(cdf, at, tol = tol, maxiter = maxiter)
 }
-
-#' @rdname quantile
-#' @export
-enframe_quantile <- function(object, at,
-                             arg_name = ".arg",
-                             fn_name = ".quantile",
-                             tol = 1e-6, maxiter = 1000) {
-  UseMethod("enframe_quantile")
-}
-
-#' @rdname quantile
-#' @export
-enframe_quantile.dst <- function(object, at,
-                                 arg_name = ".arg",
-                                 fn_name = ".quantile",
-                                 tol = 1e-6, maxiter = 1000) {
-  f <- eval_quantile(object, at = at)
-  res <- data.frame(at, f)
-  names(res) <- c(arg_name, fn_name)
-  convert_dataframe_to_tibble(res)
-}

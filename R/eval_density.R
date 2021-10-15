@@ -47,24 +47,3 @@ get_density.dst <- function(object) {
   }
   function(at) eval_density(object, at = at)
 }
-
-#' @rdname density
-#' @export
-enframe_density <- function(object, at,
-                            arg_name = ".arg",
-                            fn_name = ".density") {
-  UseMethod("enframe_density")
-}
-
-#' @export
-enframe_density.dst <- function(object, at,
-                                arg_name = ".arg",
-                                fn_name = ".density") {
-  f <- eval_density(object, at = at)
-  if (is.null(f)) {
-    return(NULL)
-  }
-  res <- data.frame(at, f)
-  names(res) <- c(arg_name, fn_name)
-  convert_dataframe_to_tibble(res)
-}

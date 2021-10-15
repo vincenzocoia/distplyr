@@ -36,21 +36,3 @@ eval_chf.dst <- function(object, at) {
 get_chf.dst <- function(object) {
   function(at) eval_chf(object, at = at)
 }
-
-#' @rdname chf
-#' @export
-enframe_chf <- function(object, at,
-                        arg_name = ".arg",
-                        fn_name = ".chf") {
-  UseMethod("enframe_chf")
-}
-
-#' @export
-enframe_chf.dst <- function(object, at,
-                            arg_name = ".arg",
-                            fn_name = ".chf") {
-  f <- eval_chf(object, at = at)
-  res <- data.frame(at, f)
-  names(res) <- c(arg_name, fn_name)
-  convert_dataframe_to_tibble(res)
-}

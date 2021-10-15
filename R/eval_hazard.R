@@ -37,22 +37,3 @@ eval_hazard.dst <- function(object, at) {
 get_hazard.dst <- function(object) {
   function(at) eval_hazard(object, at = at)
 }
-
-
-#' @rdname hazard
-#' @export
-enframe_hazard <- function(object, at,
-                           arg_name = ".arg",
-                           fn_name = ".hazard") {
-  UseMethod("enframe_hazard")
-}
-
-#' @export
-enframe_hazard.dst <- function(object, at,
-                               arg_name = ".arg",
-                               fn_name = ".hazard") {
-  f <- eval_hazard(object, at = at)
-  res <- data.frame(at, f)
-  names(res) <- c(arg_name, fn_name)
-  convert_dataframe_to_tibble(res)
-}

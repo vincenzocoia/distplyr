@@ -33,21 +33,3 @@ get_survival.dst <- function(object) {
 eval_survival.dst <- function(object, at) {
   1 - eval_cdf(object, at = at)
 }
-
-#' @rdname survival
-#' @export
-enframe_survival <- function(object, at,
-                             arg_name = ".arg",
-                             fn_name = ".survival") {
-  UseMethod("enframe_survival")
-}
-
-#' @export
-enframe_survival.dst <- function(object, at,
-                                 arg_name = ".arg",
-                                 fn_name = ".survival") {
-  f <- eval_survival(object, at = at)
-  res <- data.frame(at, f)
-  names(res) <- c(arg_name, fn_name)
-  convert_dataframe_to_tibble(res)
-}
