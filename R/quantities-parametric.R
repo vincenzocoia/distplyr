@@ -1,16 +1,44 @@
 #' @export
 mean.parametric <- function(x) {
-	mean_exists_in_internal_data <- TRUE # Check somehow.
-	if (mean_exists_in_internal_data) {
-		# grab the mean expression
-		mean_as_expression <- rlang::expr(pi) # Get somehow.
-		return(rlang::eval_tidy(mean_as_expression))
+	quantity_parametric(x, "mean")
+}
+
+#' @export
+variance.parametric <- function(x) {
+	quantity_parametric(x, "variance")
+}
+
+#' @export
+skewness.parametric <- function(x) {
+	quantity_parametric(x, "skewness")
+}
+
+#' @export
+kurtosis_exc.parametric <- function(x) {
+	quantity_parametric(x, "kurtosis_exc")
+}
+
+#' @export
+evi.parametric <- function(x) {
+	quantity_parametric(x, "evi")
+}
+
+#' @export
+range.parametric <- function(x) {
+	quantity_parametric(x, "range")
+}
+
+#' @export
+median.parametric <- function(x) {
+	quantity_parametric(x, "median")
+}
+
+quantity_parametric <- function(distribution, quantity) {
+	d_name <- distribution$name
+	q_expr <- quantities[[d_name]][[quantity]]
+	if (!is.null(q_expr)) {
+		rlang::eval_tidy(q_expr, data = parameters(distribution))
+	} else {
+		rlang::exec("NextMethod", .env = rlang::caller_env(n = 1))
 	}
-	mean_exists_with_object <- TRUE # Check if they used something like set_mean
-	if (mean_exists_with_object) {
-		# grab the mean that's carried along with the object.
-		return(x$mean)
-	}
-	# Otherwise, peel back the "parametric" class and fall back on "dst" method.
-	mean.dst(x)
 }

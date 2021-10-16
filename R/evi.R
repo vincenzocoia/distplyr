@@ -17,6 +17,9 @@ evi <- function(x, ...) {
 
 #' @export
 evi.dst <- function(x, ...) {
-  warning("Currently not implemented")
-  NA
+	if (variable(x) == "discrete") {
+		return(NaN)
+	}
+	warning("Cannot find EVI for this distribution; returning NA.")
+	NA
 }
