@@ -27,7 +27,7 @@ eval_density.dst <- function(distribution, at, strict = TRUE) {
   }
   if (strict) {
     stop("This distribution does not have a density function. ",
-         "Maybe you want to evaluate in strict mode?")
+         "Maybe you want to evaluate outside of strict mode?")
   } else {
     if (variable(distribution) == "discrete") {
       return(rep(0, length(at)))

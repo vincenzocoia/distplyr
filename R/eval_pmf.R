@@ -25,7 +25,7 @@ eval_pmf.dst <- function(distribution, at, strict = TRUE) {
   }
   if (strict) {
     stop("This distribution does not have a pmf. ",
-         "Maybe you want to evaluate in strict mode?")
+         "Maybe you want to evaluate outside of strict mode?")
   } else {
     if (variable(distribution) == "continuous") {
       return(rep(0, length(at)))
