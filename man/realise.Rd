@@ -27,4 +27,6 @@ Draw \code{n} independent observations from a distribution.
 }
 \note{
 \code{realise()}, \code{realize()}, and \code{observe()} all do the same thing.
+Although the language \code{observe()} is more common, it's only an alias here,
+because this function name is common amongst other packages.
 }

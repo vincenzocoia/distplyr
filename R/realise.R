@@ -7,6 +7,8 @@
 #' @param ... Other arguments to pass to \code{\link{eval_quantile}}
 #' @return Vector of independent values drawn from the inputted distribution
 #' @note `realise()`, `realize()`, and `observe()` all do the same thing.
+#' Although the language `observe()` is more common, it's only an alias here,
+#' because this function name is common amongst other packages.
 #' @rdname realise
 #' @export
 realise <- function(distribution, n = 1, ...) UseMethod("realise")
