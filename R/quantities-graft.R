@@ -1,7 +1,6 @@
 #' @export
 evi.graft <- function(distribution, ...) {
 	with(distribution$components, {
-		nd <- length(distributions)
-		evi(distributions[[nd]])
+		evi(distributions[[2L]])
 	})
 }

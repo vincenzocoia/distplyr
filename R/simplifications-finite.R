@@ -1,15 +1,16 @@
 #' Mutate Discrete Values
 #'
 #' Transform discrete values in a finite distribution.
+#'
 #' @param distribution Finite distribution.
-#' @param location An expression involving `location`.
+#' @param location_expr An expression involving `location`.
 #' @return The input distribution with discrete values modified according
 #' to the expression in `location`.
-mutate_finite <- function(distribution, location) {
-	l <- rlang::enquo(location)
+mutate_finite <- function(distribution, location_expr) {
+	l <- rlang::enquo(location_expr)
 	df <- distribution$probabilities
-	df$location <- rlang::eval_tidy(l, data = df)
-	dst_empirical(df$location, weights = df$size)
+	df$location_expr <- rlang::eval_tidy(l, data = df)
+	dst_empirical(df$location_expr, weights = df$size)
 }
 
 #' @export

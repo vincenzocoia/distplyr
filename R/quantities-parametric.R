@@ -35,7 +35,7 @@ median.parametric <- function(x) {
 
 quantity_parametric <- function(distribution, quantity) {
 	d_name <- distribution$name
-	q_expr <- quantities[[d_name]][[quantity]]
+	q_expr <- .quantities[[d_name]][[quantity]]
 	if (!is.null(q_expr)) {
 		rlang::eval_tidy(q_expr, data = parameters(distribution))
 	} else {
