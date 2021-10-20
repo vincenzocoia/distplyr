@@ -7,11 +7,11 @@
 dst_pois(lambda)
 }
 \arguments{
-\item{lambda}{Rate of Occurance for distribution}
+\item{lambda}{Mean of the Poisson distribution.}
 }
 \value{
 Object of class "dst".
-dst_poisson(1)
+dst_pois(1)
 }
 \description{
 Makes a distribution belonging to the family of

@@ -3,11 +3,14 @@
 \name{realise}
 \alias{realise}
 \alias{realize}
+\alias{observe}
 \title{Generate a Sample from a Distribution}
 \usage{
 realise(distribution, n = 1, ...)
 
-realize(distribution, n = 1, ...)
+realize(distribution, n = 1)
+
+observe(distribution, n = 1)
 }
 \arguments{
 \item{distribution}{Distribution.}
@@ -20,5 +23,8 @@ realize(distribution, n = 1, ...)
 Vector of independent values drawn from the inputted distribution
 }
 \description{
-Generate a Sample from a Distribution
+Draw \code{n} independent observations from a distribution.
+}
+\note{
+\code{realise()}, \code{realize()}, and \code{observe()} all do the same thing.
 }
