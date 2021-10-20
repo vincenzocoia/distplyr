@@ -13,6 +13,6 @@ dst_norm <- function(mean, variance) {
 		}
 		if (variance < 0) stop("'variance' parameter must be non-negative.")
 	}
-	dst_parametric("norm", mean = mean, variance = variance,
+	dst_parametric("norm", mean = mean, sd = sqrt(variance),
 				   .variable = "continuous")
 }
