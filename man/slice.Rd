@@ -5,12 +5,12 @@
 \alias{slice_right}
 \title{Conditional Distributions}
 \usage{
-slice_left(object, breakpoint, include = TRUE, ...)
+slice_left(distribution, breakpoint, include = TRUE, ...)
 
-slice_right(object, breakpoint, include = TRUE, ...)
+slice_right(distribution, breakpoint, include = TRUE, ...)
 }
 \arguments{
-\item{object}{Distribution to slice.}
+\item{distribution}{Distribution to slice.}
 
 \item{breakpoint}{Point at which to slice (single numeric).}
 

@@ -14,8 +14,6 @@ These need not sum to one, but must not be negative.}
 
 \item{sum_to_one}{Logical; should the weights be normalized
 to sum to 1? Default is FALSE.}
-
-\item{object}{A distribution object.}
 }
 \value{
 Data frame with the following columns:

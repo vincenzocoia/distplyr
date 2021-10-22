@@ -3,14 +3,17 @@
 \name{realise}
 \alias{realise}
 \alias{realize}
+\alias{observe}
 \title{Generate a Sample from a Distribution}
 \usage{
-realise(object, n = 1, ...)
+realise(distribution, n = 1, ...)
 
-realize(object, n = 1, ...)
+realize(distribution, n = 1)
+
+observe(distribution, n = 1)
 }
 \arguments{
-\item{object}{Object of class "dst"}
+\item{distribution}{Distribution.}
 
 \item{n}{Number of observations to generate}
 
@@ -20,5 +23,10 @@ realize(object, n = 1, ...)
 Vector of independent values drawn from the inputted distribution
 }
 \description{
-Generate a Sample from a Distribution
+Draw \code{n} independent observations from a distribution.
+}
+\note{
+\code{realise()}, \code{realize()}, and \code{observe()} all do the same thing.
+Although the language \code{observe()} is more common, it's only an alias here,
+because this function name is common amongst other packages.
 }

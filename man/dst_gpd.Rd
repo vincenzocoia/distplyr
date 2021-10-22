@@ -17,7 +17,6 @@ Makes a distribution belonging to the family of
 generalized Pareto distributions (GPD).
 }
 \examples{
-require(graphics)
 d <- dst_gpd(0, 1, 1)
 plot(d, "survival", to = 20)
 }

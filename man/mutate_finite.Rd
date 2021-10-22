@@ -4,12 +4,12 @@
 \alias{mutate_finite}
 \title{Mutate Discrete Values}
 \usage{
-mutate_finite(distribution, location)
+mutate_finite(distribution, location_expr)
 }
 \arguments{
 \item{distribution}{Finite distribution.}
 
-\item{location}{An expression involving \code{location}.}
+\item{location_expr}{An expression involving \code{location}.}
 }
 \value{
 The input distribution with discrete values modified according

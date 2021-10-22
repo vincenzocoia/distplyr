@@ -19,7 +19,7 @@ kurtosis_raw.dst <- function(x, ...) {
 kurtosis_exc.dst <- function(x, ...) {
   mu <- mean(x)
   var <- variance(x)
-  sf <- get_survival(x)
+  sf <- representation_as_function(x, "survival")
   sf2 <- function(t) 1 + sf(mu + t^(1 / 4)) - sf(mu - t^(1 / 4))
   int <- stats::integrate(sf2, 0, Inf)
   int$value / var^2 - 3

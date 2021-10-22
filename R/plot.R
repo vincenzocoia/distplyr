@@ -35,7 +35,7 @@ plot.dst <- function(x,
     if (is.null(ellipsis[["xlab"]])) {
       ellipsis[["xlab"]] <- "Probability"
     }
-    f <- get_quantile(x)
+    f <- representation_as_function(x, "quantile")
     ellipsis[["expr"]] <- as.name("f")
     do.call(graphics::curve, args = ellipsis)
   }
@@ -58,8 +58,7 @@ plot.dst <- function(x,
   if (is.null(ellipsis[["xlab"]])) {
     ellipsis[["xlab"]] <- "y"
   }
-  get_fun <- get(paste0("get_", fname))
-  f <- get_fun(x)
+  f <- representation_as_function(x, fname)
   ellipsis[["expr"]] <- as.name("f")
   do.call("curve", args = ellipsis)
 }
