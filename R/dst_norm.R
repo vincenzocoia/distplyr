@@ -16,3 +16,9 @@ dst_norm <- function(mean, variance) {
 	dst_parametric("norm", mean = mean, sd = sqrt(variance),
 				   .variable = "continuous")
 }
+
+#' @export
+dst_unif <- function(min, max) {
+	dst_parametric("unif", min = min, max = max,
+				   .variable = "continuous")
+}
