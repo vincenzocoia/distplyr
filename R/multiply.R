@@ -1,3 +1,4 @@
+#' @rdname linear_transform
 #' @export
 multiply <- function(distribution, constant) {
   if (constant < 0) {

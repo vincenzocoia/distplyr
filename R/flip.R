@@ -1,3 +1,4 @@
+#' @rdname linear_transform
 #' @export
 flip <- function(distribution) {
   with(parameters(distribution), {
