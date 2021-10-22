@@ -1,6 +1,5 @@
 #' @export
 eval_quantile.graft <- function(x, at, ...) {
-	# FORMULA IS FOR RIGHT GRAFT
 	p_cutoff <- x$components$probs[1L]
 	res <- numeric(0L)
 	for (i in seq_along(at)) {
