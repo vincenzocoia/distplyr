@@ -12,9 +12,9 @@
 #' @rdname flexible_cdf
 prob_left <- function(distribution, of, inclusive) {
 	p_left <- eval_cdf(distribution, at = of)
-	if (inclusive) {
+	if (!inclusive) {
 		p_break <- eval_pmf(distribution, at = of, strict = FALSE)
-		p_left <- p_left + p_break
+		p_left <- p_left - p_break
 	}
 	p_left
 }

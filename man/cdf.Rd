@@ -7,7 +7,7 @@
 \usage{
 eval_cdf(distribution, at)
 
-enframe_cdf(..., at, arg_name = ".arg", fn_prefix = "cdf", sep = "_")
+
 }
 \arguments{
 \item{distribution, ...}{A distribution, or possibly multiple
