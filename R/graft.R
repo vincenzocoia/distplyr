@@ -8,8 +8,7 @@
 #' @param distribution Base distribution
 #' @param graft The distribution being grafted.
 #' @param breakpoint The location of the graft
-#' @param include Logical; include the breakpoint in the distribution
-#' being grafted?
+#' @param include Logical; include the breakpoint in the base distribution?
 #' @return Graft distribution object, which is a special type of mixture
 #' distribution.
 #' @examples
@@ -24,7 +23,7 @@
 #' @rdname graft
 #' @export
 graft_right <- function(distribution, graft, breakpoint, include = FALSE) {
-	p_left <- prob_left(distribution, of = breakpoint, inclusive = !include)
+	p_left <- prob_left(object, of = breakpoint, inclusive = include)
 	if (p_left == 1) {
 		return(distribution)
 	}
@@ -35,13 +34,14 @@ graft_right <- function(distribution, graft, breakpoint, include = FALSE) {
 	right <- slice_left(graft, breakpoint = breakpoint, include = include)
 	mixture <- mix(left, right, weights = c(p_left, 1 - p_left))
 	mixture$components$breakpoint <- breakpoint
+	mixture$components$include <- include
 	new_graft(mixture)
 }
 
 #' @rdname graft
 #' @export
 graft_left <- function(distribution, graft, breakpoint, include = FALSE) {
-	p_right <- prob_right(distribution, of = breakpoint, inclusive = !include)
+	p_right <- prob_right(object, of = breakpoint, inclusive = include)
 	if (p_right == 1) {
 		return(distribution)
 	}
@@ -52,6 +52,7 @@ graft_left <- function(distribution, graft, breakpoint, include = FALSE) {
 	right <- slice_left(distribution, breakpoint = breakpoint, include = !include)
 	mixture <- mix(left, right, weights = c(1 - p_right, p_right))
 	mixture$components$breakpoint <- breakpoint
+	mixture$components$include <- include
 	new_graft(mixture)
 }
 

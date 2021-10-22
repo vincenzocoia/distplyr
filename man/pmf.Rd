@@ -5,16 +5,7 @@
 \alias{enframe_pmf}
 \title{Probability Mass Function}
 \usage{
-eval_pmf(distribution, at, strict = TRUE)
 
-enframe_pmf(
-  ...,
-  at,
-  arg_name = ".arg",
-  fn_prefix = "pmf",
-  sep = "_",
-  strict = TRUE
-)
 }
 \arguments{
 \item{distribution}{A distribution, or possibly multiple
@@ -35,8 +26,7 @@ the function arguments.}
 \item{fn_prefix}{For \code{enframe_}, name of the function to
 appear in the column(s).}
 
-\item{sep}{When \code{enframe}'ing more than one distribution, the
-character that will be separating the \code{fn_name} and the distribution name.}
+
 }
 \value{
 The evaluated probabilities
