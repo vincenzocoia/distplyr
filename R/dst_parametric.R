@@ -27,7 +27,7 @@ dst_parametric <- function(
 	names(params) <- names(dots)
 	res <- list(name = .name,
 				parameters = params)
-	new_distribution(res, variable = v, class = "parametric")
+	new_distribution(res, variable = v, class = c(.name, "parametric"))
 }
 
 #' @export
@@ -72,7 +72,9 @@ eval_pmf.parametric <- function(distribution, at, strict = TRUE) {
 	v <- variable(distribution)
 	if (v == "discrete") {
 		function_name <- paste0("d", distribution$name)
-		return(rlang::exec(function_name, at, !!!distribution$parameters))
+		return(suppressWarnings(
+			rlang::exec(function_name, at, !!!distribution$parameters)
+		))
 	}
 	if (strict) {
 		stop("Distribution is of variable type '", v, "'; pmf only ",
