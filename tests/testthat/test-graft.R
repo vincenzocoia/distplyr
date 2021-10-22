@@ -1,3 +1,66 @@
+base <- dst_empirical(-2:2)
+dri <- base %>%
+	graft_right(dst_norm(0, 1), breakpoint = 0, include = TRUE)
+dre <- base %>%
+	graft_right(dst_norm(0, 1), breakpoint = 0, include = FALSE)
+dli <- base %>%
+	graft_left(dst_norm(0, 1), breakpoint = 0, include = TRUE)
+dle <- base %>%
+	graft_left(dst_norm(0, 1), breakpoint = 0, include = FALSE)
+xri <- eval_quantile(dri, at = runif(10000))
+xre <- eval_quantile(dre, at = runif(10000))
+xli <- eval_quantile(dli, at = runif(10000))
+xle <- eval_quantile(dle, at = runif(10000))
+eri <- dst_empirical(xri)
+ere <- dst_empirical(xre)
+eli <- dst_empirical(xli)
+ele <- dst_empirical(xle)
+enframe_cdf(dri, eri, at = seq(-3, 3, length.out = 1000)) %>%
+	pivot_longer(cols = !.arg, names_to = "distribution", values_to = "cdf") %>%
+	ggplot(aes(.arg, cdf)) +
+	geom_line(aes(group = distribution, colour = distribution), alpha = 0.5) +
+	theme_minimal()
+enframe_cdf(dre, ere, at = seq(-3, 3, length.out = 1000)) %>%
+	pivot_longer(cols = !.arg, names_to = "distribution", values_to = "cdf") %>%
+	ggplot(aes(.arg, cdf)) +
+	geom_line(aes(group = distribution, colour = distribution), alpha = 0.5) +
+	theme_minimal()
+enframe_cdf(dli, eli, at = seq(-3, 3, length.out = 1000)) %>%
+	pivot_longer(cols = !.arg, names_to = "distribution", values_to = "cdf") %>%
+	ggplot(aes(.arg, cdf)) +
+	geom_line(aes(group = distribution, colour = distribution), alpha = 0.5) +
+	theme_minimal()
+enframe_cdf(dle, ele, at = seq(-3, 3, length.out = 1000)) %>%
+	pivot_longer(cols = !.arg, names_to = "distribution", values_to = "cdf") %>%
+	ggplot(aes(.arg, cdf)) +
+	geom_line(aes(group = distribution, colour = distribution), alpha = 0.5) +
+	theme_minimal()
+
+test_that("check cdf at breakpoint", {
+	expect_equal(prob_left(dle, of = 0, inclusive = TRUE), 0.6)
+	expect_equal(prob_left(dle, of = 0, inclusive = FALSE), 0.6)
+	expect_equal(prob_left(dli, of = 0, inclusive = TRUE), 0.6)
+	expect_equal(prob_left(dli, of = 0, inclusive = FALSE), 0.4)
+	expect_equal(prob_left(dre, of = 0, inclusive = TRUE), 0.4)
+	expect_equal(prob_left(dre, of = 0, inclusive = FALSE), 0.4)
+	expect_equal(prob_left(dri, of = 0, inclusive = TRUE), 0.6)
+	expect_equal(prob_left(dri, of = 0, inclusive = FALSE), 0.4)
+})
+
+test_that("check cdf in base", {
+	x <- c(-2.5, -1.5, -0.5)
+	expect_equal(eval_cdf(dre, at = x), eval_cdf(base, at = x))
+	expect_equal(eval_cdf(dri, at = x), eval_cdf(base, at = x))
+	expect_equal(eval_cdf(dle, at = -x), eval_cdf(base, at = -x))
+	expect_equal(eval_cdf(dli, at = -x), eval_cdf(base, at = -x))
+})
+
+test_that("quantiles at breakpoint", {
+	expect_equal(eval_quantile(dri, at = 0.3), 0)
+})
+
+
+
 # d1 <- dst_unif(0, 5)
 # d2 <- dst_unif(0, 10)
 # d3 <- dst_empirical(1:5)

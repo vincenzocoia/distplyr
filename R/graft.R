@@ -8,8 +8,7 @@
 #' @param object Base distribution
 #' @param graft The distribution being grafted.
 #' @param breakpoint The location of the graft
-#' @param include Logical; include the breakpoint in the distribution
-#' being grafted?
+#' @param include Logical; include the breakpoint in the base distribution?
 #' @return Graft distribution object, which is a special type of mixture
 #' distribution.
 #' @examples
