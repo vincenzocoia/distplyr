@@ -19,8 +19,7 @@ is_graft(object)
 
 \item{breakpoint}{The location of the graft}
 
-\item{include}{Logical; include the breakpoint in the distribution
-being grafted?}
+\item{include}{Logical; include the breakpoint in the base distribution?}
 
 \item{object}{Object to be tested}
 }

@@ -23,7 +23,7 @@
 #' @rdname graft
 #' @export
 graft_right <- function(distribution, graft, breakpoint, include = FALSE) {
-	p_left <- prob_left(object, of = breakpoint, inclusive = include)
+	p_left <- prob_left(distribution, of = breakpoint, inclusive = include)
 	if (p_left == 1) {
 		return(distribution)
 	}
@@ -41,7 +41,7 @@ graft_right <- function(distribution, graft, breakpoint, include = FALSE) {
 #' @rdname graft
 #' @export
 graft_left <- function(distribution, graft, breakpoint, include = FALSE) {
-	p_right <- prob_right(object, of = breakpoint, inclusive = include)
+	p_right <- prob_right(distribution, of = breakpoint, inclusive = include)
 	if (p_right == 1) {
 		return(distribution)
 	}
