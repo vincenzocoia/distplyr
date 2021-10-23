@@ -24,7 +24,7 @@ evi.parametric <- function(x) {
 }
 
 #' @export
-range.parametric <- function(x) {
+range.parametric <- function(x, ...) {
 	quantity_parametric(x, "range")
 }
 
