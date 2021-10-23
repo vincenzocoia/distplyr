@@ -2,8 +2,9 @@
 #'
 #' Makes a distribution belonging to the family of
 #' Normal (Gaussian) distributions.
+#'
 #' @param mean,variance Mean and variance of the distribution.
-#' @return Object of class "dst".
+#' @examples
 #' dst_norm(0, 1)
 #' @export
 dst_norm <- function(mean, variance) {
@@ -14,11 +15,5 @@ dst_norm <- function(mean, variance) {
 		if (variance < 0) stop("'variance' parameter must be non-negative.")
 	}
 	dst_parametric("norm", mean = mean, sd = sqrt(variance),
-				   .variable = "continuous")
-}
-
-#' @export
-dst_unif <- function(min, max) {
-	dst_parametric("unif", min = min, max = max,
 				   .variable = "continuous")
 }

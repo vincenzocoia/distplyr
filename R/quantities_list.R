@@ -89,16 +89,26 @@
 		kurtosis_exc = -6 / 5,
 		range = c(min, max),
 		evi = -1
+	),
+	beta = rlang::exprs(
+		mean = shape1 / (shape1 + shape2),
+		variance = shape1 * shape2 / (shape1 + shape2)^2 /
+			(shape1 + shape2 + 1),
+		skewness = 2 * (shape2 - shape1) * sqrt(shape1 + shape2 + 1) /
+			(shape1 + shape2 + 2) / sqrt(shape1 * shape2),
+		#kurtosis_exc = FILL_THIS_IN,
+		#evi = FILL_THIS_IN,
+		range = c(0, 1)
 	)
 )
 
 
-# rlang::exprs(
-# 	mean = FILL_THIS_IN,
-# 	median = FILL_THIS_IN,
-# 	variance = FILL_THIS_IN,
-# 	skewness = FILL_THIS_IN,
-# 	kurtosis_exc = FILL_THIS_IN,
-# 	range = c(FILL_THIS_IN, FILL_THIS_IN),
-# 	evi = FILL_THIS_IN
-# )
+rlang::exprs(
+	mean = FILL_THIS_IN,
+	median = FILL_THIS_IN,
+	variance = FILL_THIS_IN,
+	skewness = FILL_THIS_IN,
+	kurtosis_exc = FILL_THIS_IN,
+	range = c(FILL_THIS_IN, FILL_THIS_IN),
+	evi = FILL_THIS_IN
+)
