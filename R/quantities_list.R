@@ -99,8 +99,26 @@
 		#kurtosis_exc = FILL_THIS_IN,
 		#evi = FILL_THIS_IN,
 		range = c(0, 1)
-	)
-)
+	),
+	binomial = rlang::exprs(
+		mean = n * p,
+		median = ifelse((p == 1/2 & x %% 2 != 0), c(1/2 * (n - 1), 1/2 * ( n + 1)),
+						ifelse(n*p%%1 == 0, n * p, 'No unique median')),
+		variance = n * p * q,
+		skewness = (q - p)/sqrt( n * p * q),
+		kurtosis_exc = (1 - 6 * p * q)/(n * p * q),
+		range = c(0, n)
+		#evi = FILL_THIS_IN not sure
+	),
+	geometric = rlang::exprs(
+		mean = 1/p,
+		median = ifelse((-1)/log2(1 - p)%%1 != 0, (-1)/log2(1 - p), 'No unique integer'),
+		variance = (1 - p)/p^2,
+		skewness = (2 - p)/sqrt(1 - p),
+		kurtosis_exc = 6 + p^2/(1 - p),
+		range = c(0, 1),
+		#evi = FILL_THIS_IN not sure
+	),
 
 
 rlang::exprs(
