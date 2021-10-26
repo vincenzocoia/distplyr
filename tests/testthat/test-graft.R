@@ -94,3 +94,58 @@ test_that(paste("A graft distribution is only ever a mixture of two distribution
 	g <- graft_left(graft_right(d, d, breakpoint = 2), d, breakpoint = -2)
 	expect_length(g$components$distributions, 2L)
 })
+
+
+# d1 <- dst_empirical(1:10)
+# d2 <- dst_unif(5, 10)
+# d3 <- dst_unif(0, 5)
+#
+#
+# g1 <- graft_right(d1, d2, breakpoint = 5, include = FALSE)
+# g2 <- graft_right(d1, d2, breakpoint = 5, include = TRUE)
+#
+#
+#
+# test_that("graft_right on ", {
+# 	expect_equal(
+# 		eval_cdf(g1, at = 5),
+# 		0.4
+# 	)
+# 	expect_equal(
+# 		eval_cdf(g2, at = 5),
+# 		0.5
+# 	)
+# })
+#
+# plot(g1, 'cdf')
+# plot(g2, 'cdf', add = TRUE, col= 'red')
+# abline(v = 5, col = 'blue', lty = 'dashed')
+# legend(1, 0.9,
+# 	   legend=c("g1 (not include)", "g2 (include)", 'breakpoint'),
+# 	   col=c("black", "red", 'blue'), lty=c(1,1,2), cex=0.8)
+
+
+# # slice off the whole d3
+# g3 <- graft_left(d3, d1, breakpoint = 5, include = FALSE)
+#
+# # only retain the breakpoint in d3
+# g4 <- graft_left(d3, d1, breakpoint = 5, include = TRUE)
+#
+# test_that("graft_left", {
+# 	expect_equal(
+# 		eval_cdf(g3, at = c(1:5)),
+# 		eval_cdf(slice_right(d3, breakpoint = 5, include = TRUE), at = c(1:5))
+# 	)
+# 	expect_equal(
+# 		eval_pmf(g4, at =5),
+# 		0
+# 	)
+# })
+#
+#
+# plot(g3, 'cdf')
+# plot(g4, 'cdf', add = TRUE, col= 'red')
+# abline(v = 5, col = 'blue', lty = 'dashed')
+# legend(1, 0.9,
+# 	   legend=c("g3 (not include)", "g4 (include)", 'breakpoint'),
+# 	   col=c("black", "red", 'blue'), lty=c(1,1,2), cex=0.8)
