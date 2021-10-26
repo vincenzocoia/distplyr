@@ -1,6 +1,6 @@
 #' @export
-eval_cdf.gpd <- function(object, at) {
-	with(parameters(object), {
+eval_cdf.gpd <- function(distribution, at) {
+	with(parameters(distribution), {
 		if (shape == 0) {
 			left <- at < location
 			z <- (at - location) / scale
@@ -25,8 +25,8 @@ eval_cdf.gpd <- function(object, at) {
 }
 
 #' @export
-eval_quantile.gpd <- function(object, at, ...) {
-	with(parameters(object), {
+eval_quantile.gpd <- function(distribution, at, ...) {
+	with(parameters(distribution), {
 		invalid <- at < 0 | at > 1
 		if (shape == 0) {
 			res <- location - scale * log(1 - at)
@@ -47,8 +47,8 @@ eval_quantile.gpd <- function(object, at, ...) {
 }
 
 #' @export
-eval_density.gpd <- function(object, at, strict = TRUE) {
-	with(parameters(object), {
+eval_density.gpd <- function(distribution, at, strict = TRUE) {
+	with(parameters(distribution), {
 		z <- (at - location) / scale
 		if (shape == 0) {
 			outside <- at < location

@@ -1,8 +1,8 @@
 #' @export
 #' @inheritParams next_discrete
-next_discrete.scale <- function(object, from, n = 1L,
+next_discrete.scale <- function(distribution, from, n = 1L,
 								include_from = FALSE, ...) {
-	with(object$components, {
+	with(distribution$components, {
 		next_discrete(distribution,
 					  from = from,
 					  n = n,
@@ -13,9 +13,9 @@ next_discrete.scale <- function(object, from, n = 1L,
 
 #' @export
 #' @inheritParams next_discrete
-prev_discrete.scale <- function(object, from, n = 1L,
+prev_discrete.scale <- function(distribution, from, n = 1L,
 								include_from = FALSE, ...) {
-	with(object$components, {
+	with(distribution$components, {
 		prev_discrete(distribution,
 					  from = from,
 					  n = n,

@@ -1,6 +1,6 @@
 #' @export
-eval_cdf.slice_left <- function(object, at) {
-	with(object, {
+eval_cdf.slice_left <- function(distribution, at) {
+	with(distribution, {
 		p_kept <- prob_right(
 			distribution, of = breakpoint, inclusive = !include
 		)
@@ -10,8 +10,8 @@ eval_cdf.slice_left <- function(object, at) {
 }
 
 #' @export
-eval_survival.slice_left <- function(object, at) {
-	with(object, {
+eval_survival.slice_left <- function(distribution, at) {
+	with(distribution, {
 		p_kept <- prob_right(
 			distribution, of = breakpoint, inclusive = !include
 		)
@@ -21,8 +21,8 @@ eval_survival.slice_left <- function(object, at) {
 }
 
 #' @export
-eval_density.slice_left <- function(object, at, strict = TRUE) {
-	with(object, {
+eval_density.slice_left <- function(distribution, at, strict = TRUE) {
+	with(distribution, {
 		p_kept <- prob_right(
 			distribution, of = breakpoint, inclusive = !include
 		)
@@ -37,8 +37,8 @@ eval_density.slice_left <- function(object, at, strict = TRUE) {
 }
 
 #' @export
-eval_pmf.slice_left <- function(object, at, strict = TRUE) {
-	with(object, {
+eval_pmf.slice_left <- function(distribution, at, strict = TRUE) {
+	with(distribution, {
 		p_kept <- prob_right(
 			distribution, of = breakpoint, inclusive = !include
 		)
@@ -53,8 +53,8 @@ eval_pmf.slice_left <- function(object, at, strict = TRUE) {
 }
 
 #' @export
-eval_quantile.slice_left <- function(object, at, ...) {
-	with(object, {
+eval_quantile.slice_left <- function(distribution, at, ...) {
+	with(distribution, {
 		p_kept <- prob_right(
 			distribution, of = breakpoint, inclusive = !include
 		)

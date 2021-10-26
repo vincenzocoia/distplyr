@@ -1,40 +1,4 @@
-base <- dst_empirical(-2:2)
-dri <- base %>%
-	graft_right(dst_norm(0, 1), breakpoint = 0, include = TRUE)
-dre <- base %>%
-	graft_right(dst_norm(0, 1), breakpoint = 0, include = FALSE)
-dli <- base %>%
-	graft_left(dst_norm(0, 1), breakpoint = 0, include = TRUE)
-dle <- base %>%
-	graft_left(dst_norm(0, 1), breakpoint = 0, include = FALSE)
-xri <- eval_quantile(dri, at = runif(10000))
-xre <- eval_quantile(dre, at = runif(10000))
-xli <- eval_quantile(dli, at = runif(10000))
-xle <- eval_quantile(dle, at = runif(10000))
-eri <- dst_empirical(xri)
-ere <- dst_empirical(xre)
-eli <- dst_empirical(xli)
-ele <- dst_empirical(xle)
-enframe_cdf(dri, eri, at = seq(-3, 3, length.out = 1000)) %>%
-	pivot_longer(cols = !.arg, names_to = "distribution", values_to = "cdf") %>%
-	ggplot(aes(.arg, cdf)) +
-	geom_line(aes(group = distribution, colour = distribution), alpha = 0.5) +
-	theme_minimal()
-enframe_cdf(dre, ere, at = seq(-3, 3, length.out = 1000)) %>%
-	pivot_longer(cols = !.arg, names_to = "distribution", values_to = "cdf") %>%
-	ggplot(aes(.arg, cdf)) +
-	geom_line(aes(group = distribution, colour = distribution), alpha = 0.5) +
-	theme_minimal()
-enframe_cdf(dli, eli, at = seq(-3, 3, length.out = 1000)) %>%
-	pivot_longer(cols = !.arg, names_to = "distribution", values_to = "cdf") %>%
-	ggplot(aes(.arg, cdf)) +
-	geom_line(aes(group = distribution, colour = distribution), alpha = 0.5) +
-	theme_minimal()
-enframe_cdf(dle, ele, at = seq(-3, 3, length.out = 1000)) %>%
-	pivot_longer(cols = !.arg, names_to = "distribution", values_to = "cdf") %>%
-	ggplot(aes(.arg, cdf)) +
-	geom_line(aes(group = distribution, colour = distribution), alpha = 0.5) +
-	theme_minimal()
+
 
 test_that("check cdf at breakpoint", {
 	expect_equal(prob_left(dle, of = 0, inclusive = TRUE), 0.6)

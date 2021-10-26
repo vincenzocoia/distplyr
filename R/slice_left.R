@@ -5,7 +5,7 @@
 #' `slice_right()` does the opposite: removes probability to the right,
 #' conditioning to be smaller than the breakpoint.
 #'
-#' @param object Distribution to slice.
+#' @param distribution Distribution to slice.
 #' @param breakpoint Point at which to slice (single numeric).
 #' @param include Logical; should the breakpoint be removed as well?
 #' This is only realistically relevant if the
@@ -28,17 +28,17 @@
 #'   eval_pmf(at = 5)
 #' @rdname slice
 #' @export
-slice_left <- function(object, breakpoint, include = TRUE, ...) {
+slice_left <- function(distribution, breakpoint, include = TRUE, ...) {
 	UseMethod("slice_left")
 }
 
 #' @export
-slice_left.dst <- function(object, breakpoint, include = TRUE, ...) {
-	rng <- range(object)
+slice_left.dst <- function(distribution, breakpoint, include = TRUE, ...) {
+	rng <- range(distribution)
 	left <- rng[1L]
 	right <- rng[2L]
 	if (breakpoint < left) {
-		return(object)
+		return(distribution)
 	}
 	all_sliced <- FALSE
 	if (breakpoint > right) {
@@ -48,7 +48,7 @@ slice_left.dst <- function(object, breakpoint, include = TRUE, ...) {
 		if (include) {
 			all_sliced <- TRUE
 		} else {
-			p <- eval_pmf(object, at = breakpoint, strict = FALSE)
+			p <- eval_pmf(distribution, at = breakpoint, strict = FALSE)
 			if (p == 0) {
 				all_sliced <- TRUE
 			} else {
@@ -61,7 +61,7 @@ slice_left.dst <- function(object, breakpoint, include = TRUE, ...) {
 			 "cannot slice off entire distribution.")
 	}
 	if (breakpoint == right && !include) {
-		p <- eval_pmf(object, at = breakpoint, strict = FALSE)
+		p <- eval_pmf(distribution, at = breakpoint, strict = FALSE)
 		if (p == 0) {
 			stop("No such distribution exists: ",
 				 "cannot slice off entire distribution.")
@@ -70,11 +70,11 @@ slice_left.dst <- function(object, breakpoint, include = TRUE, ...) {
 		}
 	}
 	l <- list(
-		distribution = object,
+		distribution = distribution,
 		breakpoint = breakpoint,
 		include = include
 	)
-	v <- variable(object)
+	v <- variable(distribution)
 	if (v == "mixed") {
 		v <- "unknown" # For now. Need to evaluate cumulative discrete probs.
 	}
@@ -82,13 +82,13 @@ slice_left.dst <- function(object, breakpoint, include = TRUE, ...) {
 }
 
 #' @export
-slice_left.finite <- function(object, breakpoint, include = TRUE, ...) {
-	right_discretes <- next_discrete(object, from = breakpoint, n = Inf,
+slice_left.finite <- function(distribution, breakpoint, include = TRUE, ...) {
+	right_discretes <- next_discrete(distribution, from = breakpoint, n = Inf,
 									 include_from = !include)
 	if (!length(right_discretes)) {
 		stop("No such distribution exists: ",
 			 "cannot slice off entire distribution.")
 	}
-	right_probs <- eval_pmf(object, at = right_discretes)
+	right_probs <- eval_pmf(distribution, at = right_discretes)
 	dst_empirical(right_discretes, weights = right_probs)
 }

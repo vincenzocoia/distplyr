@@ -4,10 +4,10 @@
 \alias{variable}
 \title{Random Variable of a Distribution}
 \usage{
-variable(object)
+variable(distribution)
 }
 \arguments{
-\item{object}{Distribution object}
+\item{distribution}{Distribution.}
 }
 \value{
 As of now, the type of variable that it is -- one

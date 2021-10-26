@@ -27,31 +27,31 @@ dst_parametric <- function(
 	names(params) <- names(dots)
 	res <- list(name = .name,
 				parameters = params)
-	new_distribution(res, variable = v, class = "parametric")
+	new_distribution(res, variable = v, class = c(.name, "parametric"))
 }
 
 #' @export
-eval_cdf.parametric <- function(object, at) {
-	function_name <- paste0("p", object$name)
-	rlang::exec(function_name, at, !!!object$parameters)
+eval_cdf.parametric <- function(distribution, at) {
+	function_name <- paste0("p", distribution$name)
+	rlang::exec(function_name, at, !!!distribution$parameters)
 }
 
 #' @export
-eval_survival.parametric <- function(object, at) {
-	function_name <- paste0("p", object$name)
+eval_survival.parametric <- function(distribution, at) {
+	function_name <- paste0("p", distribution$name)
 	if ("lower.tail" %in% names(formals(function_name))) {
-		rlang::exec(function_name, at, !!!object$parameters, lower.tail = FALSE)
+		rlang::exec(function_name, at, !!!distribution$parameters, lower.tail = FALSE)
 	} else {
-		1 - rlang::exec(function_name, at, !!!object$parameters)
+		1 - rlang::exec(function_name, at, !!!distribution$parameters)
 	}
 }
 
 #' @export
-eval_density.parametric <- function(object, at, strict = TRUE) {
-	v <- variable(object)
+eval_density.parametric <- function(distribution, at, strict = TRUE) {
+	v <- variable(distribution)
 	if (v == "continuous") {
-		function_name <- paste0("d", object$name)
-		return(rlang::exec(function_name, at, !!!object$parameters))
+		function_name <- paste0("d", distribution$name)
+		return(rlang::exec(function_name, at, !!!distribution$parameters))
 	}
 	if (strict) {
 		stop("Distribution is of variable type '", v, "'; density only ",
@@ -68,11 +68,13 @@ eval_density.parametric <- function(object, at, strict = TRUE) {
 }
 
 #' @export
-eval_pmf.parametric <- function(object, at, strict = TRUE) {
-	v <- variable(object)
+eval_pmf.parametric <- function(distribution, at, strict = TRUE) {
+	v <- variable(distribution)
 	if (v == "discrete") {
-		function_name <- paste0("d", object$name)
-		return(rlang::exec(function_name, at, !!!object$parameters))
+		function_name <- paste0("d", distribution$name)
+		return(suppressWarnings(
+			rlang::exec(function_name, at, !!!distribution$parameters)
+		))
 	}
 	if (strict) {
 		stop("Distribution is of variable type '", v, "'; pmf only ",
@@ -89,13 +91,13 @@ eval_pmf.parametric <- function(object, at, strict = TRUE) {
 }
 
 #' @export
-eval_quantile.parametric <- function(object, at) {
-	function_name <- paste0("q", object$name)
-	rlang::exec(function_name, at, !!!object$parameters)
+eval_quantile.parametric <- function(distribution, at) {
+	function_name <- paste0("q", distribution$name)
+	rlang::exec(function_name, at, !!!distribution$parameters)
 }
 
 #' @export
-realise.parametric <- function(object, n = 1) {
-	function_name <- paste0("r", object$name)
-	rlang::exec(function_name, n, !!!object$parameters)
+realise.parametric <- function(distribution, n = 1) {
+	function_name <- paste0("r", distribution$name)
+	rlang::exec(function_name, n, !!!distribution$parameters)
 }

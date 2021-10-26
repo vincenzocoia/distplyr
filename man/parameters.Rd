@@ -4,10 +4,10 @@
 \alias{parameters}
 \title{Parameters of a Distribution}
 \usage{
-parameters(object)
+parameters(distribution)
 }
 \arguments{
-\item{object}{Distribution object}
+\item{distribution}{Distribution.}
 }
 \description{
 Parameters of a Distribution

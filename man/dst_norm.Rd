@@ -9,11 +9,10 @@ dst_norm(mean, variance)
 \arguments{
 \item{mean, variance}{Mean and variance of the distribution.}
 }
-\value{
-Object of class "dst".
-dst_norm(0, 1)
-}
 \description{
 Makes a distribution belonging to the family of
 Normal (Gaussian) distributions.
+}
+\examples{
+dst_norm(0, 1)
 }
