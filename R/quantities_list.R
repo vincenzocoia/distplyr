@@ -99,8 +99,84 @@
 		#kurtosis_exc = FILL_THIS_IN,
 		#evi = FILL_THIS_IN,
 		range = c(0, 1)
-	)
-)
+	),
+	binom = rlang::exprs(
+		mean = n * p,
+		median = ifelse((p == 1/2 & x %% 2 != 0), c(1/2 * (n - 1), 1/2 * ( n + 1)),
+						ifelse(n*p%%1 == 0, n * p, 'No unique median')), # not sure
+		variance = n * p * q,
+		skewness = (q - p)/sqrt( n * p * q),
+		kurtosis_exc = (1 - 6 * p * q)/(n * p * q),
+		range = c(0, n)
+		#evi = FILL_THIS_IN not sure
+	),
+	geom = rlang::exprs(
+		mean = 1/p,
+		median = ifelse((-1)/log2(1 - p)%%1 != 0, (-1)/log2(1 - p), 'No unique integer'), # not sure
+		variance = (1 - p)/p^2,
+		skewness = (2 - p)/sqrt(1 - p),
+		kurtosis_exc = 6 + p^2/(1 - p),
+		range = c(0, 1)
+		#evi = FILL_THIS_IN not sure
+	),
+	exp = rlang::exprs(
+		mean = 1/lambda,
+		median = log10(2)/lambda,
+		variance = 1/lambda^2,
+		skewness = 2,
+		kurtosis_exc = 6,
+		range = c(0, Inf)
+		#evi = FILL_THIS_IN
+	),
+	weibull = rlang::exprs(
+		mean = lambda*gamma(1 + 1/k),
+		median = lambda*(log10(2)^(1/k)),
+		variance = lambda^2 * (gamma(1 + 2/k) - (gamma(1 + 1/k))^2),
+		skewness = (gamma(1 + 3/k)*(lambda^3) - 3*lambda*gamma(1 + 1/k)*(sqrt(lambda^2 * (gamma(1 + 2/k) - (gamma(1 + 1/k))^2))^2)  - (lambda*gamma(1 + 1/k))^3)/sqrt(lambda^2 * (gamma(1 + 2/k) - (gamma(1 + 1/k))^2))^3,
+		kurtosis_exc = ((lambda^4) * gamma(1 + 4/k) - 4*((gamma(1 + 3/k)*(lambda^3) - 3*lambda*gamma(1 + 1/k)*(sqrt(lambda^2 * (gamma(1 + 2/k) - (gamma(1 + 1/k))^2))^2)  - (lambda*gamma(1 + 1/k))^3)/sqrt(lambda^2 * (gamma(1 + 2/k) - (gamma(1 + 1/k))^2))^3)*(sigma^3)*(lambda*gamma(1 + 1/k)) - 6*(mu^2)*(lambda^2 * (gamma(1 + 2/k) - (gamma(1 + 1/k))^2)) - (lambda*gamma(1 + 1/k))^4)/(sqrt(lambda^2 * (gamma(1 + 2/k) - (gamma(1 + 1/k))^2))^4) - 3,
+		range = c(0, Inf)
+		#evi = FILL_THIS_IN
+	),
+	gamma = rlang::exprs(
+		mean = alpha/beta,
+		#median = FILL_THIS_IN,
+		variance = alpha/beta^2,
+		skewness = 2/sqrt(alpha),
+		kurtosis_exc = 6/alpha,
+		range = c(0, Inf)
+		#evi = FILL_THIS_IN
+	),
+	laplace = rlang::exprs( # the location parameter a, the scale parameter b
+		mean = a,
+		median = a,
+		variance = 2*(b^2),
+		skewness = 0,
+		kurtosis_exc = 3,
+		range = c(0, 1)
+		#evi = FILL_THIS_IN
+	),
+	fatigue = rlang::exprs(
+		mean = beta * (1 + (alpha^2) /2 ),
+		median = beta,
+		variance = (alpha * beta)^2 * (1 + (5*(alpha^2))/4),
+		skewness = (4 * alpha * (11*(alpha^2) + 6))/((5 * (alpha^2) + 4)^(3/2)),
+		kurtosis_exc = 3 + (6*(alpha^2)(93*(alpha^2) + 40))/(5*(alpha^2) + 4)^2,
+		range = c(0, Inf)
+		#evi = FILL_THIS_IN
+	),
+	chisq =
+		rlang::exprs(
+			mean = k,
+			median = k*((1 - 2/9*k)^3),
+			variance = 2*k,
+			skewness = sqrt(8/k),
+			kurtosis_exc = 12/k,
+			range = c(0, 1),
+			#evi = FILL_THIS_IN
+		)
+
+
+
 
 
 rlang::exprs(
