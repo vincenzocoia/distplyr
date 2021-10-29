@@ -16,16 +16,18 @@
 #' the distribution in the denominator of `/`.
 #' @seealso `flip()`, `scale()`
 #' @examples
-#' 1 / (dst_pois(3.4) + 1)
-#' invert(dst_norm(0, 1))
+#' 1 / (distionary::dst_pois(3.4) + 1)
+#' invert(distionary::dst_norm(0, 1))
 #' @export
 invert <- function(distribution) {
-  p_zero <- eval_pmf(distribution, at = 0, strict = FALSE)
+  p_zero <- distionary::eval_pmf(distribution, at = 0, strict = FALSE)
   if (p_zero > 0) {
     stop("Cannot invert a distribution for which 0 is a possible outcome.")
   }
   dist <- list(
     distribution = distribution
   )
-  new_distribution(dist, variable = variable(distribution), class = "inverse")
+  distionary::new_distribution(
+  	dist, variable = distionary::variable(distribution), class = "inverse"
+  )
 }

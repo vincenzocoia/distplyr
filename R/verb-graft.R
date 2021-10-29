@@ -23,7 +23,8 @@
 #' @rdname graft
 #' @export
 graft_right <- function(distribution, graft, breakpoint, include = FALSE) {
-	p_left <- prob_left(distribution, of = breakpoint, inclusive = include)
+	p_left <- distionary::prob_left(distribution, of = breakpoint,
+									inclusive = include)
 	if (p_left == 1) {
 		return(distribution)
 	}
@@ -41,7 +42,8 @@ graft_right <- function(distribution, graft, breakpoint, include = FALSE) {
 #' @rdname graft
 #' @export
 graft_left <- function(distribution, graft, breakpoint, include = FALSE) {
-	p_right <- prob_right(distribution, of = breakpoint, inclusive = include)
+	p_right <- distionary::prob_right(distribution, of = breakpoint,
+									  inclusive = include)
 	if (p_right == 1) {
 		return(distribution)
 	}
@@ -49,7 +51,8 @@ graft_left <- function(distribution, graft, breakpoint, include = FALSE) {
 		return(slice_right(graft, breakpoint = breakpoint, include = include))
 	}
 	left <- slice_right(graft, breakpoint = breakpoint, include = include)
-	right <- slice_left(distribution, breakpoint = breakpoint, include = !include)
+	right <- slice_left(distribution, breakpoint = breakpoint,
+						include = !include)
 	mixture <- mix(left, right, weights = c(1 - p_right, p_right))
 	mixture$components$breakpoint <- breakpoint
 	mixture$components$include <- include
@@ -68,5 +71,6 @@ is_graft <- function(object) inherits(object, "graft")
 #' @note A graft distribution is a special case of a mixture distribution.
 #' @inheritParams new_mix
 new_graft <- function(object, ..., class = character()) {
-	new_mix(object, variable = variable(object), class = c(class, "graft"))
+	new_mix(object, variable = distionary::variable(object),
+			class = c(class, "graft"))
 }

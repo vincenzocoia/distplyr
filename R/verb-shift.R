@@ -40,9 +40,9 @@
 #' @rdname linear_transform
 #' @export
 shift <- function(distribution, constant) {
-  with(parameters(distribution), {
+  with(distionary::parameters(distribution), {
     if (constant == 0) {
-      return(dst_degenerate(0))
+      return(distionary::dst_degenerate(0))
     }
     dist <- list(
       components = list(
@@ -50,7 +50,9 @@ shift <- function(distribution, constant) {
         shift = constant
       )
     )
-    new_distribution(dist, variable = variable(distribution), class = "shift")
+    distionary::new_distribution(
+    	dist, variable = distionary::variable(distribution), class = "shift"
+    )
   })
 }
 

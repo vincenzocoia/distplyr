@@ -48,11 +48,12 @@ slice_left.dst <- function(distribution, breakpoint, include = TRUE, ...) {
 		if (include) {
 			all_sliced <- TRUE
 		} else {
-			p <- eval_pmf(distribution, at = breakpoint, strict = FALSE)
+			p <- distionary::eval_pmf(distribution, at = breakpoint,
+									  strict = FALSE)
 			if (p == 0) {
 				all_sliced <- TRUE
 			} else {
-				return(dst_degenerate(breakpoint))
+				return(distionary::dst_degenerate(breakpoint))
 			}
 		}
 	}
@@ -61,12 +62,12 @@ slice_left.dst <- function(distribution, breakpoint, include = TRUE, ...) {
 			 "cannot slice off entire distribution.")
 	}
 	if (breakpoint == right && !include) {
-		p <- eval_pmf(distribution, at = breakpoint, strict = FALSE)
+		p <- distionary::eval_pmf(distribution, at = breakpoint, strict = FALSE)
 		if (p == 0) {
 			stop("No such distribution exists: ",
 				 "cannot slice off entire distribution.")
 		} else {
-			return(dst_degenerate(breakpoint))
+			return(distionary::dst_degenerate(breakpoint))
 		}
 	}
 	l <- list(
@@ -74,21 +75,22 @@ slice_left.dst <- function(distribution, breakpoint, include = TRUE, ...) {
 		breakpoint = breakpoint,
 		include = include
 	)
-	v <- variable(distribution)
+	v <- distionary::variable(distribution)
 	if (v == "mixed") {
 		v <- "unknown" # For now. Need to evaluate cumulative discrete probs.
 	}
-	new_distribution(l, variable = v, class = "slice_left")
+	distionary::new_distribution(l, variable = v, class = "slice_left")
 }
 
 #' @export
 slice_left.finite <- function(distribution, breakpoint, include = TRUE, ...) {
-	right_discretes <- next_discrete(distribution, from = breakpoint, n = Inf,
-									 include_from = !include)
+	right_discretes <- distionary::next_discrete(
+		distribution, from = breakpoint, n = Inf, include_from = !include
+	)
 	if (!length(right_discretes)) {
 		stop("No such distribution exists: ",
 			 "cannot slice off entire distribution.")
 	}
-	right_probs <- eval_pmf(distribution, at = right_discretes)
-	dst_empirical(right_discretes, weights = right_probs)
+	right_probs <- distionary::eval_pmf(distribution, at = right_discretes)
+	distionary::dst_empirical(right_discretes, weights = right_probs)
 }

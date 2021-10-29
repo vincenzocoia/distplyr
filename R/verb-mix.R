@@ -24,7 +24,9 @@
 mix <- function(..., weights = 1, na.rm = FALSE) {
   dsts <- rlang::quos(...)
   dsts <- lapply(dsts, rlang::eval_tidy)
-  if (!all(vapply(dsts, is_distribution, FUN.VALUE = logical(1L)))) {
+  not_all_dsts <- !all(vapply(dsts, distionary::is_distribution,
+  							FUN.VALUE = logical(1L)))
+  if (not_all_dsts) {
     stop("Ellipsis must contain distributions only.")
   }
   n <- length(dsts)
@@ -54,47 +56,11 @@ mix <- function(..., weights = 1, na.rm = FALSE) {
   if (length(probs) == 1L) {
     return(dsts[[1L]])
   }
-  already_mixtures <- vapply(dsts, is_mix, FUN.VALUE = logical(1L))
-  if (any(already_mixtures)) {
-    dsts_mixture <- dsts[already_mixtures]
-    dsts_inner <- lapply(dsts_mixture, function(dst) {
-      dst$components$distributions
-    })
-    dsts_flat <- unlist(dsts_inner, recursive = FALSE)
-    probs_mixture_outer <- probs[already_mixtures]
-    probs_mixture_inner <- lapply(dsts_mixture, function(dst) {
-      dst$components$probs
-    })
-    probs_mixture_list <- mapply(
-      `*`,
-      probs_mixture_outer,
-      probs_mixture_inner,
-      SIMPLIFY = FALSE
-    )
-    probs_mixture_flat <- unlist(probs_mixture_list, recursive = FALSE)
-    stopifnot(length(probs_mixture_flat) == length(dsts_flat))
-    new_probs <- c(probs_mixture_flat, probs[!already_mixtures])
-    new_dsts <- c(dsts_flat, dsts[!already_mixtures])
-    return(mix(!!!new_dsts, weights = new_probs, na.rm = na.rm))
-  }
-  if (all(vapply(dsts, is_finite_dst, FUN.VALUE = logical(1L)))) {
-    prob_dfs <- lapply(dsts, `[[`, "probabilities")
-    y_list <- lapply(prob_dfs, `[[`, "location")
-    y <- c(y_list, recursive = TRUE)
-    weight_list_original <- lapply(prob_dfs, `[[`, "size")
-    weight_list_scaled <- mapply(`*`, weight_list_original, probs,
-      SIMPLIFY = FALSE
-    )
-    weight_scaled <- c(weight_list_scaled, recursive = TRUE)
-    new_prob_df <- aggregate_weights(y, weight_scaled, sum_to_one = FALSE)
-    res <- new_finite(list(probabilities = new_prob_df), variable = "discrete")
-    return(res)
-  }
   res <- list(components = list(
     distributions = dsts,
     probs = probs
   ))
-  var_type <- vapply(dsts, variable, FUN.VALUE = character(1L))
+  var_type <- vapply(dsts, distionary::variable, FUN.VALUE = character(1L))
   var_unique <- unique(var_type)
   if (length(var_unique) > 1L) {
     var_unique <- "mixed"
@@ -105,7 +71,9 @@ mix <- function(..., weights = 1, na.rm = FALSE) {
 #' Constructor function for `mix` objects
 #' @inheritParams new_distribution
 new_mix <- function(l, variable, ..., class = character()) {
-  new_distribution(l, variable = variable, class = c(class, "mix"))
+	distionary::new_distribution(
+		l, variable = variable, class = c(class, "mix")
+	)
 }
 
 #' @param object Object to be tested
