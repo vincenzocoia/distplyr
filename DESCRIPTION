@@ -5,10 +5,13 @@ Version: 0.1.2.9000
 Authors@R: c(
     person("Vincenzo", "Coia", email = "vincenzo.coia@stat.ubc.ca",
            role = c("aut", "cre")),
-    person("Amogh", "Joshi", role = "aut")
+    person("Amogh", "Joshi", role = "aut"),
+    person("Shuyi", "Tan", role = "aut"),
+    person("Zhipeng", "Zhu", role = "aut")
     )
-Description: Provides an interface for creating, invoking, and manipulating
-    distributions. 
+Description: Provides an interface for manipulating univariate probability
+    distributions, using verbs such as `graft`, `slice`, `mix`, `shift`,
+    and others. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -18,7 +21,6 @@ Suggests:
     covr,
     knitr,
     rmarkdown,
-    datasets,
     digest,
     tibble,
     purrr,
@@ -31,5 +33,8 @@ Imports:
     evd,
     rlang,
     tidyselect,
-    graphics
+    graphics,
+    distionary (>= 0.0.0.9000)
 VignetteBuilder: knitr
+Remotes:  
+    vincenzocoia/distionary
