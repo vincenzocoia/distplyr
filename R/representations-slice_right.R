@@ -1,10 +1,10 @@
 #' @export
 eval_cdf.slice_right <- function(distribution, at) {
 	with(distribution, {
-		p_kept <- prob_left(
+		p_kept <- distionary::prob_left(
 			distribution, of = breakpoint, inclusive = !include
 		)
-		cdf <- eval_cdf(distribution, at = at) / p_kept
+		cdf <- distionary::eval_cdf(distribution, at = at) / p_kept
 		pmin(cdf, 1)
 	})
 }
@@ -12,10 +12,12 @@ eval_cdf.slice_right <- function(distribution, at) {
 #' @export
 eval_density.slice_right <- function(distribution, at, strict = TRUE) {
 	with(distribution, {
-		p_kept <- prob_left(
+		p_kept <- distionary::prob_left(
 			distribution, of = breakpoint, inclusive = !include
 		)
-		pdf <- eval_density(distribution, at = at, strict = strict) / p_kept
+		pdf <- distionary::eval_density(
+			distribution, at = at, strict = strict
+		) / p_kept
 		if (include) {
 			pdf[at >= breakpoint] <- 0
 		} else {
@@ -28,10 +30,12 @@ eval_density.slice_right <- function(distribution, at, strict = TRUE) {
 #' @export
 eval_pmf.slice_right <- function(distribution, at, strict = TRUE) {
 	with(distribution, {
-		p_kept <- prob_left(
+		p_kept <- distionary::prob_left(
 			distribution, of = breakpoint, inclusive = !include
 		)
-		pmf <- eval_pmf(distribution, at = at, strict = strict) / p_kept
+		pmf <- distionary::eval_pmf(
+			distribution, at = at, strict = strict
+		) / p_kept
 		if (include) {
 			pmf[at >= breakpoint] <- 0
 		} else {
@@ -42,11 +46,11 @@ eval_pmf.slice_right <- function(distribution, at, strict = TRUE) {
 }
 
 #' @export
-eval_quantile.slice_right <- function(distribution, at, ...) {
+eval_quantile.slice_right <- function(distribution, at) {
 	with(distribution, {
-		p_kept <- prob_left(
+		p_kept <- distionary::prob_left(
 			distribution, of = breakpoint, inclusive = !include
 		)
-		eval_quantile(distribution, at = at * p_kept, ...)
+		distionary::eval_quantile(distribution, at = at * p_kept, ...)
 	})
 }

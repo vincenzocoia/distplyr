@@ -10,22 +10,23 @@
 #' @return A mixture distribution -- an empty distribution if any weights
 #' are \code{NA} and `na.rm = FALSE`, the default.
 #' @examples
-#' a <- dst_norm(0, 1)
-#' b <- dst_norm(5, 2)
+#' a <- distionary::dst_norm(0, 1)
+#' b <- distionary::dst_norm(5, 2)
 #' m1 <- mix(a, b, weights = c(1, 4))
-#' plot(m1)
-#' variable(m1)
+#' #plot(m1)
+#' distionary::variable(m1)
 #'
-#' c <- dst_empirical(0:6)
+#' c <- distionary::dst_empirical(0:6)
 #' m2 <- mix(a, b, c, weights = c(0.2, 0.5, 0.3))
-#' plot(m2, n = 1001)
-#' variable(m2)
+#' #plot(m2, n = 1001)
+#' distionary::variable(m2)
 #' @export
 mix <- function(..., weights = 1, na.rm = FALSE) {
   dsts <- rlang::quos(...)
   dsts <- lapply(dsts, rlang::eval_tidy)
-  not_all_dsts <- !all(vapply(dsts, distionary::is_distribution,
-  							FUN.VALUE = logical(1L)))
+  not_all_dsts <- !all(vapply(
+  	dsts, distionary::is_distribution, FUN.VALUE = logical(1L)
+  ))
   if (not_all_dsts) {
     stop("Ellipsis must contain distributions only.")
   }
@@ -56,10 +57,12 @@ mix <- function(..., weights = 1, na.rm = FALSE) {
   if (length(probs) == 1L) {
     return(dsts[[1L]])
   }
-  res <- list(components = list(
-    distributions = dsts,
-    probs = probs
-  ))
+  res <- list(
+  	components = list(
+  		distributions = dsts,
+  		probs = probs
+  	)
+  )
   var_type <- vapply(dsts, distionary::variable, FUN.VALUE = character(1L))
   var_unique <- unique(var_type)
   if (length(var_unique) > 1L) {
@@ -68,8 +71,14 @@ mix <- function(..., weights = 1, na.rm = FALSE) {
   new_mix(res, variable = var_unique)
 }
 
-#' Constructor function for `mix` objects
-#' @inheritParams new_distribution
+#' Constructor function for "mix" objects
+#'
+#' @param l List containing the components of a mixture distribution object.
+#' @param variable Type of random variable: "continuous", "discrete",
+#'   or "mixed".
+#' @param ... Other attributes to add to the list.
+#' @param class If making a subclass, specify its name here.
+#' @export
 new_mix <- function(l, variable, ..., class = character()) {
 	distionary::new_distribution(
 		l, variable = variable, class = c(class, "mix")

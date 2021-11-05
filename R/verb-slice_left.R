@@ -14,18 +14,18 @@
 #' @return A conditional distribution.
 #' @examples
 #' library(magrittr)
-#' dst_norm(0, 1) %>%
+#' distionary::dst_norm(0, 1) %>%
 #'   slice_left(-2) %>%
 #'   slice_right(2) %>%
-#'   enframe_cdf(at = -3:3)
+#'   distionary::enframe_cdf(at = -3:3)
 #'
-#' d <- dst_empirical(c(2, 5, 6, 9, 11))
+#' d <- distionary::dst_empirical(c(2, 5, 6, 9, 11))
 #' d %>%
 #'   slice_left(5) %>%
-#'   eval_pmf(at = 5)
+#'   distionary::eval_pmf(at = 5)
 #' d %>%
 #'   slice_left(5, include = TRUE) %>%
-#'   eval_pmf(at = 5)
+#'   distionary::eval_pmf(at = 5)
 #' @rdname slice
 #' @export
 slice_left <- function(distribution, breakpoint, include = TRUE, ...) {
@@ -48,8 +48,9 @@ slice_left.dst <- function(distribution, breakpoint, include = TRUE, ...) {
 		if (include) {
 			all_sliced <- TRUE
 		} else {
-			p <- distionary::eval_pmf(distribution, at = breakpoint,
-									  strict = FALSE)
+			p <- distionary::eval_pmf(
+				distribution, at = breakpoint, strict = FALSE
+			)
 			if (p == 0) {
 				all_sliced <- TRUE
 			} else {

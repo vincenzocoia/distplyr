@@ -23,20 +23,24 @@
 #' constants, delegating a potential negative sign to the "flip" class.
 #' @seealso `invert()`
 #' @examples
+#' d_pois <- distionary::dst_pois(1.1)
+#' d_norm <- distionary::dst_norm(4, 1)
+#' d_unif <- distionary::dst_unif(0, 1)
+#'
 #' # Shift a Poisson distribution by 1.
-#' shift(dst_pois(1), 1)
-#' dst_pois(1) + 1
+#' shift(d_pois, 1)
+#' d_pois + 1
 #'
 #' # Multiply a Uniform distribution by 2.
-#' multiply(dst_unif(0, 1), 2)
-#' dst_unif(0, 1) * 2
+#' multiply(d_unif, 2)
+#' d_unif * 2
 #'
 #' # Flip a Normal distribution.
-#' flip(dst_norm(4, 1))
-#' -dst_norm(4, 1)
+#' flip(d_norm)
+#' -d_norm
 #'
 #' # Combine multiple operations:
-#' 4 - 2 * dst_pois(1.1)
+#' 4 - 2 * d_pois
 #' @rdname linear_transform
 #' @export
 shift <- function(distribution, constant) {

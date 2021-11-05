@@ -2,55 +2,55 @@
 #' @export
 mean.shift <- function(distribution) {
 	with(distribution$components, {
-		mean(distribution) + shift
+		distionary::mean(distribution) + shift
 	})
 }
 
 #' @export
 median.shift <- function(distribution) {
 	with(distribution$components, {
-		median(distribution) + shift
+		distionary::median(distribution) + shift
 	})
 }
 
 #' @export
 stdev.shift <- function(distribution) {
 	with(distribution$components, {
-		stdev(distribution)
+		distionary::stdev(distribution)
 	})
 }
 
 #' @export
 range.shift <- function(distribution) {
 	with(distribution$components, {
-		range(distribution) + shift
+		distionary::range(distribution) + shift
 	})
 }
 
 #' @export
 variance.shift <- function(distribution) {
 	with(distribution$components, {
-		variance(distribution)
+		distionary::variance(distribution)
 	})
 }
 
 #' @export
 evi.shift <- function(distribution) {
 	with(distribution$components, {
-		evi(distribution)
+		distionary::evi(distribution)
 	})
 }
 
 #' @export
 skewness.shift <- function(distribution) {
 	with(distribution$components, {
-		skewness(distribution)
+		distionary::skewness(distribution)
 	})
 }
 
 #' @export
 kurtosis_exc.shift <- function(distribution) {
 	with(distribution$components, {
-		kurtosis_exc(distribution)
+		distionary::kurtosis_exc(distribution)
 	})
 }

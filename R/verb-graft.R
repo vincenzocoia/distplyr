@@ -14,12 +14,12 @@
 #' @examples
 #' set.seed(1)
 #' x <- stats::rcauchy(100)
-#' base <- dst_empirical(x)
-#' q <- eval_quantile(base, at = 0.9)
-#' right <- dst_gpd(q, 5, 1)
+#' base <- distionary::dst_empirical(x)
+#' q <- distionary::eval_quantile(base, at = 0.9)
+#' right <- distionary::dst_gpd(q, 5, 1)
 #' g <- graft_right(base, right, breakpoint = q)
-#' plot(g, "cdf", n = 1001, to = 34)
-#' plot(base, "cdf", n = 1001, lty = 2, add = TRUE)
+#' #plot(g, "cdf", n = 1001, to = 34)
+#' #plot(base, "cdf", n = 1001, lty = 2, add = TRUE)
 #' @rdname graft
 #' @export
 graft_right <- function(distribution, graft, breakpoint, include = FALSE) {

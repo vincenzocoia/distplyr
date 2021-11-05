@@ -38,11 +38,11 @@ slice_right.dst <- function(distribution, breakpoint, include = TRUE, ...) {
 		breakpoint = breakpoint,
 		include = include
 	)
-	v <- variable(distribution)
+	v <- distionary::variable(distribution)
 	if (v == "mixed") {
 		v <- "unknown" # For now. Need to evaluate cumulative discrete probs.
 	}
-	new_distribution(l, variable = v, class = "slice_right")
+	distionary::new_distribution(l, variable = v, class = "slice_right")
 }
 
 #' @export

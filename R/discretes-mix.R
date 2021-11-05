@@ -1,25 +1,30 @@
 #' @export
 has_infinite_discretes <- function(distribution, from = -Inf, to = Inf) {
 	with(distribution$components, {
-		any(vapply(distributions, has_infinite_discretes,
-				   FUN.VALUE = logical(1L),
-				   from = from, to = to))
+		any(vapply(
+			distributions, distionary::has_infinite_discretes,
+			FUN.VALUE = logical(1L), from = from, to = to
+		))
 	})
 }
 
 #' @export
 num_discretes.mix <- function(distribution, from, to, include_from, include_to) {
-	if (has_infinite_discretes(distribution, from = from, to = to)) {
+	inf_discretes <- distionary::has_infinite_discretes(
+		distribution, from = from, to = to
+	)
+	if (inf_discretes) {
 		return(Inf)
 	}
 	with(distribution$components, {
-		n <- vapply(distributions, num_discretes, FUN.VALUE = numeric(1L),
-					from = from, to = to,
-					include_from = include_from,
-					include_to = include_to)
+		n <- vapply(
+			distributions, distionary::num_discretes, FUN.VALUE = numeric(1L),
+			from = from, to = to,include_from = include_from,
+			include_to = include_to
+		)
 		discretes <- list()
 		for (i in seq_along(distributions)) {
-			discretes[[i]] <- next_discrete(
+			discretes[[i]] <- distionary::next_discrete(
 				distributions[[i]], from = from, n = n[[i]],
 				include_from = include_from
 			)
@@ -32,31 +37,44 @@ num_discretes.mix <- function(distribution, from, to, include_from, include_to) 
 #' @export
 next_discrete.mix <- function(distribution, from, n, include_from) {
 	if (n == 0) return(numeric(0L))
-	if (is.infinite(n) &&
-		has_infinite_discretes(distribution, from = from, to = Inf)) {
+	inf_discretes <- is.infinite(n) &&
+		has_infinite_discretes(distribution, from = from, to = Inf)
+	if (inf_discretes) {
 		stop("Your selection includes an infinite number of discrete points.")
 	}
 	distributions <- distribution$components$distributions
-	next_discretes <- lapply(distributions, next_discrete, from = from, n = 1L,
-							 include_from = include_from)
+	next_discretes <- lapply(
+		distributions, distionary::next_discrete,
+		from = from, n = 1L, include_from = include_from
+	)
 	next_discretes <- c(next_discretes, recursive = TRUE)
-	if (length(next_discretes) == 0) return(numeric(0L))
+	if (length(next_discretes) == 0) {
+		return(numeric(0L))
+	}
 	is_nan <- is.nan(next_discretes)
 	next_discretes <- next_discretes[!is_nan]
-	if (length(next_discretes) == 0) return(NaN)
+	if (length(next_discretes) == 0) {
+		return(NaN)
+	}
 	candidate <- min(next_discretes)
-	if (any(is_nan) &&
-		has_infinite_discretes(distribution, from = from, to = candidate)) {
+	nan_result <- any(is_nan) &&
+		distionary::has_infinite_discretes(
+			distribution, from = from, to = candidate
+		)
+	if (nan_result) {
 		return(NaN)
 	}
 	discretes <- candidate
 	i <- 2L
 	while (i <= n) {
-		next_discretes <- lapply(distributions, next_discrete,
-								 from = discretes[i - 1L], n = 1L,
-								 include_from = FALSE)
+		next_discretes <- lapply(
+			distributions, distionary::next_discrete,
+			from = discretes[i - 1L], n = 1L, include_from = FALSE
+		)
 		next_discretes <- c(next_discretes, recursive = TRUE)
-		if (length(next_discretes) == 0) return(discretes)
+		if (length(next_discretes) == 0) {
+			return(discretes)
+		}
 		is_nan <- is.nan(next_discretes)
 		next_discretes <- next_discretes[!is_nan]
 		if (length(next_discretes) == 0) {
@@ -64,9 +82,11 @@ next_discrete.mix <- function(distribution, from, n, include_from) {
 			return(discretes)
 		}
 		candidate <- min(next_discretes)
-		if (any(is_nan) &&
-			has_infinite_discretes(distribution, from = discretes[i - 1L],
-								   to = candidate)) {
+		reached_nan <- any(is_nan) &&
+			has_infinite_discretes(
+				distribution, from = discretes[i - 1L], to = candidate
+			)
+		if (reached_nan) {
 			discretes[i] <- NaN
 			return(discretes)
 		}
@@ -78,33 +98,47 @@ next_discrete.mix <- function(distribution, from, n, include_from) {
 
 #' @export
 prev_discrete.mix <- function(distribution, from, n, include_from) {
-	if (n == 0) return(numeric(0L))
-	if (is.infinite(n) &&
-		has_infinite_discretes(distribution, from = -Inf, to = from)) {
+	if (n == 0) {
+		return(numeric(0L))
+	}
+	inf_discretes <- is.infinite(n) &&
+		distionary::has_infinite_discretes(distribution, from = -Inf, to = from)
+	if (inf_discretes) {
 		stop("Your selection includes an infinite number of discrete points.")
 	}
 	distributions <- distribution$components$distributions
-	prev_discretes <- lapply(distributions, prev_discrete, from = from, n = 1L,
-							 include_from = include_from)
+	prev_discretes <- lapply(
+		distributions, distionary::prev_discrete,
+		from = from, n = 1L, include_from = include_from
+	)
 	prev_discretes <- c(prev_discretes, recursive = TRUE)
-	if (length(prev_discretes) == 0) return(numeric(0L))
+	if (length(prev_discretes) == 0) {
+		return(numeric(0L))
+	}
 	is_nan <- is.nan(prev_discretes)
 	prev_discretes <- prev_discretes[!is_nan]
-	if (length(prev_discretes) == 0) return(NaN)
+	if (length(prev_discretes) == 0) {
+		return(NaN)
+	}
 	candidate <- min(prev_discretes)
-	if (any(is_nan) &&
-		has_infinite_discretes(distribution, from = discretes[i - 1L],
-							   to = candidate)) {
+	nan_result <- any(is_nan) &&
+		distionary::has_infinite_discretes(
+			distribution, from = discretes[i - 1L], to = candidate
+		)
+	if (nan_result) {
 		return(NaN)
 	}
 	discretes <- candidate
 	i <- 2L
 	while (i <= n) {
-		prev_discretes <- lapply(distributions, prev_discrete,
-								 from = discretes[i - 1L], n = 1L,
-								 include_from = FALSE)
+		prev_discretes <- lapply(
+			distributions, distionary::prev_discrete,
+			from = discretes[i - 1L], n = 1L, include_from = FALSE
+		)
 		prev_discretes <- c(prev_discretes, recursive = TRUE)
-		if (length(prev_discretes) == 0) return(discretes)
+		if (length(prev_discretes) == 0) {
+			return(discretes)
+		}
 		is_nan <- is.nan(prev_discretes)
 		prev_discretes <- prev_discretes[!is_nan]
 		if (length(prev_discretes) == 0) {
@@ -112,8 +146,11 @@ prev_discrete.mix <- function(distribution, from, n, include_from) {
 			return(discretes)
 		}
 		candidate <- min(prev_discretes)
-		if (any(is_nan) &&
-			has_infinite_discretes(distribution, from = from, to = candidate)) {
+		reached_nan <- any(is_nan) &&
+			distionary::has_infinite_discretes(
+				distribution, from = from, to = candidate
+			)
+		if (reached_nan) {
 			discretes[i] <- NaN
 			return(discretes)
 		}

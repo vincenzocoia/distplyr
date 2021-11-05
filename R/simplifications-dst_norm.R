@@ -10,7 +10,7 @@ shift.norm <- function(distribution, constant) {
 
 #' @export
 multiply.norm <- function(distribution, constant) {
-	if (constant == 0) return(dst_degenerate(0))
+	if (constant == 0) return(distionary::dst_degenerate(0))
 	mutate_parameters(distribution,
 					  mean = mean * constant,
 					  variance = variance * constant^2)
