@@ -21,7 +21,8 @@ stdev.shift <- function(distribution) {
 }
 
 #' @export
-range.shift <- function(distribution) {
+range.shift <- function(distribution, ...) {
+	ellipsis::check_dots_empty()
 	with(distribution$components, {
 		distionary::range(distribution) + shift
 	})

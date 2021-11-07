@@ -42,6 +42,7 @@ kurtosis_exc.negative <- function(distribution, ...) {
 
 #' @export
 range.negative <- function(distribution, ...) {
+	ellipsis::check_dots_empty()
 	with(distribution, {
 		d <- distionary::range(distribution)
 		-rev(d)

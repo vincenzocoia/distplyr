@@ -48,7 +48,8 @@ kurtosis_exc.scale <- function(distribution) {
 }
 
 #' @export
-range.scale <- function(distribution) {
+range.scale <- function(distribution, ...) {
+	ellipsis::check_dots_empty()
 	with(distribution$components, {
 		distionary::range(distribution) * scale
 	})
