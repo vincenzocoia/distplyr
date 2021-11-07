@@ -2,27 +2,13 @@
 % Please edit documentation in R/simplifications-finite.R
 \name{Ops.finite}
 \alias{Ops.finite}
-\alias{invert.finite}
-\alias{flip.finite}
-\alias{shift.finite}
-\alias{multiply.finite}
 \title{Ops for a Finite Distribution}
 \usage{
 \method{Ops}{finite}(e1, e2)
-
-invert.finite(distribution)
-
-flip.finite(distribution)
-
-shift.finite(distribution, constant)
-
-multiply.finite(distribution, constant)
 }
 \arguments{
 \item{e1, e2}{Objects on the left- and right-hand sides of a binary
 operator, or in the case of a unary operator, \code{e1} is the only argument.}
-
-\item{distribution}{Distribution object to transform.}
 }
 \value{
 A transformed distribution. This turns out to be another

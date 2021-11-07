@@ -25,14 +25,16 @@ Suggests:
     tibble,
     purrr,
     dplyr,
-    tidyr,
-    magrittr
+    tidyr
 RoxygenNote: 7.1.2
 Imports: 
     stats,
     rlang,
     graphics,
-    distionary (>= 0.0.0.9000)
+    ellipsis,
+    magrittr
 VignetteBuilder: knitr
-Remotes:  
+Remotes: 
     vincenzocoia/distionary
+Depends: 
+    distionary

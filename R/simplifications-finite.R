@@ -17,7 +17,6 @@ mutate_finite <- function(distribution, location_expr) {
 #'
 #' @param e1,e2 Objects on the left- and right-hand sides of a binary
 #' operator, or in the case of a unary operator, `e1` is the only argument.
-#' @param distribution Distribution object to transform.
 #' @details Although the default `Ops` for distributions is defined as a wrapper
 #' around the verbs `shift()`, `multiply()`, `flip()`, and `invert()`,
 #' the opposite is true for `"finite"` distributions. This is so that
@@ -43,25 +42,21 @@ Ops.finite <- function(e1, e2) {
 	}
 }
 
-#' @rdname ops_finite
 #' @export
 invert.finite <- function(distribution) {
 	1 / distribution
 }
 
-#' @rdname ops_finite
 #' @export
 flip.finite <- function(distribution) {
 	-distribution
 }
 
-#' @rdname ops_finite
 #' @export
 shift.finite <- function(distribution, constant) {
 	distribution + constant
 }
 
-#' @rdname ops_finite
 #' @export
 multiply.finite <- function(distribution, constant) {
 	distribution * constant

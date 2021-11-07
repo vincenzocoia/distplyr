@@ -1,14 +1,4 @@
 #' @export
-has_infinite_discretes <- function(distribution, from = -Inf, to = Inf) {
-	with(distribution$components, {
-		any(vapply(
-			distributions, distionary::has_infinite_discretes,
-			FUN.VALUE = logical(1L), from = from, to = to
-		))
-	})
-}
-
-#' @export
 num_discretes.mix <- function(distribution, from, to, include_from, include_to) {
 	inf_discretes <- distionary::has_infinite_discretes(
 		distribution, from = from, to = to

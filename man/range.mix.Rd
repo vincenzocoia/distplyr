@@ -15,9 +15,18 @@ evis <- vapply(distributions, distionary::evi, FUN.VALUE = numeric(1L))
 final_sign <- if (max_end < Inf) -1 else 1
 final_sign * max(abs(evis\link{has_max_ends}))
 })
-}}
+}
+Range of a mixture distribution}
 \usage{
 \method{range}{mix}(distribution, ...)
+}
+\arguments{
+\item{distribution}{Distribution object.}
+
+\item{...}{Not used.}
+}
+\value{
+Vector of length two, indicating the support of the distribution.
 }
 \description{
 #' @export
@@ -34,4 +43,5 @@ final_sign <- if (max_end < Inf) -1 else 1
 final_sign * max(abs(evis\link{has_max_ends}))
 })
 }
+Range of a mixture distribution
 }

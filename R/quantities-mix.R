@@ -97,9 +97,14 @@ kurtosis_exc.mix <- function(x, ...) {
 #' 	})
 #' }
 
-
+#' Range of a mixture distribution
+#'
+#' @param distribution Distribution object.
+#' @param ... Not used.
+#' @return Vector of length two, indicating the support of the distribution.
 #' @export
 range.mix <- function(distribution, ...) {
+	ellipsis::check_dots_empty()
 	r <- lapply(distribution$components$distributions, distionary::range)
 	low <- Reduce(min, r)
 	high <- Reduce(max, r)
