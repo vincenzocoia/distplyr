@@ -13,16 +13,17 @@ eval_quantile.scale <- function(distribution, at) {
 }
 
 #' @export
-eval_pmf.scale <- function(distribution, at, strict = TRUE, ...) {
+eval_pmf.scale <- function(distribution, at, strict) {
 	with(distribution$components, {
-		distionary::eval_pmf(distribution, at / scale, strict = strict, ...)
+		distionary::eval_pmf(distribution, at / scale, strict = strict)
 	})
 }
 
 #' @export
-eval_density.scale <- function(distribution, at) {
+eval_density.scale <- function(distribution, at, strict) {
 	with(distribution$components, {
-		distionary::eval_density(distribution, at / scale) / scale
+		distionary::eval_density(distribution, at / scale, strict = strict) /
+			scale
 	})
 }
 

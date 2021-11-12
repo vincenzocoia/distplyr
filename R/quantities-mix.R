@@ -1,19 +1,20 @@
 #' @export
 mean.mix <- function(x, ...) {
+	ellipsis::check_dots_empty()
 	with(x[["components"]], {
 		means <- vapply(
-			distributions, distionary::mean, FUN.VALUE = numeric(1L)
+			distributions, mean, FUN.VALUE = numeric(1L)
 		)
 		sum(probs * means)
 	})
 }
 
 #' @export
-variance.mix <- function(x, ...) {
-	overall_mean <- distionary::mean(x)
-	with(x[["components"]], {
+variance.mix <- function(distribution) {
+	overall_mean <- mean(distribution)
+	with(distribution[["components"]], {
 		means <- vapply(
-			distributions, distionary::mean, FUN.VALUE = numeric(1L)
+			distributions, mean, FUN.VALUE = numeric(1L)
 		)
 		variances <- vapply(
 			distributions, distionary::variance, FUN.VALUE = numeric(1L)
@@ -23,12 +24,12 @@ variance.mix <- function(x, ...) {
 }
 
 #' @export
-skewness.mix <- function(x, ...) {
-	overall_mean <- distionary::mean(x)
-	overall_sd <- distionary::stdev(x)
-	with(x[["components"]], {
+skewness.mix <- function(distribution) {
+	overall_mean <- mean(distribution)
+	overall_sd <- distionary::stdev(distribution)
+	with(distribution[["components"]], {
 		means <- vapply(
-			distributions, distionary::mean, FUN.VALUE = numeric(1L)
+			distributions, mean, FUN.VALUE = numeric(1L)
 		)
 		vars <- vapply(
 			distributions, distionary::variance, FUN.VALUE = numeric(1L)
@@ -51,12 +52,12 @@ skewness.mix <- function(x, ...) {
 }
 
 #' @export
-kurtosis_exc.mix <- function(x, ...) {
-	overall_mean <- distionary::mean(x)
-	overall_var <- distionary::variance(x)
-	with(x[["components"]], {
+kurtosis_exc.mix <- function(distribution) {
+	overall_mean <- mean(distribution)
+	overall_var <- distionary::variance(distribution)
+	with(distribution[["components"]], {
 		means <- vapply(
-			distributions, distionary::mean, FUN.VALUE = numeric(1L)
+			distributions, mean, FUN.VALUE = numeric(1L)
 		)
 		vars <- vapply(
 			distributions, distionary::variance, FUN.VALUE = numeric(1L)
@@ -82,30 +83,25 @@ kurtosis_exc.mix <- function(x, ...) {
 	})
 }
 
-#' #' @export
-#' evi.mix <- function(distribution, ...) {
-#' 	with(distribution[["components"]], {
-#' 		right_ends <- vapply(
-#' 			distributions, function(d) distionary::range(d)[2L],
-#' 			FUN.VALUE = numeric(1L)
-#' 		)
-#' 		max_end <- max(right_ends)
-#' 		has_max_ends <- right_ends == max_end
-#' 		evis <- vapply(distributions, distionary::evi, FUN.VALUE = numeric(1L))
-#' 		final_sign <- if (max_end < Inf) -1 else 1
-#' 		final_sign * max(abs(evis[has_max_ends]))
-#' 	})
-#' }
+# #' @export
+# evi.mix <- function(distribution, ...) {
+# 	with(distribution[["components"]], {
+# 		right_ends <- vapply(
+# 			distributions, function(d) range(d)[2L],
+# 			FUN.VALUE = numeric(1L)
+# 		)
+# 		max_end <- max(right_ends)
+# 		has_max_ends <- right_ends == max_end
+# 		evis <- vapply(distributions, distionary::evi, FUN.VALUE = numeric(1L))
+# 		final_sign <- if (max_end < Inf) -1 else 1
+# 		final_sign * max(abs(evis[has_max_ends]))
+# 	})
+# }
 
-#' Range of a mixture distribution
-#'
-#' @param distribution Distribution object.
-#' @param ... Not used.
-#' @return Vector of length two, indicating the support of the distribution.
+
 #' @export
 range.mix <- function(distribution, ...) {
-	ellipsis::check_dots_empty()
-	r <- lapply(distribution$components$distributions, distionary::range)
+	r <- lapply(distribution$components$distributions, range)
 	low <- Reduce(min, r)
 	high <- Reduce(max, r)
 	c(low, high)

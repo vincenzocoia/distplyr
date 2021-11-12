@@ -21,16 +21,11 @@ Suggests:
     covr,
     knitr,
     rmarkdown,
-    digest,
-    tibble,
-    purrr,
-    dplyr,
-    tidyr
+    tibble
 RoxygenNote: 7.1.2
 Imports: 
     stats,
     rlang,
-    graphics,
     ellipsis,
     magrittr
 VignetteBuilder: knitr

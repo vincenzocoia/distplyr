@@ -1,15 +1,15 @@
 
 #' @export
-mean.shift <- function(distribution) {
-	with(distribution$components, {
-		distionary::mean(distribution) + shift
+mean.shift <- function(x, ...) {
+	with(x$components, {
+		mean(distribution) + shift
 	})
 }
 
 #' @export
-median.shift <- function(distribution) {
-	with(distribution$components, {
-		distionary::median(distribution) + shift
+median.shift <- function(x, ...) {
+	with(x$components, {
+		median(distribution) + shift
 	})
 }
 
@@ -22,9 +22,8 @@ stdev.shift <- function(distribution) {
 
 #' @export
 range.shift <- function(distribution, ...) {
-	ellipsis::check_dots_empty()
 	with(distribution$components, {
-		distionary::range(distribution) + shift
+		range(distribution) + shift
 	})
 }
 

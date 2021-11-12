@@ -31,32 +31,36 @@ Ops.finite <- function(e1, e2) {
 	op <- .Generic[[1]]
 	if (distionary::is_distribution(e1)) {
 		if (missing(e2)) {
-			call <- rlang::call2(op, expr(location))
+			call <- rlang::call2(op, rlang::expr(location))
 		} else {
-			call <- rlang::call2(op, expr(location), e2)
+			call <- rlang::call2(op, rlang::expr(location), e2)
 		}
 		mutate_finite(e1, !!call)
 	} else {
-		call <- rlang::call2(op, e1, expr(location))
+		call <- rlang::call2(op, e1, rlang::expr(location))
 		mutate_finite(e2, !!call)
 	}
 }
 
+#' @inherit invert
 #' @export
 invert.finite <- function(distribution) {
 	1 / distribution
 }
 
+#' @inherit flip
 #' @export
 flip.finite <- function(distribution) {
 	-distribution
 }
 
+#' @inherit shift
 #' @export
 shift.finite <- function(distribution, constant) {
 	distribution + constant
 }
 
+#' @inherit multiply
 #' @export
 multiply.finite <- function(distribution, constant) {
 	distribution * constant

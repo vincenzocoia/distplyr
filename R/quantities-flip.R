@@ -1,14 +1,14 @@
 #' @export
-mean.negative <- function(distribution, ...) {
-	with(distribution, {
-		-distionary::mean(distribution)
+mean.negative <- function(x, ...) {
+	with(x, {
+		-mean(distribution)
 	})
 }
 
 #' @export
-median.negative <- function(distribution, ...) {
-	with(distribution, {
-		-distionary::median(distribution)
+median.negative <- function(x, ...) {
+	with(x, {
+		-median(distribution)
 	})
 }
 
@@ -42,9 +42,8 @@ kurtosis_exc.negative <- function(distribution, ...) {
 
 #' @export
 range.negative <- function(distribution, ...) {
-	ellipsis::check_dots_empty()
 	with(distribution, {
-		d <- distionary::range(distribution)
+		d <- range(distribution)
 		-rev(d)
 	})
 }

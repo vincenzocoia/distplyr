@@ -21,7 +21,7 @@ eval_survival.slice_left <- function(distribution, at) {
 }
 
 #' @export
-eval_density.slice_left <- function(distribution, at, strict = TRUE) {
+eval_density.slice_left <- function(distribution, at, strict) {
 	with(distribution, {
 		p_kept <- distionary::prob_right(
 			distribution, of = breakpoint, inclusive = !include
@@ -39,7 +39,7 @@ eval_density.slice_left <- function(distribution, at, strict = TRUE) {
 }
 
 #' @export
-eval_pmf.slice_left <- function(distribution, at, strict = TRUE) {
+eval_pmf.slice_left <- function(distribution, at, strict) {
 	with(distribution, {
 		p_kept <- distionary::prob_right(
 			distribution, of = breakpoint, inclusive = !include
@@ -57,7 +57,7 @@ eval_pmf.slice_left <- function(distribution, at, strict = TRUE) {
 }
 
 #' @export
-eval_quantile.slice_left <- function(distribution, at, ...) {
+eval_quantile.slice_left <- function(distribution, at) {
 	with(distribution, {
 		p_kept <- distionary::prob_right(
 			distribution, of = breakpoint, inclusive = !include

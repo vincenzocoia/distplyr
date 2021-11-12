@@ -13,16 +13,16 @@ eval_quantile.shift <- function(distribution, at) {
 }
 
 #' @export
-eval_pmf.shift <- function(distribution, at, ...) {
+eval_pmf.shift <- function(distribution, at, strict) {
 	with(distribution$components, {
-		distionary::eval_pmf(distribution, at - shift)
+		distionary::eval_pmf(distribution, at - shift, strict = strict)
 	})
 }
 
 #' @export
-eval_density.shift <- function(distribution, at) {
+eval_density.shift <- function(distribution, at, strict) {
 	with(distribution$components, {
-		distionary::eval_density(distribution, at - shift)
+		distionary::eval_density(distribution, at - shift, strict = strict)
 	})
 }
 

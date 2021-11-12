@@ -10,8 +10,10 @@ multiply.gpd <- function(distribution, constant) {
 	} else if (constant == 0) {
 		distionary::dst_degenerate(0)
 	} else {
-		mutate_parameters(distribution,
-						  location = location * constant,
-						  scale = scale * constant)
+		mutate_parameters(
+			distribution,
+			location = location * constant,
+			scale = scale * constant
+		)
 	}
 }

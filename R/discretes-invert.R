@@ -23,7 +23,7 @@ next_discrete.inverse <- function(distribution, from, n, include_from) {
 				include_to = FALSE
 			)
 			n_remaining <- min(n_remaining, n_pos)
-			x_pos <- distionary::prev_discretes(
+			x_pos <- distionary::prev_discrete(
 				d_nested, from = Inf, n = n_remaining, include_from = FALSE
 			)
 			x <- c(x, x_pos)
@@ -57,7 +57,7 @@ prev_discrete.inverse <- function(distribution, from, n, include_from) {
 				include_to = FALSE
 			)
 			n_remaining <- min(n_remaining, n_neg)
-			x_neg <- distionary::next_discretes(
+			x_neg <- distionary::next_discrete(
 				d_nested, from = -Inf, n = n_remaining, include_from = FALSE
 			)
 			x <- c(x, x_neg)

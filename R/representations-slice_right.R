@@ -51,6 +51,6 @@ eval_quantile.slice_right <- function(distribution, at) {
 		p_kept <- distionary::prob_left(
 			distribution, of = breakpoint, inclusive = !include
 		)
-		distionary::eval_quantile(distribution, at = at * p_kept, ...)
+		distionary::eval_quantile(distribution, at = at * p_kept)
 	})
 }

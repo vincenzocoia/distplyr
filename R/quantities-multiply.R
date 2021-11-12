@@ -1,14 +1,15 @@
 #' @export
-mean.scale <- function(distribution) {
-	with(distribution$components, {
-		distionary::mean(distribution) * scale
+mean.scale <- function(x, ...) {
+	ellipsis::check_dots_empty()
+	with(x$components, {
+		mean(distribution) * scale
 	})
 }
 
 #' @export
-median.scale <- function(distribution) {
-	with(distribution$components, {
-		distionary::median(distribution) * scale
+median.scale <- function(x, ...) {
+	with(x$components, {
+		median(distribution) * scale
 	})
 }
 
@@ -49,8 +50,7 @@ kurtosis_exc.scale <- function(distribution) {
 
 #' @export
 range.scale <- function(distribution, ...) {
-	ellipsis::check_dots_empty()
 	with(distribution$components, {
-		distionary::range(distribution) * scale
+		range(distribution) * scale
 	})
 }
