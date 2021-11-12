@@ -1,13 +1,13 @@
 #' @export
-mean.negative <- function(distribution, ...) {
-	with(distribution, {
+mean.negative <- function(x, ...) {
+	with(x, {
 		-mean(distribution)
 	})
 }
 
 #' @export
-median.negative <- function(distribution, ...) {
-	with(distribution, {
+median.negative <- function(x, ...) {
+	with(x, {
 		-median(distribution)
 	})
 }
@@ -15,28 +15,28 @@ median.negative <- function(distribution, ...) {
 #' @export
 variance.negative <- function(distribution, ...) {
 	with(distribution, {
-		variance(distribution)
+		distionary::variance(distribution)
 	})
 }
 
 #' @export
 stdev.negative <- function(distribution, ...) {
 	with(distribution, {
-		stdev(distribution)
+		distionary::stdev(distribution)
 	})
 }
 
 #' @export
 skewness.negative <- function(distribution, ...) {
 	with(distribution, {
-		-skewness(distribution)
+		-distionary::skewness(distribution)
 	})
 }
 
 #' @export
 kurtosis_exc.negative <- function(distribution, ...) {
 	with(distribution, {
-		kurtosis_exc(distribution)
+		distionary::kurtosis_exc(distribution)
 	})
 }
 
@@ -44,6 +44,6 @@ kurtosis_exc.negative <- function(distribution, ...) {
 range.negative <- function(distribution, ...) {
 	with(distribution, {
 		d <- range(distribution)
-		c(-d[2], -d[1])
+		-rev(d)
 	})
 }

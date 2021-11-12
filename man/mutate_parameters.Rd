@@ -27,6 +27,6 @@ modified earlier in \code{...} still retain their original values for use
 downstream in \code{...}.
 }
 \examples{
-d <- dst_unif(1, 3)
+d <- distionary::dst_unif(1, 3)
 distplyr:::mutate_parameters(d, min = max - min)
 }

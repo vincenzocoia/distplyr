@@ -1,41 +1,42 @@
 #' @export
 eval_cdf.scale <- function(distribution, at) {
 	with(distribution$components, {
-		eval_cdf(distribution, at = at / scale)
+		distionary::eval_cdf(distribution, at = at / scale)
 	})
 }
 
 #' @export
 eval_quantile.scale <- function(distribution, at) {
 	with(distribution$components, {
-		eval_quantile(distribution, at) * scale
+		distionary::eval_quantile(distribution, at) * scale
 	})
 }
 
 #' @export
-eval_pmf.scale <- function(distribution, at, strict = TRUE, ...) {
+eval_pmf.scale <- function(distribution, at, strict) {
 	with(distribution$components, {
-		eval_pmf(distribution, at / scale, strict = strict, ...)
+		distionary::eval_pmf(distribution, at / scale, strict = strict)
 	})
 }
 
 #' @export
-eval_density.scale <- function(distribution, at) {
+eval_density.scale <- function(distribution, at, strict) {
 	with(distribution$components, {
-		eval_density(distribution, at / scale) / scale
+		distionary::eval_density(distribution, at / scale, strict = strict) /
+			scale
 	})
 }
 
 #' @export
 eval_survival.scale <- function(distribution, at) {
 	with(distribution$components, {
-		eval_survival(distribution, at / scale)
+		distionary::eval_survival(distribution, at / scale)
 	})
 }
 
 #' @export
 realise.scale <- function(distribution, ...) {
 	with(distribution$components, {
-		realise(distribution, ...) * scale
+		distionary::realise(distribution, ...) * scale
 	})
 }

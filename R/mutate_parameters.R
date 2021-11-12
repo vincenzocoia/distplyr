@@ -13,11 +13,11 @@
 #' modified earlier in `...` still retain their original values for use
 #' downstream in `...`.
 #' @examples
-#' d <- dst_unif(1, 3)
+#' d <- distionary::dst_unif(1, 3)
 #' distplyr:::mutate_parameters(d, min = max - min)
 mutate_parameters <- function(distribution, ...) {
 	ell <- rlang::enquos(...)
-	params <- parameters(distribution)
+	params <- distionary::parameters(distribution)
 	param_names <- names(params)
 	for (i in seq_along(ell)) {
 		param_name <- names(ell)[[i]]

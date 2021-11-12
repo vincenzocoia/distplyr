@@ -1,6 +1,6 @@
 #' @export
-evi.graft <- function(distribution, ...) {
+evi.graft <- function(distribution) {
 	with(distribution$components, {
-		evi(distributions[[2L]])
+		distionary::evi(distributions[[2L]])
 	})
 }

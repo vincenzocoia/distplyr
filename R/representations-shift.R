@@ -1,48 +1,48 @@
 #' @export
 eval_cdf.shift <- function(distribution, at) {
 	with(distribution$components, {
-		eval_cdf(distribution, at - shift)
+		distionary::eval_cdf(distribution, at - shift)
 	})
 }
 
 #' @export
-eval_quantile.shift <- function(distribution, at, ...) {
+eval_quantile.shift <- function(distribution, at) {
 	with(distribution$components, {
-		eval_quantile(distribution, at - shift, ...)
+		distionary::eval_quantile(distribution, at - shift)
 	})
 }
 
 #' @export
-eval_pmf.shift <- function(distribution, at, ...) {
+eval_pmf.shift <- function(distribution, at, strict) {
 	with(distribution$components, {
-		eval_pmf(distribution, at - shift, ...)
+		distionary::eval_pmf(distribution, at - shift, strict = strict)
 	})
 }
 
 #' @export
-eval_density.shift <- function(distribution, at) {
+eval_density.shift <- function(distribution, at, strict) {
 	with(distribution$components, {
-		eval_density(distribution, at - shift)
+		distionary::eval_density(distribution, at - shift, strict = strict)
 	})
 }
 
 #' @export
 eval_survival.shift <- function(distribution, at) {
 	with(distribution$components, {
-		eval_survival(distribution, at - shift)
+		distionary::eval_survival(distribution, at - shift)
 	})
 }
 
 #' @export
 realise.shift <- function(distribution, ...) {
 	with(distribution$components, {
-		realise(distribution, ...) + shift
+		distionary::realise(distribution, ...) + shift
 	})
 }
 
 #' @export
 eval_quantile.shift <- function(distribution, at, ...) {
 	with(distribution$components, {
-		eval_quantile(distribution, at, ...) + shift
+		distionary::eval_quantile(distribution, at, ...) + shift
 	})
 }

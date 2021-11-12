@@ -1,14 +1,14 @@
 
 #' @export
-mean.shift <- function(distribution) {
-	with(distribution$components, {
+mean.shift <- function(x, ...) {
+	with(x$components, {
 		mean(distribution) + shift
 	})
 }
 
 #' @export
-median.shift <- function(distribution) {
-	with(distribution$components, {
+median.shift <- function(x, ...) {
+	with(x$components, {
 		median(distribution) + shift
 	})
 }
@@ -16,12 +16,12 @@ median.shift <- function(distribution) {
 #' @export
 stdev.shift <- function(distribution) {
 	with(distribution$components, {
-		stdev(distribution)
+		distionary::stdev(distribution)
 	})
 }
 
 #' @export
-range.shift <- function(distribution) {
+range.shift <- function(distribution, ...) {
 	with(distribution$components, {
 		range(distribution) + shift
 	})
@@ -30,27 +30,27 @@ range.shift <- function(distribution) {
 #' @export
 variance.shift <- function(distribution) {
 	with(distribution$components, {
-		variance(distribution)
+		distionary::variance(distribution)
 	})
 }
 
 #' @export
 evi.shift <- function(distribution) {
 	with(distribution$components, {
-		evi(distribution)
+		distionary::evi(distribution)
 	})
 }
 
 #' @export
 skewness.shift <- function(distribution) {
 	with(distribution$components, {
-		skewness(distribution)
+		distionary::skewness(distribution)
 	})
 }
 
 #' @export
 kurtosis_exc.shift <- function(distribution) {
 	with(distribution$components, {
-		kurtosis_exc(distribution)
+		distionary::kurtosis_exc(distribution)
 	})
 }

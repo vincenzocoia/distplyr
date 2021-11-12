@@ -1,13 +1,14 @@
 #' @export
-mean.scale <- function(distribution) {
-	with(distribution$components, {
+mean.scale <- function(x, ...) {
+	ellipsis::check_dots_empty()
+	with(x$components, {
 		mean(distribution) * scale
 	})
 }
 
 #' @export
-median.scale <- function(distribution) {
-	with(distribution$components, {
+median.scale <- function(x, ...) {
+	with(x$components, {
 		median(distribution) * scale
 	})
 }
@@ -15,40 +16,40 @@ median.scale <- function(distribution) {
 #' @export
 stdev.scale <- function(distribution) {
 	with(distribution$components, {
-		stdev(distribution) * scale
+		distionary::stdev(distribution) * scale
 	})
 }
 
 #' @export
 variance.scale <- function(distribution) {
 	with(distribution$components, {
-		variance(distribution) * scale^2
+		distionary::variance(distribution) * scale^2
 	})
 }
 
 #' @export
 evi.scale <- function(distribution) {
 	with(distribution$components, {
-		evi(distribution)
+		distionary::evi(distribution)
 	})
 }
 
 #' @export
 skewness.scale <- function(distribution) {
 	with(distribution$components, {
-		skewness(distribution)
+		distionary::skewness(distribution)
 	})
 }
 
 #' @export
 kurtosis_exc.scale <- function(distribution) {
 	with(distribution$components, {
-		kurtosis_exc(distribution)
+		distionary::kurtosis_exc(distribution)
 	})
 }
 
 #' @export
-range.scale <- function(distribution) {
+range.scale <- function(distribution, ...) {
 	with(distribution$components, {
 		range(distribution) * scale
 	})
