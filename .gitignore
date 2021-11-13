@@ -5,3 +5,7 @@
 inst/doc
 doc
 Meta
+nul
+texput.log
+/doc/
+/Meta/

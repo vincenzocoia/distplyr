@@ -1,3 +1,9 @@
+# distplyr (development version)
+
+## Breaking Changes
+
+- Parametric distributions like `dst_unif()` no longer have defaults for their parameters. 
+
 # distplyr 0.1.2
 
 - If you have the tibble package installed, distplyr will now output tibbles wherever data frames were previously output.  
