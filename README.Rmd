@@ -23,6 +23,7 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/vincenzocoia/distplyr/branch/master/graph/badge.svg)](https://codecov.io/gh/vincenzocoia/distplyr?branch=master)
 [![CRAN status](https://www.r-pkg.org/badges/version/distplyr)](https://CRAN.R-project.org/package=distplyr)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://cran.r-project.org/web/licenses/MIT)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 The purpose of `distplyr` is to equip every analyst with a tool to seemlessly draw powerful insights using distributions. Distributions add colour to your analysis. They show the complete picture of uncertainty.
@@ -51,52 +52,9 @@ Many distributions in practice are built in "layers", by transforming and combin
 library(distplyr)
 ```
 
-There are many parametric families of distributions at your disposal. Here is a Uniform distribution:
-
-```{r}
-(d1 <- dst_unif(2, 5))
-```
-
-Empirical distributions are accommodated, too.
-
-```{r}
-(d2 <- dst_empirical(mpg, data = mtcars))
-```
-
-
-Manipulate distributions. Here's an example of a mixture distribution of two Normals:
 
 ```{r, fig.width = 4, fig.height = 3}
-(d3 <- mix(
-  dst_norm(-5, 1), 
-  dst_norm(0, 1), 
-  weights = c(1, 4)
-))
-plot(d3)
-```
-
-Generate a sample from a distribution.
-
-```{r}
-realise(d3, n = 10)
-```
-
-
-Calculate properties of a distribution. 
-
-```{r}
-mean(d1)
-variance(d2)
-median(d3)
-evi(d1)
-```
-
-Evaluate distributional representations:
-
-```{r}
-eval_density(d1, at = c(2, 3.5, 4.5))
-enframe_cdf(d2, at = 1:5)
-enframe_hazard(d3, at = 1:5)
+mix(dst_norm(-5, 1), dst_norm(0, 1), weights = c(1, 4))
 ```
 
 

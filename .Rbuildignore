@@ -11,3 +11,5 @@
 ^doc$
 ^Meta$
 ^\.github$
+^distplyr\.Rproj$
+^cran-comments\.md$

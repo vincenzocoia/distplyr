@@ -1,35 +1,37 @@
-Package: distplyr
 Type: Package
+Package: distplyr
 Title: Manipulation of Univariate Distributions
 Version: 0.1.2.9000
 Authors@R: c(
-    person("Vincenzo", "Coia", email = "vincenzo.coia@stat.ubc.ca",
+    person("Vincenzo", "Coia", email = "vincenzo.coia@stat.ubc.ca", 
            role = c("aut", "cre")),
     person("Amogh", "Joshi", role = "aut"),
     person("Shuyi", "Tan", role = "aut"),
     person("Zhipeng", "Zhu", role = "aut")
-    )
+  )
 Description: Provides an interface for manipulating univariate probability
     distributions, using verbs such as `graft`, `slice`, `mix`, `shift`,
-    and others. 
+    and others.
 License: MIT + file LICENSE
-Encoding: UTF-8
-LazyData: true
-Roxygen: list(markdown = TRUE)
+Depends: 
+    distionary
+Imports: 
+    ellipsis,
+    magrittr,
+    rlang,
+    stats
 Suggests: 
-    testthat (>= 2.1.0),
     covr,
     knitr,
     rmarkdown,
+    testthat (>= 3.0.0),
     tibble
-RoxygenNote: 7.1.2
-Imports: 
-    stats,
-    rlang,
-    ellipsis,
-    magrittr
-VignetteBuilder: knitr
+VignetteBuilder: 
+    knitr
 Remotes: 
     vincenzocoia/distionary
-Depends: 
-    distionary
+Config/testthat/edition: 3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
