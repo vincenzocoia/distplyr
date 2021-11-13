@@ -82,35 +82,24 @@ test_that("Transform degenerate works", {
 		distionary::dst_degenerate(4 / 5))
 })
 
+
 test_that("Transform finite works", {
-	expect_identical(
-		distionary::dst_norm(2, 4) + 5,
-		distionary::dst_norm(7, 4))
-	expect_identical(
-		distionary::dst_norm(0, 54) + 0,
-		distionary::dst_norm(0, 54))
-	expect_identical(
-		distionary::dst_norm(2, 4) - 5,
-		distionary::dst_norm(-3, 4))
-	expect_identical(
-		distionary::dst_norm(2, 4) - 1,
-		distionary::dst_norm(1, 4))
-	expect_identical(
-		distionary::dst_norm(2, 4) * 5,
-		distionary::dst_norm(2, 20))
-	expect_identical(
-		distionary::dst_norm(-3, 4) * 0.2,
-		distionary::dst_norm(-3, 0.8))
-	expect_identical(
-		distionary::dst_norm(2, 4) / 5,
-		distionary::dst_norm(2, 4 / 5))
-	expect_identical(
-		distionary::dst_norm(2, 4) / 1,
-		distionary::dst_norm(2, 4))
+  fin <- dst_finite(1:5, rep(0.2, 5))
+  expect_equal(fin + 5, dst_finite(6:10, rep(0.2, 5)))
+  expect_equal(fin + 0, fin)
+
+  expect_equal(fin - 5, dst_finite(-4:0, rep(0.2, 5)))
+  expect_equal(fin - 1, dst_finite(0:4, rep(0.2, 5)))
+
+  expect_equal(fin * 5, dst_finite(1:5 * 5, rep(0.2, 5)))
+  expect_equal(fin * 0.2, dst_finite(1:5 * 0.2, rep(0.2, 5)))
+
+  expect_equal(fin / 5, dst_finite(1:5 / 5, rep(0.2, 5)))
+  expect_equal(fin / 1, dst_finite(1:5, rep(0.2, 5)))
 })
 
 test_that("Transform gpd works", {
-	expect_identical(
+  expect_identical(
 		distionary::dst_gpd(2, 4, 6) + 5,
 		distionary::dst_gpd(7, 4, 6))
 	expect_identical(
