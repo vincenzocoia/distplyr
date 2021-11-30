@@ -139,13 +139,15 @@
     <div id="distplyr-development-version" class="section level1">
 <h1 class="page-header" data-toc-text="development version">
 <a href="#distplyr-development-version" class="anchor"></a>distplyr (development version)</h1>
-<div id="breaking-changes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#breaking-changes" class="anchor"></a>Breaking Changes</h2>
 <ul>
-<li>Parametric distributions like <code><a href="https://rdrr.io/pkg/distionary/man/dst_unif.html">dst_unif()</a></code> no longer have defaults for their parameters.</li>
+<li>Default evaluation methods, and base distributional forms, have been moved to a new package, distionary. distplyr focusses on manipulation verbs only.</li>
+<li>
+<code>Math</code> method now applies to finite distributions.</li>
+<li>
+<code>Ops</code> methods are now available for arithmetic operations (<code>+</code>, <code>-</code>, <code>*</code>, and <code>/</code>) on a single distribution, along with the verbs <code><a href="../reference/flip.html">shift()</a></code>, <code><a href="../reference/flip.html">multiply()</a></code>, <code><a href="../reference/invert.html">invert()</a></code>, and <code><a href="../reference/flip.html">flip()</a></code>.</li>
+<li>
+<code><a href="../reference/graft_right.html">graft_left()</a></code> and <code><a href="../reference/graft_right.html">graft_right()</a></code> are fully functional, and <code><a href="../reference/slice_left.html">slice_left()</a></code> and <code><a href="../reference/slice_left.html">slice_right()</a></code> are now also available.</li>
 </ul>
-</div>
 </div>
     <div id="distplyr-012" class="section level1">
 <h1 class="page-header" data-toc-text="0.1.2">
@@ -153,9 +155,9 @@
 <ul>
 <li>If you have the tibble package installed, distplyr will now output tibbles wherever data frames were previously output.</li>
 </ul>
-<div id="breaking-changes-1" class="section level2">
+<div id="breaking-changes" class="section level2">
 <h2 class="hasAnchor">
-<a href="#breaking-changes-1" class="anchor"></a>Breaking changes</h2>
+<a href="#breaking-changes" class="anchor"></a>Breaking changes</h2>
 <ul>
 <li>The <code>get_</code> prefix has been removed from distributional quantities. <code>get_mean()</code> is now <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code>, etc.
 <ul>

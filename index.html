@@ -93,53 +93,92 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>The purpose of <code>distplyr</code> is to equip every analyst with a tool to seemlessly draw powerful insights using distributions. Distributions add colour to your analysis. They show the complete picture of uncertainty.</p>
-<p>Use <code>distplyr</code> to:</p>
+<p>distplyr provides a grammar for manipulating (univariate) probability distributions, so that you can make probability distributions that realistically represent your data. Distributions add colour to your analysis: they show a complete picture of uncertainty.</p>
+<p>Use distplyr to:</p>
 <ul>
-<li>Create and meld distributions using a wide pallet of base forms and tools.</li>
-<li>Draw properties from those distributions.</li>
+<li>start with distribution “building blocks” with the <code>dst_*()</code> family of functions, and</li>
+<li>manipulate these distributions using distplyr verbs.</li>
 </ul>
-<p>Many distributions in practice are built in “layers”, by transforming and combining other distributions. The result is a tailored distribution that does not follow a basic parametric form such as “Normal” or “Exponential”. The motivation behind the name of <code>distplyr</code> is that distributions are built by manipulation, akin to the package <code>dplyr</code>.</p>
-<p><strong>Note</strong>: This package is still in its infancy. There are many other critical features to come. Expect breaking changes as long as this package is marked as “Experimental”.</p>
-<div id="design-choices" class="section level2">
+<p>The result is easy access to a wide range of distributions – more than just “elementary” distributions like a Normal or Poisson distribution.</p>
+<p>distplyr sits on top of the <a href="https://distionary.netlify.app">distionary</a> package, which provides a framework for creating distribution “building blocks” as well as evaluating distributions.</p>
+<p>The distplyr package name is inspired by the <a href="https://dplyr.tidyverse.org/">dplyr</a> R package: whereas distplyr provides a grammar for manipulating <em>distributions</em>, dplyr provides a grammar for manipulating <em>data</em>.</p>
+<div id="installation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#design-choices" class="anchor"></a>Design Choices</h2>
-<p><code>distplyr</code>:</p>
-<ul>
-<li>Keeps all components of a distribution together in a single object.</li>
-<li>Computes only when needed, by dispatching an appropriate S3 method on call.</li>
-<li>Manages the discrete components of all distributions, often arising from empirical estimates.</li>
-</ul>
+<a href="#installation" class="anchor"></a>Installation</h2>
+<p><code>distplyr</code> is not on CRAN yet, so the best way to install it is:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"vincenzocoia/distplyr"</span><span class="op">)</span></code></pre></div>
+<p>Attaching the distplyr package with <code><a href="https://rdrr.io/r/base/library.html">library(distplyr)</a></code> also attaches the distionary package.</p>
 </div>
 <div id="basic-usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#basic-usage" class="anchor"></a>Basic Usage</h2>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">distplyr</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/mix.html">mix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/distionary/man/dst_norm.html">dst_norm</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/pkg/distionary/man/dst_norm.html">dst_norm</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, weights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">distplyr</span><span class="op">)</span></code></pre></div>
+<p>Want to model a count variable that starts at 1, not 0? Consider shifting a Poisson distribution.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="op">(</span><span class="va">d1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/distionary/man/dst_pois.html">dst_pois</a></span><span class="op">(</span><span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span>
+<span class="co">#&gt; shift dst</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  components :</span>
+<span class="co">#&gt; $distribution</span>
+<span class="co">#&gt; pois parametric dst</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  name :</span>
+<span class="co">#&gt; [1] "pois"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $shift</span>
+<span class="co">#&gt; [1] 1</span></code></pre></div>
+<p>Here’s its probability mass function:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/distionary/man/pmf.html">enframe_pmf</a></span><span class="op">(</span><span class="va">d1</span>, at <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="reference/%&gt;%.html">%&gt;%</a></span> 
+  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-4-1.png" width="100%" style="display: block; margin: auto;"></p>
+<p>Or, maybe you have positive continuous data and you’d like its tail to continue as an exponential distribution:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.6</span>, <span class="fl">0.9</span>, <span class="fl">0.2</span>, <span class="fl">1.4</span>, <span class="fl">0.4</span>, <span class="fl">0.3</span>, <span class="fl">0.2</span>, <span class="fl">0.4</span>, <span class="fl">0.2</span>, <span class="fl">1.5</span><span class="op">)</span>
+<span class="va">mu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
+<span class="op">(</span><span class="va">d2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/distionary/man/dst_empirical.html">dst_empirical</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op"><a href="reference/%&gt;%.html">%&gt;%</a></span> 
+  <span class="fu"><a href="reference/graft_right.html">graft_right</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/distionary/man/dst_exp.html">dst_exp</a></span><span class="op">(</span><span class="va">mu</span><span class="op">)</span>, breakpoint <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; Mixture Distribution</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Components: </span>
+<span class="co">#&gt; # A tibble: 2 × 4</span>
+<span class="co">#&gt;   distributions probs breakpoint include</span>
+<span class="co">#&gt;   &lt;named list&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;lgl&gt;  </span>
+<span class="co">#&gt; 1 &lt;finite&gt;        0.9        1.6 FALSE  </span>
+<span class="co">#&gt; 2 &lt;slic_lft&gt;      0.1        1.6 FALSE</span></code></pre></div>
+<p>Here’s the survival function:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">d2</span>, <span class="st">"survival"</span>, from <span class="op">=</span> <span class="fl">0</span>, to <span class="op">=</span> <span class="fl">5</span>, n <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-6-1.png" width="100%" style="display: block; margin: auto;"></p>
+<p>Or maybe you’d like to mix the empirical and Exponential distributions:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="op">(</span><span class="va">d4</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mix.html">mix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/distionary/man/dst_empirical.html">dst_empirical</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/pkg/distionary/man/dst_exp.html">dst_exp</a></span><span class="op">(</span><span class="va">mu</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; Mixture Distribution</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Components: </span>
 <span class="co">#&gt; # A tibble: 2 × 2</span>
 <span class="co">#&gt;   distributions probs</span>
 <span class="co">#&gt;   &lt;named list&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 &lt;norm&gt;          0.2</span>
-<span class="co">#&gt; 2 &lt;norm&gt;          0.8</span></code></pre></div>
-</div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<p><code>distplyr</code> is not on CRAN yet, so the best way to install it is:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"vincenzocoia/distplyr"</span><span class="op">)</span></code></pre></div>
+<span class="co">#&gt; 1 &lt;finite&gt;        0.5</span>
+<span class="co">#&gt; 2 &lt;exp&gt;           0.5</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">d4</span>, <span class="st">"survival"</span>, from <span class="op">=</span> <span class="fl">0</span>, to <span class="op">=</span> <span class="fl">5</span>, n <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="100%" style="display: block; margin: auto;"></p>
 </div>
 <div id="distplyr-in-context" class="section level2">
 <h2 class="hasAnchor">
-<a href="#distplyr-in-context" class="anchor"></a><code>distplyr</code> in Context</h2>
-<p><code>distplyr</code> is <em>not</em> a modelling package, meaning it won’t optimize a distribution’s fit to data.</p>
-<p>The <a href="https://cran.r-project.org/web/packages/distributions3/index.html"><code>distributions3</code></a> package is a similar package in that it bundles parametric distributions together using S3 objects, but is less flexible.</p>
-<p>The <a href="https://cran.r-project.org/web/packages/distr/index.html"><code>distr</code></a> package allows you to make distributions including empirical ones, and transform them, using S4 classes. distplyr aims to provide a simpler interface using S3 objects.</p>
+<a href="#distplyr-in-context" class="anchor"></a>distplyr in Context</h2>
+<p>There are a few other R packages that handle probability distributions. The key differentiator with distplyr is its grammar, and the flexibility of the package distionary, which distplyr sits on top of.</p>
+<p>Some examples:</p>
+<ul>
+<li>The distributional package also allows for distribution manipulation, but is less flexible, and builds vectorization into the package. distplyr (and distionary) deliberately leaves vectorization up to the user, since distributions can be evaluated to produce a variety of output types.
+<ul>
+<li>Development of distributional appears to have happened at the same time as distplyr, and distributional uses a similar family of functions – <code>dist_*()</code> – to make probability distributions.</li>
+</ul>
+</li>
+<li>The <a href="https://cran.r-project.org/web/packages/distr/index.html">distr</a> package allows you to make distributions including empirical ones, and transform them, using S4 classes, but the interface is complex. distplyr aims to provide a human-centric interface by providing a grammar.</li>
+</ul>
 <hr>
 <p>Please note that the ‘distplyr’ project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
