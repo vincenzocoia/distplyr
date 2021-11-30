@@ -1,8 +1,9 @@
 # distplyr (development version)
 
-## Breaking Changes
-
-- Parametric distributions like `dst_unif()` no longer have defaults for their parameters. 
+- Default evaluation methods, and base distributional forms, have been moved to a new package, distionary. distplyr focusses on manipulation verbs only.
+- `Math` method now applies to finite distributions.
+- `Ops` methods are now available for arithmetic operations (`+`, `-`, `*`, and `/`) on a single distribution, along with the verbs `shift()`, `multiply()`, `invert()`, and `flip()`.
+- `graft_left()` and `graft_right()` are fully functional, and `slice_left()` and `slice_right()` are now also available. 
 
 # distplyr 0.1.2
 

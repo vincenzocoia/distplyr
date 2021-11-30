@@ -18,53 +18,28 @@ MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://cran.r-project.
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-The purpose of `distplyr` is to equip every analyst with a tool to
-seemlessly draw powerful insights using distributions. Distributions add
-colour to your analysis. They show the complete picture of uncertainty.
+distplyr provides a grammar for manipulating (univariate) probability
+distributions, so that you can make probability distributions that
+realistically represent your data. Distributions add colour to your
+analysis: they show a complete picture of uncertainty.
 
-Use `distplyr` to:
+Use distplyr to:
 
--   Create and meld distributions using a wide pallet of base forms and
-    tools.
--   Draw properties from those distributions.
+-   start with distribution “building blocks” with the `dst_*()` family
+    of functions, and
+-   manipulate these distributions using distplyr verbs.
 
-Many distributions in practice are built in “layers”, by transforming
-and combining other distributions. The result is a tailored distribution
-that does not follow a basic parametric form such as “Normal” or
-“Exponential”. The motivation behind the name of `distplyr` is that
-distributions are built by manipulation, akin to the package `dplyr`.
+The result is easy access to a wide range of distributions – more than
+just “elementary” distributions like a Normal or Poisson distribution.
 
-**Note**: This package is still in its infancy. There are many other
-critical features to come. Expect breaking changes as long as this
-package is marked as “Experimental”.
+distplyr sits on top of the [distionary](https://distionary.netlify.app)
+package, which provides a framework for creating distribution “building
+blocks” as well as evaluating distributions.
 
-## Design Choices
-
-`distplyr`:
-
--   Keeps all components of a distribution together in a single object.
--   Computes only when needed, by dispatching an appropriate S3 method
-    on call.
--   Manages the discrete components of all distributions, often arising
-    from empirical estimates.
-
-## Basic Usage
-
-``` r
-library(distplyr)
-```
-
-``` r
-mix(dst_norm(-5, 1), dst_norm(0, 1), weights = c(1, 4))
-#> Mixture Distribution
-#> 
-#> Components: 
-#> # A tibble: 2 × 2
-#>   distributions probs
-#>   <named list>  <dbl>
-#> 1 <norm>          0.2
-#> 2 <norm>          0.8
-```
+The distplyr package name is inspired by the
+[dplyr](https://dplyr.tidyverse.org/) R package: whereas distplyr
+provides a grammar for manipulating *distributions*, dplyr provides a
+grammar for manipulating *data*.
 
 ## Installation
 
@@ -74,20 +49,107 @@ mix(dst_norm(-5, 1), dst_norm(0, 1), weights = c(1, 4))
 devtools::install_github("vincenzocoia/distplyr")
 ```
 
-## `distplyr` in Context
+Attaching the distplyr package with `library(distplyr)` also attaches
+the distionary package.
 
-`distplyr` is *not* a modelling package, meaning it won’t optimize a
-distribution’s fit to data.
+## Basic Usage
 
-The
-[`distributions3`](https://cran.r-project.org/web/packages/distributions3/index.html)
-package is a similar package in that it bundles parametric distributions
-together using S3 objects, but is less flexible.
+``` r
+library(distplyr)
+```
 
-The [`distr`](https://cran.r-project.org/web/packages/distr/index.html)
-package allows you to make distributions including empirical ones, and
-transform them, using S4 classes. distplyr aims to provide a simpler
-interface using S3 objects.
+Want to model a count variable that starts at 1, not 0? Consider
+shifting a Poisson distribution.
+
+``` r
+(d1 <- dst_pois(1.5) + 1)
+#> shift dst
+#> 
+#>  components :
+#> $distribution
+#> pois parametric dst
+#> 
+#>  name :
+#> [1] "pois"
+#> 
+#> $shift
+#> [1] 1
+```
+
+Here’s its probability mass function:
+
+``` r
+enframe_pmf(d1, at = 0:10) %>% 
+  plot()
+```
+
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" style="display: block; margin: auto;" />
+
+Or, maybe you have positive continuous data and you’d like its tail to
+continue as an exponential distribution:
+
+``` r
+x <- c(1.6, 0.9, 0.2, 1.4, 0.4, 0.3, 0.2, 0.4, 0.2, 1.5)
+mu <- mean(x)
+(d2 <- dst_empirical(x) %>% 
+  graft_right(dst_exp(mu), breakpoint = max(x)))
+#> Mixture Distribution
+#> 
+#> Components: 
+#> # A tibble: 2 × 4
+#>   distributions probs breakpoint include
+#>   <named list>  <dbl>      <dbl> <lgl>  
+#> 1 <finite>        0.9        1.6 FALSE  
+#> 2 <slic_lft>      0.1        1.6 FALSE
+```
+
+Here’s the survival function:
+
+``` r
+plot(d2, "survival", from = 0, to = 5, n = 1000)
+```
+
+<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" style="display: block; margin: auto;" />
+
+Or maybe you’d like to mix the empirical and Exponential distributions:
+
+``` r
+(d4 <- mix(dst_empirical(x), dst_exp(mu)))
+#> Mixture Distribution
+#> 
+#> Components: 
+#> # A tibble: 2 × 2
+#>   distributions probs
+#>   <named list>  <dbl>
+#> 1 <finite>        0.5
+#> 2 <exp>           0.5
+plot(d4, "survival", from = 0, to = 5, n = 1000)
+```
+
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" style="display: block; margin: auto;" />
+
+## distplyr in Context
+
+There are a few other R packages that handle probability distributions.
+The key differentiator with distplyr is its grammar, and the flexibility
+of the package distionary, which distplyr sits on top of.
+
+Some examples:
+
+-   The distributional package also allows for distribution
+    manipulation, but is less flexible, and builds vectorization into
+    the package. distplyr (and distionary) deliberately leaves
+    vectorization up to the user, since distributions can be evaluated
+    to produce a variety of output types.
+    -   Development of distributional appears to have happened at the
+        same time as distplyr, and distributional uses a similar family
+        of functions – `dist_*()` – to make probability distributions.
+-   The
+    [distr](https://cran.r-project.org/web/packages/distr/index.html)
+    package allows you to make distributions including empirical ones,
+    and transform them, using S4 classes, but the interface is complex.
+    distplyr aims to provide a human-centric interface by providing a
+    grammar.
 
 ------------------------------------------------------------------------
 
