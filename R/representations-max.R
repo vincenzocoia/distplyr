@@ -1,8 +1,10 @@
 #' @export
 prob_left.max <- function(distribution, of, inclusive) {
   d <- distribution$components$distributions
+  draws <- distribution$components$draws
   prob_lefts <- lapply(d, prob_left, of = of, inclusive = inclusive)
-  Reduce(`*`, prob_lefts)
+  contributions <- Map(`^`, prob_lefts, draws)
+  Reduce(`*`, contributions)
 }
 
 #' @export
@@ -12,17 +14,18 @@ eval_cdf.max <- function(distribution, at) {
 
 #' @export
 eval_density.max <- function(distribution, at) {
-  # formula: cdf * (sum f_j / F_j)
+  # formula: cdf * (sum draws_j f_j / F_j)
   d <- distribution$components$distributions
+  draws <- distribution$components$draws
   full_cdf <- eval_cdf(distribution, at = at)
   cdfs <- lapply(d, eval_cdf, at = at)
   pdfs <- lapply(d, eval_density, at = at)
-  divide_if_nonzero <- function(pdf, cdf) {
-    ratio <- pdf / cdf
-    ratio[pdf == 0] <- 0
-    ratio
+  divide_if_nonzero <- function(draws, pdf, cdf) {
+    res <- draws * pdf / cdf
+    res[pdf == 0] <- 0
+    res
   }
-  ratios <- Map(divide_if_nonzero, pdfs, cdfs)
+  ratios <- Map(divide_if_nonzero, draws, pdfs, cdfs)
   ratios_sum <- Reduce(`+`, ratios)
   ratios_sum * full_cdf
 }
@@ -42,6 +45,8 @@ eval_pmf.max <- function(distribution, at, strict = TRUE) {
 #' @export
 realise.max <- function(distribution, n = 1) {
   d <- distribution$components$distributions
-  draws <- vapply(d, realise, FUN.VALUE = numeric(1L))
-  max(draws)
+  draws <- distribution$components$draws
+  iid_sample_list <- Map(realise, d, draws)
+  iid_sample <- unlist(iid_sample_list)
+  max(iid_sample)
 }

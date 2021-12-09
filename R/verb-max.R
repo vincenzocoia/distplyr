@@ -5,16 +5,23 @@
 #' each component distribution.
 #'
 #' @param ... Distribution objects
+#' @param draws Number of draws from each distribution considered in the
+#' maximum. Either a single numeric applying to all distributions in `...`,
+#' or a vector matching the number of distributions in `...`.
 #' @return A distribution of class `"max"`.
 #' @details To use precise language, if `X1`, ..., `Xp` are
 #' `p` independent random variables corresponding to the distributions
 #' in `...`, then the distribution returned is of `max(X1, ..., Xp)`.
+#' @rdname maximise
 #' @export
-maximise <- function(...) {
+maximise <- function(..., draws = 1) {
   dsts <- rlang::quos(...)
   dsts <- lapply(dsts, rlang::eval_tidy)
-  if (length(dsts) == 1) return(dsts[[1L]])
-  l <- list(components = list(distributions = dsts))
+  n_dsts <- length(dsts)
+  if (n_dsts == 0) stop("Must input at least one distribution.")
+  draws <- vctrs::vec_recycle(draws, size = n_dsts)
+  if (sum(draws) == 1) return(dsts[[1L]])
+  l <- list(components = list(distributions = dsts, draws = draws))
   vars <- vapply(dsts, distionary::variable, FUN.VALUE = character(1L))
   vars <- unique(vars)
   if (any(vars == "categorical")) {
@@ -31,5 +38,6 @@ maximise <- function(...) {
   distionary::new_distribution(l, variable = v, class = "max")
 }
 
-
+#' @rdname maximise
+#' @export
 maximize <- maximise

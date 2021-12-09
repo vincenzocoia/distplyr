@@ -30,7 +30,41 @@ test_that("cdf of max distribution makes sense.", {
   expect_equal(eval_cdf(d_max, at = x), eval_cdf(d_max4, at = x))
 })
 
-test_that("pmf of max distribution makes sense.", {
+test_that("draws works as expected", {
+  d_norm <- dst_norm(0, 1)
+  d_pois <- dst_pois(1)
+  d_exp <- dst_exp(1)
+  x <- 1:10 / 2
+  d1a <- maximise(d_norm, d_pois, draws = 2)
+  d1b <- maximise(d_norm, d_norm, d_pois, d_pois)
+  expect_equal(eval_cdf(d1a, at = x), eval_cdf(d1b, at = x))
+  expect_equal(
+    eval_pmf(d1a, at = x, strict = FALSE),
+    eval_pmf(d1b, at = x, strict = FALSE)
+  )
+  d2a <- maximise(d_norm, d_pois, draws = 1:2)
+  d2b <- maximise(d_norm, d_pois, d_pois)
+  d2c <- maximise(d_norm, d_pois, d_exp, draws = c(1, 2, 0))
+  expect_equal(eval_cdf(d2a, at = x), eval_cdf(d2b, at = x))
+  expect_equal(eval_cdf(d2a, at = x), eval_cdf(d2c, at = x))
+  expect_equal(
+    eval_pmf(d2a, at = x, strict = FALSE),
+    eval_pmf(d2b, at = x, strict = FALSE)
+  )
+  expect_equal(
+    eval_pmf(d2a, at = x, strict = FALSE),
+    eval_pmf(d2c, at = x, strict = FALSE)
+  )
+  expect_error(maximise(draws = 4))
+  expect_error(maximise(d_norm, draws = 1:2))
+  expect_error(maximise(d_norm, draws = numeric(0L)))
+  d3a <- maximise(d_exp, d_norm, draws = 1:2)
+  d3b <- maximise(d_exp, d_norm, d_norm)
+  expect_equal(eval_cdf(d3a, at = x), eval_cdf(d3b, at = x))
+  expect_equal(eval_density(d3a, at = x), eval_density(d3b, at = x))
+})
+
+test_that("pmf of max distribution lines up with cdf.", {
   d_norm <- dst_norm(0, 1)
   d_pois <- dst_pois(1)
   d_max <- maximise(!!!rep(list(d_pois), 10))

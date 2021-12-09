@@ -2,12 +2,19 @@
 % Please edit documentation in R/verb-max.R
 \name{maximise}
 \alias{maximise}
+\alias{maximize}
 \title{Max Value of Several Distributions}
 \usage{
-maximise(...)
+maximise(..., draws = 1)
+
+maximize(..., draws = 1)
 }
 \arguments{
 \item{...}{Distribution objects}
+
+\item{draws}{Number of draws from each distribution considered in the
+maximum. Either a single numeric applying to all distributions in \code{...},
+or a vector matching the number of distributions in \code{...}.}
 }
 \value{
 A distribution of class \code{"max"}.
