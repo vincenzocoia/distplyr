@@ -73,13 +73,19 @@ each component distribution.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">maximise</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">maximise</span><span class="op">(</span><span class="va">...</span>, draws <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
+
+<span class="fu">maximize</span><span class="op">(</span><span class="va">...</span>, draws <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>...</dt>
 <dd><p>Distribution objects</p></dd>
+<dt>draws</dt>
+<dd><p>Number of draws from each distribution considered in the
+maximum. Either a single numeric applying to all distributions in <code>...</code>,
+or a vector matching the number of distributions in <code>...</code>.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
