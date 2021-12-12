@@ -25,7 +25,8 @@ num_discretes.mix <- function(distribution, from, to, include_from, include_to) 
 }
 
 #' @export
-next_discrete.mix <- function(distribution, from, n, include_from) {
+next_discrete.mix <- function(distribution, from, n = 1L,
+                              include_from = FALSE) {
 	if (n == 0) return(numeric(0L))
 	inf_discretes <- is.infinite(n) &&
 		has_infinite_discretes(distribution, from = from, to = Inf)
@@ -87,7 +88,8 @@ next_discrete.mix <- function(distribution, from, n, include_from) {
 }
 
 #' @export
-prev_discrete.mix <- function(distribution, from, n, include_from) {
+prev_discrete.mix <- function(distribution, from, n = 1L,
+                              include_from = FALSE) {
 	if (n == 0) {
 		return(numeric(0L))
 	}
