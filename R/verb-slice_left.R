@@ -59,26 +59,17 @@ slice_left.dst <- function(distribution, breakpoint, include = TRUE, ...) {
 		}
 	}
 	if (all_sliced) {
-		stop("No such distribution exists: ",
-			 "cannot slice off entire distribution.")
-	}
-	if (breakpoint == right && !include) {
-		p <- distionary::eval_pmf(distribution, at = breakpoint, strict = FALSE)
-		if (p == 0) {
-			stop("No such distribution exists: ",
-				 "cannot slice off entire distribution.")
-		} else {
-			return(distionary::dst_degenerate(breakpoint))
-		}
+	  warning("Sliced off entire distribution. Returning NULL.")
+	  return(NULL)
 	}
 	l <- list(
-		distribution = distribution,
-		breakpoint = breakpoint,
-		include = include
+	  distribution = distribution,
+	  breakpoint = breakpoint,
+	  include = include
 	)
 	v <- distionary::variable(distribution)
 	if (v == "mixed") {
-		v <- "unknown" # For now. Need to evaluate cumulative discrete probs.
+	  v <- "unknown" # For now. Need to evaluate cumulative discrete probs.
 	}
 	distionary::new_distribution(l, variable = v, class = "slice_left")
 }
@@ -89,8 +80,8 @@ slice_left.finite <- function(distribution, breakpoint, include = TRUE, ...) {
 		distribution, from = breakpoint, n = Inf, include_from = !include
 	)
 	if (!length(right_discretes)) {
-		stop("No such distribution exists: ",
-			 "cannot slice off entire distribution.")
+		warning("Sliced off entire distribution. Returning NULL.")
+	  return(NULL)
 	}
 	right_probs <- distionary::eval_pmf(distribution, at = right_discretes)
 	distionary::dst_empirical(right_discretes, weights = right_probs)

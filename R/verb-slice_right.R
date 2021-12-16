@@ -20,8 +20,9 @@ slice_right.dst <- function(distribution, breakpoint, include = TRUE, ...) {
 		if (include) {
 			all_sliced <- TRUE
 		} else {
-			p <- distionary::eval_pmf(distribution, at = breakpoint,
-									  strict = FALSE)
+			p <- distionary::eval_pmf(
+			  distribution, at = breakpoint, strict = FALSE
+			)
 			if (p == 0) {
 				all_sliced <- TRUE
 			} else {
@@ -30,8 +31,8 @@ slice_right.dst <- function(distribution, breakpoint, include = TRUE, ...) {
 		}
 	}
 	if (all_sliced) {
-		stop("No such distribution exists: ",
-			 "cannot slice off entire distribution.")
+	  warning("Sliced off entire distribution. Returning NULL.")
+	  return(NULL)
 	}
 	l <- list(
 		distribution = distribution,
@@ -51,8 +52,8 @@ slice_right.finite <- function(distribution, breakpoint, include = TRUE, ...) {
 		distribution, from = breakpoint, n = Inf, include_from = !include
 	)
 	if (!length(left_discretes)) {
-		stop("No such distribution exists: ",
-			 "cannot slice off entire distribution.")
+	  warning("Sliced off entire distribution. Returning NULL.")
+	  return(NULL)
 	}
 	left_probs <- distionary::eval_pmf(distribution, at = left_discretes)
 	distionary::dst_empirical(left_discretes, weights = left_probs)

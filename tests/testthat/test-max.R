@@ -105,3 +105,14 @@ test_that("range of max works.", {
   r3 <- range(maximise(d_norm, d_norm))
   expect_equal(r3, c(-Inf, Inf))
 })
+
+
+test_that("simplification of max of finite distributions works.", {
+  d1 <- dst_empirical(1:4)
+  d2 <- dst_finite(c(3, 5, 6), probs = c(0.5, 0.2, 0.3))
+  d_max1 <- maximise(d1, d2, draws = c(2, 1))
+  d_max2 <- maximise(d1, d2, dst_unif(-2, -1), draws = c(2, 1, 3))
+  x <- 1:13 / 2
+  expect_equal(eval_cdf(d_max1, at = x), eval_cdf(d_max2, at = x))
+  expect_equal(eval_pmf(d_max1, at = x), eval_pmf(d_max2, at = x))
+})

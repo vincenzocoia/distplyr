@@ -21,9 +21,26 @@ maximise <- function(..., draws = 1) {
   if (n_dsts == 0) stop("Must input at least one distribution.")
   draws <- vctrs::vec_recycle(draws, size = n_dsts)
   if (sum(draws) == 1) return(dsts[[1L]])
-  l <- list(components = list(distributions = dsts, draws = draws))
-  vars <- vapply(dsts, distionary::variable, FUN.VALUE = character(1L))
-  vars <- unique(vars)
+  all_finite <- all(vapply(dsts, is_finite_dst, FUN.VALUE = logical(1L)))
+  if (all_finite) {
+    x <- lapply(dsts, function(d) d$probabilities$location)
+    x <- unique(unlist(x))
+    upper <- lapply(dsts, prob_left, of = x, inclusive = TRUE)
+    lower <- lapply(dsts, prob_left, of = x, inclusive = FALSE)
+    contributions_upper <- Map(`^`, upper, draws)
+    contributions_lower <- Map(`^`, lower, draws)
+    cdf_upper <- Reduce(`*`, contributions_upper)
+    cdf_lower <- Reduce(`*`, contributions_lower)
+    new_probs <- cdf_upper - cdf_lower
+    return(dst_finite(x, probs = new_probs))
+  }
+  r <- lapply(dsts, range)
+  mins <- vapply(r, function(r_) r_[1L], FUN.VALUE = numeric(1L))
+  largest_min <- max(mins)
+  sliced_d <- suppressWarnings(lapply(
+    dsts, slice_left, breakpoint = largest_min, include = FALSE
+  ))
+  vars <- unique(unlist(lapply(sliced_d, variable)))
   if (any(vars == "categorical")) {
     stop("Not meaningful to consider the maximum of a
          categorical distribution.")
@@ -35,6 +52,7 @@ maximise <- function(..., draws = 1) {
   } else {
     v <- "mixed"
   }
+  l <- list(components = list(distributions = dsts, draws = draws))
   distionary::new_distribution(l, variable = v, class = "max")
 }
 
