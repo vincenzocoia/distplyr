@@ -43,10 +43,13 @@ eval_pmf.max <- function(distribution, at, strict = TRUE) {
 }
 
 #' @export
-realise.max <- function(distribution, n = 1) {
+realise.max <- function(distribution, n) {
   d <- distribution$components$distributions
   draws <- distribution$components$draws
-  iid_sample_list <- Map(realise, d, draws)
-  iid_sample <- unlist(iid_sample_list)
-  max(iid_sample)
+  iid_sample <- numeric(0L)
+  for (i in seq_len(n)) {
+    iid_sample_list <- Map(realise, d, draws)
+    iid_sample[i] <- max(unlist(iid_sample_list))
+  }
+  iid_sample
 }

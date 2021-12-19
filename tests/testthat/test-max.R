@@ -55,7 +55,7 @@ test_that("draws works as expected", {
     eval_pmf(d2a, at = x, strict = FALSE),
     eval_pmf(d2c, at = x, strict = FALSE)
   )
-  expect_error(maximise(draws = 4))
+  expect_null(suppressWarnings(maximise(draws = 4)))
   expect_error(maximise(d_norm, draws = 1:2))
   expect_error(maximise(d_norm, draws = numeric(0L)))
   d3a <- maximise(d_exp, d_norm, draws = 1:2)
@@ -67,7 +67,7 @@ test_that("draws works as expected", {
 test_that("pmf of max distribution lines up with cdf.", {
   d_norm <- dst_norm(0, 1)
   d_pois <- dst_pois(1)
-  d_max <- maximise(!!!rep(list(d_pois), 10))
+  d_max <- maximise(d_pois, draws = 10)
   x <- 0:10
   expect_equal(
     eval_pmf(d_max, at = x),

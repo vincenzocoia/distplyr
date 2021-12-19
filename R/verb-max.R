@@ -18,9 +18,14 @@ maximise <- function(..., draws = 1) {
   dsts <- rlang::quos(...)
   dsts <- lapply(dsts, rlang::eval_tidy)
   n_dsts <- length(dsts)
-  if (n_dsts == 0) stop("Must input at least one distribution.")
+  if (n_dsts == 0) {
+    warning("Received no distributions. Returning NULL.")
+    return(NULL)
+  }
   draws <- vctrs::vec_recycle(draws, size = n_dsts)
-  if (sum(draws) == 1) return(dsts[[1L]])
+  if (n_dsts == 1 && sum(draws) == 1) {
+    return(dsts[[1L]])
+  }
   all_finite <- all(vapply(dsts, is_finite_dst, FUN.VALUE = logical(1L)))
   if (all_finite) {
     x <- lapply(dsts, function(d) d$probabilities$location)
@@ -32,7 +37,7 @@ maximise <- function(..., draws = 1) {
     cdf_upper <- Reduce(`*`, contributions_upper)
     cdf_lower <- Reduce(`*`, contributions_lower)
     new_probs <- cdf_upper - cdf_lower
-    return(dst_finite(x, probs = new_probs))
+    return(dst_empirical(x, weights = new_probs))
   }
   r <- lapply(dsts, range)
   mins <- vapply(r, function(r_) r_[1L], FUN.VALUE = numeric(1L))
