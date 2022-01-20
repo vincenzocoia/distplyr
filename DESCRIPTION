@@ -19,6 +19,7 @@ Imports:
     ellipsis,
     magrittr,
     rlang,
+    vctrs,
     stats
 Suggests: 
     covr,
