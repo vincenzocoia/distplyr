@@ -43,7 +43,7 @@ eval_pmf.max <- function(distribution, at, strict = TRUE) {
 }
 
 #' @export
-realise.max <- function(distribution, n) {
+realise.max <- function(distribution, n = 1) {
   d <- distribution$components$distributions
   draws <- distribution$components$draws
   iid_sample <- numeric(0L)

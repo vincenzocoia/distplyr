@@ -37,7 +37,7 @@ realise.mix <- function(distribution, n = 1, ...) {
 		}
 		k <- length(distributions)
 		id <- sample(1:k, size = n, replace = TRUE, prob = probs)
-		vapply(id, function(i) distionary::realise(distributions[[i]]),
+		vapply(id, function(i) distionary::realise(distributions[[i]], n = 1),
 			   FUN.VALUE = numeric(1L))
 	})
 }
