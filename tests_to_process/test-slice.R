@@ -29,6 +29,22 @@ test_that("Range also gets sliced", {
 	expect_equal(range(slice_left(m, 1.5)), c(2, 10)) # Another ex. where splitting disc & cont is useful.
 })
 
+test_that("Slicing left on a flat part of the cdf works", {
+  d <- mix(dst_unif(0, 0.5), dst_unif(1, 1.5))
+  d1l <- slice_left(d, breakpoint = 0.5)
+  d2l <- slice_left(d, breakpoint = 0.75)
+  d3l <- slice_left(d, breakpoint = 1)
+  d1r <- slice_right(d, breakpoint = 0.5)
+  d2r <- slice_right(d, breakpoint = 0.75)
+  d3r <- slice_right(d, breakpoint = 1)
+  expect_equal(range(d1l), c(1.0, 1.5))
+  expect_equal(range(d2l), c(1.0, 1.5))
+  expect_equal(range(d3l), c(1.0, 1.5))
+  expect_equal(range(d1r), c(0, 0.5))
+  expect_equal(range(d2r), c(0, 0.5))
+  expect_equal(range(d3r), c(0, 0.5))
+})
+
 test_that("Variable assignment works with slicing", {
 	d_disc <- dst_pois(1)
 	d_cont <- dst_unif(-1, 1)

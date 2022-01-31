@@ -62,6 +62,23 @@ slice_left.dst <- function(distribution, breakpoint, include = TRUE, ...) {
 	  warning("Sliced off entire distribution. Returning NULL.")
 	  return(NULL)
 	}
+	# slope_of_cdf <- eval_density(distribution, at = breakpoint, strict = FALSE)
+	# if (slope_of_cdf == 0) {
+	#   value_of_cdf <- eval_cdf(distribution, at = breakpoint)
+	#   high <- next_discrete(distribution, from = breakpoint)
+	#   if (is.infinite(high)) {
+	#     p_high <- (1 + value_of_cdf) / 2
+	#     high <- eval_quantile(distribution, at = p_high)
+	#   }
+	#   breakpoint_new <- distionary:::directional_inverse(
+	#     distribution, p = value_of_cdf, low = breakpoint, high = high,
+	#     tol = 1e-9, maxiter = 200, direction = "right"
+	#   )
+	#   if (breakpoint_new != breakpoint) {
+	#     breakpoint <- breakpoint_new
+	#     include <- FALSE
+	#   }
+	# }
 	l <- list(
 	  distribution = distribution,
 	  breakpoint = breakpoint,
