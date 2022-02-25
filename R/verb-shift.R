@@ -46,7 +46,7 @@
 shift <- function(distribution, constant) {
   with(distionary::parameters(distribution), {
     if (constant == 0) {
-      return(distionary::dst_degenerate(0))
+      return(distribution)
     }
     dist <- list(
       components = list(

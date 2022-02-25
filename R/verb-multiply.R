@@ -4,9 +4,9 @@ multiply <- function(distribution, constant) {
   if (constant < 0) {
     return(flip(multiply(distribution, -constant)))
   } else if (constant == 0) {
-  	distionary::dst_degenerate(0)
+  	return(distionary::dst_degenerate(0))
   } else if (constant == 1) {
-    distribution
+    return(distribution)
   } else if (is.infinite(constant)) {
     stop("Cannot multiply a distribution by infinity.")
   } else {
