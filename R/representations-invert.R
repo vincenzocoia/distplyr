@@ -3,7 +3,7 @@ eval_cdf.inverse <- function(distribution, at) {
 	dist <- distribution$distribution
 	distionary::eval_cdf(dist, at = 0) -
 		distionary::eval_cdf(dist, at = 1 / at) +
-		distionary::eval_pmf(dist, at = 1 / at) +
+		distionary::eval_pmf(dist, at = 1 / at, strict = FALSE) +
 		as.numeric(at >= 0)
 }
 
