@@ -39,23 +39,32 @@ maximise <- function(..., draws = 1) {
     new_probs <- cdf_upper - cdf_lower
     return(dst_empirical(x, weights = new_probs))
   }
-  r <- lapply(dsts, range)
-  mins <- vapply(r, function(r_) r_[1L], FUN.VALUE = numeric(1L))
-  largest_min <- max(mins)
-  sliced_d <- suppressWarnings(lapply(
-    dsts, slice_left, breakpoint = largest_min, include = FALSE
-  ))
-  vars <- unique(unlist(lapply(sliced_d, variable)))
+  vars <- unique(unlist(lapply(dsts, variable)))
   if (any(vars == "categorical")) {
     stop("Not meaningful to consider the maximum of a
          categorical distribution.")
   }
-  if (length(vars) == 1) {
+  if (all(vars == "continuous") | all(vars == "discrete")) {
     v <- vars
-  } else if (any(vars == "unknown")) {
-    v <- "unknown"
   } else {
-    v <- "mixed"
+    r <- lapply(dsts, range)
+    mins <- vapply(r, function(r_) r_[1L], FUN.VALUE = numeric(1L))
+    largest_min <- max(mins)
+    if (is.na(largest_min)) {
+      v <- "unknown"
+    } else {
+      sliced_d <- suppressWarnings(lapply(
+        dsts, slice_left, breakpoint = largest_min, include = FALSE
+      ))
+      vars <- unique(unlist(lapply(sliced_d, variable)))
+      if (length(vars) == 1) {
+        v <- vars
+      } else if (any(vars == "unknown")) {
+        v <- "unknown"
+      } else {
+        v <- "mixed"
+      }
+    }
   }
   l <- list(components = list(distributions = dsts, draws = draws))
   distionary::new_distribution(l, variable = v, class = "max")
