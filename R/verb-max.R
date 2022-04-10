@@ -44,7 +44,7 @@ maximise <- function(..., draws = 1) {
     stop("Not meaningful to consider the maximum of a
          categorical distribution.")
   }
-  if (all(vars == "continuous") | all(vars == "discrete")) {
+  if (length(vars) == 1) {
     v <- vars
   } else {
     r <- lapply(dsts, range)
