@@ -44,7 +44,7 @@ maximise <- function(..., draws = 1) {
     stop("Not meaningful to consider the maximum of a
          categorical distribution.")
   }
-  if (length(vars) == 1) {
+  if (length(vars) == 1 && vars != "mixed") {
     v <- vars
   } else {
     r <- lapply(dsts, range)
