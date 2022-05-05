@@ -13,7 +13,7 @@ eval_cdf.max <- function(distribution, at) {
 }
 
 #' @export
-eval_density.max <- function(distribution, at, strict) {
+eval_density.max <- function(distribution, at, strict = TRUE) {
   # formula: cdf * (sum draws_j f_j / F_j)
   d <- distribution$components$distributions
   draws <- distribution$components$draws
