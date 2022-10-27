@@ -31,6 +31,10 @@ Although the \code{multiply()} function accepts negative constants,
 the corresponding "scale" distribution class only holds positive
 constants, delegating a potential negative sign to the "flip" class.
 }
+\note{
+You can also use the binary operations \code{+}, \code{-}, \code{*}, and \code{/}
+to access these transformations.
+}
 \examples{
 d_pois <- distionary::dst_pois(1.1)
 d_norm <- distionary::dst_norm(4, 1)
