@@ -13,7 +13,7 @@ is_mix(object)
 is.mix(object)
 }
 \arguments{
-\item{...}{Distribution objects to mix.}
+\item{...}{Distribution objects to mix, possibly also lists of distributions.}
 
 \item{weights}{Vector of weights corresponding to the distributions;
 or, single numeric for equal weights.}

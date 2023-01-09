@@ -1,3 +1,22 @@
+test_that("different input arrangements work.", {
+  d1 <- dst_norm(0, 1)
+  d2 <- d1 + 1
+  d3 <- d1 + 2
+  ref <- mix(d1, d2, d3)
+  in1 <- list(d1, d2, d3)
+  expect_equal(ref, mix(!!!in1))
+  expect_equal(ref, mix(list(d1), list(d2, d3)))
+  expect_equal(ref, mix(NULL, d1, list(d2, d3)))
+  expect_equal(d1, mix(NULL, d1))
+  expect_equal(d1, mix(list(NULL, d1)))
+  expect_equal(d1, mix(list(NULL), list(d1)))
+  expect_equal(d1, mix(NULL, list(d1)))
+  expect_equal(d1, mix(list(NULL), d1))
+  expect_equal(d1, mix(d1))
+  expect_equal(d1, mix(list(d1)))
+  expect_error(mix(list(list(d1))))
+})
+
 test_that("cdf of max distribution makes sense.", {
   d_norm <- dst_norm(0, 1)
   d_pois <- dst_pois(1)
