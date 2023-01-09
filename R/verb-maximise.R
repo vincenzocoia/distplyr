@@ -4,7 +4,7 @@
 #' distribution of the maximum value from independent draws of
 #' each component distribution.
 #'
-#' @param ... Distribution objects
+#' @inheritParams dots_to_dsts
 #' @param draws Number of draws from each distribution considered in the
 #' maximum. Either a single numeric applying to all distributions in `...`,
 #' or a vector matching the number of distributions in `...`.
@@ -15,8 +15,7 @@
 #' @rdname maximise
 #' @export
 maximise <- function(..., draws = 1) {
-  dsts <- rlang::quos(...)
-  dsts <- lapply(dsts, rlang::eval_tidy)
+  dsts <- dots_to_dsts(..., na.rm = TRUE)
   n_dsts <- length(dsts)
   if (n_dsts == 0) {
     warning("Received no distributions. Returning NULL.")

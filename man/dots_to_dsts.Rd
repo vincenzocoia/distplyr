@@ -4,7 +4,7 @@
 \alias{dots_to_dsts}
 \title{Convert Distributions in Ellipsis to List}
 \usage{
-dots_to_dsts(..., na.rm)
+dots_to_dsts(..., na.rm = FALSE)
 }
 \arguments{
 \item{...}{Distribution objects, possibly also lists of distributions.}
@@ -28,5 +28,5 @@ wrapper around \code{rlang::flatten()}.
 }
 \examples{
 d <- dst_norm(0, 1)
-dots_to_dsts(d, list(d, d), NULL)
+distplyr:::dots_to_dsts(d, list(d, d), NULL)
 }

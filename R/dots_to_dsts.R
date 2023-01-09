@@ -14,16 +14,17 @@
 #' wrapper around `rlang::flatten()`.
 #' @examples
 #' d <- dst_norm(0, 1)
-#' dots_to_dsts(d, list(d, d), NULL)
-dots_to_dsts <- function(..., na.rm) {
+#' distplyr:::dots_to_dsts(d, list(d, d), NULL)
+dots_to_dsts <- function(..., na.rm = FALSE) {
   dsts <- rlang::list2(...)
   dsts <- rlang::flatten_if(dsts, vctrs::vec_is_list)
   nulls <- vapply(dsts, is.null, FUN.VALUE = logical(1L))
+  is_na <- function(x) length(x) == 1L && is.na(x)
   if (na.rm) {
-    nulls <- nulls | vapply(dsts, is.na, FUN.VALUE = logical(1L))
-    acceptable_entry <- function(x) is_distribution(x) || is.na(x)
-  } else {
+    nulls <- nulls | vapply(dsts, is_na, FUN.VALUE = logical(1L))
     acceptable_entry <- is_distribution
+  } else {
+    acceptable_entry <- function(x) is_distribution(x) || is_na(x)
   }
   dsts <- dsts[!nulls]
   not_all_dsts <- !all(vapply(

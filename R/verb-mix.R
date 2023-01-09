@@ -23,19 +23,15 @@
 #' @export
 mix <- function(..., weights = 1, na.rm = FALSE) {
   dsts <- dots_to_dsts(..., na.rm = na.rm)
-  if (length(dsts) == 0) {
-    return(distribution())
+  n_dsts <- length(dsts)
+  if (n_dsts == 0) {
+    warning("Received no distributions. Returning NULL.")
+    return(NULL)
   }
-  if (length(dsts) == 1) {
-    return(dsts[[1]])
+  if (n_dsts == 1) {
+    return(dsts[[1L]])
   }
-  n <- length(dsts)
-  if (length(weights) == 1L) {
-    weights <- rep(weights, n)
-  }
-  if (length(weights) != n) {
-    stop("There must be one weight per distribution specified.")
-  }
+  weights <- vctrs::vec_recycle(weights, size = n_dsts)
   if (any(weights < 0, na.rm = TRUE)) {
     stop("Weights must not be negative.")
   }
