@@ -13,13 +13,13 @@ is_mix(object)
 is.mix(object)
 }
 \arguments{
-\item{...}{Distribution objects to mix, possibly also lists of distributions.}
+\item{...}{Distribution objects, possibly also lists of distributions.}
 
 \item{weights}{Vector of weights corresponding to the distributions;
 or, single numeric for equal weights.}
 
-\item{na.rm}{Remove distributions corresponding to \code{NA} weights?
-Default is \code{FALSE}.}
+\item{na.rm}{Remove \code{NA} distributions and \code{NA} weights? \code{TRUE} if yes;
+default is \code{FALSE}.}
 
 \item{object}{Object to be tested}
 }

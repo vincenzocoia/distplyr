@@ -2,11 +2,11 @@
 #'
 #' Create a mixture distribution.
 #'
-#' @param ... Distribution objects to mix, possibly also lists of distributions.
+#' @inheritParams dots_to_dsts
 #' @param weights Vector of weights corresponding to the distributions;
 #' or, single numeric for equal weights.
-#' @param na.rm Remove distributions corresponding to \code{NA} weights?
-#' Default is \code{FALSE}.
+#' @param na.rm Remove `NA` distributions and `NA` weights? `TRUE` if yes;
+#' default is `FALSE`.
 #' @return A mixture distribution -- an empty distribution if any weights
 #' are \code{NA} and `na.rm = FALSE`, the default.
 #' @examples
@@ -22,19 +22,7 @@
 #' distionary::variable(m2)
 #' @export
 mix <- function(..., weights = 1, na.rm = FALSE) {
-  dsts <- rlang::list2(...)
-  dsts <- rlang::flatten_if(dsts, vctrs::vec_is_list)
-  if (is_distribution(dsts)) {
-    return(dsts)
-  }
-  nulls <- vapply(dsts, is.null, FUN.VALUE = logical(1L))
-  dsts <- dsts[!nulls]
-  not_all_dsts <- !all(vapply(
-    dsts, is_distribution, FUN.VALUE = logical(1L)
-  ))
-  if (not_all_dsts) {
-    stop("Ellipsis must contain distributions only.")
-  }
+  dsts <- dots_to_dsts(..., na.rm = na.rm)
   if (length(dsts) == 0) {
     return(distribution())
   }
