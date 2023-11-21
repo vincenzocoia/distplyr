@@ -17,6 +17,11 @@
 #' plot(p3, "cdf", from = -3, to = 3, add = TRUE, col = "red", n = 1000)
 #'
 #' discretise(dst_exp(0.1), breakpoints = numeric())
+#'
+#' dst_norm(0, 1) %>%
+#'   slice_left(-2) %>%
+#'   slice_right(2) %>%
+#'   discretize(-2:2)
 #' @rdname discretise
 #' @export
 discretise <- function(distribution, breakpoints, midpoints = c("median", "mean"), closed = c("right", "left")) {
@@ -31,9 +36,10 @@ discretise <- function(distribution, breakpoints, midpoints = c("median", "mean"
   }
   ## Probabilities
   cdf <- prob_left(distribution, breakpoints, inclusive = right_closed)
-  cdf <- append(cdf, 1)
   cdf <- append(0, cdf)
   p <- diff(cdf)
+  r <- prob_right(distribution, breakpoints[n_break], inclusive = !right_closed)
+  p <- append(p, r)
   ## Midpoints
   slices <- list(
     suppressWarnings(slice_right(
