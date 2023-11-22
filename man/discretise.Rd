@@ -8,14 +8,16 @@
 discretise(
   distribution,
   breakpoints,
-  midpoints = c("median", "mean"),
+  midpoints = c("median", "mean", "label"),
+  values,
   closed = c("right", "left")
 )
 
 discretize(
   distribution,
   breakpoints,
-  midpoints = c("median", "mean"),
+  midpoints = c("median", "mean", "label"),
+  values,
   closed = c("right", "left")
 )
 }
@@ -24,7 +26,11 @@ discretize(
 
 \item{breakpoints}{Vector of breakpoints separating each bin.}
 
-\item{midpoints}{How to determine value for each bin.}
+\item{midpoints, values}{Specify the values associated with each new bin
+by either specifying a computation of the \code{midpoint}, or as a vector
+of \code{values} (of length one more than that of \code{breakpoints}) applied to the
+bins from smallest to largest. If specified,
+\code{values} will override \code{midpoint}.}
 
 \item{returns}{A finite distribution with the specified bins.}
 }
@@ -33,7 +39,9 @@ Bins a distribution by specified breakpoints. Left and right endpoints of
 +/- infinity are implied.
 }
 \note{
-\code{NA} breakpoints are silently removed.
+\code{NA} breakpoints and \code{values} (if specified) are silently removed.
+Will throw an error if the lengths of \code{values} does not end up being
+one more than that of \code{breakpoints}.
 }
 \examples{
 p1 <- dst_norm(0, 1)
@@ -44,4 +52,9 @@ plot(p2, "cdf", from = -3, to = 3, add = TRUE, col = "blue", n = 1000)
 plot(p3, "cdf", from = -3, to = 3, add = TRUE, col = "red", n = 1000)
 
 discretise(dst_exp(0.1), breakpoints = numeric())
+
+dst_norm(0, 1) \%>\%
+  slice_left(-2) \%>\%
+  slice_right(2) \%>\%
+  discretize(-2:2)
 }
