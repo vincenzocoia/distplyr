@@ -1,3 +1,5 @@
+# distplyr (development version)
+
 # distplyr 0.1.3
 
 - Default evaluation methods, and base distributional forms, have been moved to a new package, distionary. distplyr focusses on manipulation verbs only.
