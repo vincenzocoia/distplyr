@@ -8,6 +8,15 @@ eval_cdf.mix <- function(distribution, at) {
 }
 
 #' @export
+eval_survival.mix <- function(distribution, at) {
+  with(distribution[["components"]], {
+    surv_vals <- lapply(distributions, distionary::eval_survival, at = at)
+    p_times_survs <- mapply(`*`, probs, surv_vals, SIMPLIFY = FALSE)
+    Reduce(`+`, p_times_survs)
+  })
+}
+
+#' @export
 eval_pmf.mix <- function(distribution, at, strict = TRUE, ...) {
 	with(distribution[["components"]], {
 		pmf_vals <- lapply(

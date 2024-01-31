@@ -2,11 +2,11 @@
 #'
 #' Create a mixture distribution.
 #'
-#' @param ... Distribution objects to mix.
+#' @inheritParams dots_to_dsts
 #' @param weights Vector of weights corresponding to the distributions;
 #' or, single numeric for equal weights.
-#' @param na.rm Remove distributions corresponding to \code{NA} weights?
-#' Default is \code{FALSE}.
+#' @param na.rm Remove `NA` distributions and `NA` weights? `TRUE` if yes;
+#' default is `FALSE`.
 #' @return A mixture distribution -- an empty distribution if any weights
 #' are \code{NA} and `na.rm = FALSE`, the default.
 #' @examples
@@ -22,21 +22,16 @@
 #' distionary::variable(m2)
 #' @export
 mix <- function(..., weights = 1, na.rm = FALSE) {
-  dsts <- rlang::quos(...)
-  dsts <- lapply(dsts, rlang::eval_tidy)
-  not_all_dsts <- !all(vapply(
-  	dsts, distionary::is_distribution, FUN.VALUE = logical(1L)
-  ))
-  if (not_all_dsts) {
-    stop("Ellipsis must contain distributions only.")
+  dsts <- dots_to_dsts(..., na.rm = na.rm)
+  n_dsts <- length(dsts)
+  if (n_dsts == 0) {
+    warning("Received no distributions. Returning NULL.")
+    return(NULL)
   }
-  n <- length(dsts)
-  if (length(weights) == 1L) {
-    weights <- rep(weights, n)
+  if (n_dsts == 1) {
+    return(dsts[[1L]])
   }
-  if (length(weights) != n) {
-    stop("There must be one weight per distribution specified.")
-  }
+  weights <- vctrs::vec_recycle(weights, size = n_dsts)
   if (any(weights < 0, na.rm = TRUE)) {
     stop("Weights must not be negative.")
   }
