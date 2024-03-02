@@ -1,7 +1,7 @@
 Type: Package
 Package: distplyr
 Title: Manipulation of Univariate Distributions
-Version: 0.1.3
+Version: 0.1.4
 Authors@R: c(
     person("Vincenzo", "Coia", email = "vincenzo.coia@stat.ubc.ca", 
            role = c("aut", "cre")),
