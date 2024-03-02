@@ -20,7 +20,8 @@ Imports:
     magrittr,
     rlang,
     vctrs,
-    stats
+    stats,
+    purrr
 Suggests: 
     covr,
     knitr,
