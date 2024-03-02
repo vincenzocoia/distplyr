@@ -1,4 +1,4 @@
-# distplyr (development version)
+# distplyr 0.1.4
 
 # distplyr 0.1.3
 
